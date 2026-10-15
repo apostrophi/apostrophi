@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "eaglepack-characterization",
+  "kind": "eaglepack",
+  "baseline": {
+    "extension": ".eaglepack",
+    "status": "characterized-partial",
+    "knownBehavior": [
+      "Eagle 4.0.0 writes a ZIP container with stored entries and pack.json at the root.",
+      "Items live in {itemId}.info directories with metadata.json, original media, and optional {itemName}_thumbnail.png.",
+      "A folder export stores one root folder object in pack.json.folder and nests descendants through children.",
+      "A selection export omits pack.json.folder and clears each item's folders array.",
+      "Folder exports preserve nested folder membership and repeated tags.",
+      "Eagle does not preserve Tag Groups when the package is imported."
+    ],
+    "unknowns": [
+      "path encoding and traversal rules",
+      "checksum and duplicate identity behavior",
+      "behavior for comments, video marks, archived pages, and multi-original items",
+      "format changes in Eagle releases other than 4.0.0"
+    ],
+    "requiredSamples": [
+      "one item with one original",
+      "nested folders with repeated tags",
+      "one item with multiple files and a custom thumbnail"
+    ]
+  },
+  "compatibilityAssertions": [
+    "Do not treat an Eaglepack as a complete Eagle Library.",
+    "Read Eagle's singular pack.json.folder object and preserve its nested children.",
+    "Write Eagle's singular pack.json.folder object for folder exports.",
+    "Keep extraction limits, path validation, and symlink rejection fail-closed.",
+    "Record Eagle version, platform, sample checksum, and redaction steps with each sample.",
+    "Keep live or personal Eagle exports out of the repository.",
+    "The committed samples contain only generated media and example.com metadata."
+  ]
+}

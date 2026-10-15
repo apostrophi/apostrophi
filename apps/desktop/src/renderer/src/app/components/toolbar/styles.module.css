@@ -1,0 +1,155 @@
+.bar {
+  display: grid;
+  grid-template-columns:
+    minmax(max-content, var(--window-left-width))
+    minmax(0, 1fr)
+    minmax(max-content, var(--window-right-width));
+  flex-shrink: 0;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: visible;
+  -webkit-app-region: drag;
+}
+
+.chrome {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding-right: 12px;
+  padding-left: 12px;
+  -webkit-app-region: drag;
+}
+
+:global(html[data-platform="mac"]) .chrome {
+  padding-left: 96px;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 100%;
+  margin-right: var(--window-inset);
+  margin-left: var(--window-inset);
+  transition: margin-left var(--window-edge-duration) var(--window-edge-easing);
+}
+
+.breadcrumbs {
+  max-width: 100%;
+  min-width: 0;
+  -webkit-app-region: no-drag;
+}
+
+.trail {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.segment {
+  display: flex;
+  flex: 0 1 auto;
+  gap: 4px;
+  align-items: center;
+  min-width: 64px;
+  max-width: 180px;
+}
+
+.segment:first-child {
+  flex: none;
+  min-width: 0;
+  max-width: none;
+}
+
+.segment[data-current] {
+  flex: 1 1 0;
+  min-width: 80px;
+  max-width: 360px;
+}
+
+.overflow {
+  display: flex;
+  flex: none;
+  gap: 4px;
+  align-items: center;
+}
+
+.separator {
+  flex: none;
+  font-size: var(--ds-text-md);
+  color: var(--ds-gray-8);
+  user-select: none;
+}
+
+.crumb,
+.current {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  height: 28px;
+  padding: 0 6px;
+  font-size: var(--ds-text-md);
+  font-weight: var(--ds-weight-lg);
+  line-height: 20px;
+  color: var(--ds-gray-10);
+}
+
+.breadcrumbs .crumb {
+  gap: 6px;
+  height: 28px;
+  padding: 0 6px;
+  font-size: var(--ds-text-md);
+}
+
+.current {
+  color: var(--ds-gray-12);
+}
+
+.crumb svg,
+.current svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.more {
+  color: var(--ds-gray-10);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding-right: 12px;
+  -webkit-app-region: no-drag;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main {
+    transition: none;
+  }
+}

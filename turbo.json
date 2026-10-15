@@ -1,0 +1,106 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "globalDependencies": ["tsconfig.base.json", "pnpm-workspace.yaml"],
+  "globalPassThroughEnv": ["POND_DEV_RUNTIME_TOKEN"],
+  "tasks": {
+    "transit": {
+      "dependsOn": ["^transit"]
+    },
+    "generate": {
+      "cache": false
+    },
+    "generate:check": {
+      "dependsOn": ["^generate:check"],
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["transit", "generate:check"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!README.md",
+        "!**/*.test.ts",
+        "!**/*.test.tsx",
+        "!scripts/smoke-*.cjs"
+      ],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["transit", "generate:check"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["transit", "generate:check"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": []
+    },
+    "//#lint:repo": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "apps/**",
+        "packages/**",
+        "scripts/**",
+        "tools/**"
+      ],
+      "outputs": []
+    },
+    "//#oxlint:repo": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "apps/**",
+        "packages/**",
+        "scripts/**",
+        "tools/**",
+        ".oxlintrc.json"
+      ],
+      "outputs": []
+    },
+    "//#knip:repo": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "apps/**",
+        "packages/**",
+        "scripts/**",
+        "tools/**",
+        "knip.json"
+      ],
+      "outputs": []
+    },
+    "//#architecture:check:repo": {
+      "inputs": [
+        "apps/desktop/src/**",
+        "packages/**",
+        "scripts/check-architecture.mjs",
+        "scripts/check-architecture.test.mjs"
+      ],
+      "outputs": []
+    },
+    "//#perf:check:repo": {
+      "dependsOn": [
+        "@pond/desktop#build",
+        "@pond/extension#build",
+        "@pond/website#build"
+      ],
+      "inputs": [
+        "apps/desktop/out/**",
+        "apps/extension/.output/**",
+        "apps/website/.next/**",
+        "scripts/check-performance-budgets.mjs"
+      ],
+      "outputs": []
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "dist": {
+      "dependsOn": ["build"],
+      "inputs": ["$TURBO_DEFAULT$", "out/**"],
+      "outputs": ["dist/**"]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+import {
+  embeddingDocument,
+  embeddingSearchQuery,
+  embeddingSimilarityText,
+  textEmbeddingVersion,
+} from "@shared/embeddings";
+import {
+  inferEmbedText,
+  inferEmbedTexts,
+} from "@/features/enrichment/lib/inference-client";
+
+export function embedModelVersion(): string {
+  return textEmbeddingVersion();
+}
+
+export function embedDocument(
+  title: string | null,
+  text: string,
+): Promise<Float32Array> {
+  return inferEmbedText(embeddingDocument(title, text));
+}
+
+export function embedTexts(texts: string[]): Promise<Float32Array[]> {
+  return inferEmbedTexts(texts.map(embeddingSimilarityText));
+}
+
+export function embedSearchQueries(texts: string[]): Promise<Float32Array[]> {
+  return inferEmbedTexts(texts.map(embeddingSearchQuery));
+}
+
+export function saveEmbeddingBody(save: {
+  description: string | null;
+  notes: string | null;
+  author: string | null;
+  tags: string[];
+}): string {
+  return [
+    save.description ?? "",
+    save.notes ?? "",
+    save.author ?? "",
+    (save.tags ?? []).join(" "),
+  ]
+    .filter((s) => s.trim().length > 0)
+    .join(" \u2014 ")
+    .slice(0, 2000);
+}

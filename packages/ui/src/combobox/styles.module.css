@@ -1,0 +1,116 @@
+.trigger {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 180px;
+  max-width: 260px;
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ds-gray-12);
+  white-space: nowrap;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  color: var(--ds-gray-11);
+}
+
+.label {
+  font-size: var(--ds-text-sm);
+  font-weight: var(--ds-weight-lg);
+  color: var(--ds-gray-11);
+}
+
+.positioner {
+  composes: positioner from "../shared/styles/popup/styles.module.css";
+}
+
+.backdrop {
+  composes: backdrop from "../shared/styles/popup/styles.module.css";
+}
+
+.popup {
+  --ds-popup-width: var(--anchor-width);
+  composes: popup from "../shared/styles/popup/styles.module.css";
+}
+
+.arrow {
+  composes: arrow from "../shared/styles/popup/styles.module.css";
+}
+
+.input {
+  composes: input from "../shared/styles/popup/styles.module.css";
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: min(320px, var(--available-height, 320px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: 4px;
+}
+
+.empty {
+  padding: 8px 12px;
+  font-size: var(--ds-text-md);
+  color: var(--ds-gray-9);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.item {
+  composes: item from "../shared/styles/popup/styles.module.css";
+  gap: 8px;
+}
+
+.item-label {
+  composes: item-label from "../shared/styles/popup/styles.module.css";
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-end {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  margin-left: auto;
+  color: var(--ds-gray-9);
+}
+
+.item-meta {
+  font-size: var(--ds-text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-gray-9);
+}
+
+.indicator {
+  composes: indicator from "../shared/styles/popup/styles.module.css";
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-label {
+  composes: group-label from "../shared/styles/popup/styles.module.css";
+}
+
+.separator {
+  composes: separator from "../shared/styles/popup/styles.module.css";
+}

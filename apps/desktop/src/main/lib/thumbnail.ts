@@ -1,0 +1,114 @@
+import { canRequestNativeThumbnail } from "../../shared/file-format";
+import { isThumbnailFileExtension } from "../../shared/media-index";
+
+const MIN_WIDTH = 32;
+const MAX_WIDTH = 2048;
+
+export type ThumbnailPriority = "foreground" | "background";
+
+export const NATIVE_RASTER_EXT: ReadonlySet<string> = new Set([
+  ".heic",
+  ".heif",
+]);
+
+export function isThumbnailable(ext: string): boolean {
+  return isThumbnailFileExtension(ext);
+}
+
+export function isIsoBaseMediaHeader(header: Uint8Array): boolean {
+  return (
+    header.byteLength >= 12 &&
+    Buffer.from(header).toString("ascii", 4, 8) === "ftyp"
+  );
+}
+
+export function isRasterImageHeader(header: Uint8Array): boolean {
+  if (header.byteLength >= 2 && header[0] === 0xff && header[1] === 0xd8) {
+    return true;
+  }
+  if (
+    header.byteLength >= 8 &&
+    header[0] === 0x89 &&
+    header[1] === 0x50 &&
+    header[2] === 0x4e &&
+    header[3] === 0x47 &&
+    header[4] === 0x0d &&
+    header[5] === 0x0a &&
+    header[6] === 0x1a &&
+    header[7] === 0x0a
+  ) {
+    return true;
+  }
+  if (
+    header.byteLength >= 12 &&
+    Buffer.from(header).toString("ascii", 0, 4) === "RIFF" &&
+    Buffer.from(header).toString("ascii", 8, 12) === "WEBP"
+  ) {
+    return true;
+  }
+  return isIsoBaseMediaHeader(header);
+}
+
+export function clampThumbWidth(raw: number): number | null {
+  if (!Number.isFinite(raw)) return null;
+  const w = Math.round(raw);
+  if (w <= 0) return null;
+  return Math.min(Math.max(w, MIN_WIDTH), MAX_WIDTH);
+}
+
+export function createThumbnailScheduler(
+  maxConcurrent: number,
+  maxBackground = 2,
+) {
+  let active = 0;
+  let backgroundActive = 0;
+  const foreground: Array<() => void> = [];
+  const background: Array<() => void> = [];
+
+  function drain(): void {
+    while (active < maxConcurrent) {
+      const next =
+        foreground.shift() ??
+        (backgroundActive < maxBackground ? background.shift() : undefined);
+      if (!next) return;
+      next();
+    }
+  }
+
+  async function run<T>(
+    priority: ThumbnailPriority,
+    task: () => Promise<T>,
+  ): Promise<T> {
+    await new Promise<void>((resolve) => {
+      const start = () => {
+        active += 1;
+        if (priority === "background") backgroundActive += 1;
+        resolve();
+      };
+      (priority === "foreground" ? foreground : background).push(start);
+      drain();
+    });
+    try {
+      return await task();
+    } finally {
+      active -= 1;
+      if (priority === "background") backgroundActive -= 1;
+      drain();
+    }
+  }
+
+  return { run };
+}
+
+export type ThumbnailKind = "sharp" | "native" | "sharp-or-native";
+
+export function thumbnailKindForExtension(ext: string): ThumbnailKind | null {
+  const lower = ext.toLowerCase();
+  if (NATIVE_RASTER_EXT.has(lower)) return "native";
+  if (lower === ".jxl" || lower === ".tif" || lower === ".tiff") {
+    return "sharp-or-native";
+  }
+  if (isThumbnailable(lower)) return "sharp";
+  if (canRequestNativeThumbnail(`preview${lower}`)) return "native";
+  return null;
+}

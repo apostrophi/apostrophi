@@ -1,0 +1,91 @@
+.wrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.editor {
+  position: relative;
+  display: grid;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  min-height: 1.5em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  font: inherit;
+  font-size: var(--ds-text-md);
+  line-height: 1.5;
+  color: var(--ds-gray-12);
+  word-break: normal;
+
+  /* Lexical inlines `pre-wrap`/`break-word` on the root element; !important beats the inline style, and `pre` keeps its space handling while never wrapping. */
+  white-space: pre;
+  outline: none;
+  scrollbar-width: none;
+}
+
+/* The @pond/ui reset's `* { text-wrap: pretty }` re-enables wrapping on every descendant (text-wrap and white-space share text-wrap-mode), so pin the whole subtree. */
+.input * {
+  white-space: pre;
+}
+
+.input::-webkit-scrollbar {
+  display: none;
+}
+
+.paragraph {
+  margin: 0;
+}
+
+.placeholder {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ds-text-md);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ds-gray-9);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.clear {
+  flex: none;
+  color: var(--ds-gray-9);
+}
+
+.thinking {
+  flex: none;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-gray-10);
+}
+
+.status {
+  padding-inline: 0 6px;
+  padding-bottom: 4px;
+  font-size: var(--ds-text-md);
+  color: var(--ds-gray-10);
+}

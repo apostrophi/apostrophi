@@ -1,0 +1,39 @@
+.model-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  text-align: left;
+}
+
+.model-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ds-gray-12);
+  white-space: nowrap;
+}
+
+.row-description {
+  font-size: var(--ds-text-sm);
+  line-height: 1.5;
+  color: var(--ds-gray-9);
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  font-size: var(--ds-text-md);
+  background: var(--ds-gray-2);
+  border: var(--ds-border-width) solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-lg);
+}
+
+.notice > svg {
+  flex-shrink: 0;
+  color: var(--ds-gray-10);
+}

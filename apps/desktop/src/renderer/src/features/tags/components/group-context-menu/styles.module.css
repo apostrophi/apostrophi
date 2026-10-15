@@ -1,0 +1,10 @@
+.palette {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+  height: 28px;
+  padding-inline: 8px;
+  margin: 0;
+  border: 0;
+}

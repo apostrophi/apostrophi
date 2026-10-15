@@ -1,0 +1,154 @@
+appId: so.pond.desktop
+productName: Pond
+copyright: "Copyright © 2026 Raphael Salaja"
+asar: true
+# Native .node binaries (better-sqlite3) can't live inside the asar
+# archive or dlopen() can't find them.
+asarUnpack:
+  - resources/**
+  - "**/*.node"
+  - "**/node_modules/better-sqlite3/**"
+  - "**/node_modules/sqlite-vec/**"
+  - "**/node_modules/sqlite-vec-*/**"
+
+directories:
+  buildResources: build
+  output: dist
+
+# Windows / Linux app icon (from packages/icons/brand/tints/aqua via prepare-app-icon).
+icon: icon.png
+
+files:
+  - out/**/*
+  - package.json
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/*.{d.ts,map}"
+  - "!**/*.tsbuildinfo"
+  # These dependencies are already bundled into `out`; keeping their source
+  # packages duplicates tens of megabytes in app.asar.
+  - "!node_modules/@pond/icons/brand/tints/**"
+  - "!node_modules/ffmpeg-static/**"
+  - "!node_modules/gpt-tokenizer/**"
+  - "!node_modules/onnxruntime-web/**"
+
+# Tray icons and any other runtime-loaded assets. At runtime we read
+# them from `process.resourcesPath` which lands inside `Contents/Resources`
+# on macOS / `resources/` on Windows+Linux.
+#
+# `node_modules/ffmpeg-static/ffmpeg` is the static ffmpeg yt-dlp uses
+# to mux adaptive streams (most TikTok / IG Reels / YT downloads need
+# it). `extraResources` flattens it into `bin/` so `binariesAvailable`
+# can spawn it as a separate process (asar paths aren't executable).
+# yt-dlp is not bundled: it's fetched at runtime into userData.
+extraResources:
+  - from: resources
+    to: .
+    filter:
+      - "**/*"
+  - from: ../../packages/icons/brand/tints
+    to: app-icons
+    filter:
+      - "**/default.png"
+  - from: node_modules/ffmpeg-static/ffmpeg
+    to: bin/ffmpeg
+  - from: ../extension/.output/chrome-mv3
+    to: extension
+
+extraMetadata:
+  main: ./out/main/index.js
+
+# Fail the pack if the bundled ffmpeg is missing, so a release never goes
+# out unable to mux downloaded video.
+afterPack: scripts/verify-binaries.cjs
+afterAllArtifactBuild: scripts/fix-dmg-window.cjs
+
+# electron-builder rebuilds native modules against the packaged Electron
+# ABI before bundling. Combined with the `postinstall` script in
+# package.json this gives us a clean `better-sqlite3` binary on dev
+# install AND on CI.
+npmRebuild: true
+
+publish:
+  provider: github
+  owner: raphaelsalaja
+  repo: pond
+  releaseType: release
+
+mac:
+  category: public.app-category.productivity
+  # Prefer `icon.icon` (Icon Composer) when actool 26+ is available; until then
+  # the Default-export icns ships the same mark for Dock / DMG / older macOS.
+  icon: icon.icns
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+    # electron-updater installs macOS updates from the zip, not the DMG.
+    - target: zip
+      arch:
+        - arm64
+        - x64
+  # Signing reads CSC_LINK and CSC_KEY_PASSWORD; notarization reads APPLE_ID,
+  # APPLE_APP_SPECIFIC_PASSWORD, and APPLE_TEAM_ID. Without them it is skipped.
+  notarize: true
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  # The inherit entitlements are applied to the bundled ffmpeg binary (and
+  # any child process Pond spawns, e.g. the runtime yt-dlp) so they survive
+  # the hardened runtime after notarization.
+  entitlements: packaging/entitlements.mac.plist
+  entitlementsInherit: packaging/entitlements.mac.inherit.plist
+  # Register `.pond` as a macOS package so Finder shows a library as a
+  # single bundle instead of a folder full of items/, trash/, metadata.
+  # LaunchServices only honors this in packaged builds, not `dev`.
+  extendInfo:
+    UTExportedTypeDeclarations:
+      - UTTypeIdentifier: so.pond.library
+        UTTypeDescription: Pond Library
+        UTTypeConformsTo:
+          - com.apple.package
+        UTTypeTagSpecification:
+          public.filename-extension:
+            - pond
+    CFBundleDocumentTypes:
+      - CFBundleTypeName: Pond Library
+        CFBundleTypeRole: Editor
+        LSTypeIsPackage: true
+        LSItemContentTypes:
+          - so.pond.library
+        CFBundleTypeExtensions:
+          - pond
+
+dmg:
+  title: "${productName}"
+  sign: false
+  background: packaging/dmg/background.png
+  iconSize: 96
+  window:
+    width: 720
+    height: 440
+  contents:
+    - x: 180
+      y: 200
+      type: file
+    - x: 540
+      y: 200
+      type: link
+      path: /Applications
+
+# Windows and Linux targets are disabled until those builds ship.
+# Coming soon:
+# win:
+#   target:
+#     - target: nsis
+#       arch:
+#         - x64
+#         - arm64
+# linux:
+#   target:
+#     - target: AppImage
+#     - target: deb
+#   category: Utility

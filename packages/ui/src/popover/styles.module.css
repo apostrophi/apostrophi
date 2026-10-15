@@ -1,0 +1,16 @@
+.positioner {
+  composes: positioner from "../shared/styles/popup/styles.module.css";
+}
+
+.backdrop {
+  composes: backdrop from "../shared/styles/popup/styles.module.css";
+}
+
+.popup {
+  --ds-popup-width: var(--anchor-width);
+  composes: popup from "../shared/styles/popup/styles.module.css";
+}
+
+.arrow {
+  composes: arrow from "../shared/styles/popup/styles.module.css";
+}

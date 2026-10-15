@@ -1,0 +1,194 @@
+.viewport {
+  --toast-width: 280px;
+  --toast-gap: 8px;
+
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  left: auto;
+  z-index: 50;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--toast-gap);
+  align-items: flex-end;
+  width: var(--toast-width);
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+  -webkit-app-region: no-drag;
+}
+
+.root {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--toast-width);
+  max-width: 100%;
+  color: var(--ds-gray-12);
+  pointer-events: auto;
+  cursor: default;
+  user-select: none;
+  background: var(--ds-gray-1);
+  border-radius: var(--ds-radius-xl);
+  box-shadow: var(--ds-shadow-menu);
+  transform: translateX(var(--toast-swipe-movement-x, 0px))
+    translateY(var(--toast-swipe-movement-y, 0px));
+  transition:
+    transform var(--ds-duration-medium) var(--ds-easing-decelerate),
+    opacity var(--ds-duration-snap) var(--ds-easing-standard);
+  -webkit-app-region: no-drag;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: translateX(var(--toast-swipe-movement-x, 0px))
+      translateY(calc(var(--toast-swipe-movement-y, 0px) + 8px));
+  }
+
+  &[data-limited] {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &[data-ending-style][data-swipe-direction="down"] {
+    transform: translateX(var(--toast-swipe-movement-x, 0px))
+      translateY(calc(var(--toast-swipe-movement-y, 0px) + 24px));
+  }
+
+  &[data-ending-style][data-swipe-direction="left"] {
+    transform: translateX(calc(var(--toast-swipe-movement-x, 0px) - 24px))
+      translateY(var(--toast-swipe-movement-y, 0px));
+  }
+
+  &[data-ending-style][data-swipe-direction="right"] {
+    transform: translateX(calc(var(--toast-swipe-movement-x, 0px) + 24px))
+      translateY(var(--toast-swipe-movement-y, 0px));
+  }
+
+  &[data-ending-style][data-swipe-direction="up"] {
+    transform: translateX(var(--toast-swipe-movement-x, 0px))
+      translateY(calc(var(--toast-swipe-movement-y, 0px) - 24px));
+  }
+
+  &[data-swiping] {
+    transition: none;
+  }
+
+  /** Alternate names so upserts replay the pulse without remounting. */
+  &[data-pulse="a"] {
+    animation: toast-pulse-a var(--ds-duration-slow) var(--ds-easing-standard);
+  }
+
+  &[data-pulse="b"] {
+    animation: toast-pulse-b var(--ds-duration-slow) var(--ds-easing-standard);
+  }
+}
+
+.content {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  padding: 8px 8px 8px 12px;
+  transition: padding-block var(--ds-duration-medium) var(--ds-easing-standard);
+}
+
+.header {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.root {
+  &[data-progress] .content {
+    padding-block: 12px;
+  }
+
+  &[data-progress] .header {
+    gap: 4px;
+  }
+}
+
+.title {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ds-text-md);
+  font-weight: var(--ds-weight-lg);
+  line-height: 1.3;
+  color: var(--ds-gray-12);
+  white-space: nowrap;
+}
+
+.description {
+  margin: 0;
+  font-size: var(--ds-text-sm);
+  font-weight: var(--ds-weight-md);
+  line-height: 1.35;
+  color: var(--ds-gray-11);
+  overflow-wrap: break-word;
+}
+
+.progress {
+  width: 100%;
+  height: 4px;
+  margin-block-start: 4px;
+  overflow: hidden;
+  color: var(--ds-accent-9);
+  appearance: none;
+  border: 0;
+  border-radius: var(--ds-radius-full);
+}
+
+.progress::-webkit-progress-bar {
+  background: var(--ds-gray-4);
+  border-radius: var(--ds-radius-full);
+}
+
+.progress::-webkit-progress-value {
+  background: currentColor;
+  border-radius: var(--ds-radius-full);
+  transition: inline-size var(--ds-duration-medium) var(--ds-easing-standard);
+}
+
+.meta {
+  font-size: var(--ds-text-xs);
+  line-height: 1.35;
+  color: var(--ds-gray-10);
+}
+
+.action {
+  flex: none;
+  color: var(--ds-accent-11);
+}
+
+.close {
+  flex-shrink: 0;
+  color: var(--ds-gray-11);
+}
+
+@keyframes toast-pulse-a {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.02;
+  }
+}
+
+@keyframes toast-pulse-b {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.02;
+  }
+}

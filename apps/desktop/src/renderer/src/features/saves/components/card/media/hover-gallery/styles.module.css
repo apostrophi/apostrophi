@@ -1,0 +1,21 @@
+.slide {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  object-fit: contain;
+  border-radius: var(--ds-radius-xs);
+  box-shadow: var(--ds-shadow-sm);
+  opacity: 0;
+
+  &[data-fit="fill"] {
+    object-fit: cover;
+  }
+}
+
+.slide[data-active][data-loaded="true"] {
+  opacity: 1;
+}

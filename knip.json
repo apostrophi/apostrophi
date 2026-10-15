@@ -1,0 +1,43 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreBinaries": ["iconutil", "cc"],
+  "workspaces": {
+    "apps/desktop": {
+      "entry": [
+        "src/renderer/src/routes/**/*.{ts,tsx}",
+        "scripts/*.{mjs,cjs,ts}",
+        "src/main/core/media-warm/service.ts",
+        "src/main/core/enrichment-sidecar.ts"
+      ],
+      "project": ["src/**/*.{ts,tsx}", "scripts/**/*.{mjs,cjs,ts}"],
+      "ignoreDependencies": ["@types/better-sqlite3", "drizzle-kit"]
+    },
+    "apps/website": {
+      "project": ["**/*.{ts,tsx}"],
+      "ignoreDependencies": ["@pond/theme"]
+    },
+    "apps/extension": {
+      "entry": ["entrypoints/**/*.{ts,tsx}", "scripts/*.mjs"],
+      "project": ["**/*.{ts,tsx}"],
+      "ignoreDependencies": ["@pond/theme"]
+    },
+    "apps/raycast": { "project": ["src/**/*.{ts,tsx}"] },
+    "packages/schema": {
+      "entry": ["scripts/*.ts"]
+    },
+    "packages/cli": {
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": ["tsx"]
+    },
+    "packages/local-api": {
+      "project": ["src/**/*.ts"]
+    },
+    ".": {
+      "entry": ["scripts/*.{mjs,cjs,ts}", "tools/**/*.{ts,mjs}"]
+    }
+  },
+  "ignoreExportsUsedInFile": {
+    "interface": true,
+    "type": true
+  }
+}

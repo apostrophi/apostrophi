@@ -1,0 +1,262 @@
+.root {
+  --button-height-xs: var(--ds-size-xs);
+  --button-padding-xs: 0 8px;
+  --button-font-size-xs: var(--ds-text-xs);
+  --button-radius-xs: var(--ds-radius-full);
+  --button-height-sm: var(--ds-size-sm);
+  --button-padding-sm: 0 10px;
+  --button-font-size-sm: var(--ds-text-sm);
+  --button-radius-sm: var(--ds-radius-full);
+  --button-height-md: var(--ds-size-md);
+  --button-padding-md: 0 12px;
+  --button-font-size-md: var(--ds-text-md);
+  --button-radius-md: var(--ds-radius-full);
+  --button-height-lg: var(--ds-size-lg);
+  --button-padding-lg: 0 14px;
+  --button-font-size-lg: var(--ds-text-lg);
+  --button-radius-lg: var(--ds-radius-full);
+  --button-height-xl: var(--ds-size-xl);
+  --button-padding-xl: 0 16px;
+  --button-font-size-xl: var(--ds-text-lg);
+  --button-radius-xl: var(--ds-radius-full);
+
+  &:where([data-rounding="rounded"]) {
+    --button-radius-xs: var(--ds-radius-sm);
+    --button-radius-sm: var(--ds-radius-md);
+    --button-radius-md: var(--ds-radius-md);
+    --button-radius-lg: var(--ds-radius-lg);
+    --button-radius-xl: var(--ds-radius-xl);
+  }
+}
+
+.root {
+  display: inline-flex;
+  gap: var(--button-gap);
+  align-items: center;
+  justify-content: center;
+  height: var(--button-height);
+  font-weight: var(--ds-weight-lg);
+  line-height: 1;
+  text-wrap: nowrap;
+  user-select: none;
+  transition: all var(--ds-duration-medium) var(--ds-easing-standard);
+
+  &:where([data-width="full"]) {
+    width: 100%;
+  }
+
+  &:where([data-width="auto"]) {
+    width: fit-content;
+  }
+
+  &:where([data-disabled]),
+  &:disabled,
+  &:where([data-loading]) {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:active {
+    scale: 0.98;
+  }
+
+  &:where([data-size="xs"]) {
+    --button-height: var(--button-height-xs);
+    --button-icon-size: 12px;
+    --button-gap: 4px;
+
+    padding: var(--button-padding-xs);
+    font-size: var(--button-font-size-xs);
+    border-radius: var(--button-radius-xs);
+  }
+
+  &:where([data-size="sm"]) {
+    --button-height: var(--button-height-sm);
+    --button-icon-size: 14px;
+    --button-gap: 5px;
+
+    padding: var(--button-padding-sm);
+    font-size: var(--button-font-size-sm);
+    border-radius: var(--button-radius-sm);
+  }
+
+  &:where([data-size="md"]) {
+    --button-height: var(--button-height-md);
+    --button-icon-size: 16px;
+    --button-gap: 6px;
+
+    padding: var(--button-padding-md);
+    font-size: var(--button-font-size-md);
+    border-radius: var(--button-radius-md);
+  }
+
+  &:where([data-size="lg"]) {
+    --button-height: var(--button-height-lg);
+    --button-icon-size: 18px;
+    --button-gap: 7px;
+
+    padding: var(--button-padding-lg);
+    font-size: var(--button-font-size-lg);
+    border-radius: var(--button-radius-lg);
+  }
+
+  &:where([data-size="xl"]) {
+    --button-height: var(--button-height-xl);
+    --button-icon-size: 20px;
+    --button-gap: 8px;
+
+    padding: var(--button-padding-xl);
+    font-size: var(--button-font-size-xl);
+    border-radius: var(--button-radius-xl);
+  }
+
+  & > :where(svg) {
+    flex-shrink: 0;
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+  }
+
+  &:where([data-icon]) {
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+
+    &:where([data-width="auto"]) {
+      width: var(--button-height);
+    }
+  }
+
+  &:where([data-variant="primary"]) {
+    color: var(--ds-gray-1);
+    background:
+      linear-gradient(var(--ds-white-a2) 0%, var(--ds-white-a1) 100%),
+      var(--ds-gray-12);
+
+    &:where([data-icon]) {
+      background:
+        linear-gradient(var(--ds-white-a2) 0%, var(--ds-white-a1) 100%),
+        var(--ds-gray-11);
+    }
+
+    &:hover,
+    &[data-demo-state="hover"] {
+      opacity: 0.8;
+    }
+  }
+
+  &:where([data-variant="secondary"]) {
+    color: var(--ds-gray-12);
+    background-color: var(--ds-gray-1);
+    box-shadow: var(--ds-shadow-xs);
+
+    &:hover,
+    &[data-demo-state="hover"] {
+      background-color: var(--ds-gray-2);
+      box-shadow: var(--ds-shadow-sm);
+    }
+  }
+
+  &:where([data-variant="tertiary"]) {
+    color: var(--ds-gray-11);
+    background-color: var(--ds-gray-a3);
+
+    &:hover,
+    &[data-demo-state="hover"] {
+      color: var(--ds-gray-12);
+      background-color: var(--ds-gray-a4);
+    }
+  }
+
+  &:where([data-variant="accent"]) {
+    color: var(--ds-accent-contrast);
+    background:
+      linear-gradient(var(--ds-white-a2) 0%, var(--ds-white-a1) 100%),
+      var(--ds-accent-9);
+
+    &:hover,
+    &:active,
+    &[data-demo-state="hover"] {
+      background-color: var(--ds-accent-10);
+    }
+
+    &:focus-visible,
+    &[data-demo-state="focus"] {
+      outline-color: var(--ds-accent-12);
+    }
+  }
+
+  &:where([data-variant="destructive"]) {
+    color: var(--ds-red-contrast);
+    background-color: var(--ds-red-9);
+
+    &:hover,
+    &:active,
+    &[data-demo-state="hover"] {
+      background-color: var(--ds-red-10);
+    }
+
+    &:focus-visible,
+    &[data-demo-state="focus"] {
+      outline-color: var(--ds-red-9);
+    }
+  }
+
+  &:where([data-variant="ghost"]) {
+    color: var(--ds-gray-11);
+    background-color: transparent;
+
+    &:hover,
+    &[data-pressed],
+    &[data-demo-state="hover"] {
+      color: var(--ds-gray-12);
+      background-color: var(--ds-gray-a3);
+    }
+  }
+
+  &:where([data-variant="text"]) {
+    color: var(--ds-gray-9);
+    background-color: transparent;
+
+    &:hover,
+    &[data-pressed],
+    &[data-demo-state="hover"] {
+      color: var(--ds-gray-12);
+    }
+  }
+
+  &:where([data-variant="link"]) {
+    height: auto;
+    aspect-ratio: auto;
+
+    padding: 0;
+    color: var(--ds-gray-11);
+    background-color: transparent;
+
+    &:where([data-icon][data-width="auto"]) {
+      width: auto;
+    }
+
+    &::after {
+      position: absolute;
+      bottom: -2px;
+      display: block;
+      width: 100%;
+      height: 1px;
+      content: "";
+      background-color: var(--ds-gray-11);
+      opacity: 0;
+      transition: opacity var(--ds-duration-medium) var(--ds-easing-standard);
+    }
+
+    &:hover,
+    &[data-demo-state="hover"] {
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      scale: none;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+import type { SVGProps } from "react";
+
+export function IconBrandYoutube(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 370 370"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Youtube"
+      {...props}
+    >
+      <title>Youtube</title>
+      <rect width="370" height="370" fill="#fff" />
+      <rect x="57" y="95" width="256" height="180" rx="52" fill="#FF0000" />
+      {/** Shifted right of the button's center so the triangle's centroid reads centered. */}
+      <path d="M160 140v90l76-45z" fill="#fff" />
+    </svg>
+  );
+}

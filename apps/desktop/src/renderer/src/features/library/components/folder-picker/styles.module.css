@@ -1,0 +1,14 @@
+.popup {
+  /* FolderMenu sizes itself from the popover's available-space variables. */
+  --available-width: calc(100vw - 32px);
+  --available-height: min(480px, calc(100dvh - 80px));
+  --width: 480px;
+}
+
+.error {
+  padding: 8px 12px;
+  margin: 0;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-red-11);
+  border-top: var(--ds-border-width) solid var(--ds-gray-a3);
+}

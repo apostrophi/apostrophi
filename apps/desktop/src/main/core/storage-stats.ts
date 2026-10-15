@@ -1,0 +1,184 @@
+import { readdir, stat, statfs } from "node:fs/promises";
+import { join, sep } from "node:path";
+import log from "electron-log/main.js";
+import { createMemoCache } from "../lib/memo-cache";
+import { libraryRoot, savesRoot, thumbnailCacheRoot } from "../paths";
+
+interface LibraryBreakdown {
+  items: number;
+  videoCache: number;
+  thumbs: number;
+  meta: number;
+  db: number;
+  other: number;
+  total: number;
+}
+
+interface DeviceDiskInfo {
+  totalBytes: number;
+  freeBytes: number;
+  usedByOthers: number;
+}
+
+interface StorageSnapshot {
+  pondBytes: number;
+  breakdown: Omit<LibraryBreakdown, "total">;
+  deviceTotalBytes: number;
+  deviceFreeBytes: number;
+  deviceUsedByOthersBytes: number;
+  libraryRoot: string;
+  computedAt: string;
+}
+
+const KNOWN_BUCKETS: ReadonlyArray<{
+  dir: string;
+  bucket: keyof Omit<LibraryBreakdown, "total">;
+}> = [
+  { dir: "items", bucket: "items" },
+  { dir: "_video_cache", bucket: "videoCache" },
+  { dir: "_meta", bucket: "meta" },
+];
+
+const CACHE_TTL_MS = 30_000;
+
+const snapshotCache = createMemoCache<StorageSnapshot>(computeSnapshot, {
+  ttlMs: CACHE_TTL_MS,
+});
+
+export async function getStorageSnapshot(): Promise<StorageSnapshot> {
+  return snapshotCache.get();
+}
+
+async function computeSnapshot(): Promise<StorageSnapshot> {
+  const root = libraryRoot();
+  const breakdown = await computeLibraryBreakdown();
+  const device = await getDeviceDiskInfo(root);
+  return {
+    pondBytes: breakdown.total,
+    breakdown: {
+      items: breakdown.items,
+      videoCache: breakdown.videoCache,
+      thumbs: breakdown.thumbs,
+      meta: breakdown.meta,
+      db: breakdown.db,
+      other: breakdown.other,
+    },
+    deviceTotalBytes: device.totalBytes,
+    deviceFreeBytes: device.freeBytes,
+    deviceUsedByOthersBytes: Math.max(
+      0,
+      device.totalBytes - device.freeBytes - breakdown.total,
+    ),
+    libraryRoot: root,
+    computedAt: new Date().toISOString(),
+  };
+}
+
+async function computeLibraryBreakdown(): Promise<LibraryBreakdown> {
+  const root = libraryRoot();
+  const itemsAbs = savesRoot();
+  const buckets: Omit<LibraryBreakdown, "total"> = {
+    items: 0,
+    videoCache: 0,
+    thumbs: 0,
+    meta: 0,
+    db: 0,
+    other: 0,
+  };
+
+  let entries: { name: string; isDir: boolean; abs: string }[];
+  try {
+    const dirents = await readdir(root, { withFileTypes: true });
+    entries = dirents.map((d) => ({
+      name: d.name,
+      isDir: d.isDirectory(),
+      abs: join(root, d.name),
+    }));
+  } catch (err) {
+    log.warn("[pond storage-stats] failed to read library root", err);
+    return { ...buckets, total: 0 };
+  }
+
+  for (const entry of entries) {
+    const known = KNOWN_BUCKETS.find((k) => k.dir === entry.name);
+    const bucket = known?.bucket ?? "other";
+    if (entry.isDir) {
+      buckets[bucket] += await sumDirSizes(entry.abs);
+    } else {
+      buckets[bucket] += await safeFileSize(entry.abs);
+    }
+  }
+
+  if (!entries.some((e) => e.abs === itemsAbs) && itemsAbs.startsWith(root)) {
+    buckets.items += await sumDirSizes(itemsAbs);
+  }
+
+  buckets.thumbs += await sumDirSizes(thumbnailCacheRoot());
+
+  try {
+    const dbPath = (await import("../paths")).resolvePaths().indexDb;
+    buckets.db += await safeFileSize(dbPath);
+    buckets.db += await safeFileSize(`${dbPath}-wal`);
+    buckets.db += await safeFileSize(`${dbPath}-shm`);
+  } catch (err) {
+    log.warn("[pond storage-stats] failed to stat indexDb", err);
+  }
+
+  const total =
+    buckets.items +
+    buckets.videoCache +
+    buckets.thumbs +
+    buckets.meta +
+    buckets.db +
+    buckets.other;
+  return { ...buckets, total };
+}
+
+async function getDeviceDiskInfo(path: string): Promise<DeviceDiskInfo> {
+  try {
+    const stats = await statfs(path);
+    const totalBytes = Number(stats.blocks) * Number(stats.bsize);
+    const freeBytes = Number(stats.bavail) * Number(stats.bsize);
+    return {
+      totalBytes: Number.isFinite(totalBytes) ? totalBytes : 0,
+      freeBytes: Number.isFinite(freeBytes) ? freeBytes : 0,
+      usedByOthers: 0,
+    };
+  } catch (err) {
+    log.warn("[pond storage-stats] statfs failed", err);
+    return { totalBytes: 0, freeBytes: 0, usedByOthers: 0 };
+  }
+}
+
+async function sumDirSizes(dir: string): Promise<number> {
+  let total = 0;
+  let dirents: import("node:fs").Dirent[];
+  try {
+    dirents = await readdir(dir, { withFileTypes: true });
+  } catch (err) {
+    log.debug("[pond storage-stats] readdir failed", dir, err);
+    return 0;
+  }
+  for (const entry of dirents) {
+    if (entry.isSymbolicLink()) continue;
+    const abs = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      total += await sumDirSizes(abs);
+      if (abs.split(sep).length % 4 === 0) {
+        await Promise.resolve();
+      }
+    } else if (entry.isFile()) {
+      total += await safeFileSize(abs);
+    }
+  }
+  return total;
+}
+
+async function safeFileSize(path: string): Promise<number> {
+  try {
+    const s = await stat(path);
+    return Number.isFinite(s.size) ? s.size : 0;
+  } catch {
+    return 0;
+  }
+}

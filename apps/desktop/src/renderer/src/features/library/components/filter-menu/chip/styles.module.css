@@ -1,0 +1,34 @@
+.popup {
+  &[data-layout="searchable"] {
+    --ds-popup-min-width: 300px;
+    width: min(320px, var(--available-width));
+  }
+
+  &[data-layout="tags"] {
+    --ds-popup-min-width: 360px;
+    width: min(380px, var(--available-width));
+    overflow: hidden;
+  }
+
+  &[data-layout="range"] {
+    --ds-popup-min-width: 280px;
+    width: min(304px, var(--available-width));
+  }
+
+  &[data-layout="color"] {
+    --ds-popup-min-width: 202px;
+    width: min(202px, var(--available-width));
+    border-radius: var(--ds-radius-md);
+  }
+
+  &[data-layout="content"] {
+    --ds-popup-min-width: 300px;
+    width: min(320px, var(--available-width));
+  }
+}
+
+@media (max-width: 520px) {
+  .popup[data-layout="tags"] {
+    --ds-popup-min-width: 300px;
+  }
+}

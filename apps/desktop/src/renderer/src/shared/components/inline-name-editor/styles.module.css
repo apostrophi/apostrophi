@@ -1,0 +1,8 @@
+.root {
+  flex: 1;
+  min-width: 0;
+}
+
+.input {
+  min-width: 0;
+}

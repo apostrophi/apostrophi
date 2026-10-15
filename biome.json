@@ -1,0 +1,124 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/node_modules/**/*",
+      "!tools/oxlint/anti-slop",
+      "!branding",
+      "!docs/brand",
+      "!.mobbin",
+      "!.impeccable",
+      "!packages/theme/src/colors/palette.css",
+      "!packages/theme/src/colors/scale.css"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "noUnknownPseudoClass": {
+          "level": "error",
+          "options": {
+            "ignore": ["global"]
+          }
+        }
+      },
+      "suspicious": {
+        "noUnknownAtRules": {
+          "level": "error",
+          "options": {
+            "ignore": ["typography"]
+          }
+        }
+      }
+    },
+    "domains": {
+      "react": "recommended"
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedProperties": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": [
+        "packages/ui/src/data-table/**/*.{ts,tsx}",
+        "apps/desktop/src/renderer/src/features/downloads/components/page/columns.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useAriaPropsForRole": "off",
+            "useFocusableInteractive": "off",
+            "useKeyWithClickEvents": "off",
+            "useSemanticElements": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/icons/svg/**/*.svg"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noSvgWithoutTitle": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "apps/desktop/src/main/core/refresh/harvest/lib/browser-validation-source.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noTemplateCurlyInString": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "apps/extension/entrypoints/*-inject.content.ts",
+        "apps/extension/sources/*/inject.ts",
+        "apps/desktop/src/main/core/refresh/harvest/**/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          },
+          "complexity": {
+            "noArguments": "off"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+.source {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.status {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ds-text-md);
+  font-weight: 500;
+  color: var(--ds-gray-12);
+  white-space: nowrap;
+}
+
+.mark {
+  display: inline-flex;
+  flex: none;
+  color: var(--ds-gray-8);
+
+  &[data-status="active"] {
+    color: var(--ds-accent-11);
+  }
+
+  &[data-status="syncing"] {
+    color: var(--ds-yellow-11);
+  }
+
+  &[data-status="failed"] {
+    color: var(--ds-red-11);
+  }
+
+  &[data-status="paused"] {
+    color: var(--ds-orange-11);
+  }
+}
+
+.glyph {
+  display: block;
+}
+
+.status-label,
+.meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ds-text-md);
+  font-weight: 400;
+  color: var(--ds-gray-12);
+  white-space: nowrap;
+}
+
+.metric {
+  font-size: var(--ds-text-sm);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-gray-11);
+  white-space: nowrap;
+}

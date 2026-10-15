@@ -1,0 +1,7 @@
+.logo {
+  display: block;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 22%;
+  box-shadow: var(--ds-shadow-xs);
+}

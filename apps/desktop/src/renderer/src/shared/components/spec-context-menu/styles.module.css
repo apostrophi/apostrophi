@@ -1,0 +1,25 @@
+.popup {
+  max-height: min(720px, var(--available-height));
+  min-width: var(--popup-locked-width, var(--ds-popup-min-width));
+  width: var(--popup-locked-width, var(--ds-popup-width));
+  overflow: hidden;
+  interpolate-size: numeric-only;
+}
+
+.body {
+  flex: 1 1 auto;
+  height: var(--body-height, auto);
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.body[data-sized] {
+  transition: height var(--ds-duration-medium) var(--ds-easing-snap);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body[data-sized] {
+    transition: none;
+  }
+}

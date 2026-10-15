@@ -1,0 +1,25 @@
+.crop {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  min-width: max-content;
+}
+
+.slide-navigation {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.gif {
+  justify-content: center;
+  width: 100%;
+  min-width: max-content;
+}
+
+.hint {
+  padding-inline: 8px;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-gray-11);
+  white-space: nowrap;
+}

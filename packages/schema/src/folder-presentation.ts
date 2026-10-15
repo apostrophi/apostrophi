@@ -1,0 +1,53 @@
+import { z } from "zod";
+
+export const FOLDER_ICON_IDS = [
+  "folder",
+  "bookmark",
+  "album",
+  "tag",
+  "download",
+  "code",
+  "star",
+  "heart",
+  "sparkle",
+  "image",
+  "camera",
+  "video",
+  "music",
+  "book",
+  "note",
+  "palette",
+  "brush",
+  "typography",
+  "layers",
+  "cube",
+  "globe",
+  "pin",
+  "plane",
+  "house",
+  "inbox",
+  "lightbulb",
+  "flag",
+  "trophy",
+  "rocket",
+  "gamepad",
+  "leaf",
+  "shopping",
+] as const;
+
+export const FolderIconIdSchema = z.enum(FOLDER_ICON_IDS);
+
+export const FolderPresentationSchema = z.object({
+  icon: FolderIconIdSchema.optional(),
+  layout: z.enum(["waterfall", "grid", "justified", "list"]).catch("waterfall"),
+  sortKey: z.string().catch("savedAt"),
+  sortDir: z.enum(["asc", "desc"]).catch("desc"),
+  zoom: z.number().finite().catch(130),
+  includeSubfolders: z.boolean().catch(true),
+  randomSeed: z.string().catch("pond"),
+  manualOrder: z.array(z.string()).catch([]),
+  pinnedIds: z.array(z.string()).catch([]),
+  coverSaveId: z.string().nullable().catch(null),
+  quickAccess: z.boolean().optional(),
+  quickAccessOrder: z.number().int().nonnegative().optional(),
+});

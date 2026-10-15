@@ -1,0 +1,57 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: -16px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search {
+  width: 100%;
+  max-width: 320px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.selection-count {
+  font-size: var(--ds-text-md);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-gray-12);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.draft {
+  overflow: hidden;
+}
+
+.field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.action-bar {
+  --data-table-action-bar-offset: calc(var(--settings-sidebar-width, 0px) / 2);
+}

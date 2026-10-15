@@ -1,0 +1,66 @@
+.thread {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  font-size: var(--ds-text-md);
+  font-weight: var(--ds-weight-md);
+  line-height: 24px;
+  color: var(--ds-gray-12);
+}
+
+.viewport {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 16px 20px 12px;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.viewport > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 712px;
+  margin-inline: auto;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  padding-top: 48px;
+  margin-top: auto;
+}
+
+.footer::before {
+  position: absolute;
+  inset: 0 -24px -12px;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    color-mix(in oklab, var(--ds-gray-1) 8%, transparent) 12px,
+    color-mix(in oklab, var(--ds-gray-1) 35%, transparent) 24px,
+    color-mix(in oklab, var(--ds-gray-1) 75%, transparent) 36px,
+    var(--ds-gray-1) 48px
+  );
+}
+
+.empty {
+  padding: 24px 0;
+  color: var(--ds-gray-10);
+}
+
+.scroll-action {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  transform: translateX(-50%);
+}

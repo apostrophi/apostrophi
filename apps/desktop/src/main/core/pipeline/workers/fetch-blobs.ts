@@ -1,0 +1,232 @@
+import { extname } from "node:path";
+import type { SaveFile } from "@pond/schema/db";
+import { type RawJson, walkCaptureMedia } from "@pond/schema/raw";
+import {
+  IMAGE_KIND,
+  inferKindFromFilename,
+  isOriginalImageKind,
+  VIDEO_KIND,
+} from "@shared/save-file-names";
+import log from "electron-log/main.js";
+import { fetchMediaBatch } from "../../../lib/blob";
+import type { TransferOptions } from "../../../lib/download-transfer";
+import { probeImageDims, processImage } from "../../../lib/image-process";
+import { persistSave } from "../../persist-save";
+import { getImageDownloadPrefs } from "../../prefs";
+import { ensureSaveThumbnail } from "../../save-thumbnail";
+import { TransientError } from "../extractors/errors";
+import {
+  QueueWorkerImageDimsSchema,
+  QueueWorkerImageResultSchema,
+} from "../worker-contract";
+import { runQueueWorkerJob } from "../worker-host";
+import { readSave, type WriteFileArgs } from "./apply";
+import { fetchSourceIcon } from "./source-icon";
+
+interface FetchBlobsContext extends TransferOptions {
+  leaseToken?: string;
+  cancellationFence?: number;
+}
+
+export async function runFetchBlobs(
+  saveId: string,
+  ctx: FetchBlobsContext = {},
+): Promise<void> {
+  const save = await readSave(saveId);
+  if (!save) return;
+
+  if (save.source === "web") {
+    try {
+      await fetchSourceIcon(saveId, save);
+    } catch (err) {
+      log.warn("[pond pipeline:fetch-blobs] source icon failed", saveId, err);
+    }
+  }
+
+  const urls = collectMediaUrls(save.rawJson);
+  if (urls.length === 0) {
+    log.debug("[pond pipeline:fetch-blobs] no media urls, skipping", saveId);
+    return;
+  }
+
+  const existingFiles = save.files ?? [];
+  const missing = missingMediaUrls(urls, existingFiles);
+  if (missing.length === 0) {
+    log.debug(
+      "[pond pipeline:fetch-blobs] all media already on disk, skipping",
+      saveId,
+    );
+    return;
+  }
+
+  const imagePrefs = await getImageDownloadPrefs();
+  const imageMaxBytes = imagePrefs.maxFileSizeMb
+    ? imagePrefs.maxFileSizeMb * 1024 * 1024
+    : null;
+
+  const results = await fetchMediaBatch(missing, { imageMaxBytes, ...ctx });
+  const fetched = results.flatMap((r) =>
+    r.file ? [{ url: r.url, file: r.file }] : [],
+  );
+  const transientMisses = results.filter((r) => r.miss === "transient").length;
+
+  if (fetched.length === 0) {
+    if (transientMisses > 0) {
+      throw new TransientError(
+        `fetch-blobs: ${transientMisses}/${missing.length} media transiently unavailable`,
+      );
+    }
+    log.warn(
+      "[pond pipeline:fetch-blobs] all media permanently unavailable",
+      saveId,
+      missing,
+    );
+    return;
+  }
+
+  ctx.signal?.throwIfAborted();
+  ctx.reportActivity?.({ phase: "processing" });
+  const newFiles = await Promise.all(
+    fetched.map(async (entry) => {
+      const tx = entry.file;
+      const kind: SaveFile["kind"] = tx.filename.startsWith("video")
+        ? VIDEO_KIND
+        : IMAGE_KIND;
+      let bytes: Buffer = Buffer.from(tx.bytes);
+      let filename = tx.filename;
+      let mimeType = tx.mimeType;
+      let dims: { width: number; height: number } | null = null;
+      if (kind !== "video") {
+        const processed =
+          ctx.leaseToken && ctx.cancellationFence != null
+            ? QueueWorkerImageResultSchema.nullable().parse(
+                await runQueueWorkerJob(
+                  {
+                    operation: "process_image",
+                    bytes: Uint8Array.from(bytes),
+                    filename,
+                    mimeType: mimeType ?? undefined,
+                    prefs: imagePrefs,
+                    leaseToken: ctx.leaseToken,
+                    cancellationFence: ctx.cancellationFence,
+                  },
+                  { signal: ctx.signal },
+                ),
+              )
+            : await processImage(
+                bytes,
+                filename,
+                mimeType ?? undefined,
+                imagePrefs,
+              );
+        if (processed) {
+          bytes = Buffer.from(processed.bytes);
+          filename = processed.filename;
+          mimeType = processed.mimeType;
+          if (processed.width && processed.height) {
+            dims = { width: processed.width, height: processed.height };
+          }
+        }
+        dims ??=
+          ctx.leaseToken && ctx.cancellationFence != null
+            ? QueueWorkerImageDimsSchema.nullable().parse(
+                await runQueueWorkerJob(
+                  {
+                    operation: "probe_image",
+                    bytes: Uint8Array.from(bytes),
+                    leaseToken: ctx.leaseToken,
+                    cancellationFence: ctx.cancellationFence,
+                  },
+                  { signal: ctx.signal },
+                ),
+              )
+            : await probeImageDims(bytes);
+      }
+      const write: WriteFileArgs = {
+        kind,
+        filename,
+        bytes,
+        sourceUrl: entry.url,
+      };
+      if (mimeType) write.mimeType = mimeType;
+      if (dims) {
+        write.width = dims.width;
+        write.height = dims.height;
+      }
+      return write;
+    }),
+  );
+
+  ctx.signal?.throwIfAborted();
+  ctx.reportActivity?.({ phase: "saving" });
+  await persistSave(
+    saveId,
+    { fileSize: newFiles[0]?.bytes.byteLength ?? null },
+    {
+      actorReason: "pipeline:fetch-blobs",
+      newFiles,
+    },
+  );
+  const saved = await readSave(saveId);
+  await ensureSaveThumbnail(saveId, saved);
+  log.info("[pond pipeline:fetch-blobs] wrote", {
+    saveId,
+    count: newFiles.length,
+  });
+
+  if (transientMisses > 0) {
+    throw new TransientError(
+      `fetch-blobs: ${transientMisses}/${missing.length} media still pending`,
+    );
+  }
+}
+
+function collectMediaUrls(rawJson: RawJson | null): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const m of walkCaptureMedia(rawJson?.capture)) {
+    if (m.type === "video" && !hasDirectVideoExtension(m.url)) continue;
+    if (seen.has(m.url)) continue;
+    seen.add(m.url);
+    out.push(m.url);
+  }
+  return out;
+}
+
+const DIRECT_VIDEO_EXTENSIONS = new Set([".mp4", ".webm", ".mov", ".m4v"]);
+
+function hasDirectVideoExtension(url: string): boolean {
+  try {
+    const path = new URL(url).pathname.toLowerCase();
+    const dot = path.lastIndexOf(".");
+    if (dot === -1) return false;
+    return DIRECT_VIDEO_EXTENSIONS.has(path.slice(dot));
+  } catch {
+    return false;
+  }
+}
+
+function missingMediaUrls(
+  urls: string[],
+  files: ReadonlyArray<SaveFile>,
+): string[] {
+  if (urls.length === 0) return [];
+  const mediaFiles = files.filter(
+    (f) =>
+      isOriginalImageKind(f.kind) ||
+      f.kind === VIDEO_KIND ||
+      inferKindFromFilename(f.path) === VIDEO_KIND,
+  );
+  const mapped = new Set(
+    mediaFiles
+      .map((f) => f.sourceUrl)
+      .filter((u): u is string => u != null && u.length > 0),
+  );
+  if (mapped.size > 0) {
+    return urls.filter((u) => !mapped.has(u));
+  }
+  if (mediaFiles.length >= urls.length) return [];
+  return urls;
+}
+
+void extname;

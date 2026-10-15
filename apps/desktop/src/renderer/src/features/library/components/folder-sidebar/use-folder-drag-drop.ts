@@ -1,0 +1,166 @@
+import type { Folder } from "@pond/schema/db";
+import { useRef, useState } from "react";
+import { rememberFolderDestinations } from "@/features/library/lib/recent-folders";
+import { folders } from "@/features/library/state/folders";
+import {
+  announceSaveDragTarget,
+  endSaveDrag,
+  isLibrarySaveDrag,
+  saveDropIds,
+} from "@/features/saves";
+import { errorCopy } from "@/shared/lib/error-copy";
+import { notify } from "@/shared/lib/toast";
+import { type FolderDropKind, planFolderSidebarDrop } from "./folder-drop";
+
+export interface FolderDropState {
+  id: string;
+  kind: FolderDropKind;
+  saveCount?: number;
+}
+
+interface UseFolderDragDropInput {
+  folderRows: Folder[];
+  selectedIds?: string[];
+  revealFolder: (id: string) => void;
+}
+
+export function useFolderDragDrop({
+  folderRows,
+  selectedIds = [],
+  revealFolder,
+}: UseFolderDragDropInput) {
+  const [folderDrop, setFolderDrop] = useState<FolderDropState | null>(null);
+  const announcedSaveTargetRef = useRef<string | null>(null);
+
+  async function addSavesToFolder(
+    folder: Folder,
+    ids: string[],
+  ): Promise<void> {
+    const count = ids.length;
+    try {
+      await window.pond.query("folders.addSaves", {
+        folderId: folder.id,
+        saveIds: ids,
+      });
+      rememberFolderDestinations([folder.id]);
+      await folders.refresh();
+      notify({
+        id: "add-saves-to-folder",
+        title: `Added ${count} ${count === 1 ? "Save" : "Saves"} to "${folder.name}"`,
+        action: {
+          label: "Undo",
+          onClick: () => {
+            void window.pond.undo().then((result) => {
+              if (result.ok) void folders.refresh();
+              else
+                notify({
+                  id: "undo-folder-assignment",
+                  title: "Couldn't undo folder assignment",
+                });
+            });
+          },
+        },
+      });
+    } catch (error) {
+      notify({
+        id: "add-saves-to-folder",
+        title: `Couldn't add ${count === 1 ? "Save" : "Saves"} to folder`,
+        description: errorCopy(error, "Try again."),
+      });
+    }
+  }
+
+  function folderMoveTarget(
+    draggedId: string,
+    folder: Folder,
+    kind: FolderDropKind,
+  ): FolderDropState | null {
+    const ids = selectedIds.includes(draggedId) ? selectedIds : [draggedId];
+    const allowed =
+      !ids.includes(folder.id) &&
+      ids.every((id) => planFolderSidebarDrop(id, folder, kind, folderRows));
+    return allowed ? { id: folder.id, kind } : null;
+  }
+
+  function previewFolderMove(
+    draggedId: string,
+    folder: Folder,
+    kind: FolderDropKind,
+  ): FolderDropState | null {
+    const target = folderMoveTarget(draggedId, folder, kind);
+    setFolderDrop(target);
+    return target;
+  }
+
+  async function moveFolder(
+    draggedId: string,
+    folder: Folder,
+    kind: FolderDropKind,
+  ): Promise<void> {
+    if (!folderMoveTarget(draggedId, folder, kind)) return;
+    const move = planFolderSidebarDrop(draggedId, folder, kind, folderRows);
+    if (!move) return;
+    try {
+      const ids = selectedIds.includes(draggedId) ? selectedIds : [draggedId];
+      if (ids.length > 1)
+        await window.pond.query("folders.moveBatch", {
+          ids,
+          parentId: move.parentId,
+          beforeId: move.beforeId,
+        });
+      else await window.pond.query("folders.move", move);
+      await folders.refresh();
+      if (move.parentId) revealFolder(move.parentId);
+    } catch (error) {
+      notify({
+        id: "move-folder",
+        title: "Couldn't move folder",
+        description: errorCopy(error, "Try again."),
+      });
+    }
+  }
+
+  function handlersFor(folder: Folder) {
+    return {
+      onDragOver(event: React.DragEvent<HTMLElement>) {
+        if (!isLibrarySaveDrag(event.dataTransfer)) return;
+        const ids = saveDropIds(event.dataTransfer);
+        if (ids.length === 0) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+        setFolderDrop({ id: folder.id, kind: "into", saveCount: ids.length });
+        if (announcedSaveTargetRef.current !== folder.id) {
+          announcedSaveTargetRef.current = folder.id;
+          announceSaveDragTarget(folder.name, ids.length);
+        }
+      },
+      onDragLeave(event: React.DragEvent<HTMLElement>) {
+        const next = event.relatedTarget;
+        if (next instanceof Node && event.currentTarget.contains(next)) return;
+        setFolderDrop((current) =>
+          current?.id === folder.id ? null : current,
+        );
+        if (announcedSaveTargetRef.current === folder.id)
+          announcedSaveTargetRef.current = null;
+      },
+      onDrop(event: React.DragEvent<HTMLElement>) {
+        const ids = saveDropIds(event.dataTransfer);
+        if (ids.length === 0) return;
+        event.preventDefault();
+        setFolderDrop(null);
+        announcedSaveTargetRef.current = null;
+        endSaveDrag();
+        void addSavesToFolder(folder, ids);
+      },
+    };
+  }
+
+  return {
+    folderDrop,
+    clearFolderDrop: () => setFolderDrop(null),
+    folderMoveTarget,
+    handlersFor,
+    moveFolder,
+    previewFolderMove,
+  };
+}

@@ -1,0 +1,28 @@
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.card[data-scheme="dark"] {
+  background: #000;
+}
+
+.body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: var(--ds-text-lg);
+  font-weight: 400;
+  line-height: 1.4;
+  color: #111;
+  text-align: left;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.card[data-scheme="dark"] .body {
+  color: #eee;
+}

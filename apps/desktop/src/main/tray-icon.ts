@@ -1,0 +1,158 @@
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { deflateSync } from "node:zlib";
+import { app, type NativeImage, nativeImage } from "electron";
+import log from "electron-log/main.js";
+import { appDataRoot } from "./paths";
+
+const TRAY_SLOT_PX = 22;
+
+export function loadTrayIcon(): NativeImage {
+  const file = resolveTrayIconFile();
+  if (file) {
+    log.info("[pond tray] loaded icon", { path: file });
+    return templateFromPath(file);
+  }
+  log.warn("[pond tray] no packaged icon found, drawing runtime placeholder");
+  return makePlaceholderIcon();
+}
+
+function resolveTrayIconFile(): string | null {
+  const names = ["trayTemplate.png", "tray.png"];
+  const roots = [
+    process.resourcesPath ?? "",
+    join(__dirname, "../../resources"),
+    join(app.getAppPath(), "resources"),
+  ].filter(Boolean);
+
+  for (const root of roots) {
+    for (const name of names) {
+      const path = join(root, name);
+      if (existsSync(path)) return path;
+    }
+  }
+  return null;
+}
+
+function templateFromPath(path: string): NativeImage {
+  const img = nativeImage.createFromPath(path);
+  markTemplate(img);
+  return img;
+}
+
+function markTemplate(img: NativeImage): void {
+  if (process.platform === "darwin") img.setTemplateImage(true);
+}
+
+function makePlaceholderIcon(): NativeImage {
+  const png = encodeRgbaPng(
+    TRAY_SLOT_PX,
+    TRAY_SLOT_PX,
+    drawGlyphRgba(TRAY_SLOT_PX),
+  );
+  return placeholderImage(png, "tray.png");
+}
+
+function placeholderImage(png: Buffer, filename: string): NativeImage {
+  try {
+    const img = nativeImage.createFromBuffer(png);
+    if (!img.isEmpty()) {
+      markTemplate(img);
+      return img;
+    }
+  } catch (err) {
+    log.warn("[pond tray] placeholder draw failed", err);
+  }
+  try {
+    const fallback = join(appDataRoot(), filename);
+    mkdirSync(appDataRoot(), { recursive: true });
+    writeFileSync(fallback, png);
+    return templateFromPath(fallback);
+  } catch {
+    return nativeImage.createEmpty();
+  }
+}
+
+function drawGlyphRgba(size: number): Buffer {
+  const rgba = Buffer.alloc(size * size * 4);
+  const padding = Math.round(size * (2 / 22));
+  const inner = size - padding * 2;
+  const radius = Math.round(inner * 0.32);
+  const rippleR = Math.round(inner * 0.18);
+  const cx = padding + inner / 2;
+  const cy = padding + inner / 2;
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      const lx = x - padding;
+      const ly = y - padding;
+      let inside = false;
+      if (lx >= 0 && ly >= 0 && lx < inner && ly < inner) {
+        const ix =
+          lx < radius ? radius - lx : Math.max(0, lx - (inner - 1 - radius));
+        const iy =
+          ly < radius ? radius - ly : Math.max(0, ly - (inner - 1 - radius));
+        inside = ix === 0 || iy === 0 || ix * ix + iy * iy <= radius * radius;
+      }
+      if (inside) {
+        const dx = x - cx + 0.5;
+        const dy = y - cy + 0.5;
+        if (dx * dx + dy * dy <= rippleR * rippleR) inside = false;
+      }
+      if (inside) {
+        rgba[i + 3] = 255;
+      }
+    }
+  }
+  return rgba;
+}
+
+function encodeRgbaPng(width: number, height: number, rgba: Buffer): Buffer {
+  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(width, 0);
+  ihdr.writeUInt32BE(height, 4);
+  ihdr[8] = 8;
+  ihdr[9] = 6;
+  const stride = width * 4;
+  const raw = Buffer.alloc(height * (stride + 1));
+  for (let y = 0; y < height; y++) {
+    raw[y * (stride + 1)] = 0;
+    rgba.copy(raw, y * (stride + 1) + 1, y * stride, y * stride + stride);
+  }
+  const idat = deflateSync(raw, { level: 9 });
+  return Buffer.concat([
+    signature,
+    pngChunk("IHDR", ihdr),
+    pngChunk("IDAT", idat),
+    pngChunk("IEND", Buffer.alloc(0)),
+  ]);
+}
+
+function pngChunk(type: string, data: Buffer): Buffer {
+  const len = Buffer.alloc(4);
+  len.writeUInt32BE(data.length, 0);
+  const t = Buffer.from(type, "ascii");
+  const crc = Buffer.alloc(4);
+  crc.writeUInt32BE(crc32(Buffer.concat([t, data])) >>> 0, 0);
+  return Buffer.concat([len, t, data, crc]);
+}
+
+let crcTable: Uint32Array | null = null;
+function crc32(buf: Buffer): number {
+  if (!crcTable) {
+    crcTable = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+      crcTable[n] = c >>> 0;
+    }
+  }
+  let c = 0xffffffff;
+  for (let i = 0; i < buf.length; i++) {
+    const byte = buf[i] ?? 0;
+    c = (crcTable[(c ^ byte) & 0xff] ?? 0) ^ (c >>> 8);
+  }
+  return (c ^ 0xffffffff) >>> 0;
+}

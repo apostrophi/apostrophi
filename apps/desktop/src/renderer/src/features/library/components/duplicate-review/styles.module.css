@@ -1,0 +1,28 @@
+.popup {
+  --width: 880px;
+  --height: min(720px, calc(100dvh - 32px));
+}
+
+.list {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  padding-inline: 20px;
+  margin-block-start: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.rows {
+  position: relative;
+}
+
+.row {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.error {
+  margin: 0;
+  color: var(--ds-red-11);
+}

@@ -1,0 +1,226 @@
+import {
+  IconAlbum2,
+  IconBookmark,
+  IconBookmarkSlash,
+  IconChatBubble,
+  IconCopy,
+  IconDownload,
+  IconEye,
+  IconFile,
+  IconFolder,
+  IconFolderBan,
+  IconFolderOpen,
+  IconGear3,
+  IconNodes3,
+  IconTrashXmark,
+  IconVersions,
+  IconWindowDownload,
+} from "@pond/icons";
+import {
+  importClipboard,
+  importEagle,
+  importPaths,
+  newFolder,
+  newTag,
+  runNewAction,
+} from "@/features/library/components/new-menu/actions";
+import { libraryChrome } from "@/features/library/state/library-chrome";
+import { resetFilters } from "@/features/library/state/view-store";
+import { openSources, pickWatchedFolder } from "@/features/sources";
+import { getAppRouter } from "@/shared/lib/app-router";
+import { openSettings } from "@/shared/lib/open-settings";
+import type { CommandSpec } from "./types";
+
+export function navigateTo(path: string): void {
+  getAppRouter()?.history.push(path);
+}
+
+export const COMMANDS: readonly CommandSpec[] = [
+  {
+    id: "new-folder",
+    group: "Create",
+    label: "New Folder",
+    icon: IconFolder,
+    keywords: "create collection organize directory",
+    shortcut: "library.new-folder",
+    run: () => newFolder(),
+  },
+  {
+    id: "new-tag",
+    group: "Create",
+    label: "New Tag",
+    icon: IconBookmark,
+    keywords: "create label organize",
+    shortcut: "library.new-tag",
+    run: () => newTag("tag"),
+  },
+  {
+    id: "new-tag-group",
+    group: "Create",
+    label: "New Tag Group",
+    icon: IconVersions,
+    keywords: "create labels organize",
+    shortcut: "library.new-tag-group",
+    run: () => newTag("tag-group"),
+  },
+  {
+    id: "new-source",
+    group: "Create",
+    label: "New Source",
+    icon: IconNodes3,
+    keywords: "connect watch folder add account",
+    shortcut: "sources.new",
+    run: () => openSources({ type: "new-source" }),
+  },
+  {
+    id: "new-watch",
+    group: "Create",
+    label: "New Watch",
+    icon: IconEye,
+    keywords: "source public account follow import watch",
+    run: () => openSources({ type: "new-source" }),
+  },
+  {
+    id: "watched-folder",
+    group: "Create",
+    label: "New Watched Folder",
+    icon: IconFolderOpen,
+    keywords: "auto import directory files copy local",
+    run: () => void runNewAction(pickWatchedFolder),
+  },
+  {
+    id: "import-files",
+    group: "Import",
+    label: "Import Files",
+    icon: IconFile,
+    keywords: "image video audio pdf document media",
+    shortcut: "library.import-files",
+    run: () => void runNewAction(() => importPaths("files")),
+  },
+  {
+    id: "import-folders",
+    group: "Import",
+    label: "Import Folders",
+    icon: IconFolderOpen,
+    keywords: "directory files media",
+    shortcut: "library.import-folders",
+    run: () => void runNewAction(() => importPaths("folders")),
+  },
+  {
+    id: "import-clipboard",
+    group: "Import",
+    label: "Import from Clipboard",
+    icon: IconCopy,
+    keywords: "paste image files",
+    run: () => void runNewAction(importClipboard),
+  },
+  {
+    id: "import-eagle",
+    group: "Import",
+    label: "Import Eagle Library",
+    icon: IconDownload,
+    keywords: "migrate archive package",
+    run: () => void runNewAction(importEagle),
+  },
+  {
+    id: "library",
+    group: "Navigate",
+    label: "Library",
+    detail: "All saves",
+    icon: IconAlbum2,
+    keywords: "home saves archive",
+    shortcut: "nav.library",
+    run: () => {
+      resetFilters();
+      libraryChrome.setNav({ kind: "all" });
+      navigateTo("/");
+    },
+  },
+  {
+    id: "uncategorized",
+    group: "Navigate",
+    label: "Uncategorized",
+    detail: "Saves that aren't in a folder",
+    icon: IconFolderBan,
+    keywords: "unfiled inbox no folder",
+    run: () => {
+      resetFilters();
+      libraryChrome.setNav({ kind: "uncategorized" });
+      navigateTo("/");
+    },
+  },
+  {
+    id: "untagged",
+    group: "Navigate",
+    label: "Untagged",
+    detail: "Saves without tags",
+    icon: IconBookmarkSlash,
+    keywords: "no tags labels",
+    run: () => {
+      resetFilters();
+      libraryChrome.setNav({ kind: "all" });
+      navigateTo("/untagged");
+    },
+  },
+  {
+    id: "sources",
+    group: "Navigate",
+    label: "Sources",
+    detail: "Connected accounts and watches",
+    icon: IconNodes3,
+    keywords: "accounts connect watches",
+    shortcut: "nav.sources",
+    run: () => navigateTo("/sources"),
+  },
+  {
+    id: "downloads",
+    group: "Navigate",
+    label: "Downloads",
+    detail: "Active and recent transfers",
+    icon: IconWindowDownload,
+    keywords: "transfers queue",
+    shortcut: "nav.downloads",
+    run: () => navigateTo("/downloads"),
+  },
+  {
+    id: "tags",
+    group: "Navigate",
+    label: "Tags",
+    detail: "Organize your library",
+    icon: IconBookmark,
+    keywords: "labels organize",
+    run: () => navigateTo("/tags"),
+  },
+  {
+    id: "assistant",
+    group: "Navigate",
+    label: "Assistant",
+    detail: "Ask your library",
+    icon: IconChatBubble,
+    keywords: "ask chat ai",
+    run: () => navigateTo("/assistant"),
+  },
+  {
+    id: "trash",
+    group: "Navigate",
+    label: "Trash",
+    detail: "Recently deleted saves",
+    icon: IconTrashXmark,
+    keywords: "deleted bin",
+    shortcut: "nav.trash",
+    run: () => {
+      libraryChrome.setNav({ kind: "trash" });
+      navigateTo("/trash");
+    },
+  },
+  {
+    id: "settings",
+    group: "App",
+    label: "Open Settings",
+    detail: "Preferences, storage, and AI",
+    icon: IconGear3,
+    keywords: "preferences configuration",
+    shortcut: "app.settings",
+    run: () => openSettings(),
+  },
+];

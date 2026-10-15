@@ -1,0 +1,82 @@
+.root {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: center;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-gray-11);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.rules {
+  --gap: 12px;
+  --arm: 16px;
+  --stem: 14px;
+  --inset: 8px;
+  --line: var(--ds-gray-5);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding-left: calc(var(--stem) + var(--arm) + var(--inset));
+  margin-top: calc(var(--gap) + var(--inset));
+}
+
+.rule {
+  position: relative;
+}
+
+.rule::before {
+  position: absolute;
+  top: calc(var(--gap) * -1);
+  left: calc((var(--arm) + var(--inset)) * -1);
+  width: var(--arm);
+  height: calc(var(--gap) + var(--ds-size-sm) / 2);
+  content: "";
+  border-bottom: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  border-bottom-left-radius: var(--ds-radius-sm);
+}
+
+.rule:not(:last-child)::after {
+  position: absolute;
+  top: calc(var(--ds-size-sm) / 2);
+  bottom: calc(var(--gap) * -1);
+  left: calc((var(--arm) + var(--inset)) * -1);
+  content: "";
+  border-left: 1px solid var(--line);
+}
+
+.no-value {
+  margin: 0;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-gray-10);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 700px) {
+  .header {
+    flex-wrap: wrap;
+  }
+}

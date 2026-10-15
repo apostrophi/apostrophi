@@ -1,0 +1,79 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Single source of truth for versions shared across the workspace. Reference
+# with the `catalog:` protocol in each package.json to prevent version drift.
+catalog:
+  "@types/node": ^24.19.2
+  "@types/react": ^19.3.0
+  "@types/react-dom": ^19.3.0
+  "@tanstack/react-store": ^0.11.1
+  "@tanstack/react-virtual": ^3.14.13
+  "@tanstack/store": ^0.11.1
+  clsx: ^2.1.1
+  drizzle-orm: ^0.45.2
+  motion: ^13.3.0
+  react: ^19.3.0
+  react-dom: ^19.3.0
+  react-markdown: ^10.1.0
+  remark-gfm: ^4.0.1
+  sharp: ^0.35.4
+  typescript: ^7.0.2
+  vitest: ^5.0.1
+  zod: ^4.6.5
+
+overrides:
+  "@babel/core@7": "7.29.7"
+  "@esbuild-kit/core-utils>esbuild": "0.25.12"
+  "@webrecorder/wabac>fast-xml-parser": "5.11.1"
+  "@xmldom/xmldom@0.8": "0.8.15"
+  "@xmldom/xmldom@0.9": "0.9.12"
+  "brace-expansion@1": "1.1.21"
+  "brace-expansion@2": "2.1.7"
+  "brace-expansion@5": "5.0.12"
+  browserslist: "4.29.0"
+  "epubjs>@xmldom/xmldom": "0.8.15"
+  "esbuild@0.27": "0.28.2"
+  "fast-uri@3": "3.1.6"
+  "form-data@4": "4.0.6"
+  "js-yaml@4": "4.3.2"
+  lodash-es: "4.18.1"
+  "nanoid@3": "3.3.19"
+  node-abi: "4.35.0"
+  "protobufjs@7": "7.6.6"
+  "qs@6": "6.16.0"
+  tar: "7.5.22"
+  "tmp@0.2": "0.2.7"
+  "undici@6": "6.28.1"
+  "undici@7": "7.29.1"
+
+peerDependencyRules:
+  allowedVersions:
+    "electron-vite@5>vite": "8"
+
+allowBuilds:
+  # Built solely by electron-rebuild in apps/desktop postinstall (Electron ABI).
+  # Letting pnpm run its own node-gyp build produces a plain-Node binary that
+  # clobbers the Electron build and breaks ELECTRON_RUN_AS_NODE tooling.
+  # Icon assets pulled in transitively by replaywebpage; its postinstall is
+  # funding output only, nothing needs building.
+  "@fortawesome/fontawesome-free": false
+  better-sqlite3: false
+  # v13 ships N-API prebuilds; desktop postinstall verifies the aliased module.
+  better-sqlite3-multiple-ciphers: false
+  core-js: false
+  electron: true
+  electron-winstaller: true
+  es5-ext: false
+  esbuild: true
+  ffmpeg-static: true
+  onnxruntime-node: true
+  protobufjs: true
+  # Native module pulled in transitively by metascraper (via url-regex-safe).
+  # Not built: pnpm's node-gyp would emit a plain-Node binary that can't load in
+  # Electron's main process, and url-regex-safe falls back to RegExp without it.
+  re2: false
+  sharp: true
+
+minimumReleaseAge: 1440

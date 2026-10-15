@@ -1,0 +1,84 @@
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.value {
+  color: var(--ds-gray-12);
+
+  &[data-placeholder] {
+    color: var(--ds-gray-9);
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  color: var(--ds-gray-11);
+}
+
+.label {
+  font-size: var(--ds-text-sm);
+  font-weight: var(--ds-weight-lg);
+  color: var(--ds-gray-11);
+}
+
+.list {
+  position: relative;
+  box-sizing: border-box;
+  min-width: max-content;
+  max-height: min(320px, var(--available-height, 320px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: 4px;
+}
+
+.positioner {
+  composes: positioner from "../shared/styles/popup/styles.module.css";
+}
+
+.backdrop {
+  composes: backdrop from "../shared/styles/popup/styles.module.css";
+}
+
+.popup {
+  --ds-popup-width: max-content;
+  --ds-popup-min-width: var(--anchor-width);
+  --ds-popup-max-width: var(--available-width);
+  composes: popup from "../shared/styles/popup/styles.module.css";
+}
+
+.arrow {
+  composes: arrow from "../shared/styles/popup/styles.module.css";
+}
+
+.item {
+  composes: item from "../shared/styles/popup/styles.module.css";
+}
+
+.item-label {
+  composes: item-label from "../shared/styles/popup/styles.module.css";
+}
+
+.indicator {
+  composes: indicator from "../shared/styles/popup/styles.module.css";
+}
+
+.group-label {
+  composes: group-label from "../shared/styles/popup/styles.module.css";
+}
+
+.group-label-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--ds-gray-2);
+}
+
+.separator {
+  composes: separator from "../shared/styles/popup/styles.module.css";
+}

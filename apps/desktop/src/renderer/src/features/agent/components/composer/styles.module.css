@@ -1,0 +1,41 @@
+.root {
+  position: relative;
+  min-width: 0;
+}
+
+.root > [aria-hidden="true"] {
+  position: static;
+}
+
+.editor {
+  min-height: 72px;
+  max-height: 288px;
+  padding: 2px 6px;
+  overflow-y: auto;
+  font: inherit;
+  line-height: 24px;
+  color: var(--ds-gray-12);
+  overflow-wrap: anywhere;
+  outline: none;
+  scrollbar-width: thin;
+}
+
+.link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 6px 6px;
+}
+
+.link > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.placeholder {
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  color: var(--ds-gray-9);
+  pointer-events: none;
+}

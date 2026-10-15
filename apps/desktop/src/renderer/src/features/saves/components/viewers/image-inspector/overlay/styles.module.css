@@ -1,0 +1,82 @@
+.selection {
+  position: absolute;
+  pointer-events: none;
+  background: rgb(0 0 0 / 20%);
+  border: 1px solid white;
+
+  &[data-cropping] {
+    pointer-events: auto;
+    cursor: move;
+  }
+}
+
+.handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  pointer-events: auto;
+  background: white;
+  border: 1px solid var(--ds-gray-12);
+
+  &:focus-visible {
+    outline: 2px solid var(--ds-gray-12);
+    outline-offset: 1px;
+  }
+
+  &[data-handle="n"] {
+    top: 0;
+    left: 50%;
+    cursor: ns-resize;
+    transform: translate(-50%, -50%);
+  }
+
+  &[data-handle="s"] {
+    bottom: 0;
+    left: 50%;
+    cursor: ns-resize;
+    transform: translate(-50%, 50%);
+  }
+
+  &[data-handle="e"] {
+    top: 50%;
+    right: 0;
+    cursor: ew-resize;
+    transform: translate(50%, -50%);
+  }
+
+  &[data-handle="w"] {
+    top: 50%;
+    left: 0;
+    cursor: ew-resize;
+    transform: translate(-50%, -50%);
+  }
+
+  &[data-handle="nw"] {
+    top: 0;
+    left: 0;
+    cursor: nwse-resize;
+    transform: translate(-50%, -50%);
+  }
+
+  &[data-handle="ne"] {
+    top: 0;
+    right: 0;
+    cursor: nesw-resize;
+    transform: translate(50%, -50%);
+  }
+
+  &[data-handle="sw"] {
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
+    transform: translate(-50%, 50%);
+  }
+
+  &[data-handle="se"] {
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+    transform: translate(50%, 50%);
+  }
+}

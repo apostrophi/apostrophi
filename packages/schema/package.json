@@ -1,0 +1,70 @@
+{
+  "name": "@pond/schema",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Drizzle + Zod types shared between the Pond desktop app and the browser extension.",
+  "license": "MIT",
+  "author": {
+    "name": "Raphael Salaja",
+    "url": "https://github.com/raphaelsalaja"
+  },
+  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "bugs": {
+    "url": "https://github.com/raphaelsalaja/pond/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "directory": "packages/schema"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./color": "./src/color.ts",
+    "./content-safety": "./src/content-safety.ts",
+    "./db": "./src/db.ts",
+    "./events": "./src/events.ts",
+    "./tx": "./src/tx.ts",
+    "./ingest": "./src/ingest.ts",
+    "./json": "./src/json.ts",
+    "./raw": "./src/raw.ts",
+    "./raw-schema": "./src/raw-schema.ts",
+    "./session": "./src/session.ts",
+    "./settings": "./src/settings.ts",
+    "./sources": "./src/sources.ts",
+    "./domain": "./src/domain.ts",
+    "./media-type": "./src/media-type.ts",
+    "./local-api": "./src/local-api.ts",
+    "./query-plan": "./src/query-plan.ts",
+    "./filters": "./src/filters/index.ts",
+    "./filters/types": "./src/filters/types.ts",
+    "./filters/meta": "./src/filters/meta.ts",
+    "./filters/match": "./src/filters/match.ts",
+    "./filters/fields": "./src/filters/fields/index.ts",
+    "./filters/color": "./src/filters/color.ts",
+    "./label-name": "./src/label-name.ts",
+    "./list-kinds": "./src/list-kinds.ts",
+    "./native": "./src/native.ts",
+    "./capture": "./src/capture.ts",
+    "./folder-rules": "./src/folder-rules.ts",
+    "./folder-presentation": "./src/folder-presentation.ts",
+    "./saved-view-presentation": "./src/saved-view-presentation.ts",
+    "./source-ids": "./src/source-ids.ts"
+  },
+  "scripts": {
+    "generate": "node --experimental-strip-types scripts/generate-supported-sources.ts",
+    "generate:check": "node --experimental-strip-types scripts/generate-supported-sources.ts --check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-querybuilder/core": "^8.23.1",
+    "drizzle-orm": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

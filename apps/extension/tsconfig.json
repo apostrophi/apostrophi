@@ -1,0 +1,19 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["chrome"],
+    "paths": {
+      "@": ["."],
+      "@/*": ["./*"],
+      "~": ["."],
+      "~/*": ["./*"],
+      "@@": ["."],
+      "@@/*": ["./*"],
+      "~~": ["."],
+      "~~/*": ["./*"],
+      "@pond/ui": ["../../packages/ui/src/index.ts"],
+      "@pond/ui/*": ["../../packages/ui/src/*"]
+    }
+  }
+}

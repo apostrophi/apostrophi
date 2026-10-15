@@ -1,0 +1,211 @@
+import { useHotkeys } from "@tanstack/react-hotkeys";
+import { useParams } from "@tanstack/react-router";
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { AppShell } from "@/features/library/components/workspace-shell";
+import type { ViewerNav } from "@/features/saves";
+import {
+  isTextOnlySave,
+  loadOpenWithApps,
+  type OpenWithApp,
+  openWithKind,
+  peekOpenWithApps,
+  saveOwnsKeyboard,
+  useTrackVisit,
+} from "@/features/saves";
+import {
+  closeSave,
+  openSave,
+  primarySelection,
+  resultNavigation,
+  selection,
+} from "@/features/saves/navigation";
+import { ensureSaves, useSave } from "@/features/saves/pool";
+import type { Save } from "@/features/saves/types";
+import {
+  buildViewerMenu,
+  fileIndexFromSlide,
+  hasArchive,
+  SaveArchiveViewer,
+  SaveViewer,
+  setSaveViewerFileIndex,
+  TextViewer,
+} from "@/features/saves/viewers";
+import { tagClipboard } from "@/features/tags";
+import { SpecContextMenu } from "@/shared/components/spec-context-menu";
+import { bindingKeys, useShortcutBindings } from "@/shared/lib/shortcuts";
+import styles from "./styles.module.css";
+
+export function SaveDetailPage() {
+  const { id } = useParams({ from: "/_library/save/$id" });
+  const save = useSave(id);
+  const shortcuts = useShortcutBindings();
+  useTrackVisit(id);
+
+  useEffect(() => {
+    if (primarySelection.get() !== id) primarySelection.set(id);
+    selection.setCursor(id);
+  }, [id]);
+
+  const stepSave = useCallback(
+    (delta: number) => {
+      void resultNavigation.next(id, delta).then(async (next) => {
+        if (!next || selection.getCursor() !== id) return;
+        await ensureSaves([next]);
+        if (selection.getCursor() !== id) return;
+        openSave(next);
+      });
+    },
+    [id],
+  );
+
+  const viewerNav = useRef<ViewerNav | null>(null);
+
+  const stepImageOrSave = useCallback(
+    (delta: number) => {
+      if (viewerNav.current?.step(delta)) return;
+      stepSave(delta);
+    },
+    [stepSave],
+  );
+
+  useHotkeys(
+    [
+      {
+        hotkey: bindingKeys(shortcuts, "viewer.step-prev"),
+        callback: () => stepImageOrSave(-1),
+        options: { ignoreInputs: true },
+      },
+      {
+        hotkey: bindingKeys(shortcuts, "viewer.step-next"),
+        callback: () => stepImageOrSave(1),
+        options: { ignoreInputs: true },
+      },
+      {
+        hotkey: bindingKeys(shortcuts, "viewer.prev-save"),
+        callback: () => stepSave(-1),
+        options: { ignoreInputs: true },
+      },
+      {
+        hotkey: bindingKeys(shortcuts, "viewer.next-save"),
+        callback: () => stepSave(1),
+        options: { ignoreInputs: true },
+      },
+      {
+        hotkey: "Escape" as const,
+        callback: closeSave,
+        options: { ignoreInputs: true },
+      },
+    ].map((binding) => ({
+      ...binding,
+      callback: (event: KeyboardEvent) => {
+        if (!saveOwnsKeyboard(event)) return;
+        if (
+          event.key !== "Escape" &&
+          event.target instanceof HTMLElement &&
+          event.target.closest("button, input, [role='slider']")
+        )
+          return;
+        event.preventDefault();
+        binding.callback();
+      },
+      options: { ...binding.options, preventDefault: false },
+    })),
+  );
+
+  return <SaveDetailSession key={id} save={save} viewerNav={viewerNav} />;
+}
+
+function SaveDetailSession({
+  save,
+  viewerNav,
+}: {
+  save: Save | undefined;
+  viewerNav: RefObject<ViewerNav | null>;
+}) {
+  const pageRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    pageRef.current?.focus({ preventScroll: true });
+  }, []);
+  const [activeFileIndex, setActiveFileIndex] = useState<number | null>(null);
+  const onActiveFileIndexChange = useCallback((fileIndex: number | null) => {
+    setActiveFileIndex(fileIndex);
+    setSaveViewerFileIndex(fileIndex);
+  }, []);
+
+  useEffect(() => () => setSaveViewerFileIndex(null), []);
+
+  const menuVideo = useRef<HTMLVideoElement | null>(null);
+  const menuFileIndex = useRef<number | null>(null);
+  const [openWithApps, setOpenWithApps] = useState<OpenWithApp[]>([]);
+
+  if (!save) {
+    return (
+      <AppShell.Content>
+        <div className={styles.page} />
+      </AppShell.Content>
+    );
+  }
+
+  return (
+    <AppShell.Content>
+      <SpecContextMenu
+        search
+        searchLabel="Search save operations"
+        buildItems={() => {
+          const fileIndex = menuFileIndex.current ?? activeFileIndex;
+          const peeked = peekOpenWithApps(openWithKind(save, fileIndex));
+          return buildViewerMenu(save, {
+            clipboardEmpty: tagClipboard.get().length === 0,
+            video: menuVideo.current,
+            fileIndex,
+            openWithApps: peeked.length ? peeked : openWithApps,
+          });
+        }}
+        onOpen={(eventDetails) => {
+          const target = eventDetails.event?.target;
+          const slide =
+            target instanceof Element
+              ? target.closest("[data-blossom-slide]")
+              : null;
+          menuVideo.current =
+            slide?.querySelector<HTMLVideoElement>("video") ?? null;
+          menuFileIndex.current = fileIndexFromSlide(slide) ?? activeFileIndex;
+          void loadOpenWithApps({
+            ids: [save.id],
+            fileIndex: menuFileIndex.current,
+            kind: openWithKind(save, menuFileIndex.current),
+            onApps: setOpenWithApps,
+          });
+        }}
+      >
+        <section
+          ref={pageRef}
+          className={styles.page}
+          data-save-details=""
+          tabIndex={-1}
+          aria-label={save.title || "Save viewer"}
+        >
+          <div className={styles.main}>
+            {hasArchive(save) ? (
+              <SaveArchiveViewer save={save} />
+            ) : isTextOnlySave(save) ? (
+              <TextViewer save={save} />
+            ) : (
+              <SaveViewer
+                save={save}
+                onActiveFileIndexChange={onActiveFileIndexChange}
+                navRef={viewerNav}
+              />
+            )}
+          </div>
+        </section>
+      </SpecContextMenu>
+    </AppShell.Content>
+  );
+}

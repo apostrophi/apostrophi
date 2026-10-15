@@ -1,0 +1,142 @@
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    position: relative;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-decoration: none;
+    text-transform: none;
+    text-wrap: pretty;
+    vertical-align: baseline;
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 14;
+    font-feature-settings:
+      "calt", "ccmp", "locl", "kern", "tnum", "zero", "cv11", "ss01";
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  :focus-visible,
+  [data-demo-state="focus"] {
+    outline: var(--ds-focus-width, 2px) solid var(--ds-focus-outline);
+    outline-offset: var(--ds-focus-offset, 0px);
+  }
+
+  /* Composite widgets render focus on their active child or interaction state. */
+  :where(
+    [role="application"],
+    [role="grid"],
+    [role="listbox"],
+    [role="separator"],
+    [role="tree"],
+    [tabindex="-1"]
+  ):focus-visible {
+    outline: none;
+  }
+
+  /* Chromium matches :focus-visible on pointer clicks in Electron. */
+  html[data-focus-source="pointer"]
+  :focus-visible:not(
+    :is(
+      input,
+      textarea,
+      select,
+      [contenteditable]:not([contenteditable="false"])
+    )
+  ) {
+    outline-width: 0;
+  }
+
+  body {
+    line-height: 1.5;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+    -webkit-app-region: no-drag;
+  }
+
+  button {
+    padding: 0;
+    font: inherit;
+    text-align: unset;
+    user-select: none;
+    background: none;
+    border: none;
+  }
+
+  input {
+    padding: 0;
+    font: inherit;
+    background: none;
+    border: none;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul,
+  li,
+  ol {
+    padding: 0;
+    list-style: none;
+  }
+}

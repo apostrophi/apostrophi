@@ -1,0 +1,66 @@
+.positioner {
+  composes: positioner from "../shared/styles/popup/styles.module.css";
+}
+
+.backdrop {
+  composes: backdrop from "../shared/styles/popup/styles.module.css";
+}
+
+.popup {
+  composes: popup from "../shared/styles/popup/styles.module.css";
+  max-width: var(--available-width);
+
+  /* Base UI sets data-instant=click on contextmenu (event.detail is 0). */
+  &[data-open][data-instant="click"] {
+    transition:
+      opacity var(--ds-duration-snap) var(--ds-easing-decelerate),
+      transform var(--ds-duration-snap) var(--ds-easing-decelerate);
+  }
+}
+
+.arrow {
+  composes: arrow from "../shared/styles/popup/styles.module.css";
+}
+
+.item {
+  composes: item from "../shared/styles/popup/styles.module.css";
+}
+
+.item-icon {
+  composes: item-icon from "../shared/styles/popup/styles.module.css";
+}
+
+.item-label {
+  composes: item-label from "../shared/styles/popup/styles.module.css";
+}
+
+.item-keyboard {
+  composes: item-keyboard from "../shared/styles/popup/styles.module.css";
+}
+
+.indicator {
+  composes: indicator from "../shared/styles/popup/styles.module.css";
+}
+
+.check-indicator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  margin-left: auto;
+  color: var(--ds-gray-11);
+
+  &[data-unchecked] {
+    visibility: hidden;
+  }
+}
+
+.group-label {
+  composes: group-label from "../shared/styles/popup/styles.module.css";
+}
+
+.separator {
+  composes: separator from "../shared/styles/popup/styles.module.css";
+}

@@ -1,0 +1,153 @@
+# Desktop architecture
+
+Pond is a local-first desktop app. The library on disk is authoritative; the database is its index. The main process owns persistence and privileged operations. The renderer owns presentation and optimistic state. Preload exposes the desktop interface. Cross-runtime schema definitions belong to the schema package or desktop shared contracts.
+
+## Code map
+
+Renderer code is grouped by product ownership under `features`: library, saves, search, sources, tags, downloads, agent, settings, enrichment, and captures. A feature contains its components, hooks, state, operations, and colocated tests. `app` composes features and windows, and `shared` owns reusable controls and infrastructure, including preferences (`shared/state/prefs`), the resolved theme, UI sounds, and Settings navigation.
+
+A feature's public entries are the files at its root: `index.ts`, `types.ts`, and narrow entries such as `saves/pool.ts` or `enrichment/status.ts`. Other features import only those entries (`@/features/saves`, `@/features/saves/pool`), never a deeper path. Add a narrow entry, named for what it exposes, when the root entry would create a runtime cycle or load route-split or lazy code into a static chunk; lazy imports target a narrow entry too. `pnpm architecture:check` enforces this for production modules. Tests, `app`, and `routes` may import feature internals.
+
+```text
+apps/desktop/src/
+├── main/                  # Electron startup, IPC handlers, core operations, persistence
+├── preload/               # Typed renderer capability bridge
+├── shared/                # Desktop contracts and pure shared definitions
+└── renderer/src/
+    ├── app/               # Window and feature composition, application effects
+    ├── features/          # Product UI, state, operations, hooks, and tests
+    ├── shared/            # Reusable renderer controls and infrastructure
+    └── routes/            # TanStack route definitions
+```
+
+The main process separates startup composition, Electron integration, domain operations, persistence, and background work. `main/core` owns Library behavior and application workflows. `main/lib` owns reusable infrastructure with no product orchestration. `main/index.ts` composes startup dependencies, including database-open migrations. Domain modules consume explicit runtime operations rather than importing the startup entrypoint. Shared desktop contracts contain no main- or renderer-specific implementations.
+
+Library search parses filters locally and can use on-device semantic matching. Natural-language model requests belong to Agent chat; the search bar does not call an Agent provider or expose a separate model-assistance preference. Older stored `ai.nlCompiler` values are ignored when preferences are parsed.
+
+The Agent uses the Vercel AI SDK in the main process: `ToolLoopAgent`, `generateText`, and provider clients created with the user's key or a local base URL. Inference uses direct provider clients and native model IDs; Gateway is used only as a public metadata catalog. Renderer chat state comes from `useChat` and a Pond `ChatTransport` that posts JSON over a MessagePort and reads an SSE `Response` (`x-vercel-ai-ui-message-stream: v1`). Preload forwards serializable reply bytes through callbacks and returns a cancellation function; `AbortSignal`, `ReadableStream`, and `Response` stay in the renderer because their prototypes cannot cross the context bridge. The composer snapshots the selected model and run controls into each send, so immediate sends and retries do not depend on preference-write timing. Keys stay in main and the keychain. The model interprets each request and chooses tools through the SDK loop; there is no keyword intent router, forced pre-search, or automatic result selection. Library execution, citation validation, and Apply/Undo review remain domain operations. Composer drafts, Save attachments, the chat header, and review UI remain product state. Pond extras ride as UIMessage data parts (`data-pond-question`, `data-pond-review`, `data-pond-sources`, `data-pond-results`, `data-pond-steps`, transient `data-pond-activity`).
+
+IPC composition also registers a discoverable Agent operation catalog. The `query` wrapper retains its input schema; Agent calls the same validated handler as preload. An exhaustive query-name classification controls exposure, and app controls compose the existing sync, pipeline, navigation, and history operations. Discovery and schema tools let the model choose capabilities without sending every operation schema on every turn. Large results have bounded, paginated access within the turn.
+
+The authenticated loopback API exposes the same catalog to local automation. Read operations run directly. Mutations require an expiring preview token bound to the operation arguments and current Library identity. `@pond/local-api` owns environment-independent transport and response validation. Raycast and `@pond/cli` inject credentials and lifecycle behavior at their application boundaries. Neither client reads SQLite or Library files directly.
+
+Catalog mutations become persisted review requests containing the exact arguments and originating Pond identity. Apply revalidates both before execution, retains the result, and ignores already-applied reviews. Reviewed outcomes enter the next turn's context. Generic operations use Pond's global history where supported; their cards do not promise a per-change Undo. Credential entry and Library transitions use native flows. Internal derived-data writes, credential retrieval, recursive Agent calls, active-chat deletion, and index reset are excluded from direct catalog execution.
+
+Visible replies persist in `agent_messages` with stable IDs, sources, questions, and review metadata. Each model's Fast, Context, and Reasoning choices persist independently. Fast stays off unless catalog metadata and a direct provider mapping confirm a native premium tier. Reasoning uses the AI SDK's portable setting and exposes only catalog-declared levels. Context is a whole-request token budget: main reserves output headroom, counts instructions, evidence, tool schemas, and messages, then removes the oldest complete turns. It repeats this budget before each tool-loop step and always preserves the current turn and complete tool pairs. Stored conversations remain intact. Chat listings do not expose model transcripts to the renderer. Reopening a chat reads saved messages without executing a turn. Header chat management uses typed rename and export queries. Main persists titles and writes visible conversation Markdown through a native save dialog; renderer owns clipboard export, confirmation, and chat draft cleanup. These chat-management queries remain excluded from Agent tool discovery. Main measures each accepted reply with a monotonic clock and stores optional elapsed milliseconds in its metadata, including failed or stopped runs. Final timing and tool outcomes cross the UI stream as message metadata and data parts; the renderer uses them for the collapsible work summary and never estimates missing historical timing.
+
+Provider settings list only added Cloud and Local connections, in the order they were added, with each new provider last. Each section has its own Add Provider menu. Each connection is a `Settings.Card`. The setup form (key field, optional endpoint, Cancel, Save) is the expanded state. The section list and the edit form measure their content and spring that height. Save collapses the same card to its header: name, a Connected icon, Edit, Remove, the setup page, and an enable switch. The Agent composer chooses the language model from visible connected-provider IDs. An optional stored `visionModelId` still overrides image conversations when present; older preferences fall back to the provider model ID.
+
+Settings groups Providers, Models, Personalization, and Model Context Protocol under Intelligence. Providers retains the `/settings/models` route and its existing aliases. Models is `/settings/agent-models` (`ai-models` alias) and lists every catalog model in one searchable table with visibility controls. Bookmarks to `/settings/models/$provider` redirect there. Model Context Protocol is `/settings/mcp`. Pond is a local stdio MCP server for this library. Settings lists Access switches (Search, Open, Export), setup steps for each MCP host, and the live Pond command under Advanced. Pond does not host an MCP URL. Personalization stores optional `userProfile` and `responseInstructions` fields in app-scoped Agent preferences on this Mac. The main chat entry point reads them for each turn and includes them in completion context, with the current request taking precedence. Empty fields contribute no personalization context.
+
+Library settings use focused routes: `/settings/library` owns identity and lifecycle, `/settings/storage` owns disk location and limits, `/settings/backups` owns backup and restore, `/settings/search` owns query behavior, `/settings/processing` owns on-device enrichments, and `/settings/harvesting` owns schedules and incoming media. App shortcut editing lives at `/settings/shortcuts`; the workspace menu links to that page without using the inspector slot. Legacy merged-page paths and anchors redirect to the focused owner. These pages reuse the existing preference sections and main-process operations; navigation does not create a storage migration.
+
+The Agent composer and document viewer share Lexical Markdown extensions and ordinary block commands from renderer `shared/markdown-editor`. Agent keeps Markdown drafts, slash actions, Save mentions and submission in its own feature. The document viewer retains its custom nodes, embeds and Save persistence. The shared UI composer accepts an editor slot and remains independent of Lexical.
+
+The composer offers a compact model menu with Fast, Context, Reasoning, and Model rows. Context, Reasoning, and Model open side submenus. Model search covers visible models from connected providers, including saved custom IDs. The Models page uses the full discovery catalog; `visibleModelIds` restricts only chooser results in the composer. An absent provider entry shows all models, and an empty array hides all. Hiding a model preserves existing selections.
+
+The Models settings renderer queries only connected, enabled providers and caches each provider query for the app session. Catalogs stay fresh for 15 minutes; older results remain visible during background refresh, and provider connection changes invalidate the cache. Providers render as their queries settle, without waiting for slower hosts.
+
+Provider model discovery is main-owned. Cloud metadata comes from the public Vercel AI Gateway REST catalog, cached for five minutes with concurrent request sharing and an in-memory last-good fallback. Providers without credentials or an explicitly connected local host do not appear on the Models page. After connection, native inventories supply valid inference IDs; exact catalog ID matches or unique display-name matches supply Gateway names, context/output limits, descriptions, capabilities, and Gateway pricing. Unmatched native models retain their provider identity without invented metadata. Local inventories reflect their servers. No bundled cloud list is injected, and discovery failures remain distinct from authentication rejection. Electron secure key storage, local Transformers inference, SQLite library search and Pond's outward-facing MCP server retain their respective ownership.
+
+Use [CONTEXT.md](../../CONTEXT.md) for domain terminology and [code standards](code-standards.md) for naming, imports, types, and tests.
+
+## Changes by example
+
+### Add a feature
+
+Start with the owning product area. Keep its UI, operations, state, and tests together. Compose its route or window from application code. Export only the entries another module consumes. Put a helper in shared code only when its responsibility is independent of the feature.
+
+### Add an IPC operation
+
+Define the operation’s input and output in its domain contract under `apps/desktop/src/shared/`. Save reads, mutations, imports, exports, clipboard operations, and external-open operations use their focused `saves-*-contracts.ts` modules; inspection, conversion, and transfers follow the same pattern. `query-contracts.ts` is the closed aggregate consumed by preload, not the default owner for new domain types. Register the main handler in the matching focused module under `apps/desktop/src/main/ipc/queries/`; domain aggregators such as `saves.ts` and `library-locations.ts` compose those handler maps into the root registry. The preload query signature accepts declared names and inputs. Decode incoming values at the transport adapter. Main delegates to an operation that can be tested without Electron; preload exposes only the intended capability. Verify success, invalid input, failure behavior, and handler coverage. Preserve serialized compatibility for existing callers.
+
+### Change shared UI
+
+Implement the primitive in the UI package, with its styles and behavior tests. Feature-specific decisions stay in feature components.
+
+### Test an operation
+
+Accept the external capability the operation needs, such as a typed tag client or snapshot store. For example, `createNewActions` receives prompt, notification, navigation, and folder-refresh services; `RightPaneView` receives the active pane and content components while its wrapper owns stores and lazy imports. Production passes the real implementation. Tests pass a faithful in-memory implementation and exercise success, rejection, and cleanup. Do not mock the module loader.
+
+## Compatibility
+
+File organization is internal. Routes, stored preference keys, source ids, library files, and extension messages are compatibility contracts. Preserve them through a refactor. Continue to build the capture renderer, auxiliary windows, and inference workers; these are entrypoints even when no TypeScript file imports them.
+
+Pond has no released Library or preference format older than the current one, so readers accept only current representations. External formats such as Eagle libraries and packages keep their readers at the import boundary. Agent provider state still treats `enabledKeys` as connected for a local provider until `connectedLocalProviders` records it. When a released format changes, add the reader or migration with its own test at the boundary that reads it.
+
+Do not remove a compatibility path based on age alone. Preference readers and migrations can be removed only after the minimum supported direct-upgrade version already writes the replacement representation, every supported startup and Library-switch path has an idempotent migration test, and fixtures no longer contain the legacy keys. Disk-format readers and repairs have a stronger gate because a Library can remain unopened across releases: remove them only when every supported open and import path requires a portable completion marker written inside the Library, or when Pond ships a preflight converter that preserves an untouched backup and reports unsupported schemas before mutation. Record the oldest supported preference and Library schema in release notes when either cutoff changes.
+
+## Library storage
+
+Library encryption and folder locking are not product features. Library files, metadata, media, indexes, backups, and exported packages use plaintext storage. The renderer has no Security settings page, lock screen, password-protected folders, or lock lifecycle. IPC sender validation, loopback API tokens, reviewed Agent mutations, and provider credentials in the operating system keychain remain separate application boundaries.
+
+`main/core/storage` owns file and media access.
+
+Save previews may open in image presentation and detached image/video windows with optional always-on-top. Detached video owns playback resources and releases them when its target changes or the window closes. Main remains the sole owner of file access, and auxiliary windows receive only the capabilities they need for the active Library. Image rotation and horizontal flip may explicitly replace supported originals; destructive transforms require confirmation and run through the executor journal so failure recovery and Undo cover the original bytes and index update together. Interface zoom may be configured from 50 to 200 percent, independently of media zoom.
+
+Compatibility fixtures under `apps/desktop/test/fixtures/compatibility` freeze the plaintext and external representations that Pond must continue to read. Storage, window, transform, and zoom changes must retain behavior tests against those baselines before changing a serialized format.
+
+## Verification boundaries
+
+Settings pages share the default `Settings.Page` width and spacing; individual sections do not override the page width.
+
+Run `pnpm architecture:check` for runtime dependency cycles, process/shared-code boundaries, and feature entries. Type-only imports are excluded from the runtime graph. Run `pnpm check` for the required local code checks and offline tests, then `pnpm build` for bundles and performance budgets. Use `pnpm knip` separately when pruning; check non-TypeScript and dynamic entrypoints before accepting a deletion.
+
+Save previews can open in app-owned presentation and detached always-on-top windows. A dedicated sandboxed preload exposes only typed preview state, configuration, neighbor navigation, and close capabilities. Main validates the Save and image before creating a window, closes auxiliary windows during Library transitions and shutdown. The older `preview.pin`, `preview.configure`, and `preview.neighbor` command names remain removed rather than becoming an undocumented compatibility surface.
+
+The renderer save pool lives under `features/saves/state/`. Library state owns navigation, folders, and saved views. Library may compose Saves, but Save modules cannot import Library modules. App-level bridges expose the narrow Library actions needed by Save menus and inspectors. Tag operations live under `features/tags/operations/`; both the library Tags page and settings consume that feature. Shared UI primitives remain in `packages/ui`, independent of desktop stores.
+
+Agent chrome lives in `@pond/ui` as Pond-owned compounds (`Thread`, `Composer`, `Message`, Markdown, ToolCall, QuestionCard, ApprovalCard, Reasoning). They take props from `useChat` and do not wrap Assistant UI primitives. Feature-specific widgets (consulted saves, review, model picker) stay in the desktop pane. Renderer vendor chunks assign modules to their own packages without recursively absorbing dependencies.
+
+## Dialogs
+
+`@pond/ui` exports one `Dialog` API. `Dialog.Root` selects standard or alert semantics with `variant`; paged popups require both `pageId` and `depth`. Static bodies use `Content`, and paged bodies use `Viewport`. Page context and measurement are internal. Header Close defaults to a circular icon button; `render` supports custom footer dismissal buttons. `Cancel` and `Confirm` are styled actions and do not close a flow automatically.
+
+Application composition mounts one `Dialog.Host` inside `Dialog.PortalProvider`. Dialogs render to the document by default; development galleries may register one `Dialog.PortalTarget` to contain real dialog surfaces inside a clipped preview frame. `Dialog.confirm` and `Dialog.prompt` accept presentation options and completion callbacks; the UI package owns their input, pending, error, and dismissal behavior. Callers own domain operations. Commands return void, preserve payload replacement behavior, and require the host in the same renderer. Custom source flows remain compositional. `createHandle` and `createAlertHandle` support standard and alert roots respectively; `Dialog.Handle` remains the standard handle constructor.
+
+Controlled flows must retain their last popup content while `open` becomes false. Base UI completes portal cleanup from the popup exit lifecycle; removing only Popup immediately can leave an invisible backdrop intercepting clicks. SourceFlowHost retains its last page and depth for this exit. Connect and Watch setup stay in that paged dialog. Account and Watch details open in the right inspector, flattened beside the Sources table.
+
+Queue V2 is a main-owned durable scheduler backed by the active Library's
+SQLite index. Task claims use short immediate transactions, source and
+operation lanes are admitted before a lease is created, and completion uses
+the lease token plus cancellation fence as a compare-and-set guard. Source
+budgets, breaker state, generation state, and attempt history are durable.
+Downloads, the sidebar, and the tray project that shared state through typed
+queries. They never infer queue truth from renderer activity.
+
+The main process remains the sole database settlement authority. A small
+`utilityProcess` pool runs validated Node-compatible image processing, image
+probing, and poster extraction jobs. Each request and response carries its task
+lease token and cancellation fence. Worker timeout, exit, or malformed output
+fails the attempt in main, where the normal retry policy applies. Browser
+session harvesting, page archives, tweet capture, text-card rendering, Library
+file writes, and every task-state transition remain main-owned. Library
+switches pause claims and drain accepted work before paths or database
+ownership change. Mac suspend extends current leases; resume refreshes their
+heartbeats before claim admission restarts.
+
+Downloads activity is main-owned transient state, exposed through the typed `downloads.activity` query in the shared download activity contract. The reconciler owns task lifetimes; workers report observed phases and per-transfer measurements through their context. Direct media fetches report response and first-byte timings and streamed byte counts; yt-dlp reports its structured progress fields. Request telemetry includes only the method, hostname, status, and content type. Unobserved measurements remain absent. Snapshots bound recent task, transfer, and phase history, discard late worker callbacks after settlement, and clear when the development app switches libraries; production switches restart the process. The renderer polls this snapshot for the Downloads page and right panel instead of persisting or broadcasting each progress update.
+
+Smart Folders, Groups, and Saved Views share the existing saved view persistence and IPC operations, distinguished by kind and optional parent group. Main validates group membership and prevents cycles; deleting a group promotes its children atomically. The library feature owns their sidebar tree and selection. Editable filters stay separate from inherited ancestor conditions, which are combined with AND for library retrieval. Only Saved Views restore layout and sorting.
+
+The Raycast extension is a separate workspace app and never reads Library files
+directly. It uses the authenticated loopback HTTP API for search, capture,
+active Library information, recent Libraries, and Library switching. The
+desktop keeps lifecycle coordination and relaunch behavior in the main process.
+The Pond CLI launches the app through a platform adapter, waits for bounded
+readiness, then uses the same local client and operation previews.
+
+Conversion presets are stored in `conversion-presets.json` in the library. The main conversion job registry owns progress, cancellation, and a two-job concurrency limit. Sharp image conversions and FFmpeg GIF exports share collision-safe file writers; originals remain unchanged, and completed outputs remain available after cancellation or a later-file failure. IPC asks for an export directory through Electron, while authenticated HTTP and MCP accept an explicit destination. Both adapters use the same validated presets and job operations. Library switches prevent remaining items in an old job from resolving against the new library.
+
+The executor serializes mutations and creates a `.transactions` journal before changing Save files or organization metadata. Journals snapshot touched files; destructive operations additionally snapshot originals. SQLite records a commit receipt atomically with index updates and sync events. Opening a library restores journals without a receipt and discards journals whose operation committed. A failed rollback retains its journal and blocks further executor writes to that library until restart recovery succeeds. Library switches stop worker and transfer admission, suspend and drain executor work before changing active paths, and clear undo history after a successful switch. Pipeline metadata persistence shares the executor mutation scope through AsyncLocalStorage; nested writes remain admitted until the outer operation finishes. Explicit user-title locks are stored beside item metadata, included in the update transaction journal, and reversed with undo. Folder membership updates use the `save_folder` transaction model so info metadata, the membership index, and undo follow the same path.
+
+Collection interaction separates the focused cursor, range anchor, and selected IDs. The Library feature owns folder, Smart Folder, Group, Saved View, and Quick Access selection. Combined organization browsing composes existing query predicates as a union; folder entry updates navigation and the query directly. Batch folder moves send explicit IDs, a destination parent, and optional insertion target through `folders.moveBatch`; main owns hierarchy and ordering validation.
+
+The Saves feature owns result navigation, the gallery cursor, and full-query selection resolution. Packed layouts register geometry with result navigation; the gallery keeps one focusable listbox and a mounted active descendant across virtualization. Native and keyboard Select All/Invert share the full-query operation, with stale-query cancellation. Keyboard effects gate commands by their focused collection, viewer, or matching single-Save inspector; editable controls and overlays keep their own keys. Shared DataTable owns the same cursor/anchor distinction independently of desktop stores, including virtual reveal and focus return. Window receives current pane widths from composition and exposes keyboard separator operations. Spatial viewers consume their keys at the focused stage before application handlers. Optional dialog hosts retain their last payload while loading the body on first use; closing still completes the popup exit lifecycle. The dotLottie export handler loads ZIP support after the destination is chosen, keeping optional archive code out of the main startup graph.
+
+Bulk selection mutations cross IPC as explicit IDs through `saves.bulkEdit`. Main loads only the metadata needed to prepare rating, tag, trash, restore, and purge operations; the renderer pool is an optimistic projection and never determines mutation membership. Main validates the complete selection before committing one transaction batch. Purge remains permanent and does not add an unusable undo entry. Clipboard and external-open commands hydrate missing rows before resolving files or links; enrichment commands hydrate selected rows only when their renderer-owned model work needs them.
+
+## Auxiliary window composition
+
+Settings has a dedicated renderer and scoped preload. Its singleton native window reuses the section registry, search and provider UI without booting Library selection, ingestion or enrichment effects. Main broadcasts committed preferences to every renderer; Settings delegates Processing rescans to the Library rather than starting a second enrichment loop. Settings deep links and native commands select the same window, while app activation explicitly creates or focuses the Library.
+
+The app composition layer passes the Library's full selection and folder membership to the Save inspector; a full viewer continues to inspect one Save. Immediate folder assignments use deltas and notes/tag removal use main-owned bulk transactions with Undo. Inspector text drafts are keyed by target IDs and retain failures for retry.

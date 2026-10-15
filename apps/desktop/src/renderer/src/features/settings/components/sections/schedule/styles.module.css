@@ -1,0 +1,79 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+  padding: var(--settings-padding);
+  margin: 0;
+  border: 0;
+  border-top: var(--ds-border-width) solid var(--ds-border-subtle);
+}
+.sentence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: var(--ds-text-md);
+  line-height: 28px;
+  color: var(--ds-gray-12);
+}
+.interval {
+  width: 48px;
+}
+.date {
+  width: 124px;
+}
+.time {
+  width: 104px;
+}
+.week {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.week legend {
+  padding: 0;
+  margin-bottom: 8px;
+  font-size: var(--ds-text-md);
+  color: var(--ds-gray-10);
+}
+.days {
+  flex-wrap: wrap;
+}
+.zone,
+.error {
+  margin: 0;
+  font-size: var(--ds-text-md);
+  line-height: 1.5;
+  color: var(--ds-gray-11);
+}
+.error {
+  color: var(--ds-red-11);
+}
+
+.phrase {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+.editor > .zone,
+.editor > .error {
+  padding-inline: 16px;
+  overflow-wrap: anywhere;
+}

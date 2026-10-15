@@ -1,0 +1,11 @@
+.number {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.unit {
+  font-size: var(--ds-text-md);
+  font-weight: 400;
+  color: var(--ds-gray-11);
+}

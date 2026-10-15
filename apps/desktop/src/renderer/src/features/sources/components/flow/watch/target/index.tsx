@@ -1,0 +1,282 @@
+import { IconCircleCheckFill } from "@pond/icons";
+import type { Source } from "@pond/schema/db";
+import { Button, Dialog } from "@pond/ui";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { z } from "zod";
+import { ConnectionVisual } from "@/features/sources/components/flow/connection-visual";
+import { useAccounts } from "@/features/sources/hooks/use-accounts";
+import { WATCH_NEEDS_SESSION } from "@/features/sources/hooks/use-watches";
+import { startConnect } from "@/features/sources/lib/create";
+import { getSourceDef } from "@/features/sources/lib/registry";
+import { sourceFlow } from "@/features/sources/state/source-flow";
+import { useWatchSource, watchFlow } from "@/features/sources/state/watch-flow";
+import { WatchTargetField } from "../target-field";
+import { watchInputSource } from "./input-source";
+import styles from "./styles.module.css";
+import { watchTargets } from "./targets";
+
+const FORM_ID = "watch-target";
+/** Long enough for the merge into the check to settle before the dialog closes. */
+const ADDED_HOLD_MS = 1100;
+
+const AddWatchResultSchema = z.object({
+  ok: z.boolean(),
+  reason: z.string().optional(),
+  watch: z.object({ id: z.string() }).optional(),
+});
+
+type AddWatchResult = z.infer<typeof AddWatchResultSchema>;
+
+interface WatchTargetProviderProps {
+  source: Source;
+  connectedSources: readonly Source[];
+  addWatch: (source: Source, input: string) => Promise<AddWatchResult>;
+  onAdded: (id: string) => void;
+  children: ReactNode;
+}
+
+function watchErrorMessage(reason: string | undefined, label: string): string {
+  switch (reason) {
+    case "already_watching":
+      return "You're already watching this.";
+    case "needs_account":
+      return `Connect an account on ${label} first.`;
+    case "invalid":
+      return `Couldn't find that profile on ${label}. Check the link or handle.`;
+    default:
+      return "Couldn't start watching. Try again.";
+  }
+}
+
+function useWatchTargetState({
+  source,
+  connectedSources,
+  addWatch,
+  onAdded,
+}: Omit<WatchTargetProviderProps, "children">) {
+  const label = getSourceDef(source).label;
+  const [value, setValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [added, setAdded] = useState(false);
+  const submitting = useRef(false);
+  const addedTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(addedTimer.current), []);
+  const input = value.trim();
+  const detected = watchInputSource(input);
+  const mismatch =
+    detected.type === "unsupported" ||
+    (detected.type === "link" && detected.source !== source)
+      ? `This link isn't from ${label}. Paste a ${label} link or enter a handle.`
+      : null;
+  const needsSession =
+    WATCH_NEEDS_SESSION.includes(source) && !connectedSources.includes(source);
+  const canSubmit = !!input && !mismatch && !needsSession && !busy && !added;
+
+  const change = (next: string) => {
+    setValue(next);
+    setError(null);
+  };
+
+  const submit = async () => {
+    if (!canSubmit || submitting.current) return;
+    submitting.current = true;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await addWatch(source, input);
+      if (res.ok && res.watch) {
+        const id = res.watch.id;
+        setAdded(true);
+        addedTimer.current = window.setTimeout(
+          () => onAdded(id),
+          ADDED_HOLD_MS,
+        );
+        return;
+      }
+      setError(watchErrorMessage(res.reason, label));
+    } catch {
+      setError(watchErrorMessage(undefined, label));
+    } finally {
+      submitting.current = false;
+      setBusy(false);
+    }
+  };
+
+  return {
+    source,
+    label,
+    value,
+    change,
+    error,
+    mismatch,
+    needsSession,
+    busy,
+    added,
+    canSubmit,
+    submit,
+  };
+}
+
+const WatchTargetContext = createContext<ReturnType<
+  typeof useWatchTargetState
+> | null>(null);
+
+function useWatchTarget() {
+  const state = useContext(WatchTargetContext);
+  if (!state) throw new Error("WatchTarget parts need a WatchTargetProvider");
+  return state;
+}
+
+export function WatchTargetProvider({
+  children,
+  ...props
+}: WatchTargetProviderProps) {
+  const state = useWatchTargetState(props);
+  return (
+    <WatchTargetContext.Provider value={state}>
+      {children}
+    </WatchTargetContext.Provider>
+  );
+}
+
+async function addWatch(source: Source, handle: string) {
+  return AddWatchResultSchema.parse(
+    await window.pond.query("watches.add", { source, handle }),
+  );
+}
+
+export function WatchTargetRoot({ children }: { children: ReactNode }) {
+  const activeSource = useWatchSource();
+  const { accounts } = useAccounts();
+  const [source, setSource] = useState(activeSource);
+  /** The flow clears its source on close, before the popup finishes animating out. */
+  if (activeSource && activeSource !== source) setSource(activeSource);
+  if (!source) return children;
+  const connectedSources = accounts
+    .filter((account) => account.connected)
+    .map((account) => account.source);
+  return (
+    <WatchTargetProvider
+      key={source}
+      source={source}
+      connectedSources={connectedSources}
+      addWatch={addWatch}
+      onAdded={(id) => {
+        watchFlow.added(id);
+        sourceFlow.close();
+      }}
+    >
+      {children}
+    </WatchTargetProvider>
+  );
+}
+
+export function WatchTargetSection() {
+  const {
+    source,
+    label,
+    value,
+    change,
+    error,
+    mismatch,
+    needsSession,
+    busy,
+    added,
+    submit,
+  } = useWatchTarget();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const message = error ?? (value.trim() ? mismatch : null);
+  const { placeholder, kinds } = watchTargets(source);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  return (
+    <form
+      id={FORM_ID}
+      className={styles.form}
+      onSubmit={(event) => {
+        event.preventDefault();
+        void submit();
+      }}
+    >
+      <ConnectionVisual
+        source={source}
+        state={
+          added ? "connected" : error ? "failed" : busy ? "waiting" : "idle"
+        }
+      />
+      <div className={styles.copy}>
+        <h2 className={styles.title}>Watch on {label}</h2>
+        <p className={styles.description}>
+          Enter a handle or paste a {label} link.
+          <br />
+          Pond adds new posts to your library.
+        </p>
+      </div>
+      <div className={styles.field}>
+        <WatchTargetField
+          inputRef={inputRef}
+          value={value}
+          placeholder={placeholder}
+          disabled={busy || added}
+          invalid={!!message}
+          onChange={change}
+        />
+        {message ? (
+          <p className={styles.message} role="alert">
+            {message}
+          </p>
+        ) : null}
+      </div>
+      <div className={styles.details}>
+        <p className={styles.heading}>You can watch</p>
+        <ul className={styles.list}>
+          {kinds.map((kind) => (
+            <li key={kind.label} className={styles.kind}>
+              <IconCircleCheckFill size={12} className={styles.check} />
+              <span>{kind.label}</span>
+              <span className={styles.example}>{kind.example}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {needsSession ? (
+        <div className={styles.notice}>
+          <p className={styles.text}>Watching needs your {label} account.</p>
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            onClick={() => void startConnect(source)}
+          >
+            Connect
+          </Button>
+        </div>
+      ) : null}
+    </form>
+  );
+}
+
+export function WatchTargetSubmit() {
+  const { busy, canSubmit } = useWatchTarget();
+  return (
+    <Dialog.Confirm
+      type="submit"
+      form={FORM_ID}
+      loading={busy}
+      disabled={!canSubmit}
+    >
+      Watch
+    </Dialog.Confirm>
+  );
+}

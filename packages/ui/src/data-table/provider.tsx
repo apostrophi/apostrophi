@@ -1,0 +1,527 @@
+import {
+  type ColumnDef,
+  createExpandedRowModel,
+  createSortedRowModel,
+  type ExpandedState,
+  type RowData,
+  rowExpandingFeature,
+  rowSortingFeature,
+  type SortingState,
+  tableFeatures,
+  useTable,
+} from "@tanstack/react-table";
+import { Store } from "@tanstack/store";
+import {
+  type MouseEvent as ReactMouseEvent,
+  type ReactNode,
+  useCallback,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  DataTableContext,
+  type DataTableContextValue,
+  type RowApi,
+  type SelectionState,
+} from "./context";
+import type { RenderRowArgs, SortKind, SortValue, TableColumn } from "./types";
+
+const SELECT_WIDTH = 40;
+const CARET_WIDTH = 28;
+const FIXED_PIXEL_WIDTH = /^(\d+(?:\.\d+)?)px$/;
+const MINMAX_PIXEL_WIDTH = /^minmax\(\s*(\d+(?:\.\d+)?)px\s*,/;
+
+export const DATA_TABLE_FEATURES = tableFeatures({
+  rowSortingFeature,
+  rowExpandingFeature,
+  sortedRowModel: createSortedRowModel(),
+  expandedRowModel: createExpandedRowModel(),
+});
+
+const collator = new Intl.Collator(undefined, { sensitivity: "base" });
+
+function compareValues(a: SortValue, b: SortValue, sort: SortKind): number {
+  if (sort === "text")
+    return collator.compare(String(a ?? ""), String(b ?? ""));
+  const an = a == null ? Number.NEGATIVE_INFINITY : Number(a);
+  const bn = b == null ? Number.NEGATIVE_INFINITY : Number(b);
+  return an === bn ? 0 : an > bn ? 1 : -1;
+}
+
+function minimumColumnWidth<T extends RowData>(column: TableColumn<T>): number {
+  const width = column.width?.trim();
+  const match =
+    width?.match(FIXED_PIXEL_WIDTH) ?? width?.match(MINMAX_PIXEL_WIDTH);
+  if (match?.[1]) return Number(match[1]);
+  return column.minWidth ?? 0;
+}
+
+export interface DataTableSort {
+  id: string;
+  desc: boolean;
+}
+
+export interface DataTableProviderProps<T extends RowData> {
+  data: T[];
+  columns: TableColumn<T>[];
+  getRowId: (row: T) => string;
+  getSubRows?: (row: T) => T[] | undefined;
+  expandCaret?: boolean;
+  onSelectionChange?: (ids: string[]) => void;
+  selectionCheckboxes?: boolean;
+  defaultSort?: { id: string; desc: boolean };
+  sorting?: DataTableSort | null;
+  onSortingChange?: (sorting: DataTableSort | null) => void;
+  columnOrder?: string[];
+  onColumnOrderChange?: (order: string[]) => void;
+  expandedIds?: string[];
+  onToggleExpand?: (id: string, next: boolean) => void;
+  height?: number;
+  rowHeight?: number;
+  overscan?: number;
+  renderRow?: (args: RenderRowArgs<T>) => ReactNode;
+  onRowClick?: (row: T, e?: ReactMouseEvent) => void;
+  selectOnClick?: boolean;
+  children: ReactNode;
+}
+
+export function DataTableProvider<T extends RowData>({
+  data,
+  columns,
+  getRowId,
+  getSubRows,
+  expandCaret = true,
+  onSelectionChange,
+  selectionCheckboxes = true,
+  defaultSort,
+  sorting: sortingProp,
+  onSortingChange,
+  columnOrder: columnOrderProp,
+  onColumnOrderChange,
+  expandedIds,
+  onToggleExpand,
+  height,
+  rowHeight = 48,
+  overscan = 10,
+  renderRow,
+  onRowClick,
+  selectOnClick,
+  children,
+}: DataTableProviderProps<T>) {
+  const selectionEnabled = onSelectionChange !== undefined;
+  const expansionEnabled = getSubRows !== undefined && expandCaret;
+  const clickSelects = selectOnClick ?? !selectionCheckboxes;
+
+  const [selectionStore] = useState(
+    () =>
+      new Store<SelectionState>({
+        selectedIds: new Set<string>(),
+        cursorId: null,
+      }),
+  );
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const revealRow = useRef<((id: string) => void) | null>(null);
+  const gridId = useId();
+  const rowElementId = useCallback(
+    (id: string) => `${gridId}-row-${encodeURIComponent(id)}`,
+    [gridId],
+  );
+
+  const [uncontrolledSorting, setUncontrolledSorting] = useState<SortingState>(
+    defaultSort ? [{ id: defaultSort.id, desc: defaultSort.desc }] : [],
+  );
+  const onSortingChangeRef = useRef(onSortingChange);
+  onSortingChangeRef.current = onSortingChange;
+  const controlledSorting = useMemo<SortingState>(
+    () => (sortingProp ? [{ id: sortingProp.id, desc: sortingProp.desc }] : []),
+    [sortingProp],
+  );
+  const sorting = onSortingChange ? controlledSorting : uncontrolledSorting;
+  const sortingRef = useRef(sorting);
+  sortingRef.current = sorting;
+  const commitSorting = useCallback((next: SortingState) => {
+    const handler = onSortingChangeRef.current;
+    if (handler) {
+      const current = next[0];
+      handler(current ? { id: current.id, desc: current.desc } : null);
+      return;
+    }
+    setUncontrolledSorting(next);
+  }, []);
+  const handleSortingChange = useCallback(
+    (updater: SortingState | ((prev: SortingState) => SortingState)) => {
+      commitSorting(
+        updater instanceof Function ? updater(sortingRef.current) : updater,
+      );
+    },
+    [commitSorting],
+  );
+  const [internalExpanded, setInternalExpanded] = useState<ExpandedState>({});
+  const [columnSizing, setColumnSizing] = useState<Record<string, number>>({});
+  const [uncontrolledOrder, setUncontrolledOrder] = useState<string[]>([]);
+  const columnOrder = columnOrderProp ?? uncontrolledOrder;
+
+  const expanded = useMemo<ExpandedState>(() => {
+    if (!expandedIds) return internalExpanded;
+    const rec: Record<string, boolean> = {};
+    for (const id of expandedIds) rec[id] = true;
+    return rec;
+  }, [expandedIds, internalExpanded]);
+
+  const tanstackColumns = useMemo<ColumnDef<typeof DATA_TABLE_FEATURES, T>[]>(
+    () =>
+      columns.map((col) => ({
+        id: col.id,
+        accessorFn: col.accessor ? (row) => col.accessor?.(row) : undefined,
+        enableSorting: Boolean(col.accessor),
+        sortFn: (a, b, id) =>
+          compareValues(
+            a.getValue<SortValue>(id),
+            b.getValue<SortValue>(id),
+            col.sort ?? "text",
+          ),
+      })),
+    [columns],
+  );
+
+  const table = useTable({
+    features: DATA_TABLE_FEATURES,
+    data,
+    columns: tanstackColumns,
+    state: { sorting, expanded },
+    getRowId: (row) => getRowId(row),
+    getSubRows: getSubRows ? (row) => getSubRows(row) : undefined,
+    onSortingChange: handleSortingChange,
+    onExpandedChange: setInternalExpanded,
+    enableSortingRemoval: false,
+  });
+
+  const rows = table.getRowModel().rows;
+  const flatRows = table.getRowModel().flatRows;
+
+  const orderedIdsRef = useRef<string[]>([]);
+  const anchorRef = useRef<string | null>(null);
+  const rowChildrenRef = useRef<Map<string, string[]>>(new Map());
+  const onSelectionChangeRef = useRef(onSelectionChange);
+  onSelectionChangeRef.current = onSelectionChange;
+
+  orderedIdsRef.current = rows.map((r) => r.id);
+  const childMap = new Map<string, string[]>();
+  for (const r of flatRows) {
+    if (r.subRows.length > 0) {
+      childMap.set(
+        r.id,
+        r.subRows.flatMap((s) => [s.id, ...s.subRows.map((g) => g.id)]),
+      );
+    }
+  }
+  rowChildrenRef.current = childMap;
+
+  const commitSelection = useCallback(() => {
+    onSelectionChangeRef.current?.(
+      Array.from(selectionStore.state.selectedIds),
+    );
+  }, [selectionStore]);
+
+  const actions = useMemo(() => {
+    const withDescendants = (id: string): string[] => [
+      id,
+      ...(rowChildrenRef.current.get(id) ?? []),
+    ];
+
+    const focusRow = (id: string) => {
+      selectionStore.setState((s) => ({ ...s, cursorId: id }));
+      gridRef.current?.focus({ preventScroll: true });
+    };
+
+    const toggleRow = (id: string, extend: boolean) => {
+      selectionStore.setState((s) => {
+        const next = new Set(s.selectedIds);
+        const ids = orderedIdsRef.current;
+        if (extend && anchorRef.current) {
+          const from = ids.indexOf(anchorRef.current);
+          const to = ids.indexOf(id);
+          if (from >= 0 && to >= 0) {
+            const [lo, hi] = from <= to ? [from, to] : [to, from];
+            next.clear();
+            for (const rowId of ids.slice(lo, hi + 1)) {
+              for (const d of withDescendants(rowId)) next.add(d);
+            }
+            return { selectedIds: next, cursorId: id };
+          }
+        }
+        const targets = withDescendants(id);
+        if (next.has(id)) {
+          for (const d of targets) next.delete(d);
+        } else {
+          for (const d of targets) next.add(d);
+        }
+        anchorRef.current = id;
+        return { selectedIds: next, cursorId: id };
+      });
+      commitSelection();
+    };
+
+    const selectRow = (id: string) => {
+      selectionStore.setState(() => ({
+        selectedIds: new Set(withDescendants(id)),
+        cursorId: id,
+      }));
+      anchorRef.current = id;
+      commitSelection();
+    };
+
+    const toggleAll = (next: boolean) => {
+      const ids = next ? orderedIdsRef.current : [];
+      selectionStore.setState((s) => ({
+        selectedIds: new Set(ids),
+        cursorId: s.cursorId ?? ids[0] ?? null,
+      }));
+      anchorRef.current = ids[0] ?? null;
+      commitSelection();
+    };
+
+    const clearSelection = () => toggleAll(false);
+
+    const replaceSelection = (ids: string[]) => {
+      const next = new Set<string>();
+      for (const id of ids) {
+        for (const d of withDescendants(id)) next.add(d);
+      }
+      selectionStore.setState(() => ({
+        selectedIds: next,
+        cursorId: ids.at(-1) ?? null,
+      }));
+      anchorRef.current = ids[ids.length - 1] ?? null;
+      commitSelection();
+    };
+
+    const toggleExpand = (id: string) => {
+      const expandedRecord =
+        internalExpanded === true ? null : internalExpanded;
+      const isOpen = Boolean(
+        expandedIds?.includes(id) || (!expandedIds && expandedRecord?.[id]),
+      );
+      if (expandedIds) {
+        onToggleExpand?.(id, !isOpen);
+      } else {
+        setInternalExpanded((prev) =>
+          prev === true ? { [id]: !isOpen } : { ...prev, [id]: !isOpen },
+        );
+      }
+    };
+
+    const toggleSort = (id: string) => {
+      const cur = sortingRef.current[0];
+      commitSorting(
+        cur?.id === id ? [{ id, desc: !cur.desc }] : [{ id, desc: false }],
+      );
+    };
+
+    const resizeColumn = (id: string, width: number) => {
+      setColumnSizing((prev) => ({
+        ...prev,
+        [id]: Math.max(48, Math.round(width)),
+      }));
+    };
+
+    const reorderColumns = (fromId: string, toId: string) => {
+      const move = (base: string[]) => {
+        if (fromId === toId) return null;
+        const from = base.indexOf(fromId);
+        const to = base.indexOf(toId);
+        if (from < 0 || to < 0) return null;
+        const next = [...base];
+        const [moved] = next.splice(from, 1);
+        if (moved === undefined) return null;
+        next.splice(to, 0, moved);
+        return next;
+      };
+      if (columnOrderProp) {
+        const next = move(
+          columnOrderProp.length > 0
+            ? columnOrderProp
+            : columns.map((column) => column.id),
+        );
+        if (next) onColumnOrderChange?.(next);
+        return;
+      }
+      setUncontrolledOrder((prev) => {
+        const next = move(
+          prev.length > 0 ? prev : columns.map((column) => column.id),
+        );
+        return next ?? prev;
+      });
+    };
+
+    return {
+      focusRow,
+      toggleRow,
+      selectRow,
+      toggleAll,
+      clearSelection,
+      replaceSelection,
+      toggleExpand,
+      toggleSort,
+      resizeColumn,
+      reorderColumns,
+    };
+  }, [
+    selectionStore,
+    commitSelection,
+    expandedIds,
+    internalExpanded,
+    onToggleExpand,
+    columns,
+    columnOrderProp,
+    onColumnOrderChange,
+    commitSorting,
+  ]);
+
+  const orderedColumns = useMemo(() => {
+    if (columnOrder.length === 0) return columns;
+    const byId = new Map(columns.map((c) => [c.id, c]));
+    const ordered: TableColumn<T>[] = [];
+    for (const id of columnOrder) {
+      const col = byId.get(id);
+      if (col) ordered.push(col);
+    }
+    for (const col of columns) {
+      if (!columnOrder.includes(col.id)) ordered.push(col);
+    }
+    return ordered;
+  }, [columns, columnOrder]);
+
+  const gridTemplate = useMemo(() => {
+    const parts: string[] = [];
+    if (selectionEnabled && selectionCheckboxes)
+      parts.push(`${SELECT_WIDTH}px`);
+    if (expansionEnabled) parts.push(`${CARET_WIDTH}px`);
+    for (const col of orderedColumns) {
+      const sized = columnSizing[col.id];
+      parts.push(
+        sized != null ? `${sized}px` : (col.width ?? "minmax(0, 1fr)"),
+      );
+    }
+    return parts.join(" ");
+  }, [
+    selectionEnabled,
+    selectionCheckboxes,
+    expansionEnabled,
+    orderedColumns,
+    columnSizing,
+  ]);
+
+  const gridMinWidth = useMemo(() => {
+    let width = 0;
+    if (selectionEnabled && selectionCheckboxes) width += SELECT_WIDTH;
+    if (expansionEnabled) width += CARET_WIDTH;
+    for (const column of orderedColumns)
+      width += columnSizing[column.id] ?? minimumColumnWidth(column);
+    return width;
+  }, [
+    selectionEnabled,
+    selectionCheckboxes,
+    expansionEnabled,
+    orderedColumns,
+    columnSizing,
+  ]);
+
+  const rowApi = useMemo<RowApi<T>>(
+    () => ({
+      selectionStore,
+      gridRef,
+      rowElementId,
+      focusRow: actions.focusRow,
+      columns: orderedColumns,
+      gridTemplate,
+      gridMinWidth,
+      selectionEnabled,
+      selectionCheckboxes,
+      selectOnClick: clickSelects,
+      expansionEnabled,
+      toggleRow: actions.toggleRow,
+      selectRow: actions.selectRow,
+      toggleExpand: actions.toggleExpand,
+      onRowClick,
+      renderRow,
+    }),
+    [
+      selectionStore,
+      rowElementId,
+      actions.focusRow,
+      orderedColumns,
+      gridTemplate,
+      gridMinWidth,
+      selectionEnabled,
+      selectionCheckboxes,
+      clickSelects,
+      expansionEnabled,
+      actions.toggleRow,
+      actions.selectRow,
+      actions.toggleExpand,
+      onRowClick,
+      renderRow,
+    ],
+  );
+
+  const getSorted = useCallback(
+    (id: string): false | "asc" | "desc" => {
+      const cur = sorting[0];
+      if (cur?.id !== id) return false;
+      return cur.desc ? "desc" : "asc";
+    },
+    [sorting],
+  );
+
+  const value = useMemo<DataTableContextValue<T>>(
+    () => ({
+      selectionStore,
+      actions,
+      meta: {
+        gridRef,
+        scrollRef,
+        headerRef,
+        revealRow,
+        rowElementId,
+        columns: orderedColumns,
+        gridTemplate,
+        gridMinWidth,
+        selectionEnabled,
+        selectionCheckboxes,
+        expansionEnabled,
+        rows,
+        rowCount: orderedIdsRef.current.length,
+        rowHeight,
+        height,
+        overscan,
+        getSorted,
+        rowApi,
+      },
+    }),
+    [
+      selectionStore,
+      actions,
+      rowElementId,
+      orderedColumns,
+      gridTemplate,
+      gridMinWidth,
+      selectionEnabled,
+      selectionCheckboxes,
+      expansionEnabled,
+      rows,
+      rowHeight,
+      height,
+      overscan,
+      getSorted,
+      rowApi,
+    ],
+  );
+
+  return <DataTableContext value={value}>{children}</DataTableContext>;
+}

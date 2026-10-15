@@ -1,0 +1,24 @@
+@import "./colors/colors.css";
+@import "./motion/motion.css";
+@import "./radius/radius.css";
+@import "./size/size.css";
+@import "./shadow/shadow.css";
+@import "./typography/typography.css";
+@import "./brand/brand.css";
+@import "./empty/empty.css";
+@import "./popup/popup.css";
+
+:root {
+  --ds-mac-inset: 16px;
+
+  --ds-border-width: 0.5px;
+  --ds-border-subtle: color-mix(
+    in oklab,
+    var(--ds-gray-12) 8%,
+    var(--ds-gray-1)
+  );
+
+  --ds-focus-width: 1px;
+  --ds-focus-offset: 0px;
+  --ds-focus-outline: var(--ds-accent-a6);
+}

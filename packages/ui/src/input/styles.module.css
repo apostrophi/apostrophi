@@ -1,0 +1,260 @@
+.root {
+  --input-min-height: var(--ds-size-md);
+  --input-padding-inline: 12px;
+  --input-padding-start: var(--input-padding-inline);
+  --input-padding-end: var(--input-padding-inline);
+  --input-font-size: var(--ds-text-md);
+  --input-radius: var(--ds-radius-md);
+  --input-icon-size: 16px;
+  --input-icon-inset: 8px;
+  --input-icon-padding-start: 28px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  &:where([data-size="xs"]) {
+    --input-min-height: var(--ds-size-xs);
+    --input-font-size: var(--ds-text-xs);
+    --input-radius: var(--ds-radius-sm);
+    --input-padding-inline: 6px;
+    --input-icon-size: 12px;
+    --input-icon-inset: 5px;
+    --input-icon-padding-start: 20px;
+  }
+
+  &:where([data-size="sm"]) {
+    --input-min-height: var(--ds-size-sm);
+    --input-font-size: var(--ds-text-sm);
+    --input-radius: var(--ds-radius-sm);
+    --input-padding-inline: 8px;
+    --input-icon-size: 14px;
+    --input-icon-inset: 6px;
+    --input-icon-padding-start: 24px;
+  }
+
+  &:where([data-size="md"]) {
+    --input-min-height: var(--ds-size-md);
+    --input-font-size: var(--ds-text-md);
+    --input-radius: var(--ds-radius-md);
+    --input-padding-inline: 12px;
+    --input-icon-size: 16px;
+    --input-icon-inset: 8px;
+    --input-icon-padding-start: 28px;
+  }
+
+  &:where([data-size="lg"]) {
+    --input-min-height: var(--ds-size-lg);
+    --input-font-size: var(--ds-text-lg);
+    --input-radius: var(--ds-radius-lg);
+    --input-padding-inline: 14px;
+    --input-icon-size: 18px;
+    --input-icon-inset: 10px;
+    --input-icon-padding-start: 34px;
+  }
+
+  &:where([data-size="xl"]) {
+    --input-min-height: var(--ds-size-xl);
+    --input-font-size: var(--ds-text-xl);
+    --input-radius: var(--ds-radius-xl);
+    --input-padding-inline: 16px;
+    --input-icon-size: 20px;
+    --input-icon-inset: 12px;
+    --input-icon-padding-start: 38px;
+  }
+
+  &:has(> [data-slot="icon"]) {
+    --input-padding-start: var(--input-icon-padding-start);
+  }
+
+  &:has(> [data-slot="action"]) {
+    --input-padding-end: var(--input-min-height);
+  }
+
+  &:has(> .affix) {
+    overflow: hidden;
+    border-radius: var(--input-radius);
+    transition:
+      background var(--ds-duration-medium) var(--ds-easing-standard),
+      border-color var(--ds-duration-medium) var(--ds-easing-standard),
+      box-shadow var(--ds-duration-medium) var(--ds-easing-standard);
+  }
+
+  &:has(> [data-multiline]) {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+  }
+}
+
+.affix {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--input-min-height);
+  padding-inline: var(--input-padding-inline);
+  font-size: var(--input-font-size);
+  font-weight: var(--ds-weight-lg);
+  color: var(--ds-gray-10);
+  user-select: none;
+}
+
+.affix:has(> button:only-child) {
+  padding-inline: 0;
+}
+
+.icon {
+  position: absolute;
+  inset-inline-start: var(--input-icon-inset);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--input-icon-size);
+  height: var(--input-icon-size);
+  color: var(--ds-gray-8);
+  pointer-events: none;
+}
+
+.action {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--input-min-height);
+  border-inline-start: var(--ds-border-width) solid var(--ds-gray-6);
+}
+
+.field {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: var(--input-min-height);
+  padding: 0 var(--input-padding-end) 0 var(--input-padding-start);
+  font-size: var(--input-font-size);
+  font-weight: var(--ds-weight-lg);
+  color: var(--ds-gray-12);
+  border-radius: var(--input-radius);
+  transition: box-shadow var(--ds-duration-medium) var(--ds-easing-standard);
+
+  &::placeholder {
+    color: var(--ds-gray-8);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  &[aria-invalid="true"] {
+    color: var(--ds-red-11);
+  }
+
+  &[data-multiline] {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: calc(2lh + 16px);
+    padding-block: 8px;
+    line-height: 1.5;
+    resize: none;
+  }
+
+  &[data-multiline][data-padding="comfortable"] {
+    padding: 16px;
+  }
+}
+
+.root:where([data-variant="primary"]) > .field {
+  background: var(--ds-gray-1);
+  box-shadow: var(--ds-shadow-xs);
+
+  &:is(
+      :hover,
+      :focus-visible,
+      [data-demo-state="hover"],
+      [data-demo-state="focus"]
+    ) {
+    box-shadow: var(--ds-shadow-sm);
+  }
+}
+
+.root:where([data-variant="secondary"]) > .field {
+  background: var(--ds-gray-a2);
+  border: var(--ds-border-width) solid var(--ds-border-subtle);
+
+  &:is(
+      :hover,
+      :focus-visible,
+      [data-demo-state="hover"],
+      [data-demo-state="focus"]
+    ) {
+    background: var(--ds-gray-a3);
+  }
+
+  &:is(:focus-visible, [data-demo-state="focus"]) {
+    border-color: var(--ds-gray-a6);
+  }
+}
+
+.root:where([data-variant="borderless"]) > .field {
+  --ds-focus-outline: transparent;
+
+  font-weight: var(--ds-weight-md);
+  background: transparent;
+}
+
+.root:has(> .affix) > .field {
+  min-width: 0;
+  outline: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.root:where([data-variant="primary"]):has(> .affix) {
+  background: var(--ds-gray-1);
+  box-shadow: var(--ds-shadow-xs);
+
+  &:is(
+      :hover,
+      :focus-within,
+      [data-demo-state="hover"],
+      [data-demo-state="focus"]
+    ) {
+    box-shadow: var(--ds-shadow-sm);
+  }
+}
+
+.root:where([data-variant="secondary"]):has(> .affix) {
+  background: var(--ds-gray-a2);
+  border: var(--ds-border-width) solid var(--ds-border-subtle);
+
+  &:is(
+      :hover,
+      :focus-within,
+      [data-demo-state="hover"],
+      [data-demo-state="focus"]
+    ) {
+    background: var(--ds-gray-a3);
+  }
+
+  &:is(:focus-within, [data-demo-state="focus"]) {
+    border-color: var(--ds-gray-a6);
+  }
+}
+
+.root:has(> .affix):focus-within {
+  outline: var(--ds-focus-width, 2px) solid var(--ds-focus-outline);
+  outline-offset: var(--ds-focus-offset, 0);
+}
+
+.root:has(> .affix) > .affix :focus-visible {
+  outline: none;
+}

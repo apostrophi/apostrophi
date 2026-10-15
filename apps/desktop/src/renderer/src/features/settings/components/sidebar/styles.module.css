@@ -1,0 +1,15 @@
+.root {
+  padding: 0 8px 12px 12px;
+}
+
+/* Lifts the search above the frameless window's drag strip so it stays clickable. */
+.search {
+  -webkit-app-region: no-drag;
+  position: relative;
+  z-index: 21;
+  flex: none;
+}
+
+.header {
+  height: var(--ds-title-bar-height);
+}

@@ -1,0 +1,166 @@
+@import "@pond/ui/reset.css";
+@import "@pond/theme/theme.css";
+
+@layer reset {
+  #root {
+    position: relative;
+  }
+
+  #root,
+  #__next {
+    isolation: isolate;
+  }
+}
+
+@font-face {
+  font-family: inter-variable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./assets/fonts/inter/variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: inter-variable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./assets/fonts/inter/variable-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: jetbrains-mono;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/jetbrains-mono/latin-400-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: jetbrains-mono;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/fonts/jetbrains-mono/latin-500-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: jetbrains-mono;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/fonts/jetbrains-mono/latin-600-normal.woff2")
+    format("woff2");
+}
+
+:root {
+  --ds-ui-font-family:
+    inter-variable, ui-sans-serif, system-ui, -apple-system, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  --ds-code-font-family:
+    jetbrains-mono, ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  --ds-ui-font-size: var(--ds-text-md);
+  --ds-code-font-size: var(--ds-text-sm);
+
+  font-family: var(--ds-ui-font-family);
+  font-size: var(--ds-ui-font-size);
+  font-weight: var(--ds-weight-md);
+
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1,
+    "cv11" 1,
+    "ss01" 1;
+  color-scheme: light dark;
+}
+
+code,
+pre,
+samp {
+  font-family: var(--ds-code-font-family);
+  font-size: var(--ds-code-font-size);
+}
+
+html[data-font-smoothing="antialiased"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html[data-font-smoothing="auto"] {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root {
+  --ds-cursor-interactive: default;
+}
+
+html[data-pointer-cursors="true"] {
+  --ds-cursor-interactive: pointer;
+}
+
+button,
+a,
+label[for],
+summary,
+[role="button"],
+[role="menuitem"],
+[role="menuitemradio"],
+[role="menuitemcheckbox"],
+[role="option"],
+[role="tab"],
+[role="switch"],
+[role="link"] {
+  cursor: var(--ds-cursor-interactive);
+}
+
+html,
+body {
+  min-height: 100dvh;
+}
+
+html,
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  transition-duration: 0.01ms;
+  animation-duration: 0.01ms;
+  animation-iteration-count: 1;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

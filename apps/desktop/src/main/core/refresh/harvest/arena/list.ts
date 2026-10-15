@@ -1,0 +1,80 @@
+/// <reference lib="dom" />
+
+import type { MediaType } from "@pond/schema/db";
+import { buildScrollListExpression } from "../lib/expression";
+import type { inPageScrollCollect } from "../lib/scroll";
+import type { ListHarvestArgs, ListHarvestResult } from "../list-types";
+import { inPageArenaNormalize } from "./normalize";
+
+export function arenaProfileUrl(slug: string): string {
+  return `https://www.are.na/${encodeURIComponent(slug)}/all`;
+}
+
+export function buildArenaListExpression(args: ListHarvestArgs): string {
+  return buildScrollListExpression(inPageArenaNormalize, inPageArenaList, args);
+}
+
+async function inPageArenaList(
+  args: ListHarvestArgs,
+  scroll: ReturnType<typeof inPageScrollCollect>,
+  _norm: ReturnType<typeof inPageArenaNormalize>,
+): Promise<ListHarvestResult> {
+  if (
+    location.pathname.startsWith("/log-in") ||
+    location.pathname.startsWith("/login") ||
+    location.pathname.startsWith("/auth")
+  ) {
+    return { ok: false, reason: "auth_required" };
+  }
+
+  function collectFn() {
+    const out: Array<{
+      sourceId: string;
+      url: string;
+      title?: string;
+      description?: string;
+      mediaUrl?: string;
+      mediaType?: MediaType;
+    }> = [];
+    const seen = new Set<string>();
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('a[href*="/block/"]'),
+    );
+    for (const a of links) {
+      let id: string | null = null;
+      try {
+        const u = new URL(a.href, location.origin);
+        id = u.pathname.match(/\/block\/(\d+)/)?.[1] ?? null;
+      } catch {}
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+
+      const card =
+        a.closest("[class*='Block'], [class*='block']") ?? a.parentElement;
+      const titleEl = (card ?? a).querySelector<HTMLElement>(
+        "[class*='BlockTitle'], [class*='block__title'], [class*='title']",
+      );
+      const title = titleEl?.textContent?.trim() || undefined;
+      const img = (card ?? a).querySelector<HTMLImageElement>("img");
+      const src = img?.src ?? img?.currentSrc ?? undefined;
+      const mediaUrl = src && !src.startsWith("data:") ? src : undefined;
+
+      out.push({
+        sourceId: id,
+        url: `https://www.are.na/block/${id}`,
+        title,
+        mediaUrl,
+        mediaType: mediaUrl ? "image" : undefined,
+      });
+    }
+    return out;
+  }
+
+  return scroll({
+    collectFn,
+    knownIds: args.knownIds,
+    hydrateSelector: 'a[href*="/block/"]',
+    scrollBehavior: "scroll",
+    scrollDelayMs: 900,
+  });
+}

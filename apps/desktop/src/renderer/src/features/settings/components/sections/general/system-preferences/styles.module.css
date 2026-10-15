@@ -1,0 +1,9 @@
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span {
+  font-size: var(--ds-text-sm);
+  color: var(--ds-gray-11);
+}

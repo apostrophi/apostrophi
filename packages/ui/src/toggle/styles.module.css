@@ -1,0 +1,102 @@
+.root {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  font-size: var(--ds-text-md);
+  font-weight: var(--ds-weight-md);
+  color: var(--ds-gray-11);
+  cursor: var(--ds-cursor-interactive, pointer);
+  background: none;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  transition:
+    background var(--ds-duration-snap) var(--ds-easing-standard),
+    color var(--ds-duration-snap) var(--ds-easing-standard),
+    box-shadow var(--ds-duration-snap) var(--ds-easing-standard);
+
+  &[data-size="sm"] {
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    font-size: var(--ds-text-sm);
+  }
+
+  &:hover,
+  &[data-demo-state="hover"] {
+    color: var(--ds-gray-12);
+    background: var(--ds-gray-a3);
+  }
+
+  &[data-pressed] {
+    color: var(--ds-gray-12);
+    background: var(--ds-gray-a4);
+  }
+
+  &[data-variant="outline"] {
+    color: var(--ds-gray-10);
+    box-shadow: inset 0 0 0 var(--ds-border-width) var(--ds-gray-a5);
+
+    &:hover,
+    &[data-demo-state="hover"] {
+      color: var(--ds-gray-12);
+      background: var(--ds-gray-a2);
+    }
+
+    &[data-pressed] {
+      color: var(--ds-gray-12);
+      background: var(--ds-gray-a3);
+      box-shadow: inset 0 0 0 var(--ds-border-width) transparent;
+    }
+
+    &[data-pressed]:hover {
+      background: var(--ds-gray-a4);
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+[data-pond-toggle-group] > .root {
+  z-index: 1;
+  flex: 1;
+  min-width: max-content;
+  white-space: nowrap;
+  transition: color var(--ds-duration-emphasized) var(--ds-easing-snap);
+
+  &:hover,
+  &[data-demo-state="hover"] {
+    background: none;
+  }
+
+  &[data-pressed] {
+    font-weight: var(--ds-weight-lg);
+    color: var(--ds-gray-12);
+    background: none;
+  }
+}
+
+[data-pond-toggle-group][data-multiple] > .root[data-pressed] {
+  background: var(--ds-gray-1);
+  box-shadow: 0 1px 2px var(--ds-shadow-strong);
+}
+
+[data-pond-toggle-group][data-orientation="vertical"] > .root {
+  flex: none;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-pond-toggle-group] > .root {
+    transition: none;
+  }
+}

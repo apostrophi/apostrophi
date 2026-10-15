@@ -1,0 +1,147 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  margin-block: 8px;
+  font-size: var(--ds-text-md);
+  font-weight: var(--ds-weight-md);
+  line-height: 24px;
+  color: var(--ds-gray-12);
+}
+
+.message[data-enter="true"] {
+  animation: enter var(--ds-duration-snap) var(--ds-easing-decelerate);
+}
+
+.message[data-role="user"] {
+  align-items: flex-end;
+}
+
+.leading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.message[data-role="user"] .leading {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.message[data-role="user"] .body {
+  width: fit-content;
+  max-width: 75%;
+  padding: 8px 12px;
+  line-height: 24px;
+  background: var(--ds-gray-3);
+  border-radius: var(--ds-radius-md);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--ds-gray-9);
+}
+
+.actions button {
+  --button-icon-size: 14px;
+  width: 14px;
+  height: 24px;
+  aspect-ratio: auto;
+  padding-inline: 0;
+}
+
+.message[data-role="user"] .actions {
+  opacity: 0;
+  transition: opacity var(--ds-duration-fast) var(--ds-easing-standard);
+}
+
+.message[data-role="user"]:is(:hover, :focus-within) .actions {
+  opacity: 1;
+}
+
+.markdown blockquote,
+.quote {
+  padding-inline: 12px;
+  margin: 0;
+  color: var(--ds-gray-11);
+  border-left: 2px solid var(--ds-gray-6);
+}
+
+.muted {
+  font-size: var(--ds-text-md);
+  color: var(--ds-gray-10);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message[data-enter],
+  .attachment,
+  .popup,
+  .modal {
+    animation: none;
+  }
+}
+
+.message[data-enter][data-reduced-motion="true"],
+.attachment[data-reduced-motion="true"],
+.popup[data-reduced-motion="true"],
+.modal[data-reduced-motion="true"] {
+  animation: none;
+}
+
+.attachments:empty {
+  display: none;
+}
+
+.attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.quote {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-block: 6px;
+  font-size: var(--ds-text-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .actions,
+  .activity-trigger svg,
+  .history-archive {
+    transition: none;
+  }
+}
+
+.message[data-role="user"] {
+  position: relative;
+  margin-block: 8px 24px;
+}
+
+.message[data-role="user"] > :last-child:not(.body) {
+  position: absolute;
+  right: 0;
+  bottom: -28px;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

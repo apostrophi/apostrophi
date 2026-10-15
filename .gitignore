@@ -1,0 +1,86 @@
+# dependencies
+node_modules
+
+# build output
+.next
+.turbo
+dist
+build
+out
+*.tsbuildinfo
+
+# env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# logs / test output
+*.log
+coverage/
+playwright-report/
+test-results/
+
+# packed tarballs
+*.tgz
+
+# os
+.DS_Store
+Thumbs.db
+
+# editors: track only the shared workspace files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# extension build artefacts
+apps/extension/dist
+apps/extension/.output
+apps/extension/.wxt
+apps/raycast/raycast-env.d.ts
+# vercel
+.vercel
+
+# agent caches
+.agents
+
+# cursor local config, skills, prototype assets
+.cursor/*
+!.cursor/hooks.json
+
+# Repository hooks are shared; Codex local state remains private.
+.codex/*
+!.codex/hooks.json
+
+# mobbin UI evidence boards (design-exploration scratch)
+.mobbin/
+
+# impeccable design-exploration scratch
+.impeccable/
+
+# TanStack Router cache
+**/.tanstack/
+
+# TanStack Router generated route tree
+apps/desktop/src/renderer/src/routeTree.gen.ts
+
+# replayweb.page viewer bundles (copied by apps/desktop/scripts/copy-replay-assets.mjs)
+apps/desktop/resources/replay/ui.js
+apps/desktop/resources/replay/sw.js
+
+# compiled Chrome native-messaging host
+apps/desktop/resources/bin/pond-native-host
+
+# generated icon previews
+apps/desktop/src/renderer/src/generated/
+
+# Local caches, scratch files, and UI inspection captures
+.artifacts/
+.cache/
+.eslintcache
+.stylelintcache
+.pnpm-store/
+.tmp/
+brag-output/
+brag-output-*/

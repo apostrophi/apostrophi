@@ -1,0 +1,37 @@
+.message {
+  display: block;
+  margin-top: 2px;
+  color: var(--ds-green-11);
+
+  &[data-celebrate] {
+    animation: backup-flourish var(--ds-duration-slow)
+      var(--ds-easing-decelerate);
+  }
+
+  &[data-error] {
+    color: var(--ds-red-11);
+  }
+}
+
+@keyframes backup-flourish {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message[data-celebrate] {
+    animation: none;
+  }
+}

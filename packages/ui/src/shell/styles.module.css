@@ -1,0 +1,60 @@
+.body {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--ds-mac-inset);
+  padding-inline: 24px;
+  overflow-y: auto;
+}
+
+.main[data-restoring-scroll] {
+  scroll-behavior: auto;
+}
+
+.aside {
+  display: flex;
+  width: 220px;
+  padding-block: 16px;
+  padding-inline: 8px;
+}
+
+.drag {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 40;
+  height: 38px;
+  pointer-events: none;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  height: auto;
+  min-height: fit-content;
+  margin-bottom: 24px;
+}
+
+.empty {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--ds-text-md);
+  color: var(--ds-gray-11);
+}
+
+:global(html):not(:global(.electron-disable-drag)) .drag {
+  -webkit-app-region: drag;
+}

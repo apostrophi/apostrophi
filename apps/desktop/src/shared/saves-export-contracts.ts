@@ -1,0 +1,39 @@
+import type {
+  CancellableResult,
+  OkResult,
+  ReasonResult,
+} from "./query-contracts-shared";
+import type {
+  SaveFileFailure,
+  SavesFileInput,
+  SavesIdsInput,
+} from "./saves-contracts-shared";
+
+export interface SavesExportQueryInputs {
+  "saves.exportEaglePackage": SavesIdsInput;
+  "saves.exportPackage": SavesIdsInput;
+  "saves.exportFile": SavesFileInput;
+  "saves.share": { id: string; fileIndex?: number };
+  "saves.exportFiles": SavesIdsInput;
+  "saves.exportWebp": SavesIdsInput;
+  "saves.exportCsv": SavesIdsInput;
+}
+
+export interface SavesExportQueryResults {
+  "saves.exportEaglePackage": CancellableResult<{
+    path?: string;
+    exported?: number;
+  }>;
+  "saves.exportPackage": CancellableResult<{
+    path?: string;
+    exported?: number;
+  }>;
+  "saves.exportFile": ReasonResult<
+    SaveFileFailure | "cancelled" | "internal_error",
+    { path: string }
+  >;
+  "saves.share": OkResult;
+  "saves.exportFiles": CancellableResult<{ exported: number; dir: string }>;
+  "saves.exportWebp": CancellableResult<{ exported: number; dir: string }>;
+  "saves.exportCsv": CancellableResult<{ count: number; path: string }>;
+}
