@@ -1,6 +1,6 @@
 import { basename, extname } from "node:path";
-import { saves } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import { saves } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import {
   applyRenameTemplate,
   RenameOptionsSchema,
@@ -11,9 +11,9 @@ import type { QueryResult } from "../../../shared/query-contracts";
 import { executeBatch } from "../../core/executor";
 import {
   activateFont,
+  apostrophiFontsDir,
   clearFontActivation,
   deactivateFont,
-  pondFontsDir,
   readFontActivation,
   writeFontActivation,
 } from "../../core/font-activation";
@@ -105,7 +105,7 @@ export const savesFontQueries = {
       const result = await activateFont({
         sourcePath: saveFile(id, file.path),
         saveId: id,
-        fontsDir: pondFontsDir(app.getPath("home")),
+        fontsDir: apostrophiFontsDir(app.getPath("home")),
       });
       if (result.ok) {
         writeFontActivation(id, result.path);
@@ -127,7 +127,7 @@ export const savesFontQueries = {
       const { app } = await import("electron");
       const result = await deactivateFont({
         installedPath: installed,
-        fontsDir: pondFontsDir(app.getPath("home")),
+        fontsDir: apostrophiFontsDir(app.getPath("home")),
       });
       if (result.ok) {
         clearFontActivation(id);

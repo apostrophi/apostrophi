@@ -18,7 +18,7 @@ import {
 import { folderIdsForSave, listFolders } from "../folders";
 import { normalizeTagList } from "../tags";
 import type { ToolSpec } from "./complete";
-import { pondOperationTools } from "./operations";
+import { apostrophiOperationTools } from "./operations";
 import { boundedSource } from "./output";
 import { createToolTracker } from "./tool-steps";
 import {
@@ -46,7 +46,7 @@ import {
 } from "./tools";
 
 export const contextDependencies = {
-  pondOperationTools,
+  apostrophiOperationTools,
   folderIdsForSave,
   listFolders,
   searchLibrary,
@@ -420,7 +420,7 @@ export function libraryContext(
   ];
   const proposedOperations = new Map<string, string>();
   tools.push(
-    ...deps.pondOperationTools({
+    ...deps.apostrophiOperationTools({
       signal: input.signal,
       propose: (request, _description, reason) => {
         const key = JSON.stringify(request);

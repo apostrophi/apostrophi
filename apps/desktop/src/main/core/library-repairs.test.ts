@@ -1,11 +1,11 @@
-import type { Transaction } from "@pond/schema/tx";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { describe, expect, it } from "vitest";
 import type { LibraryIntegrityRuntime, RepairSave } from "./library-integrity";
 import { createLibraryRepairService } from "./library-repairs";
 
 function createFixture() {
   let now = 1_000;
-  let libraryId = "pond-a";
+  let libraryId = "apostrophi-a";
   let root = "/library-a";
   const runtime: LibraryIntegrityRuntime = {
     root: () => root,
@@ -44,7 +44,7 @@ function createFixture() {
       now += milliseconds;
     },
     switchLibrary() {
-      libraryId = "pond-b";
+      libraryId = "apostrophi-b";
       root = "/library-b";
     },
   };
@@ -63,7 +63,7 @@ describe("Library repair previews", () => {
     ).rejects.toThrow("expired");
   });
 
-  it("binds previews to the current Pond and Library root", async () => {
+  it("binds previews to the current Apostrophi and Library root", async () => {
     const fixture = createFixture();
     const preview = await fixture.service.preview({
       kind: "invalid-content",
@@ -113,7 +113,7 @@ describe("Library repair previews", () => {
     };
     const service = createLibraryRepairService({
       now: () => 1_000,
-      libraryId: () => "pond",
+      libraryId: () => "apostrophi",
       root: () => "/library",
       integrityRuntime: runtime,
       commit: async (transactions) => {

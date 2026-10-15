@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
-import { saves } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import { saves } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import type {
@@ -330,7 +330,7 @@ async function repairMetadataWithJournal(row: RepairSave): Promise<void> {
           .run(batchId);
       },
       onCleanupError(error) {
-        log.warn("[pond library repair] journal cleanup deferred", error);
+        log.warn("[apostrophi library repair] journal cleanup deferred", error);
       },
     });
   });

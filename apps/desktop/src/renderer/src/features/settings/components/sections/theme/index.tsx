@@ -1,5 +1,5 @@
-import { CUSTOM_PRESET_ID, type ThemeDef } from "@pond/schema/db";
-import { Select, type SelectItemSpec } from "@pond/ui";
+import { CUSTOM_PRESET_ID, type ThemeDef } from "@apostrophi/schema/db";
+import { Select, type SelectItemSpec } from "@apostrophi/ui";
 import { ThemeChip } from "./chip";
 import styles from "./styles.module.css";
 

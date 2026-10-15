@@ -1,4 +1,4 @@
-import type { Source, WatchKind } from "@pond/schema/db";
+import type { Source, WatchKind } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { markAtRisk } from "../pipeline/rate-governor";
@@ -99,10 +99,13 @@ export async function listProfileWatch(
         true,
       ),
       new Promise<string>((resolve) =>
-        setTimeout(() => resolve("__pond_watch_timeout__"), COLLECT_TIMEOUT_MS),
+        setTimeout(
+          () => resolve("__apostrophi_watch_timeout__"),
+          COLLECT_TIMEOUT_MS,
+        ),
       ),
     ]);
-    if (raw === "__pond_watch_timeout__") {
+    if (raw === "__apostrophi_watch_timeout__") {
       return { ok: false, reason: "timeout" };
     }
     const page = LinksPageSchema.safeParse(raw);
@@ -117,7 +120,13 @@ export async function listProfileWatch(
     }
     return { ok: true, entries };
   } catch (err) {
-    log.warn("[pond watch:scrape]", source, handle, "unexpected error", err);
+    log.warn(
+      "[apostrophi watch:scrape]",
+      source,
+      handle,
+      "unexpected error",
+      err,
+    );
     return { ok: false, reason: "unknown" };
   } finally {
     lease.release();

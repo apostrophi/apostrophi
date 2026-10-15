@@ -1,4 +1,4 @@
-import type { Predicate } from "@pond/schema/filters/types";
+import type { Predicate } from "@apostrophi/schema/filters/types";
 import type { NlFacets } from "@/features/search/lib/nl-query";
 import { unitCosine } from "@/shared/lib/vector";
 

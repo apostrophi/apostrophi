@@ -1,4 +1,4 @@
-import type { SaveFile } from "@pond/schema/db";
+import type { SaveFile } from "@apostrophi/schema/db";
 import { z } from "zod";
 import { canRequestNativeThumbnail, classifyLibraryFile } from "./file-format";
 import type { CancellableResult } from "./query-contracts-shared";

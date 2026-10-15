@@ -1,5 +1,5 @@
-import { IconArrowLeft, IconArrowRight } from "@pond/icons";
-import { Select, Slider } from "@pond/ui";
+import { IconArrowLeft, IconArrowRight } from "@apostrophi/icons";
+import { Select, Slider } from "@apostrophi/ui";
 import type { Book, NavItem, Rendition } from "epubjs";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";

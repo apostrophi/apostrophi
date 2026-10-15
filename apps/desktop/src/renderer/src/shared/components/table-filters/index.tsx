@@ -1,4 +1,4 @@
-import { Chip, Menu } from "@pond/ui";
+import { Chip, Menu } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import { FilterToolbar } from "@/shared/components/filter-toolbar";
 import {

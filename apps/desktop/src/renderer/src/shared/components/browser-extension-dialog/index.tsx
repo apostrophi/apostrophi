@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@pond/ui";
+import { Button, Dialog } from "@apostrophi/ui";
 import { useReducedMotion } from "motion/react";
 import { useState } from "react";
 import installPoster from "@/assets/extension-install.jpg";
@@ -25,7 +25,7 @@ export function BrowserExtensionDialog({
   async function download(): Promise<void> {
     setStatus({ kind: "saving" });
     try {
-      const result = await window.pond.query("extension.install", {});
+      const result = await window.apostrophi.query("extension.install", {});
       setStatus(
         result.ok
           ? { kind: "saved" }
@@ -36,7 +36,7 @@ export function BrowserExtensionDialog({
         kind: "error",
         message: errorCopy(
           cause,
-          "Pond couldn't save the extension. Try again.",
+          "Apostrophi couldn't save the extension. Try again.",
         ),
       });
     }
@@ -62,7 +62,7 @@ export function BrowserExtensionDialog({
                 loop
                 muted
                 playsInline
-                aria-label="Installing the Pond extension from chrome://extensions"
+                aria-label="Installing the Apostrophi extension from chrome://extensions"
               />
             </div>
           </div>
@@ -76,17 +76,20 @@ export function BrowserExtensionDialog({
             </Dialog.Description>
             <ol className={styles.steps}>
               <li>
-                Click Download to add a Pond Extension folder to Downloads.
+                Click Download to add an Apostrophi Extension folder to
+                Downloads.
               </li>
               <li>
                 Open <code>chrome://extensions</code> and turn on Developer
                 mode.
               </li>
-              <li>Click Load unpacked and choose the Pond Extension folder.</li>
+              <li>
+                Click Load unpacked and choose the Apostrophi Extension folder.
+              </li>
             </ol>
             {status.kind === "saved" ? (
               <p className={styles.status}>
-                Pond Extension is in your Downloads folder.
+                Apostrophi Extension is in your Downloads folder.
               </p>
             ) : null}
             {status.kind === "error" ? (

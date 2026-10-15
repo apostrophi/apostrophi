@@ -10,7 +10,7 @@ export function App() {
     try {
       setProbeResult(await probe());
     } catch (err) {
-      console.warn("[pond] app probe failed", err);
+      console.warn("[apostrophi] app probe failed", err);
       setProbeResult({ state: "offline" });
     } finally {
       setReady(true);

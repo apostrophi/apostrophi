@@ -1,5 +1,9 @@
-import { IconArrowsExpandDiagonal, IconMinus, IconPlus } from "@pond/icons";
-import { Button, Menu, type MenuItemSpec, Slider } from "@pond/ui";
+import {
+  IconArrowsExpandDiagonal,
+  IconMinus,
+  IconPlus,
+} from "@apostrophi/icons";
+import { Button, Menu, type MenuItemSpec, Slider } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 const PRESETS = [0.05, 0.1, 0.25, 0.5, 1, 1.25, 1.5, 2, 3, 4, 8] as const;

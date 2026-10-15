@@ -1,4 +1,4 @@
-import type { FolderMetadata } from "@pond/schema/db";
+import type { FolderMetadata } from "@apostrophi/schema/db";
 import type { OkResult } from "./query-contracts-shared";
 
 export interface FolderSummary {

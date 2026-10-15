@@ -1,36 +1,36 @@
-# @pond/cli
+# @apostrophi/cli
 
-Use Pond from scripts, terminals, and local agents. The CLI connects to Pond's
+Use Apostrophi from scripts, terminals, and local agents. The CLI connects to Apostrophi's
 authenticated loopback API. It never opens Library databases or files
 directly.
 
 ## Install
 
 ```bash
-npm install --global @pond/cli
+npm install --global @apostrophi/cli
 ```
 
-Open Pond Settings, copy the Local API token, then authorize the CLI:
+Open Apostrophi Settings, copy the Local API token, then authorize the CLI:
 
 ```bash
-pond auth authorize --token <token>
-pond doctor
+apostrophi auth authorize --token <token>
+apostrophi doctor
 ```
 
 ## Examples
 
 ```bash
-pond saves search typography --md
-pond saves get <id> --json
-pond download https://example.com
-printf '%s\n' https://example.com https://example.org | pond download --stdin
-pond folders list --table
-pond schema --json --compact
+apostrophi saves search typography --md
+apostrophi saves get <id> --json
+apostrophi download https://example.com
+printf '%s\n' https://example.com https://example.org | apostrophi download --stdin
+apostrophi folders list --table
+apostrophi schema --json --compact
 ```
 
-Run `pond help` or `pond <command> --help` for the full command surface.
+Run `apostrophi help` or `apostrophi <command> --help` for the full command surface.
 Structured output includes a schema version. Stdout contains data, while
 progress and diagnostics use stderr.
 
-Destructive commands use Pond's operation previews. Interactive terminals can
+Destructive commands use Apostrophi's operation previews. Interactive terminals can
 confirm a preview. Automation must pass `--yes`.

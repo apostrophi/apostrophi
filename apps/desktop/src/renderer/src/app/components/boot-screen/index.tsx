@@ -11,7 +11,7 @@ export function BootScreen() {
   const [, , prefsReady] = usePrefs("window");
   const { isPending: libraryPending } = useQuery({
     queryKey: ["library-info"],
-    queryFn: () => window.pond.query("library.info", {}),
+    queryFn: () => window.apostrophi.query("library.info", {}),
   });
   const ready = savesReady && foldersReady && prefsReady && !libraryPending;
 

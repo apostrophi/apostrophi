@@ -4,7 +4,7 @@ import {
   type SourceSyncPrefs,
   type WatchedAccount,
   type WatchKind,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { ulid } from "ulid";
 import { getPrefs, setPrefs } from "../prefs";
@@ -63,7 +63,11 @@ export async function createWatch(args: {
   if (args.kind) watch.kind = args.kind;
 
   await writeWatches((watches) => ({ ...watches, [watch.id]: watch }));
-  log.info(`[pond watches] created ${watch.source} watch`, watch.id, handle);
+  log.info(
+    `[apostrophi watches] created ${watch.source} watch`,
+    watch.id,
+    handle,
+  );
   return watch;
 }
 

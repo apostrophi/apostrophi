@@ -8,7 +8,7 @@ import { checkPointerSafety, readLibraryPointer } from "../lib/library-pointer";
 import { invalidatePaths, resolvePaths } from "../paths";
 import { commitLibraryPointer } from "./recent-libraries";
 
-export type CreatePondResult =
+export type CreateApostrophiResult =
   | { ok: true; path: string }
   | {
       ok: false;
@@ -20,15 +20,15 @@ export type CreatePondResult =
         | "unknown_error";
     };
 
-export function createPondBundle(
+export function createApostrophiBundle(
   parentDir: string,
   name: string = DEFAULT_LIBRARY_NAME,
-): CreatePondResult {
+): CreateApostrophiResult {
   const trimmedParent = parentDir.trim();
   if (!trimmedParent) return { ok: false, reason: "no_path" };
 
   const safeName = name.trim() || DEFAULT_LIBRARY_NAME;
-  const bundlePath = ensurePondSuffix(join(trimmedParent, safeName));
+  const bundlePath = ensureApostrophiSuffix(join(trimmedParent, safeName));
   const safety = checkPointerSafety(bundlePath);
   if (!safety.ok) {
     return { ok: false, reason: safety.reason ?? "unknown_error" };
@@ -42,34 +42,37 @@ export function createPondBundle(
   invalidatePaths();
   resolvePaths(bundlePath);
 
-  log.info("[pond library-ops] created new pond at", bundlePath);
+  log.info("[apostrophi library-ops] created new apostrophi at", bundlePath);
   return { ok: true, path: bundlePath };
 }
 
 export function ensureDefaultLibrary(): void {
   if (readLibraryPointer()) return;
 
-  const parentDir = join(app.getPath("home"), "Pond");
-  const defaultRoot = join(parentDir, `${DEFAULT_LIBRARY_NAME}.pond`);
+  const parentDir = join(app.getPath("home"), "Apostrophi");
+  const defaultRoot = join(parentDir, `${DEFAULT_LIBRARY_NAME}.apostrophi`);
 
   if (existsSync(defaultRoot)) {
     commitLibraryPointer(defaultRoot);
     invalidatePaths();
     resolvePaths(defaultRoot);
-    log.info("[pond library-ops] adopted existing default pond", defaultRoot);
+    log.info(
+      "[apostrophi library-ops] adopted existing default apostrophi",
+      defaultRoot,
+    );
     return;
   }
 
-  const result = createPondBundle(parentDir, DEFAULT_LIBRARY_NAME);
+  const result = createApostrophiBundle(parentDir, DEFAULT_LIBRARY_NAME);
   if (!result.ok) {
     log.error(
-      "[pond library-ops] failed to create default pond",
+      "[apostrophi library-ops] failed to create default apostrophi",
       result.reason,
     );
   }
 }
 
-function ensurePondSuffix(path: string): string {
+function ensureApostrophiSuffix(path: string): string {
   const trimmed = path.replace(/\/+$/, "");
-  return trimmed.endsWith(".pond") ? trimmed : `${trimmed}.pond`;
+  return trimmed.endsWith(".apostrophi") ? trimmed : `${trimmed}.apostrophi`;
 }

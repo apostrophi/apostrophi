@@ -7,8 +7,8 @@ import {
   tagGroupMembers as tagGroupMembersTable,
   tagGroups as tagGroupsTable,
   tags as tagsTable,
-} from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+} from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import type { OkResult } from "@shared/query-contracts-shared";
 import { and, asc, eq, sql } from "drizzle-orm";
 import { ulid } from "ulid";

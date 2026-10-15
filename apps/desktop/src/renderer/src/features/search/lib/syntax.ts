@@ -1,13 +1,13 @@
-import { COLOR_PRESETS } from "@pond/schema/filters/color";
-import { FIELD_META } from "@pond/schema/filters/meta";
+import { COLOR_PRESETS } from "@apostrophi/schema/filters/color";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
 import type {
   ComparatorId,
   FieldId,
   Predicate,
   Query,
-} from "@pond/schema/filters/types";
-import { isPredicate } from "@pond/schema/filters/types";
-import { canonicalListKind } from "@pond/schema/list-kinds";
+} from "@apostrophi/schema/filters/types";
+import { isPredicate } from "@apostrophi/schema/filters/types";
+import { canonicalListKind } from "@apostrophi/schema/list-kinds";
 import { z } from "zod";
 import {
   displayAccountToken,

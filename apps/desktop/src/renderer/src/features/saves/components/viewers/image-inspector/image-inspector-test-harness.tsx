@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, vi } from "vitest";
@@ -33,7 +33,7 @@ export function setupImageInspectorTest() {
   const tx = vi.fn(async () => ({ ok: true }));
 
   beforeEach(() => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async () => PrefsSchema.parse({}),
       tx,
       appInfo: async () => ({ username: "Raphael Salaja" }),
@@ -61,7 +61,7 @@ export function setupImageInspectorTest() {
   };
   const render = async (
     save: Save = IMAGE_INSPECTOR_SAVE,
-    src = "pond://test/reference.jpg",
+    src = "apostrophi://test/reference.jpg",
   ) => {
     pool.upsert(save);
     await act(async () =>

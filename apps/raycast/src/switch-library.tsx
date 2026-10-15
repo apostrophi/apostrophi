@@ -10,13 +10,13 @@ import {
 } from "@raycast/api";
 import { useEffect, useState } from "react";
 import {
+  type ApostrophiLibrary,
   listRecentLibraries,
-  type PondLibrary,
   switchLibrary,
-} from "./pond-api";
+} from "./apostrophi-api";
 
 export default function SwitchLibrary() {
-  const [libraries, setLibraries] = useState<PondLibrary[]>([]);
+  const [libraries, setLibraries] = useState<ApostrophiLibrary[]>([]);
   const [loading, setLoading] = useState(true);
   const [failure, setFailure] = useState<string | null>(null);
 
@@ -25,15 +25,17 @@ export default function SwitchLibrary() {
       .then(setLibraries)
       .catch((error) =>
         setFailure(
-          error instanceof Error ? error.message : "Try again with Pond open.",
+          error instanceof Error
+            ? error.message
+            : "Try again with Apostrophi open.",
         ),
       )
       .finally(() => setLoading(false));
   }, []);
 
-  async function openLibrary(library: PondLibrary) {
+  async function openLibrary(library: ApostrophiLibrary) {
     if (library.active) {
-      await open("pond://library");
+      await open("apostrophi://library");
       await closeMainWindow();
       return;
     }
@@ -51,7 +53,9 @@ export default function SwitchLibrary() {
       toast.style = Toast.Style.Failure;
       toast.title = "Could Not Switch Library";
       toast.message =
-        error instanceof Error ? error.message : "Try again with Pond open.";
+        error instanceof Error
+          ? error.message
+          : "Try again with Apostrophi open.";
     }
   }
 
@@ -60,8 +64,8 @@ export default function SwitchLibrary() {
       {libraries.length === 0 ? (
         <List.EmptyView
           icon={failure ? Icon.ExclamationMark : Icon.Folder}
-          title={failure ? "Could Not Reach Pond" : "No Recent Libraries"}
-          description={failure ?? "Open another Library in Pond first."}
+          title={failure ? "Could Not Reach Apostrophi" : "No Recent Libraries"}
+          description={failure ?? "Open another Library in Apostrophi first."}
         />
       ) : (
         libraries.map((library) => (
@@ -90,7 +94,9 @@ export default function SwitchLibrary() {
                 {library.available ? (
                   <>
                     <Action
-                      title={library.active ? "Show Pond" : "Switch Library"}
+                      title={
+                        library.active ? "Show Apostrophi" : "Switch Library"
+                      }
                       icon={library.active ? Icon.AppWindow : Icon.ArrowRight}
                       onAction={() => void openLibrary(library)}
                     />

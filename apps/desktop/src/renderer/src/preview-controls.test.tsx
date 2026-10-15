@@ -33,7 +33,7 @@ function previewState(
     kind: "detached",
     title: "Preview",
     reduceMotion: "system",
-    url: "pond://save-1/image.png",
+    url: "apostrophi://save-1/image.png",
     originalPath: "image.png",
     mediaType: "image",
     source: "original",
@@ -101,7 +101,7 @@ describe("detached preview controls", () => {
     await render(
       previewState({
         mediaType: "video",
-        url: "pond://save-1/video.mp4",
+        url: "apostrophi://save-1/video.mp4",
       }),
     );
 
@@ -125,7 +125,7 @@ describe("detached preview controls", () => {
       previewState({
         mediaType: "video",
         size: "fill",
-        url: "pond://save-1/video.mp4",
+        url: "apostrophi://save-1/video.mp4",
       }),
     );
     expect(container.querySelector('[aria-label="Fit"]')).not.toBeNull();
@@ -136,7 +136,7 @@ describe("detached preview controls", () => {
       previewState({
         source: "generated",
         originalPath: "capture.dng",
-        url: "pond://save-1/capture.dng",
+        url: "apostrophi://save-1/capture.dng",
       }),
     );
 

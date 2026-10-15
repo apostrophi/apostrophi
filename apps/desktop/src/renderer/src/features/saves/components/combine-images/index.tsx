@@ -109,7 +109,7 @@ export function CombineImages({
     const exporting = options.output === "export";
     setBusy(true);
     try {
-      const result = await window.pond.query("saves.combineImages", {
+      const result = await window.apostrophi.query("saves.combineImages", {
         ids: images.map(({ save }) => save.id),
         folderId,
         options: { ...options, order: "selection" },

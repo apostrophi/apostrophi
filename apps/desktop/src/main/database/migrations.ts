@@ -17,7 +17,7 @@ export function migrateGlobal(sqlite: Database.Database): void {
 			`);
 }
 
-export function migratePond(sqlite: Database.Database): void {
+export function migrateApostrophi(sqlite: Database.Database): void {
   sqlite.exec(`
 				CREATE TABLE IF NOT EXISTS saves (
 					id TEXT PRIMARY KEY,

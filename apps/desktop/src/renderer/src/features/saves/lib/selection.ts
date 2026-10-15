@@ -80,7 +80,7 @@ async function writeClipboard(text: string): Promise<boolean> {
   if (!text) return false;
   try {
     const result = OkSchema.parse(
-      await window.pond.query("clipboard.writeText", { text }),
+      await window.apostrophi.query("clipboard.writeText", { text }),
     );
     return result.ok;
   } catch {
@@ -97,7 +97,7 @@ export async function retryFailedSelection(
 ): Promise<void> {
   if (ids.length === 0) return;
   const result = RetryReplySchema.parse(
-    await window.pond.query("saves.retryFailed", { ids: [...ids] }),
+    await window.apostrophi.query("saves.retryFailed", { ids: [...ids] }),
   );
   if (!result.ok) {
     statusFeed.error("Retry failed items", "Couldn't retry failed items.");
@@ -192,7 +192,7 @@ export async function copyFilePathsForSelection(
   const paths: string[] = [];
   for (const save of saves) {
     const result = FilePathReplySchema.parse(
-      await window.pond.query("saves.filePath", {
+      await window.apostrophi.query("saves.filePath", {
         id: save.id,
         fileIndex: resolveFileIndex(save) ?? 0,
       }),
@@ -214,7 +214,7 @@ export async function exportSelectionFiles(
   if (ids.length === 0) return { ok: false, message: "Nothing selected" };
   const job = statusFeed.start("Exporting files");
   const result = ExportReplySchema.parse(
-    await window.pond.query("saves.exportFiles", { ids: [...ids] }),
+    await window.apostrophi.query("saves.exportFiles", { ids: [...ids] }),
   );
   if (!result.ok) {
     if (result.reason === "cancelled") {
@@ -235,7 +235,7 @@ export async function exportSelectionCsv(
   if (ids.length === 0) return { ok: false, message: "Nothing selected" };
   const job = statusFeed.start("Exporting CSV");
   const result = ExportReplySchema.parse(
-    await window.pond.query("saves.exportCsv", { ids: [...ids] }),
+    await window.apostrophi.query("saves.exportCsv", { ids: [...ids] }),
   );
   if (!result.ok) {
     if (result.reason === "cancelled") {
@@ -261,7 +261,7 @@ export async function copyFilesForSelection(
   }
   if (files.length === 0) return;
   const result = OkSchema.parse(
-    await window.pond.query("saves.copyFiles", { files }),
+    await window.apostrophi.query("saves.copyFiles", { files }),
   );
   if (!result.ok) return;
   notify({
@@ -304,7 +304,7 @@ export async function openDefaultAppForSelection(
     if (fileIndex == null) continue;
     attempted += 1;
     const result = OkSchema.parse(
-      await window.pond.openSaveFile(save.id, fileIndex),
+      await window.apostrophi.openSaveFile(save.id, fileIndex),
     );
     if (!result.ok) failed += 1;
   }
@@ -327,7 +327,7 @@ export async function revealFilesForSelection(
     if (fileIndex == null) continue;
     attempted += 1;
     const result = OkSchema.parse(
-      await window.pond.revealSave(save.id, fileIndex),
+      await window.apostrophi.revealSave(save.id, fileIndex),
     );
     if (!result.ok) failed += 1;
   }
@@ -349,7 +349,7 @@ export async function openInBrowserForSelection(
     try {
       const parsed = new URL(url);
       if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-        await window.pond.openExternal(parsed.toString());
+        await window.apostrophi.openExternal(parsed.toString());
       }
     } catch {}
   }
@@ -362,16 +362,18 @@ export async function reverseImageSearchForSelection(
   const engine = REVERSE_SEARCH_ENGINES.find((e) => e.key === engineKey);
   if (!engine) return;
   if ("usesImageUrl" in engine && !engine.usesImageUrl) {
-    await window.pond.openExternal(engine.url(""));
+    await window.apostrophi.openExternal(engine.url(""));
     return;
   }
   let opened = 0;
   for (const save of await resolve(ids)) {
     const result = PublicUrlReplySchema.parse(
-      await window.pond.query("saves.publicImageUrl", { id: save.id }),
+      await window.apostrophi.query("saves.publicImageUrl", { id: save.id }),
     );
     if (!result.ok || !result.url) continue;
-    await window.pond.openExternal(engine.url(encodeURIComponent(result.url)));
+    await window.apostrophi.openExternal(
+      engine.url(encodeURIComponent(result.url)),
+    );
     opened += 1;
   }
   if (opened === 0) {
@@ -387,7 +389,7 @@ export async function refreshDetailsForSelection(
 ): Promise<void> {
   for (const save of await resolve(ids)) {
     if (!save.url) continue;
-    await window.pond.refreshSave(save.id);
+    await window.apostrophi.refreshSave(save.id);
   }
 }
 
@@ -396,6 +398,6 @@ export async function archiveSitesForSelection(
 ): Promise<void> {
   for (const save of await resolve(ids)) {
     if (!save.url || save.source !== "web" || save.deletedAt) continue;
-    await window.pond.archiveSite(save.id);
+    await window.apostrophi.archiveSite(save.id);
   }
 }

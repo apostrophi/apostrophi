@@ -41,7 +41,7 @@ async function visualScores(save: Save): Promise<number[]> {
   for (const unit of units) {
     if (!unit.isVideo) continue;
     try {
-      const result = await window.pond.query("video.sampleFrames", {
+      const result = await window.apostrophi.query("video.sampleFrames", {
         src: unit.url,
         maxFrames: 12,
       });

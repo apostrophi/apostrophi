@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { createRoot } from "react-dom/client";
-import type { PondPreviewApi } from "../../preload/preview";
+import type { ApostrophiPreviewApi } from "../../preload/preview";
 import type { PreviewWindowState } from "../../shared/preview-window-contracts";
 import "./app/boot-shell";
 import {
@@ -12,7 +12,7 @@ import "./preview.css";
 
 declare global {
   interface Window {
-    pondPreview: PondPreviewApi;
+    apostrophiPreview: ApostrophiPreviewApi;
   }
 }
 
@@ -43,15 +43,18 @@ const NEXT_ROTATION = {
 >;
 
 function configure(
-  patch: Omit<Parameters<PondPreviewApi["configure"]>[0], "windowId">,
+  patch: Omit<Parameters<ApostrophiPreviewApi["configure"]>[0], "windowId">,
 ): void {
   if (!state) return;
-  void window.pondPreview.configure({ windowId: state.windowId, ...patch });
+  void window.apostrophiPreview.configure({
+    windowId: state.windowId,
+    ...patch,
+  });
 }
 
 function requestNeighbor(delta: -1 | 1): void {
   if (!state) return;
-  void window.pondPreview.requestNeighbor({
+  void window.apostrophiPreview.requestNeighbor({
     windowId: state.windowId,
     saveId: state.saveId,
     delta,
@@ -61,12 +64,15 @@ function requestNeighbor(delta: -1 | 1): void {
 
 function runFileAction(action: "open" | "export"): void {
   if (!state) return;
-  void window.pondPreview.fileAction({ windowId: state.windowId, action });
+  void window.apostrophiPreview.fileAction({
+    windowId: state.windowId,
+    action,
+  });
 }
 
 const actions: PreviewControlActions = {
   close: () => {
-    if (state) void window.pondPreview.close(state.windowId);
+    if (state) void window.apostrophiPreview.close(state.windowId);
   },
   cycleOpacity: () => {
     if (!state) return;
@@ -126,9 +132,9 @@ function refreshSlideshow(): void {
   renderPreviewUi();
 }
 
-const unsubscribe = window.pondPreview.onState((next) => {
+const unsubscribe = window.apostrophiPreview.onState((next) => {
   state = next;
-  const title = `${next.title} · Pond`;
+  const title = `${next.title} · Apostrophi`;
   document.title = title;
   media.show(next);
   preview.dataset.mediaType = next.mediaType;
@@ -154,7 +160,7 @@ window.addEventListener("keydown", (event) => {
   }
   if (event.key === "Escape" && state && !document.fullscreenElement) {
     if (state.fullscreen) configure({ fullscreen: false });
-    else void window.pondPreview.close(state.windowId);
+    else void window.apostrophiPreview.close(state.windowId);
   }
 });
 

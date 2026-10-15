@@ -19,12 +19,12 @@ const twitterAccount = {
   syncing: false,
 };
 
-function stubPond(
+function stubApostrophi(
   onImported?: (
     cb: (payload: { source: string; accountId: string }) => void,
   ) => void,
 ) {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => ({ accounts: [twitterAccount] }),
     connectSource: async () => ({ ok: true, mode: "external" }),
     syncRunNow: async () => ({ ok: true }),
@@ -39,7 +39,7 @@ function stubPond(
 }
 
 beforeEach(() => {
-  stubPond();
+  stubApostrophi();
   host = document.createElement("div");
   document.body.append(host);
   root = createRoot(host);
@@ -49,7 +49,7 @@ afterEach(async () => {
   await act(async () => root.unmount());
   host.remove();
   connectFlow.clear();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => ({ accounts: [] }),
     connectSource: async () => ({ ok: true, mode: "external" }),
     syncRunNow: async () => ({ ok: true }),
@@ -66,7 +66,9 @@ it("marks the wait screen connected when a new account arrives", async () => {
     root.render(<ConnectWaitSection />);
   });
   await vi.waitFor(() => {
-    expect(host.textContent).toContain("Pond is syncing your saved posts now.");
+    expect(host.textContent).toContain(
+      "Apostrophi is syncing your saved posts now.",
+    );
   });
 });
 
@@ -74,7 +76,7 @@ it("marks the wait screen connected when an existing account is reimported", asy
   let imported:
     | ((payload: { source: string; accountId: string }) => void)
     | undefined;
-  stubPond((cb) => {
+  stubApostrophi((cb) => {
     imported = cb;
   });
   connectFlow.start("twitter", ["acc-twitter"]);
@@ -92,12 +94,14 @@ it("marks the wait screen connected when an existing account is reimported", asy
     sessionImported({ source: "twitter", accountId: "acc-twitter" });
   });
   await vi.waitFor(() => {
-    expect(host.textContent).toContain("Pond is syncing your saved posts now.");
+    expect(host.textContent).toContain(
+      "Apostrophi is syncing your saved posts now.",
+    );
   });
 });
 
 it("explains the local connection before the account arrives", async () => {
-  stubPond();
+  stubApostrophi();
   connectFlow.start("twitter", ["acc-twitter"]);
   await act(async () => {
     root.render(<ConnectWaitSection />);
@@ -106,15 +110,15 @@ it("explains the local connection before the account arrives", async () => {
     await Promise.resolve();
   });
 
-  expect(host.textContent).toContain("Connect Twitter to Pond");
+  expect(host.textContent).toContain("Connect Twitter to Apostrophi");
   expect(host.textContent).toContain("Keep your session on this device");
   expect(host.textContent).toContain("Read your saved posts");
   expect(host.textContent).toContain(
-    "Pond gets your session through its browser extension.",
+    "Apostrophi gets your session through its browser extension.",
   );
   expect(host.textContent).toContain("Get Extension");
   expect(host.textContent).toContain(
-    "You're responsible for following Twitter's terms while Pond syncs your account.",
+    "You're responsible for following Twitter's terms while Apostrophi syncs your account.",
   );
   expect(host.textContent).not.toContain("Waiting for sign-in");
 });

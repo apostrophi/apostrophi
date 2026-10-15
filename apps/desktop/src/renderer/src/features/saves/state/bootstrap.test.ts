@@ -8,7 +8,7 @@ describe("bootPool", () => {
     vi.useFakeTimers();
     query.mockReset();
     vi.stubGlobal("window", {
-      pond: {
+      apostrophi: {
         query,
         onSyncAction: vi.fn(),
         rendererReady: vi.fn(),

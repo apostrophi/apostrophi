@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "id": "plaintext-pond-library-v4",
-  "kind": "pond-library",
+  "id": "plaintext-apostrophi-library-v4",
+  "kind": "apostrophi-library",
   "baseline": {
     "encrypted": false,
     "infoSchema": 4,
@@ -11,7 +11,7 @@
       "items/save-fixture.info/original.txt"
     ],
     "indexLocation": "app-data/indexes/<library-id>.db",
-    "thumbnailLocation": "app-data/pond-cache/thumbs/<library-id>"
+    "thumbnailLocation": "app-data/apostrophi-cache/thumbs/<library-id>"
   },
   "compatibilityAssertions": [
     "Open the Library without requiring encryption metadata.",

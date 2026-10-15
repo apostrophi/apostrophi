@@ -1,4 +1,4 @@
-import type { JsonObject, JsonValue } from "@pond/schema/json";
+import type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 import { simulateReadableStream } from "ai";
 import { MockLanguageModelV4 } from "ai/test";
 

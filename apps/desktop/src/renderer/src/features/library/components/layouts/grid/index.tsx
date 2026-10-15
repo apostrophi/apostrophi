@@ -1,4 +1,4 @@
-import { cn } from "@pond/ui";
+import { cn } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import type { LibraryCardView } from "@/features/saves";
 import styles from "./styles.module.css";

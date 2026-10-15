@@ -17,7 +17,7 @@ describe("installBrowserExtension", () => {
   const showItemInFolder = vi.fn();
 
   beforeEach(() => {
-    root = mkdtempSync(join(tmpdir(), "pond-extension-"));
+    root = mkdtempSync(join(tmpdir(), "apostrophi-extension-"));
     downloads = join(root, "Downloads");
     mkdirSync(join(root, "desktop"));
     mkdirSync(downloads);
@@ -35,7 +35,7 @@ describe("installBrowserExtension", () => {
     const build = join(root, "extension", ".output", "chrome-mv3");
     mkdirSync(build, { recursive: true });
     writeFileSync(join(build, "manifest.json"), "{}");
-    const target = join(downloads, "Pond Extension");
+    const target = join(downloads, "Apostrophi Extension");
     mkdirSync(target);
     writeFileSync(join(target, "stale.js"), "");
 
@@ -51,7 +51,7 @@ describe("installBrowserExtension", () => {
   it("fails without touching Downloads when no build exists", async () => {
     const result = await installBrowserExtension();
     expect(result.ok).toBe(false);
-    expect(existsSync(join(downloads, "Pond Extension"))).toBe(false);
+    expect(existsSync(join(downloads, "Apostrophi Extension"))).toBe(false);
     expect(showItemInFolder).not.toHaveBeenCalled();
   });
 });

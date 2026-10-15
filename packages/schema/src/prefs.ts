@@ -416,7 +416,7 @@ const saveRecents = z.object({
 });
 
 const shortcuts = z.object({
-  profile: z.enum(["pond", "eagle"]).catch("pond"),
+  profile: z.enum(["apostrophi", "eagle"]).catch("apostrophi"),
   overrides: z.record(z.string(), z.string()).catch({}),
 });
 

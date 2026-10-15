@@ -8,7 +8,7 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { inverse, type Transaction } from "@pond/schema/tx";
+import { inverse, type Transaction } from "@apostrophi/schema/tx";
 import { afterEach, expect, it } from "vitest";
 import {
   prepareBatchJournal,
@@ -22,7 +22,7 @@ afterEach(async () => {
     await rm(root, { recursive: true, force: true });
 });
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-batch-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-batch-"));
   roots.push(root);
   for (const id of ["a", "b"]) {
     await mkdir(join(root, "items", `${id}.info`), { recursive: true });
@@ -140,7 +140,7 @@ it("retains recovery data when rollback fails so reopening can retry", async () 
       transactions,
       async applyDisk(tx) {
         await writeFile(info(tx.id), "partial");
-        await mkdir(`${info(tx.id)}.pond-restore`);
+        await mkdir(`${info(tx.id)}.apostrophi-restore`);
         throw new Error("disk failure");
       },
       commitIndex() {},
@@ -150,7 +150,7 @@ it("retains recovery data when rollback fails so reopening can retry", async () 
     }),
   ).rejects.toThrow("recovery could not finish");
   expect(await readdir(join(root, ".transactions"))).toEqual(["retry"]);
-  await rm(`${info("a")}.pond-restore`, { recursive: true });
+  await rm(`${info("a")}.apostrophi-restore`, { recursive: true });
   await recoverBatchJournal(root, () => false);
   expect(await readFile(info("a"), "utf8")).toBe("original-a");
 });

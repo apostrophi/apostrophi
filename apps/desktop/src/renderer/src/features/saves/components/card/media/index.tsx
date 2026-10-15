@@ -19,7 +19,7 @@ import {
   pickCardUnit,
   pickPrimaryFile,
 } from "@/features/saves/lib/media/units";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import { mediaTransformStyle } from "@/features/saves/lib/media-transform";
 import { shouldBlurSensitiveThumbnail } from "@/features/saves/lib/sensitive-content";
 import { isTextOnlySave, textBodyForSave } from "@/features/saves/lib/text";
@@ -92,7 +92,7 @@ export const PreparedCardThumb = memo(function PreparedCardThumb({
     }
     const kind = richFilePreviewKind(primary);
     return primary && kind
-      ? { file: primary, kind, url: buildPondUrl(save.id, primary) }
+      ? { file: primary, kind, url: buildApostrophiUrl(save.id, primary) }
       : null;
   }, [primary, save]);
   const hasVideoDims = useMemo(() => {

@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import type { CardModel } from "@/features/sources/components/sync-monitor/lib/helpers";
 
 export type SourceKind = "account" | "watch" | "folder";

@@ -1,5 +1,5 @@
 /**
- * Puts the replaywebpage viewer bundles next to the committed index.html that pond://_replay serves.
+ * Puts the replaywebpage viewer bundles next to the committed index.html that apostrophi://_replay serves.
  */
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -16,9 +16,9 @@ mkdirSync(outDir, { recursive: true });
 for (const name of ["ui.js", "sw.js"]) {
   const src = join(pkgDir, name);
   if (!existsSync(src)) {
-    console.error(`[pond] replaywebpage asset missing: ${src}`);
+    console.error(`[apostrophi] replaywebpage asset missing: ${src}`);
     process.exit(1);
   }
   copyFileSync(src, join(outDir, name));
 }
-console.log("[pond] replay viewer assets copied");
+console.log("[apostrophi] replay viewer assets copied");

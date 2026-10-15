@@ -1,5 +1,5 @@
-import { SOURCES } from "@pond/schema/db";
-import { type Query, QuerySchema } from "@pond/schema/filters";
+import { SOURCES } from "@apostrophi/schema/db";
+import { type Query, QuerySchema } from "@apostrophi/schema/filters";
 import type { IpcMainInvokeEvent } from "electron";
 import { z } from "zod";
 import type { QueryName, QueryResult } from "../../../shared/query-contracts";

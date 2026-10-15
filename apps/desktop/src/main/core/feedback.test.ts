@@ -49,7 +49,7 @@ describe("feedback service", () => {
 
     expect(beep).toHaveBeenCalledOnce();
     expect(showNotification).toHaveBeenCalledOnce();
-    expect(showNotification).toHaveBeenCalledWith("Saved to Pond");
+    expect(showNotification).toHaveBeenCalledWith("Saved to Apostrophi");
   });
 
   it("does not notify when the platform blocks notifications", async () => {

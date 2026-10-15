@@ -128,7 +128,7 @@ it("clears the drag session when the browser dispatches dragend", () => {
 
 it("hands saves with files to a native drag and cancels the browser drag", () => {
   const query = vi.fn(async () => ({ ok: true }));
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   seedImage("photo");
   const data = transfer();
   const event = start(data);
@@ -146,7 +146,7 @@ it("hands saves with files to a native drag and cancels the browser drag", () =>
 });
 
 it("ends a native drag once the pointer moves with no button held", () => {
-  vi.stubGlobal("pond", { query: vi.fn(async () => ({ ok: true })) });
+  vi.stubGlobal("apostrophi", { query: vi.fn(async () => ({ ok: true })) });
   seedImage("photo");
   beginSaveDrag("photo", start(transfer()));
 
@@ -159,7 +159,7 @@ it("ends a native drag once the pointer moves with no button held", () => {
 });
 
 it("ends a native drag on the next click or when the window refocuses", () => {
-  vi.stubGlobal("pond", { query: vi.fn(async () => ({ ok: true })) });
+  vi.stubGlobal("apostrophi", { query: vi.fn(async () => ({ ok: true })) });
   seedImage("photo");
   beginSaveDrag("photo", start(transfer()));
   window.dispatchEvent(new PointerEvent("pointerdown"));

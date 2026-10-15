@@ -15,7 +15,7 @@ export async function searchFtsScores(
   const trimmed = q.trim();
   if (!trimmed) return new Map();
   const res = FtsReplySchema.parse(
-    await window.pond.query("saves.searchFts", {
+    await window.apostrophi.query("saves.searchFts", {
       q: trimmed,
       mode,
       deletedOnly: opts?.deletedOnly ?? false,

@@ -22,4 +22,4 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
 
 await mkdir(outDir, { recursive: true });
 await sharp(Buffer.from(svg)).png().toFile(outPng);
-console.log(`[pond] wrote ${outPng} (${width}x${height})`);
+console.log(`[apostrophi] wrote ${outPng} (${width}x${height})`);

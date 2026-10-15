@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS, type Prefs, PrefsSchema } from "@pond/schema";
+import { DEFAULT_PREFS, type Prefs, PrefsSchema } from "@apostrophi/schema";
 import type { WirePrefsPatch } from "@shared/wire";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
@@ -14,9 +14,9 @@ const prefsStore = new Store<PrefsState>({ value: null });
 let subscribed = false;
 let prefsRevision = 0;
 function subscribeToPrefs(): void {
-  if (subscribed || !window.pond.onPrefsChanged) return;
+  if (subscribed || !window.apostrophi.onPrefsChanged) return;
   subscribed = true;
-  window.pond.onPrefsChanged((prefs) => {
+  window.apostrophi.onPrefsChanged((prefs) => {
     prefsRevision += 1;
     prefsStore.setState(() => ({ value: PrefsSchema.parse(prefs) }));
   });
@@ -37,7 +37,7 @@ async function load(): Promise<Prefs> {
 async function refreshPrefs(): Promise<Prefs> {
   const revision = prefsRevision;
   const next = PrefsSchema.parse(
-    await window.pond.query("settings.getPrefs", {}),
+    await window.apostrophi.query("settings.getPrefs", {}),
   );
   if (revision === prefsRevision) prefsStore.setState(() => ({ value: next }));
   return prefsStore.state.value ?? next;
@@ -103,7 +103,7 @@ export function savePrefsSection<K extends keyof Prefs>(
     await load();
     const message: WirePrefsPatch = { [section]: delta };
     const revision = prefsRevision;
-    const result = await window.pond.query("settings.setPrefs", message);
+    const result = await window.apostrophi.query("settings.setPrefs", message);
     if (revision === prefsRevision)
       prefsStore.setState(() => ({ value: PrefsSchema.parse(result.prefs) }));
   });

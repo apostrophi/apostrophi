@@ -8,9 +8,10 @@ const topLevelCommands =
   "status doctor version completion config auth libraries saves folders tags sources sync downloads conversions agent mcp skill library trash schema";
 
 export function completionScript(shell: string): string {
-  if (shell === "fish") return `complete -c pond -f -a '${topLevelCommands}'`;
-  if (shell === "bash") return `complete -W '${topLevelCommands}' pond`;
-  return `#compdef pond\n_arguments '1:command:(${topLevelCommands})'`;
+  if (shell === "fish")
+    return `complete -c apostrophi -f -a '${topLevelCommands}'`;
+  if (shell === "bash") return `complete -W '${topLevelCommands}' apostrophi`;
+  return `#compdef apostrophi\n_arguments '1:command:(${topLevelCommands})'`;
 }
 
 export function registerCoreCommands(program: Command, version: string): void {

@@ -1,6 +1,10 @@
 import { setTimeout as delay } from "node:timers/promises";
-import type { MediaType } from "@pond/schema/db";
-import type { Capture, CaptureMedia, CaptureMetrics } from "@pond/schema/raw";
+import type { MediaType } from "@apostrophi/schema/db";
+import type {
+  Capture,
+  CaptureMedia,
+  CaptureMetrics,
+} from "@apostrophi/schema/raw";
 import log from "electron-log/main.js";
 import { z } from "zod";
 
@@ -56,7 +60,7 @@ async function fetchJson<T>(
       err instanceof Error && err.name === "TimeoutError"
         ? "timeout"
         : "network";
-    log.warn("[pond arena:api]", reason, url, message);
+    log.warn("[apostrophi arena:api]", reason, url, message);
     return { ok: false, status: 0, reason };
   }
 
@@ -65,7 +69,7 @@ async function fetchJson<T>(
     const waitMs = Number.isFinite(retryAfter)
       ? Math.max(1_000, retryAfter * 1_000)
       : 1_000;
-    log.info("[pond arena:api] 429; retrying after", waitMs, url);
+    log.info("[apostrophi arena:api] 429; retrying after", waitMs, url);
     await delay(waitMs);
     return fetchJson(url, schema, attempt + 1);
   }
@@ -79,13 +83,13 @@ async function fetchJson<T>(
     return { ok: false, status: res.status, reason: "unauthorized" };
   }
   if (!res.ok) {
-    log.warn("[pond arena:api] non-ok", res.status, url);
+    log.warn("[apostrophi arena:api] non-ok", res.status, url);
     return { ok: false, status: res.status, reason: "network" };
   }
   try {
     return { ok: true, value: schema.parse(await res.json()) };
   } catch (err) {
-    log.warn("[pond arena:api] bad json", url, err);
+    log.warn("[apostrophi arena:api] bad json", url, err);
     return { ok: false, status: res.status, reason: "network" };
   }
 }

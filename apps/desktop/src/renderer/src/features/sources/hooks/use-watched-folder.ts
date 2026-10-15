@@ -43,7 +43,7 @@ export function useWatchedFolder() {
     queryKey: ["watched-folder"],
     queryFn: async () =>
       WatchedFolderSchema.parse(
-        await window.pond.query("autoImport.status", {}),
+        await window.apostrophi.query("autoImport.status", {}),
       ),
     staleTime: 0,
     refetchOnWindowFocus: true,

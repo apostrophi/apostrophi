@@ -1,4 +1,4 @@
-import type { Save, SaveFile } from "@pond/schema/db";
+import type { Save, SaveFile } from "@apostrophi/schema/db";
 import { pickCardFile } from "@shared/save-file-names";
 import { encode } from "blurhash";
 import sharp from "sharp";

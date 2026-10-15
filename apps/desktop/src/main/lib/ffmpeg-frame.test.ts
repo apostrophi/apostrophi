@@ -48,7 +48,7 @@ describe("video frame sampling", () => {
   it("cleans every extracted frame and fails closed", async () => {
     const ffmpeg = binariesAvailable().ffmpeg;
     if (!ffmpeg) throw new Error("Expected the bundled ffmpeg");
-    const root = await mkdtemp(join(tmpdir(), "pond-frame-fixture-"));
+    const root = await mkdtemp(join(tmpdir(), "apostrophi-frame-fixture-"));
     try {
       const video = join(root, "neutral.mp4");
       await run(ffmpeg, [
@@ -74,7 +74,7 @@ describe("video frame sampling", () => {
 
       const beforeFailure = new Set(
         (await readdir(tmpdir())).filter((name) =>
-          name.startsWith("pond-frames-"),
+          name.startsWith("apostrophi-frames-"),
         ),
       );
       const audio = join(root, "audio-only.m4a");
@@ -91,7 +91,7 @@ describe("video frame sampling", () => {
       await expect(extractSampledFrames(audio, 3)).resolves.toBe(null);
       const afterFailure = new Set(
         (await readdir(tmpdir())).filter((name) =>
-          name.startsWith("pond-frames-"),
+          name.startsWith("apostrophi-frames-"),
         ),
       );
       expect(afterFailure).toEqual(beforeFailure);

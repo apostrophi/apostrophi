@@ -27,7 +27,7 @@ function checkLibrary(path: string): OpenProblem | null {
     if (readLibraryId(path) === null) return UNUSABLE_LIBRARY;
   } catch (cause) {
     if (cause instanceof LibraryMetadataError) return metadataProblem(cause);
-    log.warn("[pond library-recovery] Library check failed", cause);
+    log.warn("[apostrophi library-recovery] Library check failed", cause);
     return UNUSABLE_LIBRARY;
   }
   return checkPointerSafety(path).ok ? null : UNUSABLE_LIBRARY;
@@ -53,7 +53,7 @@ export async function recoverUnreadableLibrary(
       return;
     }
     const picked = await dialog.showOpenDialog({
-      title: "Open an Existing Pond",
+      title: "Open an Existing Apostrophi",
       buttonLabel: "Open",
       properties: ["openFile", "openDirectory"],
     });

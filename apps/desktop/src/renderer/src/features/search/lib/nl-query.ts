@@ -1,4 +1,8 @@
-import type { Clause, Group, Predicate } from "@pond/schema/filters/types";
+import type {
+  Clause,
+  Group,
+  Predicate,
+} from "@apostrophi/schema/filters/types";
 import { extractDates } from "@/features/search/lib/nl-chrono";
 import {
   accumulate,

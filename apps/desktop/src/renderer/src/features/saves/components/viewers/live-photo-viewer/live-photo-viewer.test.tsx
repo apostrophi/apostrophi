@@ -42,7 +42,7 @@ it.each([true, false])(
       await act(async () =>
         root.render(
           <LivePhotoViewer
-            url="pond://fixture/photo.livp"
+            url="apostrophi://fixture/photo.livp"
             onUnavailable={() => {
               throw new Error("Fixture unavailable");
             }}

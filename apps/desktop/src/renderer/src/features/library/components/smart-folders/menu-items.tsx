@@ -19,9 +19,9 @@ import {
   IconTrash,
   IconVersions,
   IconViewPlusSign,
-} from "@pond/icons";
-import type { SavedView } from "@pond/schema/db";
-import { Chip, type MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { SavedView } from "@apostrophi/schema/db";
+import { Chip, type MenuItemSpec } from "@apostrophi/ui";
 import { librarySavedViewLink } from "@shared/library-links";
 import { filterToolbar } from "@/features/library/components/filter-menu/toolbar-state";
 import {
@@ -118,7 +118,7 @@ export async function saveIdsForView(
   view: SavedView,
   views: SavedView[],
 ): Promise<string[]> {
-  const result = await window.pond.query("saves.queryIds", {
+  const result = await window.apostrophi.query("saves.queryIds", {
     query: combineQueries([inheritedQueryFor(view, views), view.query]),
   });
   return result.ids;
@@ -292,9 +292,9 @@ export function entryItems({
       label: "Copy Link",
       icon: <IconLink2 />,
       onClick: () => {
-        void window.pond
+        void window.apostrophi
           .query("clipboard.writeText", {
-            text: librarySavedViewLink(window.pond.libraryId(), view.id),
+            text: librarySavedViewLink(window.apostrophi.libraryId(), view.id),
           })
           .then(() => notify({ id: "saved-view-link", title: "Link copied" }));
       },

@@ -20,7 +20,7 @@ it("rates every explicit ID while updating only loaded cards optimistically", as
   ];
   const pending = Promise.withResolvers<{ changed: number }>();
   const query = vi.fn(() => pending.promise);
-  vi.stubGlobal("window", { pond: { query } });
+  vi.stubGlobal("window", { apostrophi: { query } });
   const operation = rateSaves([...ids, "a"], 4);
   expect(pool.get("a")?.rating).toBe(4);
   expect(pool.snapshot()).toHaveLength(1);
@@ -34,7 +34,7 @@ it("rates every explicit ID while updating only loaded cards optimistically", as
 it("rolls back and rejects failures so rate-and-advance cannot move ahead", async () => {
   seed("a", 3);
   vi.stubGlobal("window", {
-    pond: {
+    apostrophi: {
       query: async () => {
         throw new Error("Disk unavailable");
       },
@@ -46,7 +46,7 @@ it("rolls back and rejects failures so rate-and-advance cannot move ahead", asyn
 it("clears ratings with zero and rejects invalid values before IPC", async () => {
   seed("a", 3);
   const query = vi.fn(async () => ({ changed: 1 }));
-  vi.stubGlobal("window", { pond: { query } });
+  vi.stubGlobal("window", { apostrophi: { query } });
   await rateSaves(["a"], 0);
   expect(pool.get("a")?.rating).toBeNull();
   await expect(rateSaves(["a"], 6)).rejects.toThrow("between 0 and 5");

@@ -1,7 +1,7 @@
-import { IconCheck, IconXmark } from "@pond/icons";
-import type { Source } from "@pond/schema/db";
+import { IconCheck, IconXmark } from "@apostrophi/icons";
+import type { Source } from "@apostrophi/schema/db";
 import { BrandTile } from "@/features/sources/components/sync-monitor-source-tile";
-import pondIcon from "@/generated/app-icon-previews/aqua.png";
+import apostrophiIcon from "@/generated/app-icon-previews/aqua.png";
 import styles from "./styles.module.css";
 
 export type ConnectionState = "idle" | "waiting" | "connected" | "failed";
@@ -17,9 +17,9 @@ export function ConnectionVisual({ source, state }: ConnectionVisualProps) {
   const ended = state === "connected" || state === "failed";
   return (
     <div className={styles.visual} data-state={state} aria-hidden="true">
-      <span className={styles.step} data-side="pond">
+      <span className={styles.step} data-side="apostrophi">
         <span className={styles.icon}>
-          <img src={pondIcon} alt="" />
+          <img src={apostrophiIcon} alt="" />
         </span>
       </span>
       <span className={styles.dots}>

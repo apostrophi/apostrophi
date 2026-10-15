@@ -1,13 +1,13 @@
 import { sendMessage } from "@/utils/messaging";
 
 const BOOKMARKS_SELECTOR = 'a[href="/i/bookmarks"], a[href="/i/bookmarks/all"]';
-const RELABELED_ATTR = "data-pond-relabeled";
-const NEW_LABEL = "Open Pond";
+const RELABELED_ATTR = "data-apostrophi-relabeled";
+const NEW_LABEL = "Open Apostrophi";
 
 /** X re-applies its own sidebar text on navigation, so we re-assert our label on DOM mutations. */
-export function mountPondSidebarLink() {
-  function openPond() {
-    void sendMessage("openPond", undefined).catch(() => {});
+export function mountApostrophiSidebarLink() {
+  function openApostrophi() {
+    void sendMessage("openApostrophi", undefined).catch(() => {});
   }
 
   function relabel(anchor: HTMLAnchorElement) {
@@ -31,7 +31,7 @@ export function mountPondSidebarLink() {
       (event) => {
         event.preventDefault();
         event.stopImmediatePropagation();
-        openPond();
+        openApostrophi();
       },
       { capture: true },
     );

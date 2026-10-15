@@ -3,7 +3,7 @@ import { syncMonitor } from "@/features/sources/state/sync-monitor";
 
 export function SyncStatusBridge() {
   useEffect(() => {
-    return window.pond.onSyncStatus((update) => {
+    return window.apostrophi.onSyncStatus((update) => {
       syncMonitor.ingest(update);
     });
   }, []);

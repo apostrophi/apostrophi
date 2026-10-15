@@ -59,7 +59,7 @@ export const storageSection = defineSection("storage", {
           control: "select",
           key: "action",
           title: "When the Limit Is Reached",
-          description: "What Pond does at the cap.",
+          description: "What Apostrophi does at the cap.",
           visible: (v) => guardsOn(v) && v.maxLibraryGb !== null,
           options: [
             { value: "warn", label: "Warn" },

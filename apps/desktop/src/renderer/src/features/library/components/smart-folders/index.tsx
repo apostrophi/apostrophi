@@ -1,7 +1,7 @@
-import { IconPlus } from "@pond/icons";
-import type { SavedView } from "@pond/schema/db";
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
-import { Menu, Sidebar } from "@pond/ui";
+import { IconPlus } from "@apostrophi/icons";
+import type { SavedView } from "@apostrophi/schema/db";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
+import { Menu, Sidebar } from "@apostrophi/ui";
 import { useSelector } from "@tanstack/react-store";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -30,7 +30,7 @@ import { newRule } from "./rule-editor";
 import type { EditorRequest } from "./types";
 
 async function countMatches(query: Query): Promise<number> {
-  const result = await window.pond.query("saves.queryCount", { query });
+  const result = await window.apostrophi.query("saves.queryCount", { query });
   return result.count;
 }
 

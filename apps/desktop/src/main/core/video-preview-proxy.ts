@@ -3,7 +3,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdir, rename, rm, stat } from "node:fs/promises";
 import { join } from "node:path";
 import log from "electron-log/main.js";
-import { resolvePondSavePath } from "../ipc/helpers";
+import { resolveApostrophiSavePath } from "../ipc/helpers";
 import { libraryRoot } from "../paths";
 import { binariesAvailable } from "./refresh/binaries";
 
@@ -55,13 +55,14 @@ export function buildVideoPreviewArguments(
 export async function ensureVideoPreviewProxy(
   src: string,
 ): Promise<{ ok: true; url: string } | { ok: false; error: string }> {
-  const resolved = resolvePondSavePath(src);
+  const resolved = resolveApostrophiSavePath(src);
   if (!resolved) return { ok: false, error: "The video file is unavailable." };
   const ffmpeg = binariesAvailable().ffmpeg;
   if (!ffmpeg) {
     return {
       ok: false,
-      error: "FFmpeg is unavailable, so Pond could not prepare this video.",
+      error:
+        "FFmpeg is unavailable, so Apostrophi could not prepare this video.",
     };
   }
 
@@ -82,7 +83,7 @@ export async function ensureVideoPreviewProxy(
 
   const cached = await stat(destination).catch(() => null);
   if (cached?.isFile() && cached.size > 0) {
-    return { ok: true, url: `pond://${VIDEO_CACHE_HOST}/${filename}` };
+    return { ok: true, url: `apostrophi://${VIDEO_CACHE_HOST}/${filename}` };
   }
 
   let pending = inFlight.get(key);
@@ -99,16 +100,16 @@ export async function ensureVideoPreviewProxy(
     await pending;
   } catch (error) {
     log.warn(
-      "[pond video-preview] proxy generation failed",
+      "[apostrophi video-preview] proxy generation failed",
       resolved.path,
       error,
     );
     return {
       ok: false,
-      error: "Pond could not prepare a compatible video preview.",
+      error: "Apostrophi could not prepare a compatible video preview.",
     };
   }
-  return { ok: true, url: `pond://${VIDEO_CACHE_HOST}/${filename}` };
+  return { ok: true, url: `apostrophi://${VIDEO_CACHE_HOST}/${filename}` };
 }
 
 async function createVideoPreviewProxy(input: {

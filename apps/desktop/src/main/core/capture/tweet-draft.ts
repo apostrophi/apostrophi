@@ -4,8 +4,8 @@ import type {
   CaptureLinkCard,
   CaptureMedia,
   CaptureMetrics,
-} from "@pond/schema/raw";
-import { QUOTE_DEPTH_CAP } from "@pond/schema/raw";
+} from "@apostrophi/schema/raw";
+import { QUOTE_DEPTH_CAP } from "@apostrophi/schema/raw";
 import { z } from "zod";
 import { pickTitle } from "../refresh/harvest/lib/title";
 

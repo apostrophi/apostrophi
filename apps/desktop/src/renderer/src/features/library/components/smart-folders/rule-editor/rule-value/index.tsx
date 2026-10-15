@@ -1,5 +1,8 @@
-import { FIELD_DESCRIPTORS } from "@pond/schema/filters/fields";
-import type { Predicate, PredicateValue } from "@pond/schema/filters/types";
+import { FIELD_DESCRIPTORS } from "@apostrophi/schema/filters/fields";
+import type {
+  Predicate,
+  PredicateValue,
+} from "@apostrophi/schema/filters/types";
 import { FieldInput } from "../field-input";
 import {
   choicesFor,

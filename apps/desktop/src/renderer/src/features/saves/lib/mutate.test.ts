@@ -24,7 +24,7 @@ afterEach(() => {
 it("shows an edit immediately and sends its previous value for undo", async () => {
   const pending = Promise.withResolvers<void>();
   const tx = vi.fn(() => pending.promise);
-  vi.stubGlobal("window", { pond: { tx } });
+  vi.stubGlobal("window", { apostrophi: { tx } });
   const edit = mutateSave("saved", { title: "After" });
   expect(pool.get("saved")?.title).toBe("After");
   expect(tx).toHaveBeenCalledWith(
@@ -42,7 +42,7 @@ it("shows an edit immediately and sends its previous value for undo", async () =
 it("restores tag membership when persistence rejects the edit", async () => {
   const pending = Promise.withResolvers<void>();
   const query = vi.fn(() => pending.promise);
-  vi.stubGlobal("window", { pond: { query } });
+  vi.stubGlobal("window", { apostrophi: { query } });
   const edit = setSaveTags("saved", ["new"]);
   expect(pool.get("saved")?.tags).toEqual(["new"]);
   pending.reject(new Error("Library unavailable"));
@@ -60,7 +60,7 @@ it("retains cold IDs for trash, restore, and purge beyond the loaded page", asyn
     ...Array.from({ length: 300 }, (_, index) => `cold-${index}`),
   ];
   const query = vi.fn(async () => ({ changed: ids.length }));
-  vi.stubGlobal("window", { pond: { query } });
+  vi.stubGlobal("window", { apostrophi: { query } });
   const { trashSaves, untrashSaves, purgeSaves } = await import("./mutate");
   expect(await trashSaves(ids)).toBe(ids.length);
   expect(await untrashSaves(ids)).toBe(ids.length);
@@ -77,7 +77,7 @@ it("retains cold IDs for trash, restore, and purge beyond the loaded page", asyn
 it("clears loaded tags optimistically for a replace operation", async () => {
   const pending = Promise.withResolvers<{ changed: number }>();
   const query = vi.fn(() => pending.promise);
-  vi.stubGlobal("window", { pond: { query } });
+  vi.stubGlobal("window", { apostrophi: { query } });
   const edit = bulkMutation(["saved"], {
     kind: "tags",
     tags: [],

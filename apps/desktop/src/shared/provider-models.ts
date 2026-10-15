@@ -1,4 +1,4 @@
-import type { AgentReasoning } from "@pond/schema";
+import type { AgentReasoning } from "@apostrophi/schema";
 import { z } from "zod";
 import type { OkFailure, OkSuccess } from "./query-contracts-shared";
 

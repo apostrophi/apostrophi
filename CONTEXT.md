@@ -1,6 +1,6 @@
-# Pond
+# Apostrophi
 
-A local-first archive of things you saved on the web. Pond runs on your Mac. The browser extension talks to that app. There is no Pond cloud.
+A local-first archive of things you saved on the web. Apostrophi runs on your Mac. The browser extension talks to that app. There is no Apostrophi cloud.
 
 ## Language
 
@@ -8,7 +8,7 @@ A local-first archive of things you saved on the web. Pond runs on your Mac. The
 
 **Library**:
 The on-disk archive of everything you have saved, plus its index. One Library at a time.
-_Avoid_: pond (as a store), vault, collection, database
+_Avoid_: apostrophi (as a store), vault, collection, database
 
 **Save**:
 One item in the Library: a URL, its Capture, files, tags, and ingest state.
@@ -41,16 +41,16 @@ A named set of filters with a saved layout and sort order.
 ### Sources
 
 **Source**:
-A platform Pond can ingest from (Twitter, Instagram, the open web, and the rest of the descriptor list).
+A platform Apostrophi can ingest from (Twitter, Instagram, the open web, and the rest of the descriptor list).
 _Avoid_: extractor, harvester, adapter, provider, integration (as the platform itself)
 
 **Account**:
 A signed-in session on a Source, used to harvest what that session can see.
-_Avoid_: pond (legacy), profile, login, identity (as the session)
+_Avoid_: apostrophi (legacy), profile, login, identity (as the session)
 
 **Watch**:
-A remote list or feed on a Source that Pond keeps importing.
-_Avoid_: subscription, follow, pond
+A remote list or feed on a Source that Apostrophi keeps importing.
+_Avoid_: subscription, follow, apostrophi
 
 **Harvest**:
 Turning a URL into a Capture, via a page or a Source API, through your session.

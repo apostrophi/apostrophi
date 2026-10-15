@@ -6,7 +6,7 @@ import styles from "./theme/styles.module.css";
 
 export function createComposerExtension(markdown: string, editable: boolean) {
   return defineExtension({
-    name: "@pond/agent-composer",
+    name: "@apostrophi/agent-composer",
     namespace: "agent-composer",
     nodes: [SaveMentionNode],
     dependencies: [markdownEditorExtension, composerMdastExtension],
@@ -42,7 +42,7 @@ export function createComposerExtension(markdown: string, editable: boolean) {
     },
     $initialEditorState: () => $convertFromMarkdownString(markdown),
     onError: (error: Error) => {
-      console.error("[pond composer]", error);
+      console.error("[apostrophi composer]", error);
     },
   });
 }

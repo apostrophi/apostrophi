@@ -26,7 +26,7 @@ function noteSave(partial: Partial<Save> = {}): Save {
       id: "note",
       source: "local",
       sourceId: "note",
-      url: "pond:local/note",
+      url: "apostrophi:local/note",
       title: null,
       description: null,
       mediaType: "text",
@@ -71,7 +71,7 @@ describe("text viewer", () => {
     });
     tx.mockClear();
     pool.clear();
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       tx,
       query: vi.fn(async () => ({ ok: true })),
       openExternal: vi.fn(async () => undefined),
@@ -133,7 +133,7 @@ describe("text viewer", () => {
     const editor = editorFromHost(host);
     await act(async () => {
       editor.update(() => {
-        const text = $createTextNode("Hello pond");
+        const text = $createTextNode("Hello apostrophi");
         const paragraph = $createParagraphNode();
         paragraph.append(text);
         $getRoot().clear();
@@ -146,7 +146,7 @@ describe("text viewer", () => {
     expect(tx).toHaveBeenCalledWith(
       expect.objectContaining({
         id: "note",
-        patch: { description: "Hello pond" },
+        patch: { description: "Hello apostrophi" },
         meta: { actor: "user", actorReason: "user:edit-description" },
       }),
     );
@@ -268,7 +268,7 @@ describe("text viewer", () => {
   });
 
   it("shows the linked URL when the selection is a link", async () => {
-    const save = noteSave({ description: "[Hello](https://pond.app)" });
+    const save = noteSave({ description: "[Hello](https://apostrophi.app)" });
     pool.upsert(save);
     await act(async () => root.render(<TextViewer save={save} />));
     const editor = editorFromHost(host);
@@ -281,7 +281,7 @@ describe("text viewer", () => {
     const url = document.querySelector<HTMLInputElement>(
       'input[placeholder="Enter link URL"]',
     );
-    expect(url?.value).toBe("https://pond.app");
+    expect(url?.value).toBe("https://apostrophi.app");
     expect(
       [...document.querySelectorAll("button")].map((button) =>
         button.getAttribute("aria-label"),

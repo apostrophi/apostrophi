@@ -1,4 +1,4 @@
-import type { TweetCover } from "@pond/schema/db";
+import type { TweetCover } from "@apostrophi/schema/db";
 import {
   classifyLibraryFile,
   requiresGeneratedImagePreview,
@@ -19,7 +19,7 @@ import {
   textCoverVersionFromRawJson,
 } from "@shared/text-card";
 import { hasArchive, isArchiveFile } from "@/features/saves/lib/media/archive";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import {
   arenaBlockClass,
   isTextOnlyAsideFromCover,
@@ -82,11 +82,11 @@ export function buildMediaUnits(
     const poster = posters[0] ?? images[0];
     const unit: MediaUnit = {
       key: video.path,
-      url: buildPondUrl(save.id, video),
+      url: buildApostrophiUrl(save.id, video),
       isVideo: true,
     };
     if (poster) {
-      unit.posterUrl = buildPondUrl(save.id, poster);
+      unit.posterUrl = buildApostrophiUrl(save.id, poster);
       unit.posterKey = poster.path;
     }
     return [unit];
@@ -99,11 +99,11 @@ export function buildMediaUnits(
       const poster = posters[videoSeen] ?? posters[0];
       const unit: MediaUnit = {
         key: f.path,
-        url: buildPondUrl(save.id, f),
+        url: buildApostrophiUrl(save.id, f),
         isVideo: true,
       };
       if (poster) {
-        unit.posterUrl = buildPondUrl(save.id, poster);
+        unit.posterUrl = buildApostrophiUrl(save.id, poster);
         unit.posterKey = poster.path;
       }
       units.push(unit);
@@ -111,7 +111,7 @@ export function buildMediaUnits(
     } else if (isImageFile(f)) {
       const unit: MediaUnit = {
         key: f.path,
-        url: buildPondUrl(save.id, f),
+        url: buildApostrophiUrl(save.id, f),
         isVideo: false,
       };
       if (requiresGeneratedImagePreview(f.path)) {
@@ -127,7 +127,7 @@ export function buildMediaUnits(
     return [
       {
         key: screenshot.path,
-        url: buildPondUrl(save.id, screenshot),
+        url: buildApostrophiUrl(save.id, screenshot),
         isVideo: false,
       },
     ];
@@ -145,7 +145,7 @@ export function pickPrimaryUnit(
   if (screenshot && mode === "screenshot") {
     return {
       key: screenshot.path,
-      url: buildPondUrl(save.id, screenshot),
+      url: buildApostrophiUrl(save.id, screenshot),
       isVideo: false,
     };
   }
@@ -166,7 +166,7 @@ export function pickCardUnit(
     if (screenshot) {
       return {
         key: screenshot.path,
-        url: buildPondUrl(save.id, screenshot),
+        url: buildApostrophiUrl(save.id, screenshot),
         isVideo: false,
       };
     }
@@ -176,7 +176,7 @@ export function pickCardUnit(
   if (thumbnail) {
     const unit: MediaUnit = {
       key: thumbnail.path,
-      url: buildPondUrl(save.id, thumbnail),
+      url: buildApostrophiUrl(save.id, thumbnail),
       isVideo: false,
     };
     if (requiresGeneratedImagePreview(thumbnail.path)) {
@@ -201,7 +201,7 @@ export function pickCardUnit(
   return previewable
     ? {
         key: previewable.path,
-        url: buildPondUrl(save.id, previewable),
+        url: buildApostrophiUrl(save.id, previewable),
         isVideo: false,
         requiresGeneratedPreview: true,
       }

@@ -12,10 +12,10 @@ const require = createRequire(resolve(appRoot, "package.json"));
 
 async function main() {
   const electronPath = require("electron");
-  console.log(`[pond] electron binary ok (${electronPath})`);
+  console.log(`[apostrophi] electron binary ok (${electronPath})`);
 }
 
 main().catch((err) => {
-  console.error("[pond] electron binary install failed:", err);
+  console.error("[apostrophi] electron binary install failed:", err);
   process.exitCode = 1;
 });

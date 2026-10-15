@@ -3,17 +3,17 @@ import {
   DEFAULT_SOURCE_SYNC_PREFS,
   type Source,
   type SourceSyncPrefs,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { session } from "electron";
 import log from "electron-log/main.js";
 import { ulid } from "ulid";
 import { getPrefs, setPrefs } from "../prefs";
 
-export const LEGACY_PARTITION = "persist:pond-scrapers";
+export const LEGACY_PARTITION = "persist:apostrophi-scrapers";
 
 /** Each connected account owns an isolated Electron session partition so two accounts on the same platform never clobber each other's cookies. */
 export function partitionForAccount(accountId: string): string {
-  return `persist:pond-acct-${accountId}`;
+  return `persist:apostrophi-acct-${accountId}`;
 }
 
 export async function listAccounts(): Promise<ConnectedAccount[]> {
@@ -67,7 +67,7 @@ export async function createAccount(args: {
   };
   await writeAccounts((accounts) => ({ ...accounts, [account.id]: account }));
   log.info(
-    `[pond accounts] created ${account.source} account`,
+    `[apostrophi accounts] created ${account.source} account`,
     account.id,
     account.handle ?? "(handle unknown)",
   );
@@ -141,7 +141,7 @@ export async function removeAccount(accountId: string): Promise<void> {
       .fromPartition(partitionForAccount(accountId))
       .clearStorageData();
   } catch (err) {
-    log.warn("[pond accounts] partition wipe failed", accountId, err);
+    log.warn("[apostrophi accounts] partition wipe failed", accountId, err);
   }
 }
 

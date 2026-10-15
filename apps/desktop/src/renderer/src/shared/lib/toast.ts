@@ -1,4 +1,4 @@
-import { Toast } from "@pond/ui";
+import { Toast } from "@apostrophi/ui";
 
 export const TOAST_TIMEOUT_MS = 2500;
 
@@ -51,7 +51,7 @@ export function notify(options: NotifyOptions): string {
   const id = `${options.id}:${toastSequence}`;
   toastManager.add(toastOptions({ ...options, id }));
   window.dispatchEvent(
-    new CustomEvent("pond:notification", {
+    new CustomEvent("apostrophi:notification", {
       detail: {
         title: options.title,
         description: options.description,

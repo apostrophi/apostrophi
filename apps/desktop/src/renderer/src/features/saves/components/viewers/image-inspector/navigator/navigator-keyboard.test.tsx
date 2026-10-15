@@ -14,7 +14,7 @@ it("pans with arrows, clamps to the image, and centers with keyboard activation"
     const [pose, setPose] = useState(observed);
     return (
       <Navigator
-        src="pond://fixture/image"
+        src="apostrophi://fixture/image"
         pose={pose}
         stage={{ width: 1000, height: 500 }}
         bounds={{ width: 1000, height: 500 }}

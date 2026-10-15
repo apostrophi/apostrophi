@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { isValidElement } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import "@/app/effects/save-library-bridge";
@@ -98,7 +98,7 @@ afterEach(async () => {
   selection.clear();
   pool.clear();
   closeConversionDialog();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => [],
   });
   await folders.refresh();
@@ -161,7 +161,7 @@ describe("buildSaveMenu", () => {
       "Copy",
       "Copy File Path",
       "Copy as Base64",
-      "Copy Pond Link",
+      "Copy Apostrophi Link",
       "Copy URL",
     ]);
     const copyIcons = visibleLeafItems(detailCopyItems).map((item) =>
@@ -358,7 +358,7 @@ describe("buildSaveMenu", () => {
       "Export Converted Files",
       "Export as WebP",
       "Export Eagle Package",
-      "Export Pond Package",
+      "Export Apostrophi Package",
       "Export to CSV",
     ]);
     expect(visibleLabels(sectionItems(items, "More") ?? [])).toEqual([
@@ -478,7 +478,7 @@ describe("buildSaveMenu", () => {
   it("offers removal only when a custom thumbnail exists", () => {
     const save = fileSave({
       source: "local",
-      url: "pond:local/file-save",
+      url: "apostrophi:local/file-save",
       files: [
         { kind: "file", path: "asset.zip", sha256: "a", size: 1 },
         {
@@ -504,7 +504,7 @@ describe("buildSaveMenu", () => {
       id: "thumbnail-only",
       source: "local",
       sourceId: "thumbnail-only",
-      url: "pond:local/thumbnail-only",
+      url: "apostrophi:local/thumbnail-only",
       title: "Thumbnail",
       mediaType: "link",
       files: [
@@ -552,7 +552,7 @@ describe("buildSaveMenu", () => {
       sortOrder: 0,
       createdAt: new Date(),
     });
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string) => {
         if (name === "folders.list")
           return [row("Refs", null), row("Shots", "Refs"), row("Inbox", null)];
@@ -599,7 +599,7 @@ describe("buildSaveMenu", () => {
   });
 
   it("puts All ahead of folder names under Navigate to Folder", async () => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string) => {
         if (name === "folders.list")
           return [
@@ -714,7 +714,7 @@ describe("buildViewerMenu", () => {
 
   it("converts the WebP file selected in the viewer", () => {
     const query = vi.fn(async () => ({ id: "job" }));
-    vi.stubGlobal("pond", { query });
+    vi.stubGlobal("apostrophi", { query });
     const save = fileSave({
       mediaType: "image",
       files: [

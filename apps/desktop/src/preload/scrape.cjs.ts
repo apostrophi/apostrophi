@@ -4,13 +4,13 @@ import { webFrame } from "electron";
 
 const TWITTER_HOOK = `
   (() => {
-    if (globalThis.__pondBookmarksHookInstalled) return;
-    globalThis.__pondBookmarksHookInstalled = true;
-    globalThis.__pondBookmarksCaptures = [];
-    globalThis.__pondLikesCaptures = [];
+    if (globalThis.__apostrophiBookmarksHookInstalled) return;
+    globalThis.__apostrophiBookmarksHookInstalled = true;
+    globalThis.__apostrophiBookmarksCaptures = [];
+    globalThis.__apostrophiLikesCaptures = [];
     /** Capture the page's first Bookmarks/Likes request verbatim; X validates auth via bearer + csrf + per-request transaction id, so cloning its headers beats rebuilding them. */
-    globalThis.__pondBookmarksRequest = null;
-    globalThis.__pondLikesRequest = null;
+    globalThis.__apostrophiBookmarksRequest = null;
+    globalThis.__apostrophiLikesRequest = null;
 
     const twitterListOp = (u) => {
       try {
@@ -23,9 +23,9 @@ const TWITTER_HOOK = `
     };
 
     const requestKey = (op) =>
-      op === "Likes" ? "__pondLikesRequest" : "__pondBookmarksRequest";
+      op === "Likes" ? "__apostrophiLikesRequest" : "__apostrophiBookmarksRequest";
     const capturesKey = (op) =>
-      op === "Likes" ? "__pondLikesCaptures" : "__pondBookmarksCaptures";
+      op === "Likes" ? "__apostrophiLikesCaptures" : "__apostrophiBookmarksCaptures";
 
     const captureRequest = (op, url, method, headers) => {
       try {
@@ -57,13 +57,13 @@ const TWITTER_HOOK = `
       try {
         const op = twitterListOp(url);
         if (op) {
-          this.__pondTwitterListOp = op;
-          this.__pondMethod = method;
-          this.__pondUrl = url;
-          this.__pondHeaders = {};
+          this.__apostrophiTwitterListOp = op;
+          this.__apostrophiMethod = method;
+          this.__apostrophiUrl = url;
+          this.__apostrophiHeaders = {};
           this.addEventListener("load", () => {
             try {
-              captureRequest(op, url, method, this.__pondHeaders);
+              captureRequest(op, url, method, this.__apostrophiHeaders);
               pushCapture(op, url, this.responseText, this.status);
             } catch (e) {
               /* response body not readable; skip */
@@ -77,8 +77,8 @@ const TWITTER_HOOK = `
     };
     XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
       try {
-        if (this.__pondTwitterListOp && this.__pondHeaders) {
-          this.__pondHeaders[String(name).toLowerCase()] = String(value);
+        if (this.__apostrophiTwitterListOp && this.__apostrophiHeaders) {
+          this.__apostrophiHeaders[String(name).toLowerCase()] = String(value);
         }
       } catch (e) {
         /* ignore */
@@ -166,9 +166,9 @@ const TWITTER_HOOK = `
 
 const COSMOS_HOOK = `
   (() => {
-    if (globalThis.__pondCosmosHookInstalled) return;
-    globalThis.__pondCosmosHookInstalled = true;
-    globalThis.__pondCosmosCaptures = [];
+    if (globalThis.__apostrophiCosmosHookInstalled) return;
+    globalThis.__apostrophiCosmosHookInstalled = true;
+    globalThis.__apostrophiCosmosCaptures = [];
 
     const isCosmosGraphqlUrl = (u) => {
       try {
@@ -186,7 +186,7 @@ const COSMOS_HOOK = `
         if (isCosmosGraphqlUrl(url)) {
           this.addEventListener("load", () => {
             try {
-              globalThis.__pondCosmosCaptures.push({
+              globalThis.__apostrophiCosmosCaptures.push({
                 url: url,
                 body: this.responseText,
                 status: this.status,
@@ -218,7 +218,7 @@ const COSMOS_HOOK = `
               const clone = res.clone();
               clone.text().then((body) => {
                 try {
-                  globalThis.__pondCosmosCaptures.push({
+                  globalThis.__apostrophiCosmosCaptures.push({
                     url: url,
                     body: body,
                     status: res.status,
@@ -237,10 +237,10 @@ const COSMOS_HOOK = `
 
 const THREADS_HOOK = `
   (() => {
-    if (globalThis.__pondThreadsSavedHookInstalled) return;
-    globalThis.__pondThreadsSavedHookInstalled = true;
-    globalThis.__pondThreadsSavedCaptures = [];
-    globalThis.__pondThreadsSavedRequest = null;
+    if (globalThis.__apostrophiThreadsSavedHookInstalled) return;
+    globalThis.__apostrophiThreadsSavedHookInstalled = true;
+    globalThis.__apostrophiThreadsSavedCaptures = [];
+    globalThis.__apostrophiThreadsSavedRequest = null;
 
     const isGraphqlUrl = (u) => {
       try {
@@ -275,7 +275,7 @@ const THREADS_HOOK = `
     const captureRequest = (url, method, headers, body) => {
       try {
         const named = looksNamedSaved(url, body, headers);
-        const existing = globalThis.__pondThreadsSavedRequest;
+        const existing = globalThis.__apostrophiThreadsSavedRequest;
         if (existing) {
           if (!named) return;
           const existingNamed = looksNamedSaved(
@@ -287,7 +287,7 @@ const THREADS_HOOK = `
         } else if (!named && !onSavedPage()) {
           return;
         }
-        globalThis.__pondThreadsSavedRequest = {
+        globalThis.__apostrophiThreadsSavedRequest = {
           url: url,
           method: method || "POST",
           headers: headers || {},
@@ -304,10 +304,10 @@ const THREADS_HOOK = `
     XMLHttpRequest.prototype.open = function (method, url) {
       try {
         if (isGraphqlUrl(url)) {
-          this.__pondIsThreadsGraphql = true;
-          this.__pondMethod = method;
-          this.__pondUrl = url;
-          this.__pondHeaders = {};
+          this.__apostrophiIsThreadsGraphql = true;
+          this.__apostrophiMethod = method;
+          this.__apostrophiUrl = url;
+          this.__apostrophiHeaders = {};
         }
       } catch (e) {
         /* URL match threw; never block the request */
@@ -316,8 +316,8 @@ const THREADS_HOOK = `
     };
     XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
       try {
-        if (this.__pondIsThreadsGraphql && this.__pondHeaders) {
-          this.__pondHeaders[String(name).toLowerCase()] = String(value);
+        if (this.__apostrophiIsThreadsGraphql && this.__apostrophiHeaders) {
+          this.__apostrophiHeaders[String(name).toLowerCase()] = String(value);
         }
       } catch (e) {
         /* ignore */
@@ -326,18 +326,18 @@ const THREADS_HOOK = `
     };
     XMLHttpRequest.prototype.send = function (body) {
       try {
-        if (this.__pondIsThreadsGraphql) {
+        if (this.__apostrophiIsThreadsGraphql) {
           const bodyText = typeof body === "string" ? body : "";
           this.addEventListener("load", () => {
             try {
               captureRequest(
-                this.__pondUrl,
-                this.__pondMethod,
-                this.__pondHeaders,
+                this.__apostrophiUrl,
+                this.__apostrophiMethod,
+                this.__apostrophiHeaders,
                 bodyText,
               );
-              globalThis.__pondThreadsSavedCaptures.push({
-                url: this.__pondUrl,
+              globalThis.__apostrophiThreadsSavedCaptures.push({
+                url: this.__apostrophiUrl,
                 body: this.responseText,
                 status: this.status,
               });
@@ -439,7 +439,7 @@ const THREADS_HOOK = `
                   .text()
                   .then((body) => {
                     try {
-                      globalThis.__pondThreadsSavedCaptures.push({
+                      globalThis.__apostrophiThreadsSavedCaptures.push({
                         url: url,
                         body: body,
                         status: res.status,
@@ -466,9 +466,9 @@ const THREADS_HOOK = `
 
 const INSTAGRAM_HOOK = `
   (() => {
-    if (globalThis.__pondIgBloksHookInstalled) return;
-    globalThis.__pondIgBloksHookInstalled = true;
-    globalThis.__pondIgBloksCaptures = [];
+    if (globalThis.__apostrophiIgBloksHookInstalled) return;
+    globalThis.__apostrophiIgBloksHookInstalled = true;
+    globalThis.__apostrophiIgBloksCaptures = [];
 
     const isBloksUrl = (u) => {
       try {
@@ -480,7 +480,7 @@ const INSTAGRAM_HOOK = `
 
     const push = (text) => {
       try {
-        const buf = globalThis.__pondIgBloksCaptures;
+        const buf = globalThis.__apostrophiIgBloksCaptures;
         if (!Array.isArray(buf)) return;
         if (buf.length > 60) buf.shift();
         buf.push(text);
@@ -526,7 +526,7 @@ const INSTAGRAM_HOOK = `
         const raw = init && init.headers;
         if (raw && typeof raw.forEach === "function") raw.forEach((v, k) => { headers[k] = String(v); });
         else if (raw && typeof raw === "object") for (const k of Object.keys(raw)) headers[k] = String(raw[k]);
-        globalThis.__pondIgLikesRequest = { url: url, body: form, headers: headers };
+        globalThis.__apostrophiIgLikesRequest = { url: url, body: form, headers: headers };
       } catch (e) {
         /* template unreadable; the harvest reports what it managed to read */
       }
@@ -581,7 +581,11 @@ function installHook(name: string, source: string): void {
   webFrame
     .executeJavaScript(source)
     .catch((err) =>
-      console.error(`[pond preload] ${name} capture hook failed`, host, err),
+      console.error(
+        `[apostrophi preload] ${name} capture hook failed`,
+        host,
+        err,
+      ),
     );
 }
 

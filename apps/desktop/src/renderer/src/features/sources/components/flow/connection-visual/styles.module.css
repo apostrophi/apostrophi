@@ -103,7 +103,7 @@
       0 4px 14px color-mix(in oklab, var(--tone) 30%, transparent);
   }
 
-  & .step[data-side="pond"] {
+  & .step[data-side="apostrophi"] {
     transform: translateX(65.5px) scale(0.72);
   }
 

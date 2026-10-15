@@ -40,7 +40,7 @@ describe("folder context menu", () => {
     expect(menuLabelsWithoutIcons(buildFolderMenuItems(actions()))).toEqual([]);
   });
 
-  it("matches Eagle folder operations Pond supports", () => {
+  it("matches Eagle folder operations Apostrophi supports", () => {
     const menuLabels = labels(buildFolderMenuItems(actions()));
 
     expect(menuLabels).toEqual([
@@ -59,7 +59,7 @@ describe("folder context menu", () => {
       "Export Files",
       "Export to CSV",
       "Export Eagle Package",
-      "Export Pond Package",
+      "Export Apostrophi Package",
       "Add to Other Library",
       "Copy Folder Link",
       "Show Subfolder Content",

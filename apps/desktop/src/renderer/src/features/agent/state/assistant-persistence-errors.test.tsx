@@ -6,7 +6,7 @@ import { createAssistantHarness } from "./assistant.test-harness";
 
 it("keeps the current conversation visible until the next chat is ready", async () => {
   const next = Promise.withResolvers<AssistantMessage[]>();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: (name: string, args: { chatId?: string }) => {
       if (name !== "agent.messages") return Promise.resolve([]);
       if (args.chatId === "current")
@@ -69,7 +69,7 @@ it("keeps the current conversation visible until the next chat is ready", async 
 it("ignores old history that arrives after switching chats", async () => {
   const first = Promise.withResolvers<AssistantMessage[]>();
   const second = Promise.withResolvers<AssistantMessage[]>();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: (name: string, args: { chatId?: string }) =>
       name === "agent.messages"
         ? args.chatId === "first"
@@ -127,7 +127,7 @@ it("ignores old history that arrives after switching chats", async () => {
 });
 
 it("restores each chat's draft, visible attachments, and the unstarted composer", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => [],
     onAgentChunk: () => () => {},
   });
@@ -184,7 +184,7 @@ it("renames and deletes chats while preserving another chat's draft", async () =
     { id: "other", title: "Other" },
   ];
   let fail = true;
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (
       name: string,
       params?: { chatId?: string; title?: string },

@@ -1,8 +1,8 @@
 import {
   isLockedSidebarDestination,
   type SidebarDestination,
-} from "@pond/schema";
-import { Button, Checkbox, Dialog, Switch } from "@pond/ui";
+} from "@apostrophi/schema";
+import { Button, Checkbox, Dialog, Switch } from "@apostrophi/ui";
 import { useId } from "react";
 import {
   SIDEBAR_DESTINATION_GROUPS,

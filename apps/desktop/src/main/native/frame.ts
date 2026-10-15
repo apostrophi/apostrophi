@@ -1,5 +1,5 @@
-import type { JsonValue } from "@pond/schema/json";
-import type { NativeMessage } from "@pond/schema/native";
+import type { JsonValue } from "@apostrophi/schema/json";
+import type { NativeMessage } from "@apostrophi/schema/native";
 export const MAX_NATIVE_MSG = 8 * 1024 * 1024;
 
 export function encodeFrame(value: NativeMessage): Buffer {

@@ -9,8 +9,8 @@ import {
   deactivateFont,
 } from "./font-activation";
 
-it("installs a font into the Pond fonts directory and removes it", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-fonts-"));
+it("installs a font into the Apostrophi fonts directory and removes it", async () => {
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-fonts-"));
   const source = join(root, "SourceSerif.ttf");
   await writeFile(source, Buffer.from("font"));
   const fontsDir = join(root, "Fonts");
@@ -20,7 +20,7 @@ it("installs a font into the Pond fonts directory and removes it", async () => {
     fontsDir,
   });
   if (!activated.ok) throw new Error(activated.error);
-  expect(activated.path.startsWith(join(fontsDir, "Pond"))).toBe(true);
+  expect(activated.path.startsWith(join(fontsDir, "Apostrophi"))).toBe(true);
   expect(await readFile(activated.path, "utf8")).toBe("font");
   const deactivated = await deactivateFont({
     installedPath: activated.path,
@@ -63,8 +63,8 @@ it("backfills indexed activation from existing sidecars", () => {
   db.close();
 });
 
-it("refuses to delete a file outside the Pond fonts directory", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-fonts-"));
+it("refuses to delete a file outside the Apostrophi fonts directory", async () => {
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-fonts-"));
   const outside = join(root, "system.ttf");
   await writeFile(outside, "keep");
   const result = await deactivateFont({

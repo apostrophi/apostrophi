@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
@@ -21,7 +21,7 @@ afterEach(() => {
 });
 
 it("shows all setup hosts without detecting installs or expanding a disclosure", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.mcpSnippet") {

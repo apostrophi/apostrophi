@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import {
   accountMenuTarget,
   buildSourceActionMenu,

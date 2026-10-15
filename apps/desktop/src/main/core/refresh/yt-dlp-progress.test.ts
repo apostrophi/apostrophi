@@ -15,7 +15,7 @@ describe("yt-dlp progress", () => {
       updates.push(update),
     );
     report(
-      'POND_PROGRESS:{"status":"downloading","received":1024,"total":"NA","speed":null,"eta":-1,"index":2,"count":3,"url":"secret"}',
+      'APOSTROPHI_PROGRESS:{"status":"downloading","received":1024,"total":"NA","speed":null,"eta":-1,"index":2,"count":3,"url":"secret"}',
     );
     expect(updates).toHaveLength(1);
     expect(updates[0]?.transfer).toMatchObject({
@@ -26,15 +26,17 @@ describe("yt-dlp progress", () => {
       bytesPerSecond: undefined,
       etaSeconds: undefined,
     });
-    report('POND_PROGRESS:{"status":"finished","received":2048,"total":2048}');
+    report(
+      'APOSTROPHI_PROGRESS:{"status":"finished","received":2048,"total":2048}',
+    );
     expect(updates.at(-1)).toMatchObject({
       phase: "processing",
       transfer: { state: "completed", receivedBytes: 2048 },
     });
     expect(JSON.stringify(updates)).not.toContain("secret");
     report("[download] human output");
-    report('POND_PROGRESS:{"status":"other"}');
-    report("POND_PROGRESS:invalid");
+    report('APOSTROPHI_PROGRESS:{"status":"other"}');
+    report("APOSTROPHI_PROGRESS:invalid");
     expect(updates).toHaveLength(2);
   });
 
@@ -102,10 +104,10 @@ describe("yt-dlp progress", () => {
       updates.push(update),
     );
     report(
-      'POND_PROGRESS:{"status":"finished","id":"video-id","format":"video","received":100,"index":2,"count":3}',
+      'APOSTROPHI_PROGRESS:{"status":"finished","id":"video-id","format":"video","received":100,"index":2,"count":3}',
     );
     report(
-      'POND_PROGRESS:{"status":"downloading","id":"video-id","format":"audio","received":10,"index":2,"count":3}',
+      'APOSTROPHI_PROGRESS:{"status":"downloading","id":"video-id","format":"audio","received":10,"index":2,"count":3}',
     );
     expect(updates[0]?.transfer?.transferId).not.toBe(
       updates[1]?.transfer?.transferId,
@@ -121,7 +123,7 @@ describe("yt-dlp progress", () => {
       updates.push(update),
     );
     report(
-      'POND_PROGRESS:{"status":"downloading","received":100,"total":50,"index":3,"count":2,"speed":1e999,"eta":-1}',
+      'APOSTROPHI_PROGRESS:{"status":"downloading","received":100,"total":50,"index":3,"count":2,"speed":1e999,"eta":-1}',
     );
     expect(updates[0]?.transfer).toMatchObject({
       receivedBytes: 100,

@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import { useState } from "react";
 import { BrandTile } from "@/features/sources/components/sync-monitor-source-tile";
 import { getSourceDef } from "@/features/sources/lib/registry";

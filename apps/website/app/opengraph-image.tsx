@@ -1,7 +1,7 @@
-import { LOGO_PATH, LOGO_VIEW_BOX } from "@pond/ui/logo";
+import { LOGO_PATH, LOGO_VIEW_BOX } from "@apostrophi/ui/logo";
 import { ImageResponse } from "next/og";
 
-export const alt = "Pond";
+export const alt = "Apostrophi";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

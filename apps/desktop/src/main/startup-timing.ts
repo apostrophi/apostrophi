@@ -19,7 +19,7 @@ export function markStartup(mark: StartupMark): void {
 export function logStartupTiming(): void {
   if (logged) return;
   logged = true;
-  log.info("[pond startup] ms since process start", marks);
+  log.info("[apostrophi startup] ms since process start", marks);
 }
 
 const STALL_PROBE_MS = 100;
@@ -35,7 +35,9 @@ export function watchMainThreadStalls(): () => void {
     const stall = now - expected;
     expected = now + STALL_PROBE_MS;
     if (stall >= STALL_REPORT_MS && stall < STALL_IGNORE_MS) {
-      log.warn("[pond perf] main thread blocked", { ms: Math.round(stall) });
+      log.warn("[apostrophi perf] main thread blocked", {
+        ms: Math.round(stall),
+      });
     }
   }, STALL_PROBE_MS);
   timer.unref();

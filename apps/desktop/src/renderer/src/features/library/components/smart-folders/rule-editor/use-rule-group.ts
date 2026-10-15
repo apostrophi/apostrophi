@@ -1,4 +1,4 @@
-import type { Clause, Query } from "@pond/schema/filters/types";
+import type { Clause, Query } from "@apostrophi/schema/filters/types";
 import { useCallback } from "react";
 import { newRule } from "./query";
 

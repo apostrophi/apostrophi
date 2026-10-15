@@ -6,7 +6,7 @@ import { readConfig, writeConfig } from "./config";
 
 describe("CLI config", () => {
   it("writes scoped credentials with owner-only permissions", async () => {
-    const directory = await mkdtemp(join(tmpdir(), "pond-cli-"));
+    const directory = await mkdtemp(join(tmpdir(), "apostrophi-cli-"));
     const path = join(directory, "config.json");
     try {
       await writeConfig({ token: "secret" }, path);

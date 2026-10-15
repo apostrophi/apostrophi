@@ -27,7 +27,7 @@ describe("detached preview media lifecycle", () => {
     const { media, video, image } = setup();
     const target = {
       title: "Video",
-      url: "pond://save/movie.mp4",
+      url: "apostrophi://save/movie.mp4",
       mediaType: "video" as const,
       source: "original" as const,
     };
@@ -40,7 +40,7 @@ describe("detached preview media lifecycle", () => {
     expect(video.pause).not.toHaveBeenCalled();
     media.show({
       title: "Image",
-      url: "pond://save/image.png",
+      url: "apostrophi://save/image.png",
       mediaType: "image",
       source: "original",
     });
@@ -55,7 +55,7 @@ describe("detached preview media lifecycle", () => {
     const { media, video } = setup();
     media.show({
       title: "Video",
-      url: "pond://save/movie.mp4",
+      url: "apostrophi://save/movie.mp4",
       mediaType: "video",
       source: "original",
     });
@@ -68,7 +68,7 @@ describe("detached preview media lifecycle", () => {
     const { media, video, error, retry } = setup();
     media.show({
       title: "Video",
-      url: "pond://save/movie.mp4",
+      url: "apostrophi://save/movie.mp4",
       mediaType: "video",
       source: "original",
     });
@@ -86,12 +86,12 @@ describe("detached preview media lifecycle", () => {
   });
 
   it("uses generated display URLs without replacing original identity", () => {
-    const original = "pond://save/photo.heic";
+    const original = "apostrophi://save/photo.heic";
     expect(displayPreviewUrl({ url: original, source: "original" })).toBe(
       original,
     );
     expect(displayPreviewUrl({ url: original, source: "generated" })).toMatch(
-      /^pond:\/\/save\/photo\.heic\?preview=2048&tv=/,
+      /^apostrophi:\/\/save\/photo\.heic\?preview=2048&tv=/,
     );
 
     const { media, image } = setup();
@@ -101,7 +101,9 @@ describe("detached preview media lifecycle", () => {
       mediaType: "image",
       source: "generated",
     });
-    expect(image.src).toContain("pond://save/photo.heic?preview=2048&tv=");
+    expect(image.src).toContain(
+      "apostrophi://save/photo.heic?preview=2048&tv=",
+    );
     media.dispose();
   });
 
@@ -109,7 +111,7 @@ describe("detached preview media lifecycle", () => {
     const { error, image, media, retry } = setup();
     media.show({
       title: "RAW",
-      url: "pond://save/capture.dng",
+      url: "apostrophi://save/capture.dng",
       mediaType: "image",
       source: "generated",
     });
@@ -120,7 +122,9 @@ describe("detached preview media lifecycle", () => {
     retry.click();
     expect(error.hidden).toBe(true);
     expect(image.hidden).toBe(false);
-    expect(image.src).toContain("pond://save/capture.dng?preview=2048&tv=");
+    expect(image.src).toContain(
+      "apostrophi://save/capture.dng?preview=2048&tv=",
+    );
     media.dispose();
   });
 });

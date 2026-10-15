@@ -1,4 +1,4 @@
-import { type Op, saves, tasks } from "@pond/schema/db";
+import { type Op, saves, tasks } from "@apostrophi/schema/db";
 import {
   type ErrorInfo,
   type IngestOutcome,
@@ -7,7 +7,7 @@ import {
   type SaveIngestEvent,
   type SyncRunEvent,
   type WideEvent,
-} from "@pond/schema/events";
+} from "@apostrophi/schema/events";
 import { desc, eq, lt } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../db";
@@ -115,7 +115,7 @@ export async function commitSaveIngestEvent(
     });
     await commitEvent(event);
   } catch (err) {
-    log.warn("[pond events] save-ingest commit failed", err);
+    log.warn("[apostrophi events] save-ingest commit failed", err);
   }
 }
 
@@ -168,7 +168,7 @@ export async function commitEvent(ev: WideEvent): Promise<void> {
       }
     }
   } catch (err) {
-    log.warn("[pond events] commit failed", err);
+    log.warn("[apostrophi events] commit failed", err);
   }
   log.info(formatSummary(ev));
 }

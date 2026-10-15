@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@pond/ui";
+import { Button, Dialog } from "@apostrophi/ui";
 import {
   type ConversionCapability,
   type ConversionPreset,
@@ -28,7 +28,7 @@ const EXPORT_MODE_ITEMS: Array<{ value: ExportMode; label: string }> = [
   { value: "files", label: "Original Files" },
   { value: "converted", label: "Converted Files" },
   { value: "eagle-package", label: "Eagle Package" },
-  { value: "pond-package", label: "Pond Package" },
+  { value: "apostrophi-package", label: "Apostrophi Package" },
   { value: "csv", label: "CSV Metadata" },
 ];
 
@@ -95,8 +95,8 @@ export function ConversionDialog({
   useEffect(() => {
     if (!converting || conversionOptionsLoaded) return;
     void Promise.all([
-      window.pond.query("conversion.presets", {}),
-      window.pond.query("conversion.capabilities", {}),
+      window.apostrophi.query("conversion.presets", {}),
+      window.apostrophi.query("conversion.capabilities", {}),
     ])
       .then(([storedPresets, supportedFormats]) => {
         setPresets(storedPresets);
@@ -109,11 +109,11 @@ export function ConversionDialog({
   }, [converting, conversionOptionsLoaded, setError]);
   function save(next: ConversionPreset) {
     return run(async () => {
-      const saved = await window.pond.query("conversion.savePreset", {
+      const saved = await window.apostrophi.query("conversion.savePreset", {
         preset: next,
       });
       setPreset(saved);
-      setPresets(await window.pond.query("conversion.presets", {}));
+      setPresets(await window.apostrophi.query("conversion.presets", {}));
     }, "Couldn't save the preset. Try again.");
   }
   function promptPreset() {

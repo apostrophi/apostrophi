@@ -1,4 +1,4 @@
-import type { Source, WatchKind } from "@pond/schema/db";
+import type { Source, WatchKind } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { COSMOS_RESERVED_ROOTS } from "../pipeline/extractors/sources/cosmos";
 import { PINTEREST_RESERVED_ROOTS } from "../pipeline/extractors/sources/pinterest";
@@ -147,7 +147,7 @@ async function probeArena(
         throw new Error("Are.na could not be checked.");
       }
     } catch (err) {
-      log.warn("[pond watch:resolve] arena probe failed", slug, err);
+      log.warn("[apostrophi watch:resolve] arena probe failed", slug, err);
       throw err;
     }
   }

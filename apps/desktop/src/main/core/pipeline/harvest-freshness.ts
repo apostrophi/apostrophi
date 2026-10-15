@@ -1,4 +1,4 @@
-import type { Capture } from "@pond/schema/raw";
+import type { Capture } from "@apostrophi/schema/raw";
 
 const HARVEST_FRESH_MS = 24 * 60 * 60 * 1000;
 

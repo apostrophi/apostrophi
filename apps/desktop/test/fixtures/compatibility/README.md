@@ -9,7 +9,7 @@ Each `manifest.json` uses this fixture-only shape:
 
 - `schemaVersion`: version of the descriptor shape, currently `1`
 - `id`: stable fixture identity
-- `kind`: external or Pond representation under test
+- `kind`: external or Apostrophi representation under test
 - `baseline`: minimal facts that identify the representation
 - `compatibilityAssertions`: behavior a future reader or migration must preserve
 
@@ -20,12 +20,12 @@ them.
 
 ## Baselines
 
-- `plaintext-pond-library`: current unencrypted Library layout and Save
+- `plaintext-apostrophi-library`: current unencrypted Library layout and Save
   `info.json` schema
-- `pond-package`: current directory-based `.pondpack` version 1 manifest
+- `apostrophi-package`: current directory-based `.apostrophipack` version 1 manifest
 - `eagle-library`: unpacked Eagle Library structure accepted by the importer
 - `locked-eagle-folders`: Eagle password markers and inherited exclusion
-- `deep-links`: Library-bound and unbound Pond Save links
+- `deep-links`: Library-bound and unbound Apostrophi Save links
 - `eaglepack`: Eagle 4.0.0 folder and custom-thumbnail transfer packages
 
 The Eaglepack samples contain generated media and audit-only metadata. The

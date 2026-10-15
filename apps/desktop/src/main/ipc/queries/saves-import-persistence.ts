@@ -3,7 +3,7 @@ import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, extname, join } from "node:path";
 import { promisify } from "node:util";
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import { app, BrowserWindow, dialog, nativeImage } from "electron";
 import mime from "mime-types";
@@ -30,7 +30,7 @@ import { readLibraryMedia } from "../../core/storage/library-media-storage";
 import { srtToVtt } from "../../core/subtitles";
 import { getDb } from "../../db";
 import { saveFile } from "../../paths";
-import { resolvePondSavePath } from "../helpers";
+import { resolveApostrophiSavePath } from "../helpers";
 import {
   NullableStringParam,
   type QueryHandlerMap,
@@ -68,7 +68,7 @@ async function readBundleIcon(path: string) {
       ? configured
       : `${configured}.icns`;
     const iconPath = join(path, "Contents/Resources", filename);
-    const scratch = await mkdtemp(join(tmpdir(), "pond-app-icon-"));
+    const scratch = await mkdtemp(join(tmpdir(), "apostrophi-app-icon-"));
     try {
       const pngPath = join(scratch, "icon.png");
       await run(
@@ -199,7 +199,7 @@ export const savesImportPersistenceQueries = {
       frameIndex: z.number().int().min(0),
     }),
     async (params): Promise<QueryResult<"saves.setGifThumbnail">> => {
-      const resolved = resolvePondSavePath(params.src);
+      const resolved = resolveApostrophiSavePath(params.src);
       if (
         !resolved ||
         resolved.saveId.toLowerCase() !== params.id.toLowerCase()
@@ -314,7 +314,7 @@ export const savesImportPersistenceQueries = {
         "manifest.json",
         JSON.stringify({
           version: "1.0",
-          generator: "Pond",
+          generator: "Apostrophi",
           animations: [{ id: "animation", loop: true, speed: 1 }],
         }),
       );

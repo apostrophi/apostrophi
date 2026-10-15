@@ -1,6 +1,12 @@
-import { IconChevronRight, IconDotsFill } from "@pond/icons";
-import type { SavedView } from "@pond/schema/db";
-import { Button, cssVars, Menu, type MenuItemSpec, Sidebar } from "@pond/ui";
+import { IconChevronRight, IconDotsFill } from "@apostrophi/icons";
+import type { SavedView } from "@apostrophi/schema/db";
+import {
+  Button,
+  cssVars,
+  Menu,
+  type MenuItemSpec,
+  Sidebar,
+} from "@apostrophi/ui";
 import { useId, useState } from "react";
 import {
   groupMoveChoices,
@@ -148,7 +154,7 @@ export function SmartFolderEntry({
               draggable
               onDragStart={(event) => {
                 event.dataTransfer.setData(
-                  "application/x-pond-saved-views",
+                  "application/x-apostrophi-saved-views",
                   (organization.selected.includes(view.id)
                     ? organization.selected
                     : [view.id]
@@ -160,7 +166,7 @@ export function SmartFolderEntry({
                 if (
                   isGroup &&
                   event.dataTransfer.types.includes(
-                    "application/x-pond-saved-views",
+                    "application/x-apostrophi-saved-views",
                   )
                 ) {
                   event.preventDefault();
@@ -171,7 +177,7 @@ export function SmartFolderEntry({
               onDrop={(event) => {
                 if (!isGroup) return;
                 const ids = event.dataTransfer
-                  .getData("application/x-pond-saved-views")
+                  .getData("application/x-apostrophi-saved-views")
                   .split("\n")
                   .filter(Boolean);
                 if (!ids.length) return;

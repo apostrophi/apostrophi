@@ -8,7 +8,7 @@ import {
   PrefsSchema,
   resolveActiveTheme,
   THEME_PRESETS,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { describe, expect, it } from "vitest";
 
 describe("theme prefs rebuild", () => {

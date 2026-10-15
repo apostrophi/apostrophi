@@ -7,18 +7,18 @@ import { hydrateOrganizationBundle } from "../core/organization-bundle";
 import { backfillVecBatch } from "../core/vec-index";
 import { readOrCreateLibraryId } from "../lib/library-id";
 import { resolvePaths } from "../paths";
+import { initializeApostrophiSchema } from "./apostrophi-schema";
 import { type Db, openSqlite, wrapSqlite } from "./client";
 import { migrateGlobal } from "./migrations";
-import { initializePondSchema } from "./pond-schema";
 
-let cachedPond: Db | null = null;
+let cachedApostrophi: Db | null = null;
 let cachedGlobal: Db | null = null;
-let pondDbInflight: Promise<Db> | null = null;
+let apostrophiDbInflight: Promise<Db> | null = null;
 
 export async function getGlobalDb(): Promise<Db> {
   if (cachedGlobal) return cachedGlobal;
   const paths = resolvePaths();
-  log.info("[pond db] opening global", paths.globalDb);
+  log.info("[apostrophi db] opening global", paths.globalDb);
   const sqlite = openSqlite(paths.globalDb);
   migrateGlobal(sqlite);
   cachedGlobal = wrapSqlite(sqlite);
@@ -26,27 +26,27 @@ export async function getGlobalDb(): Promise<Db> {
 }
 
 export async function getDb(): Promise<Db> {
-  if (cachedPond) return cachedPond;
-  if (pondDbInflight) return pondDbInflight;
+  if (cachedApostrophi) return cachedApostrophi;
+  if (apostrophiDbInflight) return apostrophiDbInflight;
 
-  pondDbInflight = openPondDb().finally(() => {
-    pondDbInflight = null;
+  apostrophiDbInflight = openApostrophiDb().finally(() => {
+    apostrophiDbInflight = null;
   });
-  return pondDbInflight;
+  return apostrophiDbInflight;
 }
 
-async function openPondDb(): Promise<Db> {
+async function openApostrophiDb(): Promise<Db> {
   await new Promise<void>((resolve) => setImmediate(resolve));
 
   const paths = resolvePaths();
-  log.info("[pond db] opening pond index", paths.indexDb);
+  log.info("[apostrophi db] opening apostrophi index", paths.indexDb);
 
   readOrCreateLibraryId(paths.libraryRoot);
   const sqlite = openSqlite(paths.indexDb);
   let vectorEnabled: boolean;
   let opened: Db;
   try {
-    vectorEnabled = initializePondSchema(sqlite);
+    vectorEnabled = initializeApostrophiSchema(sqlite);
     opened = wrapSqlite(sqlite);
     await recoverBatchJournal(
       paths.libraryRoot,
@@ -61,13 +61,13 @@ async function openPondDb(): Promise<Db> {
     sqlite.close();
     throw error;
   }
-  cachedPond = opened;
+  cachedApostrophi = opened;
 
   ensureLibraryMetadata();
 
   scheduleDataMigrations(sqlite, vectorEnabled);
 
-  return cachedPond;
+  return cachedApostrophi;
 }
 
 function scheduleDataMigrations(
@@ -75,39 +75,39 @@ function scheduleDataMigrations(
   vectorEnabled: boolean,
 ): void {
   setImmediate(() => {
-    if (!sqlite.open || cachedPond?.$raw !== sqlite) return;
+    if (!sqlite.open || cachedApostrophi?.$raw !== sqlite) return;
     try {
       const updated = backfillFontActivationIndex(sqlite);
       if (updated > 0)
-        log.info("[pond db] font activation backfill", { updated });
+        log.info("[apostrophi db] font activation backfill", { updated });
     } catch (err) {
-      log.warn("[pond db] font activation backfill failed", err);
+      log.warn("[apostrophi db] font activation backfill failed", err);
     }
   });
 
   const runVecBatch = (): void => {
-    if (!sqlite.open || cachedPond?.$raw !== sqlite) return;
+    if (!sqlite.open || cachedApostrophi?.$raw !== sqlite) return;
     try {
       const result = backfillVecBatch(sqlite);
       if (result.processed > 0) {
-        log.info("[pond db] vec backfill batch", result);
+        log.info("[apostrophi db] vec backfill batch", result);
       }
       if (result.hasMore) setImmediate(runVecBatch);
     } catch (err) {
-      log.warn("[pond db] vec backfill failed", err);
+      log.warn("[apostrophi db] vec backfill failed", err);
     }
   };
   if (vectorEnabled) setImmediate(runVecBatch);
 }
 
 export function closeDb(): void {
-  if (cachedPond) {
+  if (cachedApostrophi) {
     try {
-      cachedPond.$raw.close();
+      cachedApostrophi.$raw.close();
     } catch (err) {
-      log.warn("[pond db] close failed", err);
+      log.warn("[apostrophi db] close failed", err);
     }
-    cachedPond = null;
+    cachedApostrophi = null;
   }
 }
 

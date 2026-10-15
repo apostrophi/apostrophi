@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { useSelector } from "@tanstack/react-store";
 import { useEffect, useState } from "react";
 import { rememberFolderDestinations } from "@/features/library/lib/recent-folders";
@@ -48,7 +48,7 @@ function FolderPicker({ ids }: { ids: readonly string[] }) {
   }
 
   async function assign(folderId: string, add: boolean) {
-    await window.pond.query("folders.assign", {
+    await window.apostrophi.query("folders.assign", {
       saveIds: [...ids],
       addIds: add ? [folderId] : [],
       removeIds: add ? [] : [folderId],
@@ -75,9 +75,12 @@ function FolderPicker({ ids }: { ids: readonly string[] }) {
             }
             onCreate={(name) =>
               run(async () => {
-                const created = await window.pond.query("folders.create", {
-                  name: name.trim(),
-                });
+                const created = await window.apostrophi.query(
+                  "folders.create",
+                  {
+                    name: name.trim(),
+                  },
+                );
                 await assign(created.id, true);
               })
             }

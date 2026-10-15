@@ -58,7 +58,7 @@ export async function writeBlankDocumentFile(
 ): Promise<string | null> {
   const def = blankDocumentDef(kind);
   if (!def) return null;
-  const dir = await mkdtemp(join(tmpdir(), "pond-blank-"));
+  const dir = await mkdtemp(join(tmpdir(), "apostrophi-blank-"));
   const path = join(dir, def.filename);
   await writeFile(path, await blankDocumentBytes(kind));
   return path;

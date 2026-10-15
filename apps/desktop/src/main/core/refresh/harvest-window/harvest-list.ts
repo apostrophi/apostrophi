@@ -1,4 +1,4 @@
-import { MEDIA_TYPES, type Source } from "@pond/schema/db";
+import { MEDIA_TYPES, type Source } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { markAtRisk, report } from "../../pipeline/rate-governor";
@@ -171,7 +171,7 @@ export async function harvestSourceList(
         }
         void lease.win.webContents
           .executeJavaScript(
-            "JSON.stringify(globalThis.__pondHarvestStats ?? null)",
+            "JSON.stringify(globalThis.__apostrophiHarvestStats ?? null)",
             true,
           )
           .then((raw) => {
@@ -194,28 +194,28 @@ export async function harvestSourceList(
     const timeoutMs = source === "instagram" ? 300_000 : 90_000;
     await lease.win.webContents
       .executeJavaScript(
-        "globalThis.__pondHarvestAbort = false; globalThis.__pondHarvestPartial = null;",
+        "globalThis.__apostrophiHarvestAbort = false; globalThis.__apostrophiHarvestPartial = null;",
         true,
       )
       .catch(() => {});
     const raw = await Promise.race([
       lease.win.webContents.executeJavaScript(expr, true),
-      sleep(timeoutMs).then(() => "__pond_list_timeout__"),
+      sleep(timeoutMs).then(() => "__apostrophi_list_timeout__"),
     ]).finally(() => {
       stopPolling = true;
       if (pollInterval) clearInterval(pollInterval);
     });
 
-    if (raw === "__pond_list_timeout__") {
-      log.warn("[pond list]", source, "harvest timed out", lastStats);
+    if (raw === "__apostrophi_list_timeout__") {
+      log.warn("[apostrophi list]", source, "harvest timed out", lastStats);
       await lease.win.webContents
-        .executeJavaScript("globalThis.__pondHarvestAbort = true;", true)
+        .executeJavaScript("globalThis.__apostrophiHarvestAbort = true;", true)
         .catch(() => {});
       await sleep(750);
       const partial = await readHarvestPartial(lease.win);
       if (partial && partial.length > 0) {
         log.info(
-          `[pond list] ${source} recovered ${partial.length} entries after timeout`,
+          `[apostrophi list] ${source} recovered ${partial.length} entries after timeout`,
         );
         return { ok: true, entries: partial, reachedEnd: false };
       }
@@ -234,7 +234,7 @@ export async function harvestSourceList(
           retryAfterSec: parsed.retryAfterSec,
         });
         log.warn(
-          `[pond list:${source}] rate limited; backing off ${Math.round(cooldownMs / 1000)}s`,
+          `[apostrophi list:${source}] rate limited; backing off ${Math.round(cooldownMs / 1000)}s`,
         );
       }
       return parsed;
@@ -253,7 +253,7 @@ export async function harvestSourceList(
     report(source, { ok: true });
     return result;
   } catch (err) {
-    log.warn("[pond list]", source, "unexpected error", err);
+    log.warn("[apostrophi list]", source, "unexpected error", err);
     return { ok: false, reason: "unknown" };
   } finally {
     lease.release();
@@ -265,7 +265,7 @@ async function readHarvestCollected(
 ): Promise<number | null> {
   try {
     const raw = await win.webContents.executeJavaScript(
-      "JSON.stringify(globalThis.__pondHarvestStats ?? null)",
+      "JSON.stringify(globalThis.__apostrophiHarvestStats ?? null)",
       true,
     );
     return readStats(StatsTextSchema.parse(raw))?.collected ?? null;
@@ -279,7 +279,7 @@ async function readHarvestPartial(
 ): Promise<Array<NonNullable<z.infer<typeof PartialEntrySchema>>> | null> {
   try {
     const raw = await win.webContents.executeJavaScript(
-      "JSON.stringify(globalThis.__pondHarvestPartial ?? null)",
+      "JSON.stringify(globalThis.__apostrophiHarvestPartial ?? null)",
       true,
     );
     const rows = z
@@ -380,7 +380,7 @@ export async function harvestInstagramLikedList(
 
     await lease.win.webContents
       .executeJavaScript(
-        "globalThis.__pondHarvestAbort = false; globalThis.__pondHarvestPartial = null;",
+        "globalThis.__apostrophiHarvestAbort = false; globalThis.__apostrophiHarvestPartial = null;",
         true,
       )
       .catch(() => {});
@@ -389,17 +389,19 @@ export async function harvestInstagramLikedList(
         buildInstagramLikesExpression(args),
         true,
       ),
-      sleep(INSTAGRAM_LIKES_TIMEOUT_MS).then(() => "__pond_ig_likes_timeout__"),
+      sleep(INSTAGRAM_LIKES_TIMEOUT_MS).then(
+        () => "__apostrophi_ig_likes_timeout__",
+      ),
     ]);
-    if (raw === "__pond_ig_likes_timeout__") {
+    if (raw === "__apostrophi_ig_likes_timeout__") {
       await lease.win.webContents
-        .executeJavaScript("globalThis.__pondHarvestAbort = true;", true)
+        .executeJavaScript("globalThis.__apostrophiHarvestAbort = true;", true)
         .catch(() => {});
       await sleep(750);
       const partial = await readHarvestPartial(lease.win);
       if (partial && partial.length > 0) {
         log.info(
-          `[pond list] instagram likes recovered ${partial.length} entries after timeout`,
+          `[apostrophi list] instagram likes recovered ${partial.length} entries after timeout`,
         );
         return { ok: true, entries: partial, reachedEnd: false };
       }
@@ -408,12 +410,12 @@ export async function harvestInstagramLikedList(
     const parsed = ListResultSchema.parse(raw);
     if (!parsed) return { ok: false, reason: "no_match" };
     if (!parsed.ok) {
-      log.warn(`[pond list] instagram likes stopped: ${parsed.reason}`);
+      log.warn(`[apostrophi list] instagram likes stopped: ${parsed.reason}`);
       return parsed;
     }
     report("instagram", { ok: true });
     log.info(
-      `[pond list] instagram likes read ${parsed.entries.length} (reachedEnd=${parsed.reachedEnd})`,
+      `[apostrophi list] instagram likes read ${parsed.entries.length} (reachedEnd=${parsed.reachedEnd})`,
     );
     return {
       ok: true,
@@ -422,7 +424,7 @@ export async function harvestInstagramLikedList(
       seen: parsed.seen ?? parsed.entries.length,
     };
   } catch (err) {
-    log.warn("[pond list] instagram likes unexpected error", err);
+    log.warn("[apostrophi list] instagram likes unexpected error", err);
     return { ok: false, reason: "unknown" };
   } finally {
     lease.release();
@@ -447,9 +449,9 @@ export async function harvestYoutubeLikedList(
     const expr = buildYoutubeListExpression(args);
     const raw = await Promise.race([
       lease.win.webContents.executeJavaScript(expr, true),
-      sleep(90_000).then(() => "__pond_yt_ll_timeout__"),
+      sleep(90_000).then(() => "__apostrophi_yt_ll_timeout__"),
     ]);
-    if (raw === "__pond_yt_ll_timeout__") {
+    if (raw === "__apostrophi_yt_ll_timeout__") {
       return { ok: false, reason: "timeout" };
     }
     const parsed = ListResultSchema.parse(raw);
@@ -461,7 +463,7 @@ export async function harvestYoutubeLikedList(
       reachedEnd: parsed.reachedEnd,
     };
   } catch (err) {
-    log.warn("[pond list] youtube LL unexpected error", err);
+    log.warn("[apostrophi list] youtube LL unexpected error", err);
     return { ok: false, reason: "timeout" };
   } finally {
     lease.release();

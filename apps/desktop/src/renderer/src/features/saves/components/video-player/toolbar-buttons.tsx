@@ -2,8 +2,8 @@ import {
   IconArrowBackToBottomLeft,
   IconFullScreen,
   IconMediaPlay,
-} from "@pond/icons";
-import { useVideo } from "@pond/ui";
+} from "@apostrophi/icons";
+import { useVideo } from "@apostrophi/ui";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { ShortcutKeys } from "@/shared/components/shortcut-keys";
 import { usePrefs } from "@/shared/state/prefs";

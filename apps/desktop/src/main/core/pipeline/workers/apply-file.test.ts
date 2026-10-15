@@ -8,7 +8,9 @@ import { mergeSaveFiles, persistWriteFile } from "./apply";
 const temporaryDirectories: string[] = [];
 
 async function temporaryDirectory(): Promise<string> {
-  const directory = await mkdtemp(join(tmpdir(), "pond-apply-file-test-"));
+  const directory = await mkdtemp(
+    join(tmpdir(), "apostrophi-apply-file-test-"),
+  );
   temporaryDirectories.push(directory);
   return directory;
 }

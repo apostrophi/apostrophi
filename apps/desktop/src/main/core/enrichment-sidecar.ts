@@ -1,6 +1,10 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { type NewSave, type Save, saves as savesTable } from "@pond/schema/db";
+import {
+  type NewSave,
+  type Save,
+  saves as savesTable,
+} from "@apostrophi/schema/db";
 import { eq, isNotNull, or, sql } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -66,7 +70,7 @@ export function writeEnrichmentSidecar(save: Save): void {
   try {
     writeBundleJson(file, data);
   } catch (err) {
-    log.warn("[pond enrichment] sidecar write failed", save.id, err);
+    log.warn("[apostrophi enrichment] sidecar write failed", save.id, err);
   }
 }
 
@@ -174,5 +178,5 @@ export async function backfillEnrichmentSidecars(): Promise<void> {
     writeEnrichmentSidecar(save);
     written += 1;
   }
-  log.info(`[pond enrichment] backfilled ${written} sidecars`);
+  log.info(`[apostrophi enrichment] backfilled ${written} sidecars`);
 }

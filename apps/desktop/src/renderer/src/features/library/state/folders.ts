@@ -1,4 +1,4 @@
-import type { Folder } from "@pond/schema/db";
+import type { Folder } from "@apostrophi/schema/db";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
 import { useEffect } from "react";
@@ -43,8 +43,8 @@ export const folders = {
   },
   async refresh(): Promise<void> {
     const [folderRows, membershipRows] = await Promise.all([
-      window.pond.query("folders.list", {}),
-      window.pond.query("folders.memberships", {}),
+      window.apostrophi.query("folders.list", {}),
+      window.apostrophi.query("folders.memberships", {}),
     ]);
     const bySave: Record<string, string[]> = {};
     for (const row of membershipRows ?? []) {
@@ -85,7 +85,7 @@ export function useHydrateFolders(): void {
   useEffect(() => {
     void folders.refresh();
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const unsubscribe = window.pond.onSyncAction((event) => {
+    const unsubscribe = window.apostrophi.onSyncAction((event) => {
       if (event.modelName !== "save_folder" && event.modelName !== "folder")
         return;
       clearTimeout(timer);

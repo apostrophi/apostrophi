@@ -2,7 +2,7 @@ import { expect, it } from "vitest";
 import { libraryLocationRoutes } from "./library-locations";
 
 const library = {
-  path: "/Libraries/Design.pond",
+  path: "/Libraries/Design.apostrophi",
   name: "Design",
   active: false,
   available: true,

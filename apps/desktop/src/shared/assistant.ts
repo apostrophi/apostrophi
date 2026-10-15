@@ -1,4 +1,4 @@
-import { AgentRunControlsSchema } from "@pond/schema";
+import { AgentRunControlsSchema } from "@apostrophi/schema";
 import { z } from "zod";
 
 const chat = {

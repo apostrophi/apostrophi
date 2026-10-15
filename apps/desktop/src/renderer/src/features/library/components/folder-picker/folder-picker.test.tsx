@@ -4,10 +4,10 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { closeFolderPicker, openFolderPicker } from "../../state/folder-picker";
 import { folders } from "../../state/folders";
 import {
+  apostrophiQuery,
   createFolderSidebarHarness,
   folder,
   folderList,
-  pondQuery,
 } from "../folder-sidebar/test-harness";
 import { FolderPickerHost } from ".";
 
@@ -50,7 +50,7 @@ it("shows the folder tree and assigns a folder as soon as it is picked", async (
   expect(control("Add to Folders").getAttribute("role")).toBe("dialog");
   expect(control("Child").getAttribute("aria-level")).toBe("2");
   await act(async () => control("Beta").click());
-  expect(pondQuery).toHaveBeenCalledWith("folders.assign", {
+  expect(apostrophiQuery).toHaveBeenCalledWith("folders.assign", {
     saveIds: ["save-1"],
     addIds: ["Beta"],
     removeIds: [],
@@ -76,7 +76,7 @@ it("creates a folder from the search", async () => {
   if (!create) throw new Error("Missing Create row");
   await act(async () => create.click());
   await vi.waitFor(() =>
-    expect(pondQuery).toHaveBeenCalledWith("folders.create", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("folders.create", {
       name: "Moodboards",
     }),
   );

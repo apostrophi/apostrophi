@@ -1,9 +1,9 @@
-import type { JsonObject, JsonValue } from "@pond/schema/json";
+import type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 import { z } from "zod";
 import type { AgentOperationRequest } from "../../../shared/agent-operations";
 import type { ToolSpec } from "./complete";
 
-export interface PondOperation {
+export interface ApostrophiOperation {
   name: string;
   description: string;
   access: "read" | "review";
@@ -12,30 +12,30 @@ export interface PondOperation {
 }
 
 export interface OperationCatalog {
-  operations: readonly PondOperation[];
+  operations: readonly ApostrophiOperation[];
   libraryId: () => string;
 }
 
 let registered: OperationCatalog = { operations: [], libraryId: () => "" };
 
-export function registerPondOperations(catalog: OperationCatalog): void {
+export function registerApostrophiOperations(catalog: OperationCatalog): void {
   const names = new Set(catalog.operations.map((operation) => operation.name));
   if (names.size !== catalog.operations.length)
-    throw new Error("Duplicate Pond operation names.");
+    throw new Error("Duplicate Apostrophi operation names.");
   registered = catalog;
 }
 
-export function pondOperationCatalog(): OperationCatalog {
+export function apostrophiOperationCatalog(): OperationCatalog {
   return registered;
 }
 
 function findOperation(name: string, catalog: OperationCatalog) {
   const operation = catalog.operations.find((entry) => entry.name === name);
-  if (!operation) throw new Error(`Pond operation unavailable: ${name}`);
+  if (!operation) throw new Error(`Apostrophi operation unavailable: ${name}`);
   return operation;
 }
 
-export async function applyPondOperation(
+export async function applyApostrophiOperation(
   request: AgentOperationRequest,
   catalog = registered,
 ): Promise<JsonValue> {
@@ -95,7 +95,7 @@ const runInput = describeInput.extend({
     ),
 });
 
-export function pondOperationTools(
+export function apostrophiOperationTools(
   input: {
     signal: AbortSignal;
     propose: (
@@ -111,9 +111,9 @@ export function pondOperationTools(
   let resultSequence = 0;
   return [
     {
-      name: "discoverPondOperations",
+      name: "discoverApostrophiOperations",
       description:
-        "Find Pond capabilities for Saves, folders, tags, Smart Folders, imports, exports, conversion, downloads, sources, settings, storage, navigation, and more. Search by a short feature or action name; omit query to browse. Read the operation schema before calling it. Do not claim Pond cannot do something without checking here.",
+        "Find Apostrophi capabilities for Saves, folders, tags, Smart Folders, imports, exports, conversion, downloads, sources, settings, storage, navigation, and more. Search by a short feature or action name; omit query to browse. Read the operation schema before calling it. Do not claim Apostrophi cannot do something without checking here.",
       schema: discoverInput,
       execute: async (args) => {
         input.signal.throwIfAborted();
@@ -145,9 +145,9 @@ export function pondOperationTools(
       },
     },
     {
-      name: "describePondOperation",
+      name: "describeApostrophiOperation",
       description:
-        "Read the exact input schema and review requirement for a Pond operation. Use the app's real IDs and current values. For settings patches, read current preferences first and change only requested fields.",
+        "Read the exact input schema and review requirement for an Apostrophi operation. Use the app's real IDs and current values. For settings patches, read current preferences first and change only requested fields.",
       schema: describeInput,
       execute: async (args) => {
         input.signal.throwIfAborted();
@@ -169,9 +169,9 @@ export function pondOperationTools(
       },
     },
     {
-      name: "runPondOperation",
+      name: "runApostrophiOperation",
       description:
-        "Use a discovered Pond capability with arguments matching its schema. Reads and native UI flows run immediately. Changes are prepared for Apply in the chat; a pending review is not a completed operation. Never report success until the operation actually completes.",
+        "Use a discovered Apostrophi capability with arguments matching its schema. Reads and native UI flows run immediately. Changes are prepared for Apply in the chat; a pending review is not a completed operation. Never report success until the operation actually completes.",
       schema: runInput,
       execute: async (args) => {
         input.signal.throwIfAborted();
@@ -195,7 +195,7 @@ export function pondOperationTools(
             ),
           };
         }
-        const result = await applyPondOperation(request, catalog);
+        const result = await applyApostrophiOperation(request, catalog);
         input.signal.throwIfAborted();
         const text = JSON.stringify(result);
         if (text.length <= 16_000) return { status: "complete", result };
@@ -220,7 +220,7 @@ export function pondOperationTools(
       },
     },
     {
-      name: "readPondOperationResult",
+      name: "readApostrophiOperationResult",
       description:
         "Read the next character range of a large JSON result without rerunning its operation. Only the four most recent large results in this turn are retained. Prefer paginated queries for large libraries.",
       schema: resultInput,

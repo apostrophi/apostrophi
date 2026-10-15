@@ -1,5 +1,5 @@
-import type { Prefs } from "@pond/schema";
-import type { SavedView } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema";
+import type { SavedView } from "@apostrophi/schema/db";
 
 export type EditorRequest =
   | {

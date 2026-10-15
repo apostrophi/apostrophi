@@ -1,14 +1,14 @@
 import { storage } from "wxt/utils/storage";
 import type { JsonValue } from "./json";
 import {
+  type ApostrophiSettings,
   DEFAULT_SETTINGS,
   normalizeStoredSettings,
-  type PondSettings,
 } from "./types";
 
 const item = storage.defineItem<JsonValue>("local:settings");
 
-export async function getSettings(): Promise<PondSettings> {
+export async function getSettings(): Promise<ApostrophiSettings> {
   return normalizeStoredSettings(await item.getValue());
 }
 

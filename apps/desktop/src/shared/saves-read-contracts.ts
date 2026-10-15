@@ -1,5 +1,5 @@
-import type { Query } from "@pond/schema/filters/types";
-import type { RawJson } from "@pond/schema/raw";
+import type { Query } from "@apostrophi/schema/filters/types";
+import type { RawJson } from "@apostrophi/schema/raw";
 import type { LibraryQueryPage, LibraryQueryRequest } from "./library-query";
 import type { EmptyInput, OkResult } from "./query-contracts-shared";
 import type {

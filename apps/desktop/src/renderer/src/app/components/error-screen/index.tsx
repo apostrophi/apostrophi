@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui";
+import { Button } from "@apostrophi/ui";
 import { z } from "zod";
 import styles from "./styles.module.css";
 
@@ -7,7 +7,7 @@ const ThrownStringSchema = z.string();
 function messageOf(cause: unknown): string {
   if (cause instanceof Error) return cause.message;
   const thrown = ThrownStringSchema.safeParse(cause);
-  return thrown.success ? thrown.data : "Pond hit an unexpected error.";
+  return thrown.success ? thrown.data : "Apostrophi hit an unexpected error.";
 }
 
 function stackOf(cause: unknown): string | undefined {

@@ -12,7 +12,7 @@ const state: PreviewWindowState = {
   kind: "detached",
   title: "Reference",
   reduceMotion: "system",
-  url: "pond://save/reference.png",
+  url: "apostrophi://save/reference.png",
   originalPath: "reference.png",
   mediaType: "image",
   source: "original",
@@ -73,7 +73,7 @@ describe("preview targets", () => {
     ).toMatchObject({
       originalPath: "photo.jpeg",
       source: "original",
-      url: "pond://save/photo.jpeg",
+      url: "apostrophi://save/photo.jpeg",
     });
     expect(
       previewTargetForFile({

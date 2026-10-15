@@ -1,4 +1,4 @@
-import { Tooltip } from "@pond/ui";
+import { Tooltip } from "@apostrophi/ui";
 import type { ReactElement } from "react";
 
 export function Hint({

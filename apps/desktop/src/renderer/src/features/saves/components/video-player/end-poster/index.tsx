@@ -1,4 +1,4 @@
-import { useVideo } from "@pond/ui";
+import { useVideo } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 export function EndPoster({ src }: { src?: string }) {

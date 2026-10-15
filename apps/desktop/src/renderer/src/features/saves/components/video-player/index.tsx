@@ -1,4 +1,4 @@
-import { useVideo, Video } from "@pond/ui";
+import { useVideo, Video } from "@apostrophi/ui";
 import {
   type ReactEventHandler,
   type ReactNode,
@@ -9,7 +9,7 @@ import {
 import { ChromePortal } from "@/features/saves/components/viewers/media-viewer/chrome";
 import { useSave } from "@/features/saves/hooks/use-saves";
 import type { ChapterCue } from "@/features/saves/lib/media/chapters-vtt";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import { viewerMemory } from "@/features/saves/lib/viewer-memory";
 import { EndPoster } from "./end-poster";
 import { videoScaleForRotation } from "./geometry";
@@ -115,7 +115,8 @@ export function VideoPlayer({
   const save = useSave(saveId);
   const trackUrl = useChaptersTrackUrl(chapters);
   const subtitle = save?.files.find((file) => file.kind === "subtitle");
-  const subtitleUrl = save && subtitle ? buildPondUrl(save.id, subtitle) : null;
+  const subtitleUrl =
+    save && subtitle ? buildApostrophiUrl(save.id, subtitle) : null;
   const [frameRate, setFrameRate] = useState<number | null>(null);
   const [loopRange, setLoopRange] = useState<[number, number] | null>(() =>
     viewerMemory.loop(src),
@@ -125,7 +126,7 @@ export function VideoPlayer({
     setLoopRange(viewerMemory.loop(src));
     if (!saveId) return;
     let current = true;
-    void window.pond
+    void window.apostrophi
       .query("saves.mediaTiming", { id: saveId, fileIndex })
       .then((timing) => {
         if (current) setFrameRate(timing.frameRate);

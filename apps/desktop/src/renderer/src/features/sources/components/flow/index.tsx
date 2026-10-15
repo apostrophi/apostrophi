@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { type CSSProperties, type JSX, useState } from "react";
 import { ConnectGlow } from "@/features/sources/components/flow/connect/glow";
 import {

@@ -1,5 +1,5 @@
-import type { Predicate } from "@pond/schema/filters/types";
-import { Menu } from "@pond/ui";
+import type { Predicate } from "@apostrophi/schema/filters/types";
+import { Menu } from "@apostrophi/ui";
 import type { FilterOption } from "../options";
 import { isChoiceSelected, selectChoice } from "../selection";
 import { excludeGestures } from "./exclude";

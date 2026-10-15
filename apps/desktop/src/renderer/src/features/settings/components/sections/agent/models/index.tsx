@@ -1,4 +1,4 @@
-import { Button, Settings } from "@pond/ui";
+import { Button, Settings } from "@apostrophi/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { savePrefsSection, usePrefs } from "@/shared/state/prefs";
 import { ModelCatalogTable } from "./catalog-table";

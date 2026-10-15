@@ -4,8 +4,8 @@ import {
   IconDownload,
   IconPencil,
   IconTrash,
-} from "@pond/icons";
-import { Dialog, Menu, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Dialog, Menu, Tooltip } from "@apostrophi/ui";
 import type { AssistantMessage } from "@shared/assistant";
 import { conversationMarkdown } from "@shared/conversation-markdown";
 import { errorCopy } from "@/shared/lib/error-copy";
@@ -30,10 +30,10 @@ export function ChatActions({
     try {
       const result =
         kind === "copy"
-          ? await window.pond.query("clipboard.writeText", {
+          ? await window.apostrophi.query("clipboard.writeText", {
               text: conversationMarkdown(title, messages),
             })
-          : await window.pond.query("agent.exportChat", { chatId });
+          : await window.apostrophi.query("agent.exportChat", { chatId });
       if (!result.ok) {
         if (result.reason === "cancelled") return;
         throw new Error(result.error);

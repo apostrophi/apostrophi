@@ -27,7 +27,7 @@
         "sha256": "3b3d9ceaec4cffbbd36c85471f1e2929946d7868b5d01b43ac95e791beeb8259"
       },
       {
-        "name": "Pond Custom Thumbnail",
+        "name": "Apostrophi Custom Thumbnail",
         "extension": "png",
         "sha256": "d5f1601832dbef5b187f35e6fb678a58443503532e8ab1a81dbd69a17eb7e608"
       }
@@ -35,7 +35,7 @@
   },
   "exports": [
     {
-      "file": "samples/pond-parity-nested.eaglepack",
+      "file": "samples/apostrophi-parity-nested.eaglepack",
       "kind": "nested-folder",
       "bytes": 10423,
       "sha256": "31977e739369ed070e4eab9364d167635349f7a16ecfdf745bb50c563d1175bc",
@@ -51,7 +51,7 @@
       ]
     },
     {
-      "file": "samples/pond-parity-custom-thumbnail.eaglepack",
+      "file": "samples/apostrophi-parity-custom-thumbnail.eaglepack",
       "kind": "selection-with-custom-thumbnail",
       "bytes": 4784,
       "sha256": "84f6ce1a9ddbc804d5ad35e8478abb81c035046183718c9b3a7cf0e26fd2d137",

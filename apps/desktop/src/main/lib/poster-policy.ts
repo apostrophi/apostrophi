@@ -1,5 +1,5 @@
-import type { SaveFile, Source } from "@pond/schema/db";
-import type { RawJson } from "@pond/schema/raw";
+import type { SaveFile, Source } from "@apostrophi/schema/db";
+import type { RawJson } from "@apostrophi/schema/raw";
 import { isVideoFile } from "@shared/media-index";
 
 export { posterFilename, videoFilename } from "@shared/save-file-names";

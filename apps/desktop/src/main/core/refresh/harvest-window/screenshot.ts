@@ -1,4 +1,4 @@
-import type { CaptureMedia } from "@pond/schema/raw";
+import type { CaptureMedia } from "@apostrophi/schema/raw";
 import type { BrowserWindow } from "electron";
 import log from "electron-log/main.js";
 import sharp from "sharp";
@@ -67,7 +67,7 @@ export async function screenshotTweetDual(
       NAV_TIMEOUT_MS,
     );
     if (!navOk) {
-      log.warn("[pond screenshot:tweet] navigate failed", args.url);
+      log.warn("[apostrophi screenshot:tweet] navigate failed", args.url);
       const fail: TweetScreenshotResult = {
         ok: false,
         reason: "navigate_failed",
@@ -75,7 +75,7 @@ export async function screenshotTweetDual(
       return { light: fail, dark: fail };
     }
     if (looksLikeAuthWall(lease.win.webContents.getURL())) {
-      log.info("[pond screenshot:tweet] auth wall hit", args.url);
+      log.info("[apostrophi screenshot:tweet] auth wall hit", args.url);
       const wall: TweetScreenshotResult = {
         ok: false,
         reason: "auth_required",
@@ -104,7 +104,10 @@ export async function screenshotTweetDual(
     restoreEmulation = await emulateColorScheme(lease.win, "dark");
     const flipped = await waitForSchemeFlip(lease.win, "dark");
     if (!flipped) {
-      log.debug("[pond screenshot:tweet] scheme flip needed reload", args.url);
+      log.debug(
+        "[apostrophi screenshot:tweet] scheme flip needed reload",
+        args.url,
+      );
       await navigateWithTimeout(lease.win, args.url, NAV_TIMEOUT_MS);
     }
     const dark = await captureCurrentScheme(
@@ -120,7 +123,11 @@ export async function screenshotTweetDual(
     if (media) dual.media = media;
     return dual;
   } catch (err) {
-    log.warn("[pond screenshot:tweet] unexpected dual error", args.url, err);
+    log.warn(
+      "[apostrophi screenshot:tweet] unexpected dual error",
+      args.url,
+      err,
+    );
     const fail: TweetScreenshotResult = { ok: false, reason: "no_article" };
     return { light: fail, dark: fail };
   } finally {
@@ -143,7 +150,7 @@ export async function screenshotThreadsDual(
       NAV_TIMEOUT_MS,
     );
     if (!navOk) {
-      log.warn("[pond screenshot:threads] navigate failed", args.url);
+      log.warn("[apostrophi screenshot:threads] navigate failed", args.url);
       const fail: TweetScreenshotResult = {
         ok: false,
         reason: "navigate_failed",
@@ -151,7 +158,7 @@ export async function screenshotThreadsDual(
       return { light: fail, dark: fail };
     }
     if (looksLikeAuthWall(lease.win.webContents.getURL())) {
-      log.info("[pond screenshot:threads] auth wall hit", args.url);
+      log.info("[apostrophi screenshot:threads] auth wall hit", args.url);
       const wall: TweetScreenshotResult = {
         ok: false,
         reason: "auth_required",
@@ -181,7 +188,7 @@ export async function screenshotThreadsDual(
     const flipped = await waitForSchemeFlip(lease.win, "dark");
     if (!flipped) {
       log.debug(
-        "[pond screenshot:threads] scheme flip needed reload",
+        "[apostrophi screenshot:threads] scheme flip needed reload",
         args.url,
       );
       await navigateWithTimeout(lease.win, args.url, NAV_TIMEOUT_MS);
@@ -199,7 +206,11 @@ export async function screenshotThreadsDual(
     if (media) dual.media = media;
     return dual;
   } catch (err) {
-    log.warn("[pond screenshot:threads] unexpected dual error", args.url, err);
+    log.warn(
+      "[apostrophi screenshot:threads] unexpected dual error",
+      args.url,
+      err,
+    );
     const fail: TweetScreenshotResult = { ok: false, reason: "no_article" };
     return { light: fail, dark: fail };
   } finally {
@@ -229,7 +240,7 @@ async function captureCurrentScheme(
   try {
     const initial = await readArticleRect(win, sourceId, kind);
     if (!initial) {
-      log.info("[pond screenshot:tweet] no article", sourceId);
+      log.info("[apostrophi screenshot:tweet] no article", sourceId);
       return { ok: false, reason: "no_article" };
     }
 
@@ -275,7 +286,7 @@ async function captureCurrentScheme(
             size.width === 0 ||
             size.height === 0
           ) {
-            log.warn("[pond screenshot:tweet] empty capture", sourceId);
+            log.warn("[apostrophi screenshot:tweet] empty capture", sourceId);
             return { ok: false, reason: "no_article" } as const;
           }
           const padded = await padScreenshot(rawBytes, size, colorScheme);
@@ -368,7 +379,7 @@ async function harvestPageMedia(
       kind === "threads" ? adaptThreads(raw, ctx) : adapt(raw, ctx);
     return harvested?.media;
   } catch (err) {
-    log.warn("[pond screenshot] media harvest failed", err);
+    log.warn("[apostrophi screenshot] media harvest failed", err);
     return undefined;
   }
 }
@@ -390,7 +401,7 @@ async function padScreenshot(
       .toBuffer({ resolveWithObject: true });
     return { bytes: out.data, width: out.info.width, height: out.info.height };
   } catch (err) {
-    log.warn("[pond screenshot:tweet] padding failed, using raw", err);
+    log.warn("[apostrophi screenshot:tweet] padding failed, using raw", err);
     return { bytes, width: raw.width, height: raw.height };
   }
 }
@@ -420,10 +431,10 @@ async function readArticleRect(
   const raw = await Promise.race([
     win.webContents.executeJavaScript(expr, true),
     sleep(SCREENSHOT_ARTICLE_TIMEOUT_MS).then(
-      () => "__pond_screenshot_timeout__",
+      () => "__apostrophi_screenshot_timeout__",
     ),
   ]);
-  if (raw === "__pond_screenshot_timeout__") return null;
+  if (raw === "__apostrophi_screenshot_timeout__") return null;
   const rect = ArticleRectSchema.parse(raw);
   if (!rect || rect.width < 8 || rect.height < 8) return null;
   return rect;

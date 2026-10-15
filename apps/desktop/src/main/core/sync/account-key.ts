@@ -1,4 +1,8 @@
-import { type ConnectedAccount, type Source, saves } from "@pond/schema/db";
+import {
+  type ConnectedAccount,
+  type Source,
+  saves,
+} from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -46,7 +50,7 @@ export async function resolveAccountHandle(
   if (cached && isCachedHandleValid(source, cached)) return cached;
   if (cached) {
     log.info(
-      `[pond sync:${source}] ignoring invalid cached handle "${cached}"; re-resolving`,
+      `[apostrophi sync:${source}] ignoring invalid cached handle "${cached}"; re-resolving`,
     );
   }
 
@@ -59,10 +63,10 @@ export async function resolveAccountHandle(
     }
   }
 
-  log.info(`[pond sync:${source}] probing hidden window for handle`);
+  log.info(`[apostrophi sync:${source}] probing hidden window for handle`);
   const probed = await probeUserHandle(source, partitionForAccount(account.id));
   if (probed) {
-    log.info(`[pond sync:${source}] probed handle`, probed);
+    log.info(`[apostrophi sync:${source}] probed handle`, probed);
     await persistAccountHandle(account, probed);
     return probed;
   }
@@ -80,10 +84,10 @@ export async function ensureAccountHandle(
       partitionForAccount(account.id),
     );
     if (!probed) return;
-    log.info(`[pond sync:${account.source}] probed handle`, probed);
+    log.info(`[apostrophi sync:${account.source}] probed handle`, probed);
     await persistAccountHandle(account, probed);
   } catch (err) {
-    log.warn(`[pond sync:${account.source}] handle probe failed`, err);
+    log.warn(`[apostrophi sync:${account.source}] handle probe failed`, err);
   }
 }
 
@@ -98,7 +102,7 @@ async function persistAccountHandle(
       avatarCheckedAt: null,
     });
   } catch (err) {
-    log.warn(`[pond sync:${account.source}] failed to cache handle`, err);
+    log.warn(`[apostrophi sync:${account.source}] failed to cache handle`, err);
   }
 }
 

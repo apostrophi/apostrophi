@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema/db";
+import { DEFAULT_PREFS } from "@apostrophi/schema/db";
 import type { CSSProperties } from "react";
 import { z } from "zod";
 import type { Binding } from "@/features/settings/components/engine";

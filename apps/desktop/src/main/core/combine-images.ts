@@ -1,8 +1,8 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { saves } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import { saves } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import {
   type CombineImagesOptions,
   CombineImagesOptionsSchema,
@@ -132,7 +132,7 @@ export async function combineImages(input: {
   if (imageInputs.length < 2) {
     return { ok: false, error: "Select at least two images." };
   }
-  const directory = await mkdtemp(join(tmpdir(), "pond-combine-"));
+  const directory = await mkdtemp(join(tmpdir(), "apostrophi-combine-"));
   try {
     const options = CombineImagesOptionsSchema.parse(input.options ?? {});
     if (options.output === "export" && !options.outputPath)

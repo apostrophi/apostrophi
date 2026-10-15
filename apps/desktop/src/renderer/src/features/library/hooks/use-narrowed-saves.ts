@@ -111,8 +111,8 @@ export function useNarrowedSaves(mode: SaveListMode, sourceFilter: string) {
   const [session] = useState(() =>
     createQuerySession(
       {
-        page: (request) => window.pond.query("saves.queryPage", request),
-        ids: (request) => window.pond.query("saves.queryIds", request),
+        page: (request) => window.apostrophi.query("saves.queryPage", request),
+        ids: (request) => window.apostrophi.query("saves.queryIds", request),
         refresh: reloadSaves,
       },
       setState,
@@ -133,7 +133,7 @@ export function useNarrowedSaves(mode: SaveListMode, sourceFilter: string) {
   }, [request, session]);
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const unsubscribe = window.pond.onSyncAction(() => {
+    const unsubscribe = window.apostrophi.onSyncAction(() => {
       if (timer) return;
       timer = setTimeout(() => {
         timer = undefined;

@@ -4,7 +4,7 @@ import { app } from "electron";
 import { resolveLibraryId } from "./lib/library-id";
 import { readLibraryPointer } from "./lib/library-pointer";
 
-export interface PondPaths {
+export interface ApostrophiPaths {
   appData: string;
   cache: string;
   logs: string;
@@ -23,7 +23,7 @@ export interface PondPaths {
   backupDir: string;
 }
 
-let cached: PondPaths | null = null;
+let cached: ApostrophiPaths | null = null;
 
 function ensureDir(p: string): string {
   if (!existsSync(p)) mkdirSync(p, { recursive: true });
@@ -31,19 +31,19 @@ function ensureDir(p: string): string {
 }
 
 function defaultLibraryRoot(): string {
-  return join(app.getPath("home"), "Pond", "My Pond.pond");
+  return join(app.getPath("home"), "Apostrophi", "My Apostrophi.apostrophi");
 }
 
 export function invalidatePaths(): void {
   cached = null;
 }
 
-export function resolvePaths(libraryRootOverride?: string): PondPaths {
+export function resolvePaths(libraryRootOverride?: string): ApostrophiPaths {
   if (cached && !libraryRootOverride) return cached;
 
   const appData = ensureDir(app.getPath("userData"));
-  /** Keep Pond derivatives separate from Chromium's case-insensitive `Cache` directory. */
-  const cache = ensureDir(join(appData, "pond-cache"));
+  /** Keep Apostrophi derivatives separate from Chromium's case-insensitive `Cache` directory. */
+  const cache = ensureDir(join(appData, "apostrophi-cache"));
   const logs = ensureDir(app.getPath("logs"));
   const indexesDir = ensureDir(join(appData, "indexes"));
 
@@ -55,7 +55,7 @@ export function resolvePaths(libraryRootOverride?: string): PondPaths {
 
   const libraryId = resolveLibraryId(root, committed);
 
-  const paths: PondPaths = {
+  const paths: ApostrophiPaths = {
     appData,
     cache,
     logs,

@@ -1,5 +1,5 @@
+import type { Folder } from "@apostrophi/schema/db";
 import type { Active, Announcements, Over } from "@dnd-kit/core";
-import type { Folder } from "@pond/schema/db";
 import type { RefObject } from "react";
 import { type FolderDropKind, folderDropKind } from "../folder-drop";
 

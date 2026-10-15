@@ -1,4 +1,9 @@
-import { folderMetadata, folders, saveFolders, saves } from "@pond/schema/db";
+import {
+  folderMetadata,
+  folders,
+  saveFolders,
+  saves,
+} from "@apostrophi/schema/db";
 import { type SQL, sql } from "drizzle-orm";
 
 export type KeywordScope =

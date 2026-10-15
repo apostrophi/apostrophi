@@ -1,4 +1,4 @@
-import { Input, Settings } from "@pond/ui";
+import { Input, Settings } from "@apostrophi/ui";
 import { useEffect, useId, useState } from "react";
 import { z } from "zod";
 import { ProcessingStatus } from "@/features/settings/components/sections/processing";
@@ -48,7 +48,7 @@ function MediaModelIdControl({ binding }: { binding: Binding }) {
 
 export const processingSection = defineSection("ai", {
   title: "Processing",
-  description: "Choose which on-device details Pond adds to your saves.",
+  description: "Choose which on-device details Apostrophi adds to your saves.",
   keywords: [
     "processing",
     "caption",

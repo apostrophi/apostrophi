@@ -1,4 +1,4 @@
-import { IconCode, IconEye } from "@pond/icons";
+import { IconCode, IconEye } from "@apostrophi/icons";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { ChromePortal } from "@/features/saves/components/viewers/media-viewer/chrome";

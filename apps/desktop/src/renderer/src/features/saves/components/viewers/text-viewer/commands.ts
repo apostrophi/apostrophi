@@ -116,7 +116,7 @@ export async function insertNoteFiles(
   editor: LexicalEditor,
   kind: "media" | "gif" | "files" = "files",
 ): Promise<void> {
-  const picked = await window.pond.query("saves.pickImportPaths", {
+  const picked = await window.apostrophi.query("saves.pickImportPaths", {
     kind: "files",
   });
   if (!picked.paths.length) return;

@@ -22,17 +22,17 @@ CI can share task artifacts through Vercel Remote Cache. Configure a Turborepo C
 
 Use `pnpm knip` when removing unused code or dependencies. Check worker, HTML, generated, and dynamic entrypoints before accepting a deletion.
 
-`ELECTRON_RUN_AS_NODE=1 pnpm --filter @pond/desktop exec electron node_modules/vitest/vitest.mjs run src/main/db.test.ts src/main/core/vec-index.test.ts` runs the native database checks with Electron’s ABI. CI runs this separately from the Node test suite.
+`ELECTRON_RUN_AS_NODE=1 pnpm --filter @apostrophi/desktop exec electron node_modules/vitest/vitest.mjs run src/main/db.test.ts src/main/core/vec-index.test.ts` runs the native database checks with Electron’s ABI. CI runs this separately from the Node test suite.
 
-After building the desktop, `pnpm --filter @pond/desktop exec electron scripts/smoke-desktop.cjs` verifies visible startup and preload queries using a temporary isolated library. It requires a desktop session. `pnpm --filter @pond/desktop exec electron scripts/smoke-agent-stream.cjs` verifies reply streaming, completion, and cancellation through the real isolated preload bridge with offline fixtures and no provider credentials. `pnpm --filter @pond/desktop exec electron scripts/smoke-agent-operations.cjs` checks capability registration, persisted review, replay prevention, and Undo using a temporary isolated Library.
+After building the desktop, `pnpm --filter @apostrophi/desktop exec electron scripts/smoke-desktop.cjs` verifies visible startup and preload queries using a temporary isolated library. It requires a desktop session. `pnpm --filter @apostrophi/desktop exec electron scripts/smoke-agent-stream.cjs` verifies reply streaming, completion, and cancellation through the real isolated preload bridge with offline fixtures and no provider credentials. `pnpm --filter @apostrophi/desktop exec electron scripts/smoke-agent-operations.cjs` checks capability registration, persisted review, replay prevention, and Undo using a temporary isolated Library.
 
-The desktop package also retains focused manual checks outside `pnpm check`. Run `pnpm --filter @pond/desktop smoke:folder-tags` for folder rules, Undo, import recovery, and transfers. Run `pnpm --filter @pond/desktop smoke:library-trust` for backup manifests and detection of password-protected folders in imported Eagle metadata. These checks require a built desktop and a desktop session. Run `pnpm --filter @pond/desktop smoke:sensitive-content` to download the pinned on-device model, verify its checksum, and exercise one inference without Electron.
+The desktop package also retains focused manual checks outside `pnpm check`. Run `pnpm --filter @apostrophi/desktop smoke:folder-tags` for folder rules, Undo, import recovery, and transfers. Run `pnpm --filter @apostrophi/desktop smoke:library-trust` for backup manifests and detection of password-protected folders in imported Eagle metadata. These checks require a built desktop and a desktop session. Run `pnpm --filter @apostrophi/desktop smoke:sensitive-content` to download the pinned on-device model, verify its checksum, and exercise one inference without Electron.
 
 Use temporary libraries and fixtures in tests. Never require a contributor's personal library, source accounts, or API keys for a PR check. Keep live source tests separate.
 
 ## Add a source
 
-A source is a site Pond can capture saves from. Add its shared descriptor and
+A source is a site Apostrophi can capture saves from. Add its shared descriptor and
 main-process extractor, then update the registries and tests listed below.
 The descriptor supplies common facts; total TypeScript records catch missing
 registrations.
@@ -67,8 +67,8 @@ per external source:
 }
 ```
 
-Adding an entry automatically widens the `Source` union (`@pond/schema/db`) and
-re-derives `sourceLabel` / `isSource` / `hostToSource` (`@pond/schema/sources`).
+Adding an entry automatically widens the `Source` union (`@apostrophi/schema/db`) and
+re-derives `sourceLabel` / `isSource` / `hostToSource` (`@apostrophi/schema/sources`).
 The descriptor is the **only** place these cross-runtime facts are defined.
 
 #### Sync + rate limiting (account safety)
@@ -121,7 +121,7 @@ list exactly what's missing after you add the source. Fill each:
 
 | File | What to add |
 | --- | --- |
-| `apps/desktop/src/renderer/src/features/sources/lib/registry.ts` | `SOURCE_LOGOS` — a brand icon (add the SVG to `@pond/icons` first) |
+| `apps/desktop/src/renderer/src/features/sources/lib/registry.ts` | `SOURCE_LOGOS` — a brand icon (add the SVG to `@apostrophi/icons` first) |
 | `apps/desktop/src/main/core/pipeline/specs.ts` | `CAPTURE_EXPECTATIONS` — required/recommended capture fields |
 | `apps/desktop/src/main/core/refresh/harvest/index.ts` | `REGISTRY` — a `Harvester` (copy the throwing `local` entry if the source has no list sync) |
 | `apps/desktop/src/main/core/refresh/harvest-window/pool.ts` | `PER_SOURCE_CAP` — concurrent harvest-window cap |
@@ -148,9 +148,9 @@ forgotten regenerate is a red build — never hand-edit that file.
 - **Extension capture**: entrypoints under `apps/extension/sources/` if the
   browser extension should capture this source directly.
 
-> **A note on responsibility.** Pond's source adapters run entirely through the
+> **A note on responsibility.** Apostrophi's source adapters run entirely through the
 > user's own authenticated browser session on their own machine — there are no
-> Pond-operated scraping servers and no credentials leave the device. The rate
+> Apostrophi-operated scraping servers and no credentials leave the device. The rate
 > governor exists to respect each platform's limits. When adding a source, keep
 > the conservative pacing and remember that users are responsible for their own
 > use under each platform's terms of service. See the

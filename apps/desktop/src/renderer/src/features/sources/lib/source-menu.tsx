@@ -9,9 +9,9 @@ import {
   IconNotepad,
   IconTableDownload,
   IconTrash,
-} from "@pond/icons";
-import type { Source, WatchKind } from "@pond/schema/db";
-import { Dialog, type MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { Source, WatchKind } from "@apostrophi/schema/db";
+import { Dialog, type MenuItemSpec } from "@apostrophi/ui";
 import { viewAccountItems } from "@/features/library";
 import type { CardModel } from "@/features/sources/components/sync-monitor/lib/helpers";
 import type { AccountRow } from "@/features/sources/hooks/use-accounts";
@@ -127,7 +127,7 @@ async function copyText(
   id: string,
   successTitle: string,
 ): Promise<void> {
-  const result = await window.pond.query("clipboard.writeText", { text });
+  const result = await window.apostrophi.query("clipboard.writeText", { text });
   notify({
     id,
     title: result.ok ? successTitle : "Couldn't copy. Try again.",
@@ -149,7 +149,7 @@ function profileItems(target: SourceMenuTarget): MenuItemSpec[] {
       hidden: !url,
       onClick: url
         ? () => {
-            void window.pond.openExternal(url).then((result) => {
+            void window.apostrophi.openExternal(url).then((result) => {
               if (result.ok) return;
               notify({
                 id: "source-open-profile",
@@ -215,14 +215,14 @@ function primaryFetchItem(target: SourceMenuTarget): MenuItemSpec {
     return {
       label: "Cancel Fetch",
       icon: <IconArrowRotateClockwise />,
-      onClick: () => void window.pond.syncCancel(target.id),
+      onClick: () => void window.apostrophi.syncCancel(target.id),
     };
   }
   return {
     label: target.model.tone === "err" ? "Retry Fetch" : "Fetch New Saves",
     icon: <IconArrowRotateClockwise />,
     disabled: !target.model.connected,
-    onClick: () => void window.pond.syncRunNow(target.id),
+    onClick: () => void window.apostrophi.syncRunNow(target.id),
   };
 }
 
@@ -235,21 +235,23 @@ function fetchItems(target: SourceMenuTarget): MenuItemSpec[] {
         icon: <IconArchive />,
         disabled: !target.model.connected || target.model.tone === "run",
         onClick: () =>
-          void window.pond.syncRunNow(target.id, { forceFull: true }),
+          void window.apostrophi.syncRunNow(target.id, { forceFull: true }),
       },
       {
         label: "Fetch Save Details",
         icon: <IconNotepad />,
         disabled: !target.model.connected,
         onClick: () =>
-          void window.pond.refreshBackfillStart({ source: target.source }),
+          void window.apostrophi.refreshBackfillStart({
+            source: target.source,
+          }),
       },
       {
         label: "Fetch Original Media",
         icon: <IconTableDownload />,
         disabled: !target.model.connected,
         onClick: () =>
-          void window.pond.refreshBackfillStart({
+          void window.apostrophi.refreshBackfillStart({
             source: target.source,
             overwrite: true,
           }),
@@ -290,10 +292,10 @@ function confirmRemove(target: SourceMenuTarget, onChanged: () => void): void {
   if (target.type === "watch") {
     Dialog.confirm({
       title: "Stop Watching",
-      description: `Pond stops checking ${targetName(target)} for new posts. The ${itemCount} already saved stay in your library.`,
+      description: `Apostrophi stops checking ${targetName(target)} for new posts. The ${itemCount} already saved stay in your library.`,
       confirmLabel: "Stop",
       onConfirm: async () => {
-        await window.pond.query("watches.remove", { watchId: target.id });
+        await window.apostrophi.query("watches.remove", { watchId: target.id });
         onChanged();
         sourceDetail.close();
       },
@@ -303,10 +305,12 @@ function confirmRemove(target: SourceMenuTarget, onChanged: () => void): void {
 
   Dialog.confirm({
     title: "Disconnect",
-    description: `Pond signs ${targetName(target)} out and stops its syncing. The ${itemCount} already saved stay in your library.`,
+    description: `Apostrophi signs ${targetName(target)} out and stops its syncing. The ${itemCount} already saved stay in your library.`,
     confirmLabel: "Disconnect",
     onConfirm: async () => {
-      await window.pond.query("accounts.disconnect", { accountId: target.id });
+      await window.apostrophi.query("accounts.disconnect", {
+        accountId: target.id,
+      });
       onChanged();
       sourceDetail.close();
     },
@@ -380,7 +384,7 @@ function batchSourceMenu(targets: readonly SourceMenuTarget[]): MenuItemSpec[] {
           disabled: fetchable.length === 0,
           onClick: () => {
             for (const target of fetchable) {
-              void window.pond.syncRunNow(target.id);
+              void window.apostrophi.syncRunNow(target.id);
             }
           },
         },

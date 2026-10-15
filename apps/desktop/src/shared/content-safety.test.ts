@@ -1,4 +1,4 @@
-import { sensitiveContentBand } from "@pond/schema/content-safety";
+import { sensitiveContentBand } from "@apostrophi/schema/content-safety";
 import { describe, expect, it } from "vitest";
 
 describe("sensitive content bands", () => {

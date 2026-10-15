@@ -1,4 +1,4 @@
-import { useVideo, Video } from "@pond/ui";
+import { useVideo, Video } from "@apostrophi/ui";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, expect, it, vi } from "vitest";
@@ -22,7 +22,7 @@ it.each([24, 30, 60, null])(
       await act(async () =>
         root.render(
           <Video.Root frameRate={fps}>
-            <Video.Media src="pond://test/video.mp4" />
+            <Video.Media src="apostrophi://test/video.mp4" />
             <Video.Controls data-testid="controls">
               <Step delta={1} />
             </Video.Controls>
@@ -53,7 +53,7 @@ it.each([24, 30, 60, null])(
       await act(async () =>
         root.render(
           <Video.Root frameRate={fps}>
-            <Video.Media src="pond://test/video.mp4" />
+            <Video.Media src="apostrophi://test/video.mp4" />
             <Video.Controls data-testid="controls">
               <Step delta={-10} />
             </Video.Controls>

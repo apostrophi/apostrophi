@@ -6,5 +6,9 @@ export {
   pickPrimaryFile,
   pickPrimaryUnit,
 } from "./lib/media/units";
-export { buildPondUrl, previewThumbUrlFor, thumbUrlFor } from "./lib/media/url";
+export {
+  buildApostrophiUrl,
+  previewThumbUrlFor,
+  thumbUrlFor,
+} from "./lib/media/url";
 export { aspectFor, clampRatio, useAspectVersion } from "./state/aspect";

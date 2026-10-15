@@ -1,5 +1,5 @@
 import { rm } from "node:fs/promises";
-import { saves, tasks } from "@pond/schema/db";
+import { saves, tasks } from "@apostrophi/schema/db";
 import { and, eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -90,7 +90,7 @@ export async function refreshSave(
       .run();
 
     if ((harvest.changes ?? 0) === 0) {
-      log.warn("[pond refresh] no harvest_metadata task", saveId);
+      log.warn("[apostrophi refresh] no harvest_metadata task", saveId);
       return { ok: false, reason: "internal_error" };
     }
 
@@ -106,7 +106,7 @@ export async function refreshSave(
     kickReconciler();
     return { ok: true, method: "metadata" };
   } catch (err) {
-    log.error("[pond refresh] reset failed", saveId, err);
+    log.error("[apostrophi refresh] reset failed", saveId, err);
     return { ok: false, reason: "internal_error" };
   }
 }

@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 
 const TIMEOUT_MS = 30 * 60 * 1000;
 

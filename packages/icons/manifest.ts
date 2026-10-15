@@ -1,6 +1,6 @@
 import type { IconManifest } from "./types";
 
-/** Every glyph in svg/. Regenerate with `pnpm --filter @pond/icons generate`. */
+/** Every glyph in svg/. Regenerate with `pnpm --filter @apostrophi/icons generate`. */
 export const manifest: IconManifest = {
   Album2: ["outline", "fill"],
   AlertQuestion: ["fill"],

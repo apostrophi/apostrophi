@@ -1,5 +1,5 @@
-import { IconMagnifier } from "@pond/icons";
-import { Button, Empty } from "@pond/ui";
+import { IconMagnifier } from "@apostrophi/icons";
+import { Button, Empty } from "@apostrophi/ui";
 
 interface MatchesEmptyProps {
   actionLabel?: string;

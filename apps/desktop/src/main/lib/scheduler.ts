@@ -22,7 +22,7 @@ interface ScheduleOpts {
 
 export function schedule(opts: ScheduleOpts): void {
   if (jobs.has(opts.name)) {
-    log.warn(`[pond scheduler] duplicate job '${opts.name}', replacing`);
+    log.warn(`[apostrophi scheduler] duplicate job '${opts.name}', replacing`);
     cancel(opts.name);
   }
   const job: Job = {
@@ -64,6 +64,6 @@ async function run(job: Job): Promise<void> {
   try {
     await job.fn();
   } catch (err) {
-    log.warn(`[pond scheduler] '${job.name}' tick failed`, err);
+    log.warn(`[apostrophi scheduler] '${job.name}' tick failed`, err);
   }
 }

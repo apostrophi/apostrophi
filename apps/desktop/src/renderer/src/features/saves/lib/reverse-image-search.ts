@@ -62,11 +62,11 @@ export async function reverseImageSearch(
   const engine = REVERSE_SEARCH_ENGINES.find((e) => e.key === engineKey);
   if (!engine) return;
   if ("usesImageUrl" in engine && !engine.usesImageUrl) {
-    await window.pond.openExternal(engine.url(""));
+    await window.apostrophi.openExternal(engine.url(""));
     return;
   }
   const result = PublicUrlReplySchema.parse(
-    await window.pond.query("saves.publicImageUrl", { id: save.id }),
+    await window.apostrophi.query("saves.publicImageUrl", { id: save.id }),
   );
   if (!result.ok || !result.url) {
     statusFeed.error(
@@ -76,5 +76,5 @@ export async function reverseImageSearch(
     return;
   }
   const encoded = encodeURIComponent(result.url);
-  await window.pond.openExternal(engine.url(encoded));
+  await window.apostrophi.openExternal(engine.url(encoded));
 }

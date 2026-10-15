@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@pond/ui";
+import { Button, Tooltip } from "@apostrophi/ui";
 import { QueueSummarySchema } from "@shared/queue-contracts";
 import { useQuery } from "@tanstack/react-query";
 import { getAppRouter } from "@/shared/lib/app-router";
@@ -15,7 +15,9 @@ export function HarvesterButton() {
   const queueSummary = useQuery({
     queryKey: ["queue.summary"],
     queryFn: async () =>
-      QueueSummarySchema.parse(await window.pond.query("queue.summary", {})),
+      QueueSummarySchema.parse(
+        await window.apostrophi.query("queue.summary", {}),
+      ),
     refetchInterval: 2_000,
   });
   const running = queueSummary.data?.running ?? 0;

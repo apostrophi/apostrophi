@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui";
+import { Button } from "@apostrophi/ui";
 import { useState } from "react";
 import styles from "./styles.module.css";
 
@@ -19,9 +19,12 @@ export function CopyLine({ label, value }: { label: string; value: string }) {
               setCopying(true);
               setCopied(false);
               try {
-                const result = await window.pond.query("clipboard.writeText", {
-                  text: value,
-                });
+                const result = await window.apostrophi.query(
+                  "clipboard.writeText",
+                  {
+                    text: value,
+                  },
+                );
                 if (!result.ok) throw new Error("Clipboard write failed");
                 setCopied(true);
               } finally {

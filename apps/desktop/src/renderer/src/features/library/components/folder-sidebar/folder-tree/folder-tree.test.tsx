@@ -5,10 +5,10 @@ import { folders } from "@/features/library/state/folders";
 import { libraryChrome } from "@/features/library/state/library-chrome";
 import { getViewState } from "@/features/library/state/view-store";
 import {
+  apostrophiQuery,
   createFolderSidebarHarness,
   folder,
   folderList,
-  pondQuery,
   sidebarCounts,
 } from "../test-harness";
 
@@ -377,11 +377,11 @@ describe("folder sidebar tree", () => {
         ?.click(),
     );
 
-    expect(pondQuery).toHaveBeenCalledWith("folders.setColor", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("folders.setColor", {
       id: "Shots",
       color: "pink",
     });
-    expect(pondQuery).toHaveBeenCalledWith(
+    expect(apostrophiQuery).toHaveBeenCalledWith(
       "settings.setPrefs",
       expect.objectContaining({
         folderViews: expect.objectContaining({
@@ -389,7 +389,7 @@ describe("folder sidebar tree", () => {
         }),
       }),
     );
-    expect(pondQuery).toHaveBeenCalledWith("folders.metadata.set", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("folders.metadata.set", {
       folderId: "Shots",
       description: "Reference material",
       externalLink: "https://example.com/project",
@@ -427,7 +427,7 @@ describe("folder sidebar tree", () => {
         .map(harness.rowLabel)
         .filter((label) => label === "Alpha" || label === "Zulu"),
     ).toEqual(["Alpha", "Zulu"]);
-    expect(localStorage.getItem("pond:folder-list-sort")).toBe("title");
+    expect(localStorage.getItem("apostrophi:folder-list-sort")).toBe("title");
   });
 
   it("opens the removal confirmation and deletes the folder", async () => {
@@ -458,7 +458,7 @@ describe("folder sidebar tree", () => {
     );
     expect(remove).toBeDefined();
     await act(async () => remove?.click());
-    expect(pondQuery).toHaveBeenCalledWith("folders.delete", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("folders.delete", {
       id: "Shots",
       trashContainedSaves: true,
     });

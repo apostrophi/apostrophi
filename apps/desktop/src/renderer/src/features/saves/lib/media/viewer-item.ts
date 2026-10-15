@@ -7,7 +7,7 @@ import {
   THUMBNAIL_DARK_KIND,
   THUMBNAIL_KIND,
 } from "@shared/save-file-names";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import {
   type ViewerCapability,
   viewerCapabilityFor,
@@ -41,14 +41,14 @@ export function buildViewerItems(
     const item: ViewerItem = {
       key: `${fileIndex}:${file.path}`,
       fileIndex,
-      url: buildPondUrl(save.id, file),
+      url: buildApostrophiUrl(save.id, file),
       capability,
     };
 
     if (capability.surface === "temporal") {
       const poster = posters[videoIndex] ?? posters[0];
       videoIndex += 1;
-      if (poster) item.posterUrl = buildPondUrl(save.id, poster);
+      if (poster) item.posterUrl = buildApostrophiUrl(save.id, poster);
     }
 
     return [item];
@@ -78,7 +78,7 @@ export function buildViewerItems(
     {
       key: `${fileIndex}:${presentable.path}`,
       fileIndex,
-      url: buildPondUrl(save.id, presentable),
+      url: buildApostrophiUrl(save.id, presentable),
       capability: viewerCapabilityFor(presentable),
     },
   ];

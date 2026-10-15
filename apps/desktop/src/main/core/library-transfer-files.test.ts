@@ -25,11 +25,11 @@ afterEach(async () => {
 });
 async function fixture() {
   const root = await realpath(
-    await mkdtemp(join(tmpdir(), "pond-library-transfer-")),
+    await mkdtemp(join(tmpdir(), "apostrophi-library-transfer-")),
   );
   roots.push(root);
-  const target = join(root, "Target.pond");
-  const pack = join(root, "Saves.pondpack");
+  const target = join(root, "Target.apostrophi");
+  const pack = join(root, "Saves.apostrophipack");
   const original = join(root, "original");
   await mkdir(join(target, "items"), { recursive: true });
   await mkdir(join(target, "trash"));
@@ -187,19 +187,20 @@ describe("copy into an inactive library", () => {
       imported: 0,
       skipped: 1,
     });
-    const exported = join(root, "merged.pondpack");
+    const exported = join(root, "merged.apostrophipack");
     await mkdir(exported);
     expect((await packageLibrary(target, exported)).exported).toBe(1);
     expect(
-      JSON.parse(await readFile(join(exported, "pond-export.json"), "utf8"))
-        .saves[0].rating,
+      JSON.parse(
+        await readFile(join(exported, "apostrophi-export.json"), "utf8"),
+      ).saves[0].rating,
     ).toBe(5);
-    expect(await readdir(pack)).toContain("pond-export.json");
-    expect(await readdir(target)).not.toContain(".pond-transfer.lock");
+    expect(await readdir(pack)).toContain("apostrophi-export.json");
+    expect(await readdir(target)).not.toContain(".apostrophi-transfer.lock");
   });
   it("creates canonical tags when importing a legacy package without registry metadata", async () => {
     const { target, pack } = await fixture();
-    const file = join(pack, "pond-export.json");
+    const file = join(pack, "apostrophi-export.json");
     const manifest = JSON.parse(await readFile(file, "utf8"));
     delete manifest.organization;
     await writeFile(file, JSON.stringify(manifest));
@@ -211,7 +212,7 @@ describe("copy into an inactive library", () => {
   it("does not write into a library with a live transfer lock", async () => {
     const { target, pack } = await fixture();
     await writeFile(
-      join(target, ".pond-transfer.lock"),
+      join(target, ".apostrophi-transfer.lock"),
       JSON.stringify({ host: hostname(), pid: process.pid }),
     );
     await expect(copyPackageToLibrary(pack, target)).rejects.toThrow(
@@ -226,6 +227,6 @@ describe("copy into an inactive library", () => {
       "Open this library",
     );
     expect(await readdir(join(target, "items"))).toEqual([]);
-    expect(await readdir(target)).not.toContain(".pond-transfer.lock");
+    expect(await readdir(target)).not.toContain(".apostrophi-transfer.lock");
   });
 });

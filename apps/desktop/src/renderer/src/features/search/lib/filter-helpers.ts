@@ -1,10 +1,10 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
 import {
   COMPARATORS_BY_TYPE,
   type ComparatorId,
   type FieldId,
   type Predicate,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import { z } from "zod";
 
 export function defaultPredicateFor(field: FieldId): Predicate {

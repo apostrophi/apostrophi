@@ -1,6 +1,6 @@
 import { descendantFolderIds } from "./tree";
 
-export const FOLDER_DRAG_TYPE = "application/x-pond-folder";
+export const FOLDER_DRAG_TYPE = "application/x-apostrophi-folder";
 
 export type FolderDropKind = "before" | "into" | "after";
 

@@ -16,7 +16,7 @@ export function notifyUndoableFolderChange(id: string, title: string): void {
     action: {
       label: "Undo",
       onClick: () => {
-        void window.pond.undo().then((result) => {
+        void window.apostrophi.undo().then((result) => {
           if (result.ok) void saveLibraryBridge.refreshFolders();
           else
             notify({
@@ -35,7 +35,7 @@ export async function assignSavesToFolder(
 ): Promise<void> {
   if (ids.length === 0) return;
   try {
-    await window.pond.query("folders.addSaves", {
+    await window.apostrophi.query("folders.addSaves", {
       folderId: folder.id,
       saveIds: [...ids],
     });
@@ -60,7 +60,7 @@ export async function removeSavesFromFolder(
 ): Promise<void> {
   if (ids.length === 0) return;
   try {
-    await window.pond.query("folders.assign", {
+    await window.apostrophi.query("folders.assign", {
       saveIds: [...ids],
       addIds: [],
       removeIds: [folder.id],

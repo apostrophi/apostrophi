@@ -5,7 +5,7 @@ import type {
   Source,
   SyncAction,
   TaskStatus,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 
 export type WireJson =
   | string

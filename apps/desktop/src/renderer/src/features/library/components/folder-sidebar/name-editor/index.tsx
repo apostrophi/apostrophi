@@ -1,5 +1,5 @@
-import { IconFolder } from "@pond/icons";
-import { Sidebar } from "@pond/ui";
+import { IconFolder } from "@apostrophi/icons";
+import { Sidebar } from "@apostrophi/ui";
 import { InlineNameEditor } from "@/shared/components/inline-name-editor";
 import styles from "./styles.module.css";
 

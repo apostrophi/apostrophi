@@ -170,12 +170,17 @@ async function generateMany(
           }
           results.set(out, out);
         } catch (err) {
-          log.warn("[pond thumbnail] width failed", sourcePath, width, err);
+          log.warn(
+            "[apostrophi thumbnail] width failed",
+            sourcePath,
+            width,
+            err,
+          );
         }
       }
       return results;
     } catch (err) {
-      log.warn("[pond thumbnail] generate failed", sourcePath, err);
+      log.warn("[apostrophi thumbnail] generate failed", sourcePath, err);
       return results;
     }
   });

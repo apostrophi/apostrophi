@@ -1,5 +1,5 @@
-import type { CaptureMedia, RawJson } from "@pond/schema/raw";
-import { QUOTE_DEPTH_CAP } from "@pond/schema/raw";
+import type { CaptureMedia, RawJson } from "@apostrophi/schema/raw";
+import { QUOTE_DEPTH_CAP } from "@apostrophi/schema/raw";
 import log from "electron-log/main.js";
 import { persistSave } from "../../persist-save";
 import {
@@ -54,20 +54,25 @@ export async function runCaptureTweet(
   if (!save.sourceId) return idle;
 
   if (readCaptureTweetVersion(save.rawJson) >= CAPTURE_TWEET_VERSION) {
-    log.debug("[pond pipeline:capture-tweet] up to date, skipping", saveId);
+    log.debug(
+      "[apostrophi pipeline:capture-tweet] up to date, skipping",
+      saveId,
+    );
     return idle;
   }
 
   const rendered = await tryNativeRender(saveId, save);
   if (rendered) {
     await finalizeRawJson(saveId, save.rawJson, [], { stampVersion: true });
-    log.info("[pond pipeline:capture-tweet] native card done", { saveId });
+    log.info("[apostrophi pipeline:capture-tweet] native card done", {
+      saveId,
+    });
     return { captured: 2, authWall: false, mediaAdded: false };
   }
 
   if (opts?.nativeOnly) {
     log.debug(
-      "[pond pipeline:capture-tweet] native miss, skipping live screenshot",
+      "[apostrophi pipeline:capture-tweet] native miss, skipping live screenshot",
       saveId,
     );
     return idle;
@@ -127,7 +132,7 @@ export async function runCaptureTweet(
     stampVersion: completed,
   });
 
-  log.info("[pond pipeline:capture-tweet] done", {
+  log.info("[apostrophi pipeline:capture-tweet] done", {
     saveId,
     captured,
     mediaAdded,
@@ -181,7 +186,7 @@ async function tryNativeRender(
       );
     } catch (err) {
       log.warn(
-        "[pond pipeline:capture-tweet] avatar persist failed",
+        "[apostrophi pipeline:capture-tweet] avatar persist failed",
         saveId,
         err,
       );

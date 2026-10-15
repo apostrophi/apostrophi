@@ -8,8 +8,8 @@ import type {
   Source,
   VideoDownloadSettings,
   WatchedAccount,
-} from "@pond/schema/db";
-import type { SyncRunEvent } from "@pond/schema/events";
+} from "@apostrophi/schema/db";
+import type { SyncRunEvent } from "@apostrophi/schema/events";
 import { z } from "zod";
 import type {
   AssistantChange,
@@ -290,7 +290,7 @@ export interface SystemQueryResults {
   "reset.clearThumbnails": OkResult<{ removed: number }>;
   "reset.factory": OkResult;
   "storage.snapshot": {
-    pondBytes: number;
+    apostrophiBytes: number;
     breakdown: {
       items: number;
       videoCache: number;
@@ -308,7 +308,7 @@ export interface SystemQueryResults {
   "storage.applyGuardPrefs": OkResult;
   "storage.guardState": {
     state: "ok" | "warn" | "exceeded";
-    pondBytes: number;
+    apostrophiBytes: number;
     capBytes: number | null;
     warnBytes: number | null;
     action: "warn" | "pauseSync" | "pauseVideo";

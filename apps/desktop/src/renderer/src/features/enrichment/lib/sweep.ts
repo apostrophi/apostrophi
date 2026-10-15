@@ -152,7 +152,7 @@ async function persist(enricher: Enricher, save: Save): Promise<void> {
   }
   if (result.derived && Object.keys(result.derived).length > 0) {
     try {
-      await window.pond.query("saves.patchDerived", {
+      await window.apostrophi.query("saves.patchDerived", {
         id: save.id,
         patch: result.derived,
       });

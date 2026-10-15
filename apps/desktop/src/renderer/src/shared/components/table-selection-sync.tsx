@@ -1,4 +1,4 @@
-import { type DataTableRow, useDataTable } from "@pond/ui";
+import { type DataTableRow, useDataTable } from "@apostrophi/ui";
 import { useEffect } from "react";
 import type { RowSelectionStore } from "@/shared/state/row-selection";
 

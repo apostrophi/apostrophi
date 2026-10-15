@@ -32,11 +32,11 @@ export function MenuRecentsBridge(): null {
   }, [recents, revision]);
 
   useEffect(() => {
-    window.pond.sendMenuRecents(entries);
+    window.apostrophi.sendMenuRecents(entries);
   }, [entries]);
 
   useEffect(() => {
-    return window.pond.onMenuOpenSave((id) => {
+    return window.apostrophi.onMenuOpenSave((id) => {
       openSave(id);
     });
   }, []);

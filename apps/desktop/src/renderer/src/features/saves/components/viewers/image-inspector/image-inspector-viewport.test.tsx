@@ -86,7 +86,7 @@ it("shows persisted transforms and keeps a cancelled crop draft out of storage",
 });
 
 it("pinches to zoom at the pointer", async () => {
-  await inspector.render(IMAGE_INSPECTOR_SAVE, "pond://test/pinch.jpg");
+  await inspector.render(IMAGE_INSPECTOR_SAVE, "apostrophi://test/pinch.jpg");
   const frame = inspector.prepareFrame();
   expect(inspector.host.textContent).toContain("100%");
   await act(async () => {
@@ -107,7 +107,7 @@ it("pinches to zoom at the pointer", async () => {
 });
 
 it("pans at fit with two-finger drag", async () => {
-  await inspector.render(IMAGE_INSPECTOR_SAVE, "pond://test/pan.jpg");
+  await inspector.render(IMAGE_INSPECTOR_SAVE, "apostrophi://test/pan.jpg");
   const image = inspector.host.querySelector("img");
   const frame = image?.closest("[data-background]");
   const position = image?.parentElement?.parentElement;

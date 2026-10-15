@@ -5,8 +5,8 @@ import {
   IconTextA,
   IconTypeScale,
   IconTypography,
-} from "@pond/icons";
-import { Button, Input, Slider } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, Input, Slider } from "@apostrophi/ui";
 import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { ChromePortal } from "@/features/saves/components/viewers/media-viewer/chrome";
@@ -44,7 +44,7 @@ export function FontViewer(props: ViewerProps & { url: string }) {
   const [background, setBackground] = useState<"light" | "dark">("light");
   const [renaming, setRenaming] = useState(false);
   const family = useMemo(
-    () => `pond-preview-${props.save.id.replace(/[^a-zA-Z0-9_-]/g, "")}`,
+    () => `apostrophi-preview-${props.save.id.replace(/[^a-zA-Z0-9_-]/g, "")}`,
     [props.save.id],
   );
 
@@ -222,7 +222,7 @@ export function FontViewer(props: ViewerProps & { url: string }) {
                   ariaLabel="Font name"
                   errorTitle="Could not rename this font."
                   onSave={async (name) => {
-                    const result = await window.pond.query(
+                    const result = await window.apostrophi.query(
                       "saves.batchRename",
                       { ids: [props.save.id], pattern: name },
                     );

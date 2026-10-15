@@ -7,8 +7,8 @@ body:
     attributes:
       value: |
         Thanks for the suggestion! Before filing, please skim
-        [open issues](https://github.com/raphaelsalaja/pond/issues?q=is%3Aissue+label%3Aenhancement)
-        and [Discussions](https://github.com/raphaelsalaja/pond/discussions)
+        [open issues](https://github.com/apostrophi/apostrophi/issues?q=is%3Aissue+label%3Aenhancement)
+        and [Discussions](https://github.com/apostrophi/apostrophi/discussions)
         to make sure this hasn't already been raised.
   - type: textarea
     id: problem
@@ -54,5 +54,5 @@ body:
     attributes:
       label: Code of conduct
       options:
-        - label: I agree to follow this project's [Code of Conduct](https://github.com/raphaelsalaja/pond/blob/main/CODE_OF_CONDUCT.md).
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/apostrophi/apostrophi/blob/main/CODE_OF_CONDUCT.md).
           required: true

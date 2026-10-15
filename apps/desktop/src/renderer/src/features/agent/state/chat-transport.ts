@@ -1,6 +1,6 @@
 import { DefaultChatTransport } from "ai";
 import { z } from "zod";
-import type { PondUIMessage } from "./pond-messages";
+import type { ApostrophiUIMessage } from "./apostrophi-messages";
 
 const requestId = z.object({ requestId: z.string().min(1) });
 
@@ -30,7 +30,7 @@ export async function ipcChatFetch(
         finish(new DOMException("The request was aborted.", "AbortError"));
       signal?.addEventListener("abort", abort, { once: true });
       try {
-        closePort = window.pond.agentStream(parseBody(init), (event) => {
+        closePort = window.apostrophi.agentStream(parseBody(init), (event) => {
           if (settled) return;
           if (event.type === "data") {
             controller.enqueue(new Uint8Array(event.data));
@@ -74,9 +74,9 @@ export function parseBody(init?: RequestInit) {
   }
 }
 
-export function pondChatTransport() {
-  return new DefaultChatTransport<PondUIMessage>({
-    api: "pond://agent",
+export function apostrophiChatTransport() {
+  return new DefaultChatTransport<ApostrophiUIMessage>({
+    api: "apostrophi://agent",
     fetch: ipcChatFetch,
     prepareSendMessagesRequest: ({ id, messages, body }) => ({
       body: {

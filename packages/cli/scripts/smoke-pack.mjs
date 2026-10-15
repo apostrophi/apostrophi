@@ -15,13 +15,13 @@ const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const manifest = JSON.parse(
   readFileSync(join(packageRoot, "package.json"), "utf8"),
 );
-const sandbox = mkdtempSync(join(tmpdir(), "pond-cli-pack-"));
+const sandbox = mkdtempSync(join(tmpdir(), "apostrophi-cli-pack-"));
 const project = join(sandbox, "project");
 const packDirectory = join(sandbox, "pack");
 const home = join(sandbox, "home");
 const cache = join(sandbox, "npm-cache");
 const userConfig = join(sandbox, "npmrc");
-const pondConfig = join(sandbox, "state", "cli.json");
+const apostrophiConfig = join(sandbox, "state", "cli.json");
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 const pnpm = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 
@@ -56,7 +56,7 @@ try {
     join(project, "package.json"),
     `${JSON.stringify(
       {
-        name: "pond-cli-pack-smoke",
+        name: "apostrophi-cli-pack-smoke",
         version: "1.0.0",
         private: true,
       },
@@ -72,7 +72,7 @@ try {
     XDG_CONFIG_HOME: join(sandbox, "config"),
     APPDATA: join(sandbox, "app-data"),
     LOCALAPPDATA: join(sandbox, "local-app-data"),
-    POND_CONFIG: pondConfig,
+    APOSTROPHI_CONFIG: apostrophiConfig,
     npm_config_audit: "false",
     npm_config_cache: cache,
     npm_config_fund: "false",
@@ -106,19 +106,19 @@ try {
     project,
     "node_modules",
     ".bin",
-    process.platform === "win32" ? "pond.cmd" : "pond",
+    process.platform === "win32" ? "apostrophi.cmd" : "apostrophi",
   );
   const version = run(executable, ["--version"], project, env).trim();
   if (version !== manifest.version) {
     throw new Error(
-      `Expected pond --version to print ${manifest.version}, received ${version}.`,
+      `Expected apostrophi --version to print ${manifest.version}, received ${version}.`,
     );
   }
-  if (existsSync(pondConfig))
-    throw new Error("pond --version wrote CLI configuration.");
+  if (existsSync(apostrophiConfig))
+    throw new Error("apostrophi --version wrote CLI configuration.");
 
   process.stdout.write(
-    `Installed @pond/cli ${manifest.version} and verified pond --version.\n`,
+    `Installed @apostrophi/cli ${manifest.version} and verified apostrophi --version.\n`,
   );
 } finally {
   rmSync(sandbox, { recursive: true, force: true });

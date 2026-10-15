@@ -1,4 +1,4 @@
-import { Button, Input, Select, Settings, Tooltip } from "@pond/ui";
+import { Button, Input, Select, Settings, Tooltip } from "@apostrophi/ui";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -19,7 +19,7 @@ function libraryFolderName(path: string): string {
     path
       .split(/[\\/]/)
       .at(-1)
-      ?.replace(/\.pond$/i, "") ?? ""
+      ?.replace(/\.apostrophi$/i, "") ?? ""
   );
 }
 
@@ -27,16 +27,20 @@ export function LibrarySettings() {
   const { data: info } = useQuery({
     queryKey: ["library-info"],
     queryFn: async () =>
-      LibraryInfoSchema.parse(await window.pond.query("library.info", {})),
+      LibraryInfoSchema.parse(
+        await window.apostrophi.query("library.info", {}),
+      ),
   });
   const { data: recent = [] } = useQuery({
     queryKey: ["recent-libraries"],
-    queryFn: () => window.pond.query("library.recent", {}),
+    queryFn: () => window.apostrophi.query("library.recent", {}),
   });
 
   const openRecent = useMutation({
     mutationFn: async (path: string) => {
-      const result = await window.pond.query("library.switchTo", { path });
+      const result = await window.apostrophi.query("library.switchTo", {
+        path,
+      });
       if (!result.ok) throw new Error(result.error ?? "Couldn't open library.");
     },
   });
@@ -112,7 +116,7 @@ function LibraryIdentitySettings({ info }: { info?: LibraryInfo }) {
   };
 
   const updateLogo = async (nextLogo: string | null) => {
-    const result = await window.pond.query("library.identity.update", {
+    const result = await window.apostrophi.query("library.identity.update", {
       icon: nextLogo,
     });
     if (!result.ok) {
@@ -126,7 +130,10 @@ function LibraryIdentitySettings({ info }: { info?: LibraryInfo }) {
     setLogoBusy(true);
     setLogoError(null);
     try {
-      const result = await window.pond.query("library.identity.pickIcon", {});
+      const result = await window.apostrophi.query(
+        "library.identity.pickIcon",
+        {},
+      );
       if (!result.ok) {
         if (result.reason !== "cancelled")
           setLogoError("Choose a supported image.");
@@ -154,7 +161,7 @@ function LibraryIdentitySettings({ info }: { info?: LibraryInfo }) {
 
   const saveName = async () => {
     if (!info || nameBusy) return;
-    const nextName = name.trim().replace(/\.pond$/i, "");
+    const nextName = name.trim().replace(/\.apostrophi$/i, "");
     if (!nextName) {
       setNameError("Enter a library name.");
       return;
@@ -169,10 +176,10 @@ function LibraryIdentitySettings({ info }: { info?: LibraryInfo }) {
     try {
       const result =
         nextName === libraryFolderName(info.path)
-          ? await window.pond.query("library.identity.update", {
+          ? await window.apostrophi.query("library.identity.update", {
               name: nextName,
             })
-          : await window.pond.query("library.rename", {
+          : await window.apostrophi.query("library.rename", {
               name: nextName,
             });
       if (!result.ok) {

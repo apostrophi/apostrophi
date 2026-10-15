@@ -4,8 +4,15 @@ import {
   IconFolder,
   IconPlus,
   IconStar,
-} from "@pond/icons";
-import { Button, DataTable, Empty, Input, Sidebar, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import {
+  Button,
+  DataTable,
+  Empty,
+  Input,
+  Sidebar,
+  Tooltip,
+} from "@apostrophi/ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TagsBulkActionBar } from "@/features/tags/components/manager/bulk-actions";
 import { DraftRow } from "@/features/tags/components/manager/draft-row";
@@ -197,7 +204,7 @@ export function TagsPage() {
   function commitGroupDescription() {
     const group = activeGroupRow?.group;
     if (!group || descriptionDraft.trim() === (group.description ?? "")) return;
-    void window.pond.query("tagGroups.update", {
+    void window.apostrophi.query("tagGroups.update", {
       name: group.name,
       patch: { description: descriptionDraft },
     });

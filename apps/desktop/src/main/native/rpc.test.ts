@@ -1,4 +1,4 @@
-import { nativeRequestSchema } from "@pond/schema/native";
+import { nativeRequestSchema } from "@apostrophi/schema/native";
 import { describe, expect, it, vi } from "vitest";
 import { UnsupportedError } from "../core/pipeline/extractors/errors";
 import { dispatchNative, type NativePorts } from "./rpc";
@@ -42,7 +42,7 @@ describe("dispatchNative", () => {
   it("answers hello with the app version", async () => {
     await expect(dispatchNative({ type: "hello" }, ports())).resolves.toEqual({
       ok: true,
-      data: { app: "pond", version: "0.0.1" },
+      data: { app: "apostrophi", version: "0.0.1" },
     });
   });
 

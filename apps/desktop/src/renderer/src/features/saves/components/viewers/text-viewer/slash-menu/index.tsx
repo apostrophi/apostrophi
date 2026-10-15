@@ -1,9 +1,3 @@
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
-  LexicalTypeaheadMenuPlugin,
-  MenuOption,
-  type MenuTextMatch,
-} from "@lexical/react/LexicalTypeaheadMenuPlugin";
 import {
   IconBlockquote,
   IconBulletList,
@@ -21,8 +15,14 @@ import {
   IconPaperclip,
   IconSquareCode,
   IconVideo,
-} from "@pond/icons";
-import { Menu } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Menu } from "@apostrophi/ui";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import {
+  LexicalTypeaheadMenuPlugin,
+  MenuOption,
+  type MenuTextMatch,
+} from "@lexical/react/LexicalTypeaheadMenuPlugin";
 import { COMMAND_PRIORITY_NORMAL, type TextNode } from "lexical";
 import {
   type ComponentType,

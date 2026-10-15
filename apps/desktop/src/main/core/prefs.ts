@@ -1,4 +1,4 @@
-import type { DeepPartial } from "@pond/schema/db";
+import type { DeepPartial } from "@apostrophi/schema/db";
 import {
   DEFAULT_IMAGE_DOWNLOAD,
   DEFAULT_PREFS,
@@ -8,7 +8,7 @@ import {
   PrefsSchema,
   settings as settingsTable,
   type VideoDownloadSettings,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -16,18 +16,18 @@ import { getGlobalDb } from "../db";
 import { createMemoCache } from "../lib/memo-cache";
 import { prepareGlobalShortcuts } from "./global-shortcuts";
 import {
+  type ApostrophiPrefs,
   currentLibraryId,
   isUnboundLibraryId,
+  mergeApostrophiSlice,
   mergeAppSlice,
-  mergePondSlice,
   mergePrefs,
   normalizeStoredPrefs,
-  type PondPrefs,
-  readBundlePondPrefs,
+  readBundleApostrophiPrefs,
   type StoredPrefs,
   type StoredPrefsInput,
   splitPrefsPatch,
-  writeBundlePondPrefs,
+  writeBundleApostrophiPrefs,
 } from "./prefs-scope";
 
 interface SettingsCache {
@@ -67,44 +67,44 @@ async function fetchSettings(): Promise<SettingsCache> {
   if (!isSameStored(row?.prefs, stored)) {
     await persistStoredPrefs(stored);
   }
-  const pond = await resolvePondSlice(stored, libraryId);
+  const apostrophi = await resolveApostrophiSlice(stored, libraryId);
   return {
     libraryId,
-    prefs: mergePrefs(stored.app, pond),
+    prefs: mergePrefs(stored.app, apostrophi),
     videoDownload: normalizeVideo(row?.videoDownload ?? DEFAULT_VIDEO_DOWNLOAD),
     imageDownload: normalizeImage(row?.imageDownload ?? DEFAULT_IMAGE_DOWNLOAD),
   };
 }
 
-async function resolvePondSlice(
+async function resolveApostrophiSlice(
   stored: StoredPrefs,
   libraryId: string,
-): Promise<DeepPartial<PondPrefs>> {
+): Promise<DeepPartial<ApostrophiPrefs>> {
   if (isUnboundLibraryId(libraryId)) return stored.pending ?? {};
 
-  let bundle: DeepPartial<PondPrefs> | null = null;
+  let bundle: DeepPartial<ApostrophiPrefs> | null = null;
   try {
-    bundle = readBundlePondPrefs();
+    bundle = readBundleApostrophiPrefs();
   } catch (error) {
-    log.debug("[pond prefs] Library preferences unavailable", {
+    log.debug("[apostrophi prefs] Library preferences unavailable", {
       error: error instanceof Error ? error.message : "unknown error",
     });
     return stored.pending ?? {};
   }
   if (bundle) return bundle;
 
-  const seed = mergePondSlice(stored.pending ?? {});
+  const seed = mergeApostrophiSlice(stored.pending ?? {});
   try {
-    writeBundlePondPrefs(seed);
+    writeBundleApostrophiPrefs(seed);
   } catch (err) {
-    log.warn("[pond prefs] seeding bundle settings.json failed", err);
+    log.warn("[apostrophi prefs] seeding bundle settings.json failed", err);
     return seed;
   }
   if (stored.pending) {
     try {
       await persistStoredPrefs({ ...stored, pending: null });
     } catch (err) {
-      log.warn("[pond prefs] clearing pending library prefs failed", err);
+      log.warn("[apostrophi prefs] clearing pending library prefs failed", err);
     }
   }
   return seed;
@@ -118,7 +118,7 @@ async function loadSettings(): Promise<SettingsCache> {
     settingsCache.invalidate();
     return await settingsCache.get();
   } catch (err) {
-    log.warn("[pond prefs] failed to read settings, using defaults", err);
+    log.warn("[apostrophi prefs] failed to read settings, using defaults", err);
     return {
       libraryId: currentLibraryId(),
       prefs: DEFAULT_PREFS,
@@ -177,34 +177,34 @@ export function setPrefs(patch: DeepPartial<Prefs>): Promise<Prefs> {
 async function applyPrefs(patch: DeepPartial<Prefs>): Promise<Prefs> {
   const libraryId = currentLibraryId();
   const current = await loadSettings();
-  const { app, pond } = splitPrefsPatch(patch);
+  const { app, apostrophi } = splitPrefsPatch(patch);
 
   let stored = normalizeStoredPrefs(await readRawStoredPrefs());
 
-  let pondSlice: PondPrefs;
+  let apostrophiSlice: ApostrophiPrefs;
   if (isUnboundLibraryId(libraryId)) {
-    if (Object.keys(pond).length > 0) {
+    if (Object.keys(apostrophi).length > 0) {
       stored = {
         ...stored,
-        pending: mergePondSlice(stored.pending ?? {}, pond),
+        pending: mergeApostrophiSlice(stored.pending ?? {}, apostrophi),
       };
     }
-    pondSlice = mergePondSlice(stored.pending ?? {});
+    apostrophiSlice = mergeApostrophiSlice(stored.pending ?? {});
   } else {
-    const base = readBundlePondPrefs() ?? mergePondSlice({});
-    pondSlice = mergePondSlice(base, pond);
+    const base = readBundleApostrophiPrefs() ?? mergeApostrophiSlice({});
+    apostrophiSlice = mergeApostrophiSlice(base, apostrophi);
   }
 
   if (Object.keys(app).length > 0) {
     stored = { ...stored, app: mergeAppSlice(stored.app, app) };
   }
-  const merged = mergePrefs(stored.app, pondSlice);
+  const merged = mergePrefs(stored.app, apostrophiSlice);
   const shortcutChange = patch.shortcuts
     ? prepareGlobalShortcuts(merged.shortcuts.overrides)
     : null;
   try {
-    if (!isUnboundLibraryId(libraryId) && Object.keys(pond).length > 0)
-      writeBundlePondPrefs(pondSlice);
+    if (!isUnboundLibraryId(libraryId) && Object.keys(apostrophi).length > 0)
+      writeBundleApostrophiPrefs(apostrophiSlice);
     await persistStoredPrefs(stored);
     shortcutChange?.commit();
   } catch (error) {
@@ -221,7 +221,7 @@ async function applyPrefs(patch: DeepPartial<Prefs>): Promise<Prefs> {
     try {
       listener(merged);
     } catch (error) {
-      log.warn("[pond prefs] listener failed", error);
+      log.warn("[apostrophi prefs] listener failed", error);
     }
   }
   return merged;

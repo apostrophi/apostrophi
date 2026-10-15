@@ -1,4 +1,4 @@
-import { SAVED_VIEW_KINDS } from "@pond/schema/db";
+import { SAVED_VIEW_KINDS } from "@apostrophi/schema/db";
 import { RenameOptionsSchema } from "@shared/rename-template";
 import { z } from "zod";
 import {

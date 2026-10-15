@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS, type Prefs } from "@pond/schema";
+import { DEFAULT_PREFS, type Prefs } from "@apostrophi/schema";
 import { describe, expect, it, vi } from "vitest";
 import type { Save } from "@/features/saves/types";
 import type { MediaUnderstandingRouter } from "../media-understanding-router";
@@ -18,7 +18,7 @@ function save(ocrModel: string | null = null): Save {
     description: null,
     author: null,
     notes: null,
-    mediaUrl: "pond://save-1/image.png",
+    mediaUrl: "apostrophi://save-1/image.png",
     mediaType: "image",
     files: [
       {
@@ -95,7 +95,7 @@ describe("OCR enricher", () => {
     });
     expect(selectedRouter.run).toHaveBeenCalledExactlyOnceWith({
       saveId: "save-1",
-      imageUrl: "pond://save-1/image.png",
+      imageUrl: "apostrophi://save-1/image.png",
       task: "ocr",
       prefs: selectedPrefs,
     });

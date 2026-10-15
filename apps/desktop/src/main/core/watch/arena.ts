@@ -1,5 +1,5 @@
 import { setTimeout as delay } from "node:timers/promises";
-import type { WatchKind } from "@pond/schema/db";
+import type { WatchKind } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import type { WatchEntry, WatchHarvestResult } from "./types";
@@ -43,7 +43,7 @@ async function fetchContents(url: string, attempt = 0): Promise<FetchResult> {
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
   } catch (err) {
-    log.warn("[pond watch:arena] fetch failed", url, err);
+    log.warn("[apostrophi watch:arena] fetch failed", url, err);
     return { ok: false, status: 0 };
   }
   if (res.status === 429 && attempt === 0) {

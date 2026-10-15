@@ -1,4 +1,4 @@
-import type { RawJson } from "@pond/schema/raw";
+import type { RawJson } from "@apostrophi/schema/raw";
 import log from "electron-log/main.js";
 import { fetchAvatarToTxFile } from "../../../lib/blob";
 import { persistSave } from "../../persist-save";
@@ -12,7 +12,7 @@ export async function runFetchAvatar(saveId: string): Promise<void> {
   const files = save.files ?? [];
   if (files.some((f) => f.kind === "avatar")) {
     log.debug(
-      "[pond pipeline:fetch-avatar] avatar already on disk, skipping",
+      "[apostrophi pipeline:fetch-avatar] avatar already on disk, skipping",
       saveId,
     );
     return;
@@ -45,7 +45,7 @@ export async function runFetchAvatar(saveId: string): Promise<void> {
       newFiles: [avatarFile],
     },
   );
-  log.info("[pond pipeline:fetch-avatar] wrote", saveId);
+  log.info("[apostrophi pipeline:fetch-avatar] wrote", saveId);
 }
 
 function pickAvatarUrl(rawJson: RawJson | null): string | null {

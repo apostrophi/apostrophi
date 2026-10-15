@@ -1,4 +1,4 @@
-import { Sidebar } from "@pond/ui";
+import { Sidebar } from "@apostrophi/ui";
 import { useRouterState } from "@tanstack/react-router";
 import { HarvesterButton } from "@/features/library/components/harvester-button";
 import { NewMenu } from "@/features/library/components/new-menu";

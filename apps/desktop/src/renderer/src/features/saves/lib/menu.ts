@@ -4,8 +4,8 @@ import {
   IconImagePlus,
   IconMagnifier,
   IconMediaPlay,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { saveLibraryBridge } from "@/features/saves/lib/library-bridge";
 import type { Save } from "@/features/saves/types";
 import { REVEAL_LABEL } from "@/shared/lib/platform";

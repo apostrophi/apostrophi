@@ -9,8 +9,8 @@ const {
 } = require("node:fs");
 const { tmpdir } = require("node:os");
 const { join } = require("node:path");
-const sandbox = mkdtempSync(join(tmpdir(), "pond-folder-tags-smoke-"));
-process.env.POND_SANDBOX = sandbox;
+const sandbox = mkdtempSync(join(tmpdir(), "apostrophi-folder-tags-smoke-"));
+process.env.APOSTROPHI_SANDBOX = sandbox;
 const originalPaths = Array.from({ length: 50 }, (_, index) => {
   const path = join(sandbox, `original-${index}.txt`);
   writeFileSync(path, `File import recovery fixture ${index}.`);
@@ -28,7 +28,7 @@ app.on("web-contents-created", (_, contents) => {
     started = true;
     try {
       const state = await contents.executeJavaScript(`(async () => {
-        const q = (name,input={}) => window.pond.query(name,input);
+        const q = (name,input={}) => window.apostrophi.query(name,input);
         const roots = await q("folders.createBatch",{names:["Work","Personal"]});
         const work = roots.find((folder) => folder.name === "Work");
         const personal = roots.find((folder) => folder.name === "Personal");
@@ -41,10 +41,10 @@ app.on("web-contents-created", (_, contents) => {
         const assigned = await q("saves.get",{id:created.id});
         await q("folders.moveBatch",{ids:[child.id],parentId:personal.id});
         const moved = await q("saves.get",{id:created.id});
-        const undoMove = await window.pond.undo();
+        const undoMove = await window.apostrophi.undo();
         const afterUndoMove = await q("saves.get",{id:created.id});
         const treeAfterUndo = await q("folders.list");
-        const undoAssign = await window.pond.undo();
+        const undoAssign = await window.apostrophi.undo();
         const afterUndoAssign = await q("saves.get",{id:created.id});
         const memberships = await q("folders.memberships");
         const registry = await q("tags.list");
@@ -82,8 +82,8 @@ app.on("web-contents-created", (_, contents) => {
         ),
       );
       const retried = await contents.executeJavaScript(`(async () => {
-        const result = await window.pond.query("saves.createManual",{sourceId:"recovery-fixture",filePaths:${JSON.stringify(originalPaths)}});
-        return {result,save:await window.pond.query("saves.get",{id:result.id})};
+        const result = await window.apostrophi.query("saves.createManual",{sourceId:"recovery-fixture",filePaths:${JSON.stringify(originalPaths)}});
+        return {result,save:await window.apostrophi.query("saves.get",{id:result.id})};
       })()`);
       assert.equal(retried.result.id, state.fileSave.id);
       assert.equal(retried.result.skipped, undefined);
@@ -118,7 +118,7 @@ app.on("web-contents-created", (_, contents) => {
         ]),
       );
       const transfer = await contents.executeJavaScript(`(async () => {
-        const q = (name,input={}) => window.pond.query(name,input);
+        const q = (name,input={}) => window.apostrophi.query(name,input);
         const before = await q("transferJobs.list");
         await q("transferJobs.retry",{id:${JSON.stringify(jobId)}});
         const cancelled = await q("transferJobs.cancel",{id:${JSON.stringify(jobId)}});

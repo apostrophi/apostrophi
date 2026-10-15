@@ -1,5 +1,5 @@
-import { FIELD_IDS } from "@pond/schema/filters/meta";
-import type { FieldId } from "@pond/schema/filters/types";
+import { FIELD_IDS } from "@apostrophi/schema/filters/meta";
+import type { FieldId } from "@apostrophi/schema/filters/types";
 import type { MenuActionId, MenuActionSource } from "@shared/constants";
 import { filterToolbar } from "@/features/library/components/filter-menu/toolbar-state";
 import {
@@ -80,11 +80,13 @@ function invertSaveSelection(): void {
   void selectResults("invert");
 }
 
-async function exportPackage(kind: "eagle" | "pond"): Promise<void> {
+async function exportPackage(kind: "eagle" | "apostrophi"): Promise<void> {
   const ids = requireSelection();
   if (ids.length === 0) return;
   if (kind === "eagle") {
-    const result = await window.pond.query("saves.exportEaglePackage", { ids });
+    const result = await window.apostrophi.query("saves.exportEaglePackage", {
+      ids,
+    });
     if (!result.ok && result.reason !== "cancelled") {
       notify({
         id: "native-menu-export",
@@ -93,13 +95,13 @@ async function exportPackage(kind: "eagle" | "pond"): Promise<void> {
     }
     return;
   }
-  const result = await window.pond.query("saves.exportPackage", {
+  const result = await window.apostrophi.query("saves.exportPackage", {
     ids,
   });
   if (!result.ok && result.reason !== "cancelled") {
     notify({
       id: "native-menu-export",
-      title: result.error || "Couldn't export Pond package",
+      title: result.error || "Couldn't export Apostrophi package",
     });
   }
 }
@@ -121,7 +123,7 @@ async function removeFromCurrentFolder(): Promise<void> {
     });
     return;
   }
-  await window.pond.query("folders.assign", {
+  await window.apostrophi.query("folders.assign", {
     saveIds: ids,
     addIds: [],
     removeIds: [nav.id],
@@ -226,8 +228,8 @@ export function handleNativeMenuAction(
     case "save.export-eagle-package":
       void exportPackage("eagle");
       return true;
-    case "save.export-pond-package":
-      void exportPackage("pond");
+    case "save.export-apostrophi-package":
+      void exportPackage("apostrophi");
       return true;
     case "save.export-csv": {
       const ids = requireSelection();
@@ -244,10 +246,10 @@ export function handleNativeMenuAction(
       if (ids.length > 0) void copyFilePathsForSelection(ids);
       return true;
     }
-    case "save.copy-pond-link": {
+    case "save.copy-apostrophi-link": {
       const ids = requireSelection();
       if (ids.length > 0)
-        void window.pond.query("saves.copyInternalLinks", { ids });
+        void window.apostrophi.query("saves.copyInternalLinks", { ids });
       return true;
     }
     case "save.copy-tags":

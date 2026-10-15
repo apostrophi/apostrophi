@@ -8,8 +8,8 @@ import {
 import { chmod, mkdir } from "node:fs/promises";
 import { createServer, type Server, type Socket } from "node:net";
 import { basename, dirname } from "node:path";
-import type { JsonValue } from "@pond/schema/json";
-import type { NativeMessage, NativeResponse } from "@pond/schema/native";
+import type { JsonValue } from "@apostrophi/schema/json";
+import type { NativeMessage, NativeResponse } from "@apostrophi/schema/native";
 import log from "electron-log/main.js";
 import { encodeFrame, tryDecodeFrame } from "./frame";
 import { nativeSocketPath } from "./paths";
@@ -60,14 +60,14 @@ function handleConn(socket: Socket, dispatch: NativeDispatch): void {
     void dispatch(decoded.value).then(
       (res) => writeFrame(socket, res),
       (err) => {
-        log.error("[pond native] handler threw", err);
+        log.error("[apostrophi native] handler threw", err);
         writeFrame(socket, { ok: false, error: "internal" });
       },
     );
   });
 
   socket.on("error", (err) => {
-    log.warn("[pond native] connection error", err);
+    log.warn("[apostrophi native] connection error", err);
   });
 }
 
@@ -83,7 +83,7 @@ function bindPath(server: Server, path: string): void {
   const restoreMissing = () => {
     const bound = listenPaths.get(server);
     if (!bound || bound.restoring || existsSync(bound.path)) return;
-    log.warn("[pond native] sock missing, restoring", bound.path);
+    log.warn("[apostrophi native] sock missing, restoring", bound.path);
     restoreSocket(server);
   };
   const restore = setInterval(restoreMissing, 1000);
@@ -105,17 +105,17 @@ function restoreSocket(server: Server): void {
   server.close((err) => {
     if (err) {
       bound.restoring = false;
-      log.warn("[pond native] restore close failed", err);
+      log.warn("[apostrophi native] restore close failed", err);
       return;
     }
     server.listen(path, () => {
       void chmod(path, 0o600)
         .catch((chmodErr) => {
-          log.warn("[pond native] restore chmod failed", chmodErr);
+          log.warn("[apostrophi native] restore chmod failed", chmodErr);
         })
         .finally(() => {
           bindPath(server, path);
-          log.info("[pond native] listening", path);
+          log.info("[apostrophi native] listening", path);
         });
     });
   });
@@ -139,7 +139,7 @@ export async function startNativeServer(
   });
   await chmod(path, 0o600);
   bindPath(server, path);
-  log.info("[pond native] listening", path);
+  log.info("[apostrophi native] listening", path);
   return server;
 }
 

@@ -1,5 +1,5 @@
-import { IconMagnifier } from "@pond/icons";
-import { Button, Empty, Input, Settings } from "@pond/ui";
+import { IconMagnifier } from "@apostrophi/icons";
+import { Button, Empty, Input, Settings } from "@apostrophi/ui";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { errorCopy } from "@/shared/lib/error-copy";
 import {
@@ -32,7 +32,7 @@ export function ShortcutSettings({
 
   useEffect(() => {
     let active = true;
-    void window.pond
+    void window.apostrophi
       .query("settings.globalShortcutStatus", {})
       .then((status) => {
         if (active) setNativeErrors(status.errors);
@@ -51,7 +51,7 @@ export function ShortcutSettings({
     try {
       await savePrefsSection("shortcuts", delta);
       setRecording(null);
-      await window.pond
+      await window.apostrophi
         .query("settings.globalShortcutStatus", {})
         .then((status) => setNativeErrors(status.errors))
         .catch(() => {
@@ -74,7 +74,7 @@ export function ShortcutSettings({
 
   const current = loaded
     ? preferences
-    : { profile: "pond" as const, overrides: {} };
+    : { profile: "apostrophi" as const, overrides: {} };
   const bindings = resolveShortcuts(current);
   const matching = Object.keys(bindings)
     .filter(isShortcutId)

@@ -1,5 +1,5 @@
-import { IconPaperclip } from "@pond/icons";
-import { Button, Tooltip } from "@pond/ui";
+import { IconPaperclip } from "@apostrophi/icons";
+import { Button, Tooltip } from "@apostrophi/ui";
 import type { AssistantFileAttachment } from "@shared/assistant";
 import { useState } from "react";
 import { errorCopy } from "@/shared/lib/error-copy";
@@ -19,7 +19,7 @@ export function AttachFilesButton({
   async function pickFiles() {
     setBusy(true);
     try {
-      const picked = await window.pond.query("agent.pickAttachments", {});
+      const picked = await window.apostrophi.query("agent.pickAttachments", {});
       if (!picked.ok) throw new Error(picked.error);
       if (picked.files.length === 0) return;
       await onAttach(picked.files);

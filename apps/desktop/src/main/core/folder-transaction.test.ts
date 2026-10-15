@@ -1,13 +1,13 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import * as schema from "@pond/schema/db";
-import * as events from "@pond/schema/events";
-import { inverse, type Transaction } from "@pond/schema/tx";
+import * as schema from "@apostrophi/schema/db";
+import * as events from "@apostrophi/schema/events";
+import { inverse, type Transaction } from "@apostrophi/schema/tx";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
-import { initializePondSchema } from "../db";
+import { initializeApostrophiSchema } from "../db";
 import { StoredInfoDocSchema } from "../lib/library-format";
 import { runRecoverableBatch } from "./batch-journal";
 import {
@@ -34,7 +34,7 @@ afterEach(async () => {
 
 describe.skipIf(!nativeAvailable())("folder membership transactions", () => {
   it("writes membership sets with one undo inverse and rolls metadata back if validation fails", async () => {
-    const root = await mkdtemp(join(tmpdir(), "pond-folder-tx-"));
+    const root = await mkdtemp(join(tmpdir(), "apostrophi-folder-tx-"));
     roots.push(root);
     const directory = join(root, "items", "save.info");
     await mkdir(directory, { recursive: true });
@@ -49,7 +49,7 @@ describe.skipIf(!nativeAvailable())("folder membership transactions", () => {
     await writeFile(join(directory, "info.json"), JSON.stringify(original));
     const sqlite = new Database(":memory:");
     opened.push(sqlite);
-    initializePondSchema(sqlite, () => false);
+    initializeApostrophiSchema(sqlite, () => false);
     const db = Object.assign(
       drizzle(sqlite, { schema: { ...schema, ...events } }),
       { $raw: sqlite },

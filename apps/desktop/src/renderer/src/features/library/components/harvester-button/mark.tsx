@@ -1,4 +1,4 @@
-import { LOGO_PATH, LOGO_VIEW_BOX } from "@pond/ui";
+import { LOGO_PATH, LOGO_VIEW_BOX } from "@apostrophi/ui";
 import { useEffect, useRef } from "react";
 import {
   easeInOutCubic,
@@ -61,7 +61,7 @@ function paint(
   parts.track.setAttribute("opacity", (TRACK_OPACITY * open).toFixed(3));
 }
 
-/** The Pond mark, which morphs into a ring and then a spinning arc while `active`. */
+/** The Apostrophi mark, which morphs into a ring and then a spinning arc while `active`. */
 export function HarvesterMark({ active }: { active: boolean }) {
   const root = useRef<HTMLSpanElement>(null);
   const morph = useRef<SVGPathElement>(null);

@@ -13,12 +13,12 @@ describe("independent Assistant and inspector panes", () => {
   afterEach(() => vi.unstubAllGlobals());
 
   it("raises old sidebar widths to the tab-safe minimum", async () => {
-    localStorage.setItem("pond.sidebarWidth", "180");
+    localStorage.setItem("apostrophi.sidebarWidth", "180");
     const { libraryChrome } = await import("./library-chrome");
     expect(libraryChrome.getState().sidebarWidth).toBe(256);
     libraryChrome.setSidebarWidth(200);
     expect(libraryChrome.getState().sidebarWidth).toBe(256);
-    expect(localStorage.getItem("pond.sidebarWidth")).toBe("256");
+    expect(localStorage.getItem("apostrophi.sidebarWidth")).toBe("256");
   });
 
   it("preserves the saved sidebar width through closing and reopening", async () => {
@@ -32,12 +32,12 @@ describe("independent Assistant and inspector panes", () => {
   });
 
   it("opens Details without changing the library Assistant preference", async () => {
-    localStorage.setItem("pond.agent", "0");
+    localStorage.setItem("apostrophi.agent", "0");
     const { libraryChrome } = await import("./library-chrome");
     expect(libraryChrome.getState().rightPane).toBeNull();
     libraryChrome.openSaveDetails("first");
     expect(libraryChrome.getState().rightPane).toBe("inspector");
-    expect(localStorage.getItem("pond.agent")).toBe("0");
+    expect(localStorage.getItem("apostrophi.agent")).toBe("0");
     libraryChrome.inspectSave(null);
     expect(libraryChrome.getState().rightPane).toBe("agent");
   });
@@ -147,10 +147,10 @@ describe("independent Assistant and inspector panes", () => {
     libraryChrome.inspectSave("first");
     libraryChrome.inspectSave(null);
     expect(libraryChrome.getState().rightPane).toBe("agent");
-    expect(localStorage.getItem("pond.rightOpen")).toBeNull();
+    expect(localStorage.getItem("apostrophi.rightOpen")).toBeNull();
     libraryChrome.closeRightPane();
     expect(libraryChrome.getState().rightPane).toBeNull();
-    expect(localStorage.getItem("pond.rightOpen")).toBe("0");
+    expect(localStorage.getItem("apostrophi.rightOpen")).toBe("0");
     libraryChrome.inspectSave("second");
     expect(libraryChrome.getState()).toMatchObject({
       rightPane: null,
@@ -158,11 +158,11 @@ describe("independent Assistant and inspector panes", () => {
     });
     libraryChrome.openSaveDetails("second");
     expect(libraryChrome.getState().rightPane).toBe("inspector");
-    expect(localStorage.getItem("pond.rightOpen")).toBe("1");
+    expect(localStorage.getItem("apostrophi.rightOpen")).toBe("1");
   });
 
   it("restores a closed right panel", async () => {
-    localStorage.setItem("pond.rightOpen", "0");
+    localStorage.setItem("apostrophi.rightOpen", "0");
     const { libraryChrome } = await import("./library-chrome");
     expect(libraryChrome.getState().rightPane).toBeNull();
     libraryChrome.inspectSave("first");

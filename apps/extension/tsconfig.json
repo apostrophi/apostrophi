@@ -12,8 +12,8 @@
       "@@/*": ["./*"],
       "~~": ["."],
       "~~/*": ["./*"],
-      "@pond/ui": ["../../packages/ui/src/index.ts"],
-      "@pond/ui/*": ["../../packages/ui/src/*"]
+      "@apostrophi/ui": ["../../packages/ui/src/index.ts"],
+      "@apostrophi/ui/*": ["../../packages/ui/src/*"]
     }
   }
 }

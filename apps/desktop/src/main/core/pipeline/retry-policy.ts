@@ -1,4 +1,4 @@
-import type { TaskDeferredReason, TaskStatus } from "@pond/schema/db";
+import type { TaskDeferredReason, TaskStatus } from "@apostrophi/schema/db";
 import {
   AuthRequiredError,
   ExtractorError,

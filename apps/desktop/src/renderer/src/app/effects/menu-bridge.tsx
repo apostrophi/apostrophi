@@ -1,17 +1,17 @@
-import { isSource } from "@pond/schema/sources";
-import { Dialog } from "@pond/ui";
+import { isSource } from "@apostrophi/schema/sources";
+import { Dialog } from "@apostrophi/ui";
 import { isBlankDocumentKind } from "@shared/blank-documents";
 import { useEffect } from "react";
 import {
   createBlankDocument,
   createNote,
   findDuplicates,
+  importApostrophiPackage,
   importBookmarks,
   importClipboard,
   importEagle,
   importPageAssets,
   importPaths,
-  importPondPackage,
   newFolder,
   newSmartFolder,
   newSource,
@@ -72,7 +72,7 @@ export function MenuBridge() {
   const [, patchSaveRecents] = usePrefs("saveRecents");
 
   useEffect(() => {
-    return window.pond.onMenuAction(({ id, source }) => {
+    return window.apostrophi.onMenuAction(({ id, source }) => {
       if (handleNativeMenuAction(id, source)) return;
       if (id.startsWith("library.new-blank-")) {
         const kind = id.slice("library.new-blank-".length);
@@ -225,11 +225,11 @@ export function MenuBridge() {
           return;
 
         case "refresh.all":
-          void window.pond.refreshBackfillStart({});
+          void window.apostrophi.refreshBackfillStart({});
           return;
 
         case "refresh.cancel":
-          void window.pond.refreshBackfillCancel();
+          void window.apostrophi.refreshBackfillCancel();
           return;
 
         case "trash.empty":
@@ -237,14 +237,14 @@ export function MenuBridge() {
           return;
 
         case "trash.restore-all":
-          void window.pond.query("saves.restoreAll", {});
+          void window.apostrophi.query("saves.restoreAll", {});
           return;
 
         case "library.move":
           Dialog.confirm({
             title: "Move Library",
             description:
-              "Pond will verify the new copy before removing the library from its current location.",
+              "Apostrophi will verify the new copy before removing the library from its current location.",
             confirmLabel: "Move",
             busyLabel: "Moving",
             onConfirm: moveLibrary,
@@ -315,7 +315,7 @@ export function MenuBridge() {
           Dialog.prompt({
             title: "Import Page Assets",
             description:
-              "Pond saves the images and files from the page you enter.",
+              "Apostrophi saves the images and files from the page you enter.",
             confirmLabel: "Import",
             placeholder: "https://",
             onConfirm: (url) => void runNewAction(() => importPageAssets(url)),
@@ -327,7 +327,7 @@ export function MenuBridge() {
           return;
 
         case "library.import-package":
-          void runNewAction(importPondPackage);
+          void runNewAction(importApostrophiPackage);
           return;
 
         case "library.auto-import-folder":
@@ -364,14 +364,14 @@ export function MenuBridge() {
         case "save.open-original": {
           const save = currentSave();
           if (!save?.url) return;
-          void window.pond.openExternal(save.url);
+          void window.apostrophi.openExternal(save.url);
           return;
         }
 
         case "save.reveal": {
           const sid = primarySelection.get();
           if (!sid) return;
-          void window.pond.revealSave(sid);
+          void window.apostrophi.revealSave(sid);
           return;
         }
 
@@ -448,7 +448,7 @@ export function MenuBridge() {
           if (ids.length === 0) return;
           void (async () => {
             for (const sid of ids) {
-              await window.pond.refreshSave(sid);
+              await window.apostrophi.refreshSave(sid);
             }
           })();
           return;

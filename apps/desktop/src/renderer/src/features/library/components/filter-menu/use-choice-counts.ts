@@ -1,5 +1,5 @@
-import { FIELD_DESCRIPTORS } from "@pond/schema/filters/fields";
-import type { FieldId } from "@pond/schema/filters/types";
+import { FIELD_DESCRIPTORS } from "@apostrophi/schema/filters/fields";
+import type { FieldId } from "@apostrophi/schema/filters/types";
 import { useMemo } from "react";
 import {
   useFolderMemberships,

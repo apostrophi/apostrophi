@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { describe, expect, it, vi } from "vitest";

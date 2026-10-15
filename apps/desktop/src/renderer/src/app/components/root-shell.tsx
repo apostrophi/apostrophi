@@ -32,7 +32,7 @@ export function RootShell() {
     select: (state) => state.location.pathname.startsWith("/settings"),
   });
   useEffect(() => {
-    return window.pond.onNavigate((path) => {
+    return window.apostrophi.onNavigate((path) => {
       const pathname = path.split("?")[0] ?? "";
       const search = path.includes("?") ? path.slice(path.indexOf("?")) : "";
       const params = new URLSearchParams(search);

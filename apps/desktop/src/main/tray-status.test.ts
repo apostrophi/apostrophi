@@ -7,7 +7,7 @@ import {
   trayVersionLabel,
 } from "./tray-status";
 
-const library = { libraryName: "Pond", active: 1200 };
+const library = { libraryName: "Apostrophi", active: 1200 };
 
 const actions = {
   onOpenDownloads: vi.fn(),
@@ -74,8 +74,8 @@ describe("traySavingLabel", () => {
 
 describe("buildTrayTemplate", () => {
   it("keeps the library count while a queue is saving", () => {
-    expect(trayHeaderLabel(library)).toBe("Pond · 1200 saves");
-    expect(trayVersionLabel("0.0.1")).toBe("Pond v0.0.1");
+    expect(trayHeaderLabel(library)).toBe("Apostrophi · 1200 saves");
+    expect(trayVersionLabel("0.0.1")).toBe("Apostrophi v0.0.1");
   });
 
   it("groups secondary actions into task-based submenus", () => {
@@ -91,7 +91,7 @@ describe("buildTrayTemplate", () => {
     expect(
       template.flatMap((item) => (item.label == null ? [] : item.label)),
     ).toEqual([
-      "Pond · 1200 saves",
+      "Apostrophi · 1200 saves",
       "Saving 4 of 248 items",
       "New",
       "Import",
@@ -99,7 +99,7 @@ describe("buildTrayTemplate", () => {
       "Library",
       "Navigate",
       "Quit",
-      "Pond v0.0.1",
+      "Apostrophi v0.0.1",
     ]);
     expect(labelsOf(findByLabel(template, "New")?.submenu ?? [])).toEqual([
       "New Folder",
@@ -138,14 +138,14 @@ describe("buildTrayTemplate", () => {
     expect(actions.onOpenDownloads).toHaveBeenCalledOnce();
   });
 
-  it("removes Open Pond and opens Settings from Navigate", () => {
+  it("removes Open Apostrophi and opens Settings from Navigate", () => {
     const template = buildTrayTemplate(
       { ...library, ingesting: 0, inflight: 0 },
       actions,
       { version: "0.0.1" },
     );
 
-    template.find((item) => item.label === "Open Pond")?.click?.();
+    template.find((item) => item.label === "Open Apostrophi")?.click?.();
     findByLabel(template, "Navigate")
       ?.submenu?.find((item) => item.label === "Settings")
       ?.click?.();

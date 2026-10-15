@@ -3,8 +3,8 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+import { importApostrophiPackage } from "./apostrophi-package";
 import { exportFiles } from "./export-files";
-import { importPondPackage } from "./pond-package";
 
 const roots: string[] = [];
 afterEach(async () => {
@@ -13,10 +13,10 @@ afterEach(async () => {
   );
 });
 async function fixture(extra: [string, string][] = []) {
-  const root = await mkdtemp(join(tmpdir(), "pond-package-test-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-package-test-"));
   roots.push(root);
   const original = join(root, "original");
-  const directory = join(root, "Saves.pondpack");
+  const directory = join(root, "Saves.apostrophipack");
   await mkdir(original);
   await mkdir(directory);
   const files = [];
@@ -56,7 +56,7 @@ async function fixture(extra: [string, string][] = []) {
           source: "local",
           sourceId: "local-source",
           title: "A Save",
-          url: "pond:local/test",
+          url: "apostrophi:local/test",
           notes: "My notes",
           tags: ["Print"],
           files,
@@ -80,7 +80,9 @@ function destination(root: string) {
     }
   >();
   const names: string[] = [];
-  const dependencies: NonNullable<Parameters<typeof importPondPackage>[1]> = {
+  const dependencies: NonNullable<
+    Parameters<typeof importApostrophiPackage>[1]
+  > = {
     async folders(rows) {
       names.push(...rows.map((row) => row.name));
       return new Map(rows.map((row) => [row.id, `mapped-${row.id}`]));
@@ -105,11 +107,13 @@ function destination(root: string) {
   return { dependencies, imported, names };
 }
 
-describe("Pond package transfer", () => {
+describe("Apostrophi package transfer", () => {
   it("round trips every original, metadata dates and nested membership; reimport skips existing Saves", async () => {
     const { root, directory } = await fixture();
     const target = destination(root);
-    expect(await importPondPackage(directory, target.dependencies)).toEqual({
+    expect(
+      await importApostrophiPackage(directory, target.dependencies),
+    ).toEqual({
       imported: 1,
       skipped: 0,
     });
@@ -136,7 +140,9 @@ describe("Pond package transfer", () => {
       ).data.locked,
     ).toBe(true);
     expect(metadata.notes).toBe("My notes");
-    expect(await importPondPackage(directory, target.dependencies)).toEqual({
+    expect(
+      await importApostrophiPackage(directory, target.dependencies),
+    ).toEqual({
       imported: 0,
       skipped: 1,
     });
@@ -147,7 +153,7 @@ describe("Pond package transfer", () => {
       ["empty.txt", ""],
     ]);
     const target = destination(root);
-    await importPondPackage(directory, target.dependencies);
+    await importApostrophiPackage(directory, target.dependencies);
     const row = target.imported.get("local-source");
     expect(
       await readFile(
@@ -171,7 +177,7 @@ describe("Pond package transfer", () => {
       return assign(rows);
     };
     await expect(
-      importPondPackage(directory, target.dependencies),
+      importApostrophiPackage(directory, target.dependencies),
     ).rejects.toThrow("changed during import");
     expect(target.imported.size).toBe(0);
   });
@@ -183,7 +189,7 @@ describe("Pond package transfer", () => {
       "bad",
     );
     await expect(
-      importPondPackage(directory, target.dependencies),
+      importApostrophiPackage(directory, target.dependencies),
     ).rejects.toThrow("missing or damaged");
     expect(target.imported.size).toBe(0);
     expect(target.names).toEqual([]);
@@ -191,12 +197,12 @@ describe("Pond package transfer", () => {
   it("rejects a manifest path that escapes the package", async () => {
     const { root, directory } = await fixture();
     const target = destination(root);
-    const manifestPath = join(directory, "pond-export.json");
+    const manifestPath = join(directory, "apostrophi-export.json");
     const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
     manifest.exportedFiles[0].path = "../original/one.jpg";
     await writeFile(manifestPath, JSON.stringify(manifest));
     await expect(
-      importPondPackage(directory, target.dependencies),
+      importApostrophiPackage(directory, target.dependencies),
     ).rejects.toThrow("outside the package");
     expect(target.imported.size).toBe(0);
   });

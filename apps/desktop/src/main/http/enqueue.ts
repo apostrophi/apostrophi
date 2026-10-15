@@ -1,5 +1,5 @@
-import { saves } from "@pond/schema/db";
-import { enqueueRequestSchema } from "@pond/schema/ingest";
+import { saves } from "@apostrophi/schema/db";
+import { enqueueRequestSchema } from "@apostrophi/schema/ingest";
 import { eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import type { Context } from "hono";
@@ -19,7 +19,10 @@ export async function enqueueHandler(c: Context) {
 
   const parsed = enqueueRequestSchema.safeParse(raw);
   if (!parsed.success) {
-    log.warn("[pond http] enqueue validation failed", parsed.error.flatten());
+    log.warn(
+      "[apostrophi http] enqueue validation failed",
+      parsed.error.flatten(),
+    );
     return c.json({ status: "error", error: parsed.error.flatten() }, 400);
   }
 
@@ -45,7 +48,7 @@ export async function enqueueHandler(c: Context) {
     if (err instanceof UnsupportedError) {
       return c.json({ status: "error", error: "unsupported_url" }, 422);
     }
-    log.error("[pond http] enqueue failed", err);
+    log.error("[apostrophi http] enqueue failed", err);
     return c.json({ status: "error", error: String(err) }, 500);
   }
 }

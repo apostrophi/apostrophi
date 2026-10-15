@@ -1,4 +1,4 @@
-import { Button, Settings } from "@pond/ui";
+import { Button, Settings } from "@apostrophi/ui";
 import { useState } from "react";
 import { SidebarCustomizationDialog } from "@/features/settings/components/sidebar-customization-dialog";
 import { EnumSelect } from "@/shared/components/enum-select";

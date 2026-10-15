@@ -1,4 +1,4 @@
-import { Button, Loader, Settings } from "@pond/ui";
+import { Button, Loader, Settings } from "@apostrophi/ui";
 import { useCallback, useEffect, useState } from "react";
 import { savePrefsSection, usePrefs } from "@/shared/state/prefs";
 import {
@@ -43,7 +43,9 @@ export function AgentSection() {
   const [keys, setKeys] = useState<KeyRow[]>([]);
 
   const refresh = useCallback(async () => {
-    setKeys(keyRowsSchema.parse(await window.pond.query("agent.keys", {})));
+    setKeys(
+      keyRowsSchema.parse(await window.apostrophi.query("agent.keys", {})),
+    );
     setKeysLoaded(true);
     setError("");
   }, []);

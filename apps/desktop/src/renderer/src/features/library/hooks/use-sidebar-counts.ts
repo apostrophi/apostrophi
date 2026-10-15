@@ -37,19 +37,19 @@ export function useSidebarCounts(): LibrarySidebarCounts {
       pending = true;
       dirty = false;
       try {
-        const next = await window.pond.query("saves.sidebarCounts", {
+        const next = await window.apostrophi.query("saves.sidebarCounts", {
           recentIds,
         });
         if (active && next) setCounts(next);
       } catch (error) {
-        console.warn("[pond] sidebar counts failed", error);
+        console.warn("[apostrophi] sidebar counts failed", error);
       } finally {
         pending = false;
         if (active && dirty) schedule();
       }
     };
     void refresh();
-    const off = window.pond.onSyncAction(schedule);
+    const off = window.apostrophi.onSyncAction(schedule);
     return () => {
       active = false;
       off();

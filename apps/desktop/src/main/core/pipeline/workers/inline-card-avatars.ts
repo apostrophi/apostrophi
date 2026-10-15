@@ -1,8 +1,8 @@
 import { existsSync } from "node:fs";
 import { extname } from "node:path";
-import type { Save, SaveFile } from "@pond/schema/db";
-import type { Capture, CaptureMedia } from "@pond/schema/raw";
-import type { TxSaveFile } from "@pond/schema/tx";
+import type { Save, SaveFile } from "@apostrophi/schema/db";
+import type { Capture, CaptureMedia } from "@apostrophi/schema/raw";
+import type { TxSaveFile } from "@apostrophi/schema/tx";
 import sharp from "sharp";
 import { fetchAvatarToTxFile } from "../../../lib/blob";
 import { saveFile } from "../../../paths";

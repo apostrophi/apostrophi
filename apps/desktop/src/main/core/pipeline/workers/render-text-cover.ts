@@ -1,5 +1,5 @@
-import type { SaveFile } from "@pond/schema/db";
-import type { Capture, RawJson } from "@pond/schema/raw";
+import type { SaveFile } from "@apostrophi/schema/db";
+import type { Capture, RawJson } from "@apostrophi/schema/raw";
 import {
   isAuxiliaryKind,
   isOriginalImageKind,
@@ -113,7 +113,7 @@ export async function runRenderTextCover(
       (save.files ?? []).some((f) => f.kind === THUMBNAIL_DARK_KIND);
     if (hasBoth) {
       log.debug(
-        "[pond pipeline:render-text-cover] up to date, skipping",
+        "[apostrophi pipeline:render-text-cover] up to date, skipping",
         saveId,
       );
       return 0;
@@ -130,6 +130,6 @@ export async function runRenderTextCover(
   await writeCover(saveId, THUMBNAIL_DARK_KIND, THUMBNAIL_DARK_FILE, dark);
   await stampVersion(save);
 
-  log.info("[pond pipeline:render-text-cover] done", { saveId });
+  log.info("[apostrophi pipeline:render-text-cover] done", { saveId });
   return 2;
 }

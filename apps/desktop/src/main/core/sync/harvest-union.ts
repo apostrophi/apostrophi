@@ -1,5 +1,5 @@
-import type { ListKind } from "@pond/schema/db";
-import { mergeListKinds } from "@pond/schema/list-kinds";
+import type { ListKind } from "@apostrophi/schema/db";
+import { mergeListKinds } from "@apostrophi/schema/list-kinds";
 
 export function unionById<T>(
   primary: T[],

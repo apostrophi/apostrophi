@@ -8,7 +8,7 @@ let host: HTMLDivElement;
 let root: Root;
 
 beforeEach(() => {
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   vi.stubGlobal(
     "ResizeObserver",
     class {

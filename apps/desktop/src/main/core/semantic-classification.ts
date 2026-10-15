@@ -1,4 +1,4 @@
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { and, asc, eq, inArray, isNotNull, isNull } from "drizzle-orm";
 import {
   embeddingClassificationLabel,

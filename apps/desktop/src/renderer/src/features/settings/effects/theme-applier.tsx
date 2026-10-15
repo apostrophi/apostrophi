@@ -1,4 +1,4 @@
-import { normalizeTheme, resolveActiveTheme } from "@pond/schema/db";
+import { normalizeTheme, resolveActiveTheme } from "@apostrophi/schema/db";
 import { type ShellHint, ShellHintSchema } from "@shared/shell-hint";
 import { useEffect } from "react";
 import { useMediaMatch } from "rooks";
@@ -6,7 +6,7 @@ import { libraryScopedKey } from "@/shared/lib/library-scope";
 import { paintTheme } from "@/shared/lib/paint-theme";
 import { usePrefs } from "@/shared/state/prefs";
 
-const SHELL_KEY = libraryScopedKey("pondShell");
+const SHELL_KEY = libraryScopedKey("apostrophiShell");
 
 function readShell(): ShellHint {
   const stored = ShellHintSchema.safeParse(

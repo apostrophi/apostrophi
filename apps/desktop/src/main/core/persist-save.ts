@@ -1,4 +1,4 @@
-import type { NewSave, Save } from "@pond/schema/db";
+import type { NewSave, Save } from "@apostrophi/schema/db";
 import { writeSaveInfo } from "../lib/library";
 import { patchTouchesInfo } from "../lib/library-format";
 import {

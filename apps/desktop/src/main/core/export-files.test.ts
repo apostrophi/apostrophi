@@ -20,7 +20,7 @@ afterEach(async () => {
 });
 
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-export-test-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-export-test-"));
   roots.push(root);
   const source = join(root, "source");
   const destination = join(root, "export");
@@ -85,7 +85,10 @@ describe("export files", () => {
   it("never overwrites existing files or case-insensitive collisions", async () => {
     const { destination, item } = await fixture();
     await writeFile(join(destination, "REFERENCE-1.JPG"), "existing");
-    await writeFile(join(destination, "pond-export.json"), "existing manifest");
+    await writeFile(
+      join(destination, "apostrophi-export.json"),
+      "existing manifest",
+    );
     const result = await exportFiles({ directory: destination, items: [item] });
     expect(await readFile(join(destination, "REFERENCE-1.JPG"), "utf8")).toBe(
       "existing",
@@ -93,10 +96,10 @@ describe("export files", () => {
     expect(await readFile(join(destination, "Reference-1-1.jpg"), "utf8")).toBe(
       "first original",
     );
-    expect(basename(result.manifest)).toBe("pond-export-1.json");
-    expect(await readFile(join(destination, "pond-export.json"), "utf8")).toBe(
-      "existing manifest",
-    );
+    expect(basename(result.manifest)).toBe("apostrophi-export-1.json");
+    expect(
+      await readFile(join(destination, "apostrophi-export.json"), "utf8"),
+    ).toBe("existing manifest");
   });
 
   it("serializes concurrent exports into the same directory", async () => {
@@ -122,7 +125,7 @@ describe("export files", () => {
     await expect(
       exportFiles({ directory: destination, items: [item] }),
     ).rejects.toThrow();
-    expect(await readdir(destination)).not.toContain("pond-export.json");
+    expect(await readdir(destination)).not.toContain("apostrophi-export.json");
   });
 
   it("does not follow a destination folder symlink outside the export", async () => {

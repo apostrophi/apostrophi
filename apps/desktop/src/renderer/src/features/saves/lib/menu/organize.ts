@@ -8,8 +8,8 @@ import {
   IconPinTack,
   IconRename,
   IconTagPlus,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import {
   focusPaneTitle,
   openTagPicker,
@@ -32,7 +32,7 @@ import type { SaveMenuContext } from "./types";
 function createFolderWithSaves(ids: string[]): void {
   void (async () => {
     try {
-      const folder = await window.pond.query("folders.createWithSaves", {
+      const folder = await window.apostrophi.query("folders.createWithSaves", {
         name: "Untitled",
         parentId: null,
         saveIds: ids,
@@ -128,7 +128,7 @@ function buildAddItems(ids: string[], batch: boolean): MenuItemSpec[] {
       label: "Add to Other Library",
       icon: glyph(IconFolderSend),
       onClick: () => {
-        void window.pond
+        void window.apostrophi
           .query("saves.copyToLibrary", { ids })
           .then((result) => {
             if (result.ok)

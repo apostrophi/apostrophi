@@ -1,5 +1,5 @@
-import type { FieldId, Predicate } from "@pond/schema/filters/types";
-import { Menu } from "@pond/ui";
+import type { FieldId, Predicate } from "@apostrophi/schema/filters/types";
+import { Menu } from "@apostrophi/ui";
 import { excludeGestures } from "./exclude";
 import { ChoiceIndicator } from "./indicator";
 

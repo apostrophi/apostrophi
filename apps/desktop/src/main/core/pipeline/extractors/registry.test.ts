@@ -1,9 +1,9 @@
-import { SOURCES } from "@pond/schema/db";
+import { SOURCES } from "@apostrophi/schema/db";
 import {
   DEFAULT_RATE_PROFILE,
   EXTERNAL_SOURCE_IDS,
   syncConfigFor,
-} from "@pond/schema/sources";
+} from "@apostrophi/schema/sources";
 import { describe, expect, it } from "vitest";
 import { sourceIdFromUrl } from "../url";
 import { EXTRACTOR_LIST, extractorFor, resolveExtractor } from ".";

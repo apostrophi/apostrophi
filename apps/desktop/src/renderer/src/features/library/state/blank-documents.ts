@@ -20,7 +20,10 @@ export const blankDocuments = {
     return store.state.icons;
   },
   async refresh(): Promise<void> {
-    const result = await window.pond.query("saves.listBlankDocuments", {});
+    const result = await window.apostrophi.query(
+      "saves.listBlankDocuments",
+      {},
+    );
     store.setState(() => ({
       kinds: result.kinds ?? [],
       icons: result.icons ?? {},

@@ -31,9 +31,9 @@ import {
   IconTrophy,
   IconTypography,
   IconVideo,
-} from "@pond/icons";
-import type { IconComponent } from "@pond/icons/types";
-import type { FOLDER_ICON_IDS } from "@pond/schema/folder-presentation";
+} from "@apostrophi/icons";
+import type { IconComponent } from "@apostrophi/icons/types";
+import type { FOLDER_ICON_IDS } from "@apostrophi/schema/folder-presentation";
 
 export type FolderIconId = (typeof FOLDER_ICON_IDS)[number];
 

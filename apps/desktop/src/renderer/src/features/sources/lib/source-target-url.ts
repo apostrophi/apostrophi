@@ -1,4 +1,4 @@
-import type { Source, WatchKind } from "@pond/schema/db";
+import type { Source, WatchKind } from "@apostrophi/schema/db";
 
 export interface SourceTarget {
   source: Source;

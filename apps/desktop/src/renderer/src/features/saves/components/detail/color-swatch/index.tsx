@@ -1,5 +1,5 @@
-import { IconCopy, IconMagnifier, IconPalette } from "@pond/icons";
-import { Chip, Menu, type MenuItemSpec } from "@pond/ui";
+import { IconCopy, IconMagnifier, IconPalette } from "@apostrophi/icons";
+import { Chip, Menu, type MenuItemSpec } from "@apostrophi/ui";
 import { useEffect, useState } from "react";
 import { saveLibraryBridge } from "@/features/saves/lib/library-bridge";
 import { pool } from "@/features/saves/state/pool";
@@ -73,7 +73,7 @@ export function ColorSwatch({
   };
   const setPrimary = async (checked: boolean): Promise<void> => {
     const next = checked ? color : null;
-    const result = await window.pond.query("saves.setPrimaryColor", {
+    const result = await window.apostrophi.query("saves.setPrimaryColor", {
       id: saveId,
       color: next,
     });

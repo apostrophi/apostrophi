@@ -1,5 +1,5 @@
-import { MEDIA_TYPES } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
+import { MEDIA_TYPES } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { markAtRisk, report } from "../../pipeline/rate-governor";
@@ -201,7 +201,7 @@ async function harvestTwitterTimeline(
       }
       void lease.win.webContents
         .executeJavaScript(
-          "JSON.stringify(globalThis.__pondHarvestStats ?? null)",
+          "JSON.stringify(globalThis.__apostrophiHarvestStats ?? null)",
           true,
         )
         .then((raw) => {
@@ -226,20 +226,20 @@ async function harvestTwitterTimeline(
     const runExpr = (expr: string): Promise<JsonValue> =>
       Promise.race([
         lease.win.webContents.executeJavaScript(expr, true),
-        sleep(6 * 60_000).then(() => "__pond_bookmarks_timeout__"),
+        sleep(6 * 60_000).then(() => "__apostrophi_bookmarks_timeout__"),
       ]);
 
     let result: Extract<BookmarksHarvestResult, { ok: true }>;
     try {
       const apiRaw = await runExpr(apiExpr);
-      if (apiRaw === "__pond_bookmarks_timeout__") {
-        log.warn(`[pond ${logTag}] api harvest timed out; falling back`);
+      if (apiRaw === "__apostrophi_bookmarks_timeout__") {
+        log.warn(`[apostrophi ${logTag}] api harvest timed out; falling back`);
       }
       const api = BookmarksApiResultSchema.parse(apiRaw);
 
       if (api?.ok) {
         log.info(
-          `[pond ${logTag}] api ok pages=${api.apiDebug?.pages ?? "?"} tweets=${api.apiDebug?.tweets ?? "?"} reason=${api.apiDebug?.reason ?? "?"}`,
+          `[apostrophi ${logTag}] api ok pages=${api.apiDebug?.pages ?? "?"} tweets=${api.apiDebug?.tweets ?? "?"} reason=${api.apiDebug?.reason ?? "?"}`,
         );
         report("twitter", { ok: true });
         result = {
@@ -257,7 +257,7 @@ async function harvestTwitterTimeline(
           retryAfterSec: api.retryAfterSec ?? undefined,
         });
         log.warn(
-          `[pond ${logTag}] rate limited; backing off ${Math.round(cooldownMs / 1000)}s (no scroll fallback)`,
+          `[apostrophi ${logTag}] rate limited; backing off ${Math.round(cooldownMs / 1000)}s (no scroll fallback)`,
         );
         return {
           ok: false,
@@ -266,11 +266,11 @@ async function harvestTwitterTimeline(
         };
       } else {
         log.info(
-          `[pond ${logTag}] api fallback (${api && "detail" in api ? api.detail : "timeout"}); scrolling`,
+          `[apostrophi ${logTag}] api fallback (${api && "detail" in api ? api.detail : "timeout"}); scrolling`,
         );
         const scrollRaw = await runExpr(buildBookmarksExpression(args));
-        if (scrollRaw === "__pond_bookmarks_timeout__") {
-          log.warn(`[pond ${logTag}] harvest timed out`);
+        if (scrollRaw === "__apostrophi_bookmarks_timeout__") {
+          log.warn(`[apostrophi ${logTag}] harvest timed out`);
           return { ok: false, reason: "timeout" };
         }
         const scroll = BookmarksScrollResultSchema.parse(scrollRaw);
@@ -339,7 +339,7 @@ async function harvestTwitterTimeline(
       merged.push(entry);
     }
     log.info(
-      `[pond ${logTag}] DOM=${result.entries.length} rich=${rich.size} merged=${merged.length} captures=${result.captures.length}`,
+      `[apostrophi ${logTag}] DOM=${result.entries.length} rich=${rich.size} merged=${merged.length} captures=${result.captures.length}`,
     );
     return {
       ok: true,
@@ -348,7 +348,7 @@ async function harvestTwitterTimeline(
       reachedEnd: result.reachedEnd,
     };
   } catch (err) {
-    log.warn(`[pond ${logTag}] unexpected error`, err);
+    log.warn(`[apostrophi ${logTag}] unexpected error`, err);
     return { ok: false, reason: "timeout" };
   } finally {
     lease.release();

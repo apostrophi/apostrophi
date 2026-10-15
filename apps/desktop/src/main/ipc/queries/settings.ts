@@ -2,7 +2,7 @@ import {
   DEFAULT_IMAGE_DOWNLOAD,
   DEFAULT_VIDEO_DOWNLOAD,
   settings as settingsTable,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { FEEDBACK_EVENTS } from "../../../shared/feedback";

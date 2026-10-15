@@ -1,5 +1,5 @@
+import { IconCheck as Check, IconMinus as Minus } from "@apostrophi/icons";
 import { Checkbox as Base } from "@base-ui/react/checkbox";
-import { IconCheck as Check, IconMinus as Minus } from "@pond/icons";
 import { clsx as cn } from "clsx";
 import styles from "./styles.module.css";
 

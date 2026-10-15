@@ -1,11 +1,17 @@
-import type { CaptureReceipt, CaptureWebDraft } from "@pond/schema/capture";
-import type { Source } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
-import { type NativeResponse, nativeRequestSchema } from "@pond/schema/native";
+import type {
+  CaptureReceipt,
+  CaptureWebDraft,
+} from "@apostrophi/schema/capture";
+import type { Source } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
+import {
+  type NativeResponse,
+  nativeRequestSchema,
+} from "@apostrophi/schema/native";
 import type {
   ExtensionCookie,
   SessionImportResponse,
-} from "@pond/schema/session";
+} from "@apostrophi/schema/session";
 import log from "electron-log/main.js";
 import { UnsupportedError } from "../core/pipeline/extractors/errors";
 import type { LibraryInfo } from "../ops/library";
@@ -55,7 +61,7 @@ export async function dispatchNative(
       case "hello":
         return {
           ok: true,
-          data: { app: "pond", version: ports.appVersion() },
+          data: { app: "apostrophi", version: ports.appVersion() },
         };
       case "library.info":
         return { ok: true, data: await ports.libraryInfo() };
@@ -80,7 +86,7 @@ export async function dispatchNative(
     if (err instanceof UnsupportedError) {
       return { ok: false, error: "unsupported_url" };
     }
-    log.error("[pond native] dispatch failed", req.type, err);
+    log.error("[apostrophi native] dispatch failed", req.type, err);
     return { ok: false, error: "internal" };
   }
 }

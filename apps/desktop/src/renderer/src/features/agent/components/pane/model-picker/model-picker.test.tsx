@@ -16,7 +16,7 @@ beforeEach(() => {
       disconnect() {}
     },
   );
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "agent.listAvailableModels") {
         return {
@@ -232,7 +232,7 @@ it("updates Fast, Context, and declared Reasoning controls", async () => {
 });
 
 it("keeps unsupported controls visibly unavailable", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => ({
       providers: [
         {

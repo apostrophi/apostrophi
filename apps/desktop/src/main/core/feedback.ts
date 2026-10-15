@@ -9,8 +9,8 @@ interface FeedbackMessage {
 const MESSAGES = {
   saveDeletion: { title: "Save Removed" },
   folderDeletion: { title: "Folder Removed" },
-  extensionCapture: { title: "Saved to Pond" },
-  autoImport: { title: "Imported to Pond" },
+  extensionCapture: { title: "Saved to Apostrophi" },
+  autoImport: { title: "Imported to Apostrophi" },
 } as const satisfies Record<FeedbackEvent, FeedbackMessage>;
 
 interface FeedbackServicePorts {

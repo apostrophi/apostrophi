@@ -179,7 +179,7 @@ function VideoSlide({
     }
     attemptedCompatiblePreview.current = true;
     const currentRequest = ++requestId.current;
-    void window.pond
+    void window.apostrophi
       .query("video.preparePreview", { src: slide.src })
       .then((result) => {
         if (requestId.current !== currentRequest) return;

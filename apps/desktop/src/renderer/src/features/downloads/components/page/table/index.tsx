@@ -1,4 +1,4 @@
-import { DataTable, type RenderRowArgs, useDataTable } from "@pond/ui";
+import { DataTable, type RenderRowArgs, useDataTable } from "@apostrophi/ui";
 import type { DownloadActivity } from "@shared/download-activity";
 import { type ReactNode, useCallback, useEffect, useMemo } from "react";
 import { DOWNLOAD_COLUMN_CATALOG } from "../../../lib/download-columns";

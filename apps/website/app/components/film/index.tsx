@@ -2,11 +2,11 @@ import styles from "./styles.module.css";
 
 export function Film() {
   return (
-    <section className={styles.film} aria-label="Pond launch video">
+    <section className={styles.film} aria-label="Apostrophi launch video">
       <video
         className={styles.video}
-        src="/video/pond.mp4"
-        poster="/video/pond-poster.jpg"
+        src="/video/apostrophi.mp4"
+        poster="/video/apostrophi-poster.jpg"
         width={1600}
         height={900}
         autoPlay

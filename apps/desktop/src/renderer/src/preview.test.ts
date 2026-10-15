@@ -9,7 +9,7 @@ const entry = readFileSync(resolve(directory, "preview.ts"), "utf8");
 const html = readFileSync(resolve(directory, "../preview.html"), "utf8");
 
 describe("detached preview presentation", () => {
-  it("uses Pond's renderer foundation and shared control mount", () => {
+  it("uses Apostrophi's renderer foundation and shared control mount", () => {
     expect(css).toContain('@import "./styles.css";');
     expect(entry).toContain('import "./app/boot-shell";');
     expect(html).toContain('<div id="preview-ui"></div>');

@@ -1,4 +1,4 @@
-import { Input as Base } from "@pond/ui";
+import { Input as Base } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import {
   type ComponentPropsWithoutRef,

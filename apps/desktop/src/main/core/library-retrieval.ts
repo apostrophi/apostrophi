@@ -4,8 +4,8 @@ import {
   SOURCES,
   type Source,
   saves,
-} from "@pond/schema/db";
-import { buildWhere, type Query } from "@pond/schema/filters";
+} from "@apostrophi/schema/db";
+import { buildWhere, type Query } from "@apostrophi/schema/filters";
 import { and, desc, eq, inArray, isNull, ne, type SQL, sql } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -430,7 +430,7 @@ export async function retrieveLibrary(
         input.task,
       );
     } catch (error) {
-      log.warn("[pond retrieval] dense query encoding unavailable", {
+      log.warn("[apostrophi retrieval] dense query encoding unavailable", {
         error: error instanceof Error ? error.message : "unknown error",
       });
     }
@@ -439,12 +439,12 @@ export async function retrieveLibrary(
     const media = await resolveMediaProbe(db, input.visual);
     if (media) embeddings = { ...embeddings, media };
   } catch (error) {
-    log.warn("[pond retrieval] media probe unavailable", {
+    log.warn("[apostrophi retrieval] media probe unavailable", {
       error: error instanceof Error ? error.message : "unknown error",
     });
   }
   const result = await retrieveLibraryWithDb(db, input, scope, embeddings);
-  log.info("[pond retrieval] complete", {
+  log.info("[apostrophi retrieval] complete", {
     queryLength: input.query?.trim().length ?? 0,
     media: normalizeMedia(input.media),
     hits: result.hits.length,

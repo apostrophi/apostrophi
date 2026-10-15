@@ -1,4 +1,4 @@
-import { IconCode as Code } from "@pond/icons";
+import { IconCode as Code } from "@apostrophi/icons";
 import type { McpHostId } from "@shared/mcp-hosts";
 import vscode from "@/assets/logos/agents/vscode.svg";
 import anthropic from "@/assets/logos/providers/anthropic.webp";

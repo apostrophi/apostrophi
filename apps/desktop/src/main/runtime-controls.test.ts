@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS, type Prefs } from "@pond/schema/db";
+import { DEFAULT_PREFS, type Prefs } from "@apostrophi/schema/db";
 import { describe, expect, it } from "vitest";
 import { createRuntimeControls } from "./runtime-controls";
 

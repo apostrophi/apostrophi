@@ -2,7 +2,7 @@
 
 function activeLibraryId(): string {
   try {
-    return window.pond.libraryId();
+    return window.apostrophi.libraryId();
   } catch {
     return "unbound";
   }

@@ -1,10 +1,10 @@
-import { IconCheckFill, IconChevronDown } from "@pond/icons";
+import { IconCheckFill, IconChevronDown } from "@apostrophi/icons";
 import type {
   AgentContextChoice,
   AgentModelOptions,
   AgentReasoning,
-} from "@pond/schema";
-import { Menu } from "@pond/ui";
+} from "@apostrophi/schema";
+import { Menu } from "@apostrophi/ui";
 import {
   compactTokens,
   contextChoiceLabel,
@@ -98,7 +98,7 @@ export function ModelPicker({
   const [activeTop, setActiveTop] = useState(0);
   const catalog = useQuery({
     queryKey: ["assistant-models"],
-    queryFn: () => window.pond.query("agent.listAvailableModels", {}),
+    queryFn: () => window.apostrophi.query("agent.listAvailableModels", {}),
     enabled: open,
     staleTime: 30_000,
     retry: false,

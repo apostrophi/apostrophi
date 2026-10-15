@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { Children, isValidElement, type ReactNode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { CardModel } from "@/features/sources/components/sync-monitor/lib/helpers";
@@ -102,7 +102,7 @@ function findItem(items: MenuItemSpec[], label: string): MenuItemSpec | null {
 }
 
 beforeEach(() => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     clearPendingSession: vi.fn(async () => undefined),
     connectSource: vi.fn(async () => ({ ok: true })),
     openExternal: vi.fn(async () => ({ ok: true })),
@@ -142,7 +142,7 @@ describe("buildSourceActionMenu", () => {
     ).toMatchObject({ variant: "destructive" });
   });
 
-  it("opens profiles and copies profile details through Pond bridges", async () => {
+  it("opens profiles and copies profile details through Apostrophi bridges", async () => {
     const items = buildSourceActionMenu(account());
     const open = findItem(items, "Open Instagram Profile");
     const copyLink = findItem(items, "Copy Profile Link");
@@ -166,18 +166,27 @@ describe("buildSourceActionMenu", () => {
     copyUsername.onClick?.();
     copyId.onClick?.();
     await vi.waitFor(() => {
-      expect(window.pond.openExternal).toHaveBeenCalledWith(
+      expect(window.apostrophi.openExternal).toHaveBeenCalledWith(
         "https://www.instagram.com/oluwa.rafa/",
       );
-      expect(window.pond.query).toHaveBeenCalledWith("clipboard.writeText", {
-        text: "https://www.instagram.com/oluwa.rafa/",
-      });
-      expect(window.pond.query).toHaveBeenCalledWith("clipboard.writeText", {
-        text: "oluwa.rafa",
-      });
-      expect(window.pond.query).toHaveBeenCalledWith("clipboard.writeText", {
-        text: "acc-instagram",
-      });
+      expect(window.apostrophi.query).toHaveBeenCalledWith(
+        "clipboard.writeText",
+        {
+          text: "https://www.instagram.com/oluwa.rafa/",
+        },
+      );
+      expect(window.apostrophi.query).toHaveBeenCalledWith(
+        "clipboard.writeText",
+        {
+          text: "oluwa.rafa",
+        },
+      );
+      expect(window.apostrophi.query).toHaveBeenCalledWith(
+        "clipboard.writeText",
+        {
+          text: "acc-instagram",
+        },
+      );
     });
   });
 
@@ -251,7 +260,7 @@ describe("buildSourceActionMenu", () => {
     signIn.onClick?.();
     expect(sourceFlow.current()).toBe("connect-wait");
     await vi.waitFor(() => {
-      expect(window.pond.connectSource).toHaveBeenCalledWith("instagram");
+      expect(window.apostrophi.connectSource).toHaveBeenCalledWith("instagram");
     });
   });
 });

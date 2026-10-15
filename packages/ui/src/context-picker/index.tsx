@@ -1,4 +1,4 @@
-import { IconCheck, IconFile } from "@pond/icons";
+import { IconCheck, IconFile } from "@apostrophi/icons";
 import { useState } from "react";
 import { Button } from "../button";
 import { Input } from "../input";

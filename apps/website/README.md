@@ -1,7 +1,7 @@
-# @pond/website
+# @apostrophi/website
 
-Pond's promotional site. A Next.js app that reuses `@pond/ui` tokens and
-`@pond/icons` brand glyphs.
+Apostrophi's promotional site. A Next.js app that reuses `@apostrophi/ui` tokens and
+`@apostrophi/icons` brand glyphs.
 
 ## Scripts
 

@@ -1,7 +1,7 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type ImageCrop, saves } from "@pond/schema/db";
+import { type ImageCrop, saves } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import type { InspectQueryResults } from "../../shared/inspect-contracts";
 import { getDb } from "../db";
@@ -18,7 +18,7 @@ export async function saveCropCopy(input: {
   const target = await resolveSaveFilePath(input.id, input.fileIndex);
   if (!target.ok)
     return { ok: false, error: "The original image is unavailable." };
-  const directory = await mkdtemp(join(tmpdir(), "pond-crop-"));
+  const directory = await mkdtemp(join(tmpdir(), "apostrophi-crop-"));
   try {
     const db = await getDb();
     const [original] = await db

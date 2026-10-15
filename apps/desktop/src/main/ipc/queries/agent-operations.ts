@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { QueryName } from "../../../shared/query-contracts";
-import type { PondOperation } from "../../core/agent/operations";
+import type { ApostrophiOperation } from "../../core/agent/operations";
 import { queryOperationAccess } from "./agent-operation-access";
 import type { QueryHandlerMap } from "./params";
 
@@ -33,7 +33,7 @@ const descriptions = new Map<string, string>(
     "conversion.start":
       "Export converted image or video-to-GIF copies using a preset. Opens a native export directory picker; originals are retained. Returns a job ID for progress and cancellation.",
     "conversion.capabilities":
-      "List conversion formats and the codecs available in this Pond build.",
+      "List conversion formats and the codecs available in this Apostrophi build.",
     "conversion.compress":
       "Compress selected existing image files in one recoverable batch. Replaces originals, regenerates derived data, and records the operation for Undo.",
     "library.switchTo":
@@ -41,7 +41,7 @@ const descriptions = new Map<string, string>(
     "library.createAt":
       "Create a Library at a selected path with a name. Use library.pickFolder when the user needs to choose a location.",
     "library.restoreBackup":
-      "Restore a Library backup to a chosen destination through Pond's existing restore flow.",
+      "Restore a Library backup to a chosen destination through Apostrophi's existing restore flow.",
     "reset.factory":
       "Delete the active Library index. The Library files remain on disk, but this removes indexed chat history. Use the native Settings flow.",
   } satisfies Partial<Record<QueryName, string>>),
@@ -52,8 +52,8 @@ function describe(name: QueryName): string {
   if (explicit) return explicit;
   const words = name.replace(/([a-z])([A-Z])/g, "$1 $2").replaceAll(".", " ");
   return name.startsWith("savedViews.")
-    ? `Smart Folders, Saved Views, and Groups: ${words}. Uses the same operation as Pond's interface.`
-    : `${words}. Uses the same operation as Pond's interface.`;
+    ? `Smart Folders, Saved Views, and Groups: ${words}. Uses the same operation as Apostrophi's interface.`
+    : `${words}. Uses the same operation as Apostrophi's interface.`;
 }
 
 type QueryHandler = NonNullable<QueryHandlerMap[QueryName]> & {
@@ -62,7 +62,7 @@ type QueryHandler = NonNullable<QueryHandlerMap[QueryName]> & {
 
 export function agentOperationsForQueries(
   registry: QueryHandlerMap,
-): PondOperation[] {
+): ApostrophiOperation[] {
   const names = z.enum(Object.keys(queryOperationAccess));
   return Object.keys(registry).flatMap((key) => {
     const name = names.parse(key);

@@ -13,7 +13,7 @@ afterEach(async () => {
 });
 
 it("distinguishes a missing info.json from a corrupt one", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-item-metadata-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-item-metadata-"));
   roots.push(root);
   expect(await readSaveMetadata("absent", root)).toEqual({
     status: "missing",

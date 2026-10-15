@@ -1,4 +1,4 @@
-import type { Save } from "@pond/schema/db";
+import type { Save } from "@apostrophi/schema/db";
 import { describe, expect, it } from "vitest";
 import { mediaWarmCandidates } from "./candidates";
 

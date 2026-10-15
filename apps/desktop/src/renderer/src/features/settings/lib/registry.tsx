@@ -13,15 +13,15 @@ import {
   IconServer as Storage,
   IconBookmark as Tags,
   IconMovie as Videos,
-} from "@pond/icons";
-import type { IconComponent } from "@pond/icons/types";
+} from "@apostrophi/icons";
+import type { IconComponent } from "@apostrophi/icons/types";
 import {
   SETTINGS_GROUP_LABELS,
   SETTINGS_GROUP_ORDER,
   SETTINGS_SECTIONS,
   type SettingsGroup,
   type SettingsSection,
-} from "@pond/schema";
+} from "@apostrophi/schema";
 import type { SectionConfig } from "@/features/settings/components/engine";
 import { SECTION_CONFIGS } from "@/features/settings/lib/sections";
 

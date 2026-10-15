@@ -4,8 +4,8 @@ import {
   type QueueGenerationStatus,
   SOURCES,
   type Source,
-} from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
+} from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
 import { ulid } from "ulid";
 import { z } from "zod";
 import { getDb } from "../../db";

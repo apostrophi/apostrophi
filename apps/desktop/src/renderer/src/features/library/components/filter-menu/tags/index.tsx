@@ -1,6 +1,6 @@
-import { IconBookmark, IconFolder } from "@pond/icons";
-import type { Predicate } from "@pond/schema/filters/types";
-import { Menu } from "@pond/ui";
+import { IconBookmark, IconFolder } from "@apostrophi/icons";
+import type { Predicate } from "@apostrophi/schema/filters/types";
+import { Menu } from "@apostrophi/ui";
 import { useMemo, useState } from "react";
 import { EmptyChoice } from "../choice/empty";
 import { ChoiceOption } from "../choice/option";

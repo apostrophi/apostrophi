@@ -48,14 +48,14 @@ export async function importFilesWithDuplicateReview(input: {
   tags?: string[];
   folderIds?: string[];
 }) {
-  const review = await window.pond.query("saves.reviewImportDuplicates", {
+  const review = await window.apostrophi.query("saves.reviewImportDuplicates", {
     paths: input.paths,
   });
   if (review.candidates.length === 0)
-    return window.pond.query("saves.importFiles", input);
+    return window.apostrophi.query("saves.importFiles", input);
   const decisions = await promptForDuplicateImport(review.candidates);
   if (!decisions) return { ok: false as const, reason: "cancelled" as const };
-  return window.pond.query("saves.importFiles", {
+  return window.apostrophi.query("saves.importFiles", {
     ...input,
     duplicatePolicy: "keep-both",
     duplicateDecisions: decisions,

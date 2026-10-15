@@ -1,7 +1,7 @@
 import type { ReportDownloadActivity } from "@shared/download-activity";
 import { z } from "zod";
 
-const PREFIX = "POND_PROGRESS:";
+const PREFIX = "APOSTROPHI_PROGRESS:";
 export const YTDLP_PROGRESS_TEMPLATE = `${PREFIX}{"status":%(progress.status)j,"id":%(info.id)j,"format":%(info.format_id)j,"received":%(progress.downloaded_bytes)j,"total":%(progress.total_bytes)j,"speed":%(progress.speed)j,"eta":%(progress.eta)j,"index":%(info.playlist_index)j,"count":%(info.playlist_count)j}`;
 
 const Metric = z.number().nonnegative().finite().optional().catch(undefined);

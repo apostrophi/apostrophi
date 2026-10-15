@@ -2,7 +2,7 @@ import type {
   Prefs,
   SidebarBadgeStyle,
   SidebarDestination,
-} from "@pond/schema";
+} from "@apostrophi/schema";
 
 export const SIDEBAR_DESTINATION_GROUPS = [
   {

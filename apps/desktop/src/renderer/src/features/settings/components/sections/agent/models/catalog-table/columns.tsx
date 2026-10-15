@@ -1,4 +1,4 @@
-import { Button, Checkbox, type TableColumn } from "@pond/ui";
+import { Button, Checkbox, type TableColumn } from "@apostrophi/ui";
 import type { AssistantProvider } from "@shared/assistant";
 import type { CatalogModel } from "../types";
 import {

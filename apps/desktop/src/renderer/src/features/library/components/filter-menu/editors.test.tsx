@@ -1,5 +1,5 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
-import type { Predicate } from "@pond/schema/filters/types";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
+import type { Predicate } from "@apostrophi/schema/filters/types";
 import { act, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

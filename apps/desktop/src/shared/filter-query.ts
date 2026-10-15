@@ -1,4 +1,4 @@
-import { type Query, QuerySchema } from "@pond/schema/filters";
+import { type Query, QuerySchema } from "@apostrophi/schema/filters";
 import { z } from "zod";
 
 export const FilterQuery = z.custom<Query>(

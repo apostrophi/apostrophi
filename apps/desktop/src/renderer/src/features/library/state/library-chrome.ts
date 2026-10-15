@@ -84,10 +84,10 @@ function commitChrome(current: ChromeState, next: ChromeState): ChromeState {
     beginLibraryLayoutTransition();
   }
   if (current.rightOpen !== next.rightOpen) {
-    writeFlag("pond.rightOpen", next.rightOpen);
+    writeFlag("apostrophi.rightOpen", next.rightOpen);
   }
   if (current.agentOpen !== next.agentOpen) {
-    writeFlag("pond.agent", next.agentOpen);
+    writeFlag("apostrophi.agent", next.agentOpen);
   }
   return next;
 }
@@ -98,32 +98,32 @@ function restingPane(open: boolean): LibraryRightPane {
 
 function initialRightOpen(): boolean {
   try {
-    const stored = window.localStorage.getItem("pond.rightOpen");
+    const stored = window.localStorage.getItem("apostrophi.rightOpen");
     if (stored === "0" || stored === "1") return stored === "1";
-    if (window.localStorage.getItem("pond.agent") === "0") return false;
+    if (window.localStorage.getItem("apostrophi.agent") === "0") return false;
   } catch {}
   return true;
 }
 
-const initialAgentOpen = readFlag("pond.agent", false);
+const initialAgentOpen = readFlag("apostrophi.agent", false);
 const rightOpenAtLaunch = initialRightOpen();
 
 const store = new Store<ChromeState>({
   nav: { kind: "all" },
-  sidebarOpen: readFlag("pond.sidebar", true),
+  sidebarOpen: readFlag("apostrophi.sidebar", true),
   rightOpen: rightOpenAtLaunch,
   agentOpen: initialAgentOpen,
   rightPane: rightOpenAtLaunch ? "agent" : null,
   inspectorSaveId: null,
   inspectorTab: "organize",
   sidebarWidth: readWidth(
-    "pond.sidebarWidth",
+    "apostrophi.sidebarWidth",
     SIDEBAR_WIDTH_DEFAULT,
     SIDEBAR_WIDTH_MIN,
     SIDEBAR_WIDTH_MAX,
   ),
   agentWidth: readWidth(
-    "pond.agentWidth",
+    "apostrophi.agentWidth",
     AGENT_WIDTH_DEFAULT,
     AGENT_WIDTH_MIN,
     AGENT_WIDTH_MAX,
@@ -190,7 +190,10 @@ export const libraryChrome = {
     store.setState((s) => {
       const sidebarOpen = !s.sidebarOpen;
       try {
-        window.localStorage.setItem("pond.sidebar", sidebarOpen ? "1" : "0");
+        window.localStorage.setItem(
+          "apostrophi.sidebar",
+          sidebarOpen ? "1" : "0",
+        );
       } catch {}
       return { ...s, sidebarOpen };
     });
@@ -255,7 +258,7 @@ export const libraryChrome = {
       SIDEBAR_WIDTH_MAX,
       Math.max(SIDEBAR_WIDTH_MIN, Math.round(sidebarWidth)),
     );
-    writeWidth("pond.sidebarWidth", next);
+    writeWidth("apostrophi.sidebarWidth", next);
     store.setState((s) =>
       s.sidebarWidth === next ? s : { ...s, sidebarWidth: next },
     );
@@ -265,7 +268,7 @@ export const libraryChrome = {
       AGENT_WIDTH_MAX,
       Math.max(AGENT_WIDTH_MIN, Math.round(agentWidth)),
     );
-    writeWidth("pond.agentWidth", next);
+    writeWidth("apostrophi.agentWidth", next);
     store.setState((s) =>
       s.agentWidth === next ? s : { ...s, agentWidth: next },
     );

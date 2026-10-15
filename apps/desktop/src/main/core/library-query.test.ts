@@ -1,11 +1,11 @@
-import * as schema from "@pond/schema/db";
-import * as events from "@pond/schema/events";
-import { EMPTY_QUERY } from "@pond/schema/filters";
+import * as schema from "@apostrophi/schema/db";
+import * as events from "@apostrophi/schema/events";
+import { EMPTY_QUERY } from "@apostrophi/schema/filters";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
 import { recentlyAddedSince } from "../../shared/recently-added";
-import { initializePondSchema } from "../db";
+import { initializeApostrophiSchema } from "../db";
 import { queryFolderSummaries } from "./folder-summaries";
 import { queryLibraryIds, queryLibraryPage } from "./library-query";
 import { querySidebarCounts } from "./sidebar-counts";
@@ -27,13 +27,13 @@ afterEach(() => {
 function setup() {
   const sqlite = new Database(":memory:");
   opened.push(sqlite);
-  initializePondSchema(sqlite, () => false);
+  initializeApostrophiSchema(sqlite, () => false);
   const db = Object.assign(
     drizzle(sqlite, { schema: { ...schema, ...events } }),
     { $raw: sqlite },
   );
   const insert = sqlite.prepare(
-    "insert into saves (id, source, source_id, url, title, saved_at, created_at, status, media_type) values (?, 'local', ?, 'pond:test', ?, ?, ?, 'complete', 'text')",
+    "insert into saves (id, source, source_id, url, title, saved_at, created_at, status, media_type) values (?, 'local', ?, 'apostrophi:test', ?, ?, ?, 'complete', 'text')",
   );
   sqlite.transaction(() => {
     for (let i = 0; i < 1200; i++)
@@ -260,7 +260,7 @@ describe.skipIf(!nativeAvailable())("authoritative library query", () => {
       }),
     ).rejects.toThrow("library changed");
     sqlite.exec(
-      "insert into saves (id,source,source_id,url,title,status,media_type) values ('new','local','new','pond:new','New','complete','text')",
+      "insert into saves (id,source,source_id,url,title,status,media_type) values ('new','local','new','apostrophi:new','New','complete','text')",
     );
     expect(
       (await queryLibraryIds(db, "library", request)).ids.filter(
@@ -338,7 +338,7 @@ describe.skipIf(!nativeAvailable())("authoritative library query", () => {
     expect(await idsFor("newlyimported")).toEqual([]);
     sqlite
       .prepare(
-        "insert into saves (id, source, source_id, url, title, saved_at, created_at, status, media_type) values ('imported', 'local', 'imported', 'pond:imported', 'newlyimported', 0, 0, 'complete', 'text')",
+        "insert into saves (id, source, source_id, url, title, saved_at, created_at, status, media_type) values ('imported', 'local', 'imported', 'apostrophi:imported', 'newlyimported', 0, 0, 'complete', 'text')",
       )
       .run();
     expect(await idsFor("newlyimported")).toEqual(["imported"]);

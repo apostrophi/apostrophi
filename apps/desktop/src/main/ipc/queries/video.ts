@@ -1,5 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import {
   ClipboardItem,
@@ -16,7 +16,7 @@ import { ensureVideoPreviewProxy } from "../../core/video-preview-proxy";
 import { getDb } from "../../db";
 import { extractFrameAt, extractSampledFrames } from "../../lib/ffmpeg-frame";
 import { saveFile } from "../../paths";
-import { resolvePondSavePath } from "../helpers";
+import { resolveApostrophiSavePath } from "../helpers";
 import { toWireSave } from "../wire";
 import {
   NumberParam,
@@ -65,7 +65,7 @@ export const videoQueries = {
   "video.sampleFrames": query(
     SampleFramesParams,
     async (params): Promise<QueryResult<"video.sampleFrames">> => {
-      const resolved = resolvePondSavePath(params.src);
+      const resolved = resolveApostrophiSavePath(params.src);
       if (!resolved) return FILE_NOT_FOUND;
       const sampled = await extractSampledFrames(
         resolved.path,
@@ -92,7 +92,7 @@ export const videoQueries = {
     FrameParams,
     async (params): Promise<QueryResult<"video.copyFrame">> => {
       const img = await frameImage(
-        resolvePondSavePath(params.src),
+        resolveApostrophiSavePath(params.src),
         params.timeSec,
       );
       if (!img) return FRAME_UNAVAILABLE;
@@ -110,7 +110,7 @@ export const videoQueries = {
   "video.saveFrame": query(
     FrameParams,
     async (params): Promise<QueryResult<"video.saveFrame">> => {
-      const resolved = resolvePondSavePath(params.src);
+      const resolved = resolveApostrophiSavePath(params.src);
       if (!resolved) return FILE_NOT_FOUND;
       const result = await dialog.showSaveDialog({
         defaultPath: `frame-${Date.now()}.png`,
@@ -130,7 +130,7 @@ export const videoQueries = {
     async (params): Promise<QueryResult<"video.setThumbnail">> => {
       const saveId = params.saveId;
       if (!saveId) return FILE_NOT_FOUND;
-      const resolved = resolvePondSavePath(params.src);
+      const resolved = resolveApostrophiSavePath(params.src);
       if (!resolved || resolved.saveId.toLowerCase() !== saveId.toLowerCase()) {
         return FILE_NOT_FOUND;
       }

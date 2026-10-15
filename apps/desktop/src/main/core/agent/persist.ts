@@ -1,4 +1,8 @@
-import { type AgentChat, agentChats, agentMessages } from "@pond/schema/db";
+import {
+  type AgentChat,
+  agentChats,
+  agentMessages,
+} from "@apostrophi/schema/db";
 import { asc, desc, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import type { AssistantMetadata } from "../../../shared/assistant";

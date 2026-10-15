@@ -23,7 +23,7 @@ describe("new source menu", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: vi.fn(async () => ({ accounts: [] })),
       connectSource: vi.fn(async () => ({ ok: true })),
     });

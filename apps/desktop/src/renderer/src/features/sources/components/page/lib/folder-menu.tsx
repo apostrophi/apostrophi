@@ -4,8 +4,8 @@ import {
   IconMediaPause,
   IconMediaPlay,
   IconTrash,
-} from "@pond/icons";
-import { Dialog, type MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Dialog, type MenuItemSpec } from "@apostrophi/ui";
 import { pickWatchedFolder } from "@/features/sources/lib/watched-folder";
 import { formatNumber } from "@/shared/lib/format";
 import { REVEAL_LABEL } from "@/shared/lib/platform";
@@ -18,7 +18,7 @@ interface FolderMenuTarget {
 }
 
 async function revealFolder(name: string): Promise<void> {
-  const result = await window.pond.query("autoImport.reveal", {});
+  const result = await window.apostrophi.query("autoImport.reveal", {});
   if (result.ok) return;
   notify({
     id: "folder-reveal",
@@ -30,7 +30,7 @@ async function setWatching(
   enabled: boolean,
   onChanged: () => void,
 ): Promise<void> {
-  await window.pond.query("autoImport.set", { enabled });
+  await window.apostrophi.query("autoImport.set", { enabled });
   onChanged();
 }
 
@@ -39,10 +39,13 @@ function confirmStop(target: FolderMenuTarget, onChanged: () => void): void {
   const fileCount = `${formatNumber(count)} file${count === 1 ? "" : "s"}`;
   Dialog.confirm({
     title: "Stop Watching",
-    description: `Pond stops importing new files from ${target.name}. The ${fileCount} already imported stay in your library.`,
+    description: `Apostrophi stops importing new files from ${target.name}. The ${fileCount} already imported stay in your library.`,
     confirmLabel: "Stop",
     onConfirm: async () => {
-      await window.pond.query("autoImport.set", { enabled: false, path: "" });
+      await window.apostrophi.query("autoImport.set", {
+        enabled: false,
+        path: "",
+      });
       onChanged();
     },
   });

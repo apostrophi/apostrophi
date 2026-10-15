@@ -1,4 +1,4 @@
-import type { Capture } from "@pond/schema/raw";
+import type { Capture } from "@apostrophi/schema/raw";
 import { buildTextCardData, type TextCardData } from "@shared/text-card";
 import { buildTweetCardData, type TweetCardData } from "@shared/tweet-card";
 import { BrowserWindow } from "electron";
@@ -258,7 +258,7 @@ async function renderOne(
 
   let rect = await readCardRect(target);
   if (!rect) {
-    log.warn("[pond render-card] card not ready", kind, scheme);
+    log.warn("[apostrophi render-card] card not ready", kind, scheme);
     return null;
   }
 
@@ -293,7 +293,7 @@ async function enqueueRender(
         "render",
       );
     } catch (err) {
-      log.warn("[pond render-card] render failed", kind, scheme, err);
+      log.warn("[apostrophi render-card] render failed", kind, scheme, err);
       disposeRenderCardWindow();
       return null;
     } finally {

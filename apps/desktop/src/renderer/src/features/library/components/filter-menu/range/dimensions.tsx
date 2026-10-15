@@ -1,5 +1,8 @@
-import type { Predicate, PredicateValue } from "@pond/schema/filters/types";
-import { Input } from "@pond/ui";
+import type {
+  Predicate,
+  PredicateValue,
+} from "@apostrophi/schema/filters/types";
+import { Input } from "@apostrophi/ui";
 import { useState } from "react";
 import { stopMenuKeys } from "../menu-keys";
 import { useFilterDraft } from "../use-filter-draft";

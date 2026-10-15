@@ -2,9 +2,9 @@ import { createHash } from "node:crypto";
 import { mkdtemp, open, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, extname, join } from "node:path";
-import type { CaptureMetadata } from "@pond/schema/capture";
-import { saves } from "@pond/schema/db";
-import type { ExtensionCookie } from "@pond/schema/session";
+import type { CaptureMetadata } from "@apostrophi/schema/capture";
+import { saves } from "@apostrophi/schema/db";
+import type { ExtensionCookie } from "@apostrophi/schema/session";
 import { and, eq } from "drizzle-orm";
 import { session } from "electron";
 import mime from "mime-types";
@@ -32,8 +32,8 @@ export async function captureAsset(input: {
     (await importedFilesComplete(existing, saveDir(existing.id), 1))
   )
     return { id: existing.id, duplicate: true };
-  const directory = await mkdtemp(join(tmpdir(), "pond-asset-"));
-  const partition = `pond-asset-${crypto.randomUUID()}`;
+  const directory = await mkdtemp(join(tmpdir(), "apostrophi-asset-"));
+  const partition = `apostrophi-asset-${crypto.randomUUID()}`;
   const isolated = session.fromPartition(partition, { cache: false });
   try {
     if (input.cookies?.length)

@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import type { ExtensionCookie } from "@pond/schema/session";
+import type { Source } from "@apostrophi/schema/db";
+import type { ExtensionCookie } from "@apostrophi/schema/session";
 import { type EnqueueOptions, enqueue } from "../core/pipeline/enqueue";
 import { importSessionCookies } from "../core/session-import";
 import { getPendingSessionSource } from "../pending-session";

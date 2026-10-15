@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema";
+import type { Prefs } from "@apostrophi/schema";
 import { type AssistantProvider, assistantProvider } from "@shared/assistant";
 import { z } from "zod";
 

@@ -102,11 +102,13 @@ describe("Eagle documented metadata conversion", () => {
             },
           ],
         },
-        new Map([["eagle-folder", "pond-folder"]]),
+        new Map([["eagle-folder", "apostrophi-folder"]]),
       ),
     ).toEqual({
       combinator: "and",
-      rules: [{ field: "folder", operator: "exact", value: ["pond-folder"] }],
+      rules: [
+        { field: "folder", operator: "exact", value: ["apostrophi-folder"] },
+      ],
     });
   });
   it("converts Eagle file-size units to bytes", () => {
@@ -135,7 +137,7 @@ describe("Eagle documented metadata conversion", () => {
       ],
     });
   });
-  it("maps image extensions to Pond's format set operators", () => {
+  it("maps image extensions to Apostrophi's format set operators", () => {
     expect(
       eagleSmartFolderQuery({
         id: "png",

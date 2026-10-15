@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import type { WatchTarget } from "./resolve";
 
 export type FetchWatchPage = (

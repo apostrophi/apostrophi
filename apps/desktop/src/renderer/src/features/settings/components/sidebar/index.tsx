@@ -1,5 +1,5 @@
-import { IconArrowLeft } from "@pond/icons";
-import { Button, Sidebar } from "@pond/ui";
+import { IconArrowLeft } from "@apostrophi/icons";
+import { Button, Sidebar } from "@apostrophi/ui";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import Fuse from "fuse.js";
 import { useMemo, useState } from "react";

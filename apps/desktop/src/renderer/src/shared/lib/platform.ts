@@ -19,7 +19,7 @@ function emit(): void {
 
 function _ensure(): void {
   if (platform !== null || pending) return;
-  pending = window.pond.appInfo().then((info) => {
+  pending = window.apostrophi.appInfo().then((info) => {
     platform = info.platform === "darwin" ? "mac" : "other";
     pending = null;
     emit();

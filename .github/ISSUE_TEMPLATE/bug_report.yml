@@ -50,10 +50,10 @@ body:
     validations:
       required: true
   - type: input
-    id: pond-version
+    id: apostrophi-version
     attributes:
-      label: pond version
-      description: From the tray menu, "About pond", or the GitHub release tag.
+      label: apostrophi version
+      description: From the tray menu, "About apostrophi", or the GitHub release tag.
       placeholder: 0.0.1
     validations:
       required: true
@@ -85,8 +85,8 @@ body:
     attributes:
       label: Logs
       description: |
-        Relevant logs from `~/Library/Logs/pond/` (macOS),
-        `%APPDATA%/pond/logs/` (Windows), or `~/.config/pond/logs/` (Linux).
+        Relevant logs from `~/Library/Logs/apostrophi/` (macOS),
+        `%APPDATA%/apostrophi/logs/` (Windows), or `~/.config/apostrophi/logs/` (Linux).
         DevTools console output from the renderer is also helpful.
       render: shell
   - type: checkboxes
@@ -94,5 +94,5 @@ body:
     attributes:
       label: Code of conduct
       options:
-        - label: I agree to follow this project's [Code of Conduct](https://github.com/raphaelsalaja/pond/blob/main/CODE_OF_CONDUCT.md).
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/apostrophi/apostrophi/blob/main/CODE_OF_CONDUCT.md).
           required: true

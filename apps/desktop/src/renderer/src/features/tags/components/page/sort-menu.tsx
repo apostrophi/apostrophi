@@ -1,6 +1,6 @@
-import { IconSortArrows } from "@pond/icons";
-import type { Prefs } from "@pond/schema";
-import { Menu, type MenuItemSpec } from "@pond/ui";
+import { IconSortArrows } from "@apostrophi/icons";
+import type { Prefs } from "@apostrophi/schema";
+import { Menu, type MenuItemSpec } from "@apostrophi/ui";
 import { SpecMenu } from "@/shared/components/spec-context-menu";
 
 type TagSort = Prefs["allTags"]["sort"];

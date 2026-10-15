@@ -4,8 +4,8 @@ import {
   IconFloppyDisk,
   IconImagePlus,
   IconRotateImageClockwise,
-} from "@pond/icons";
-import { useVideo } from "@pond/ui";
+} from "@apostrophi/icons";
+import { useVideo } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { OriginalFileActions } from "@/features/saves/components/viewers/original-file-actions";

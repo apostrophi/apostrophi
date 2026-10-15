@@ -1,11 +1,11 @@
-import type { Folder } from "@pond/schema/db";
+import type { Folder } from "@apostrophi/schema/db";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { type FolderListSort, flattenFolderTree, sortFolderRows } from "./tree";
 import type { FolderDropState } from "./use-folder-drag-drop";
 
-const COLLAPSED_FOLDERS_KEY = "pond:collapsed-folders";
-const FOLDER_LIST_SORT_KEY = "pond:folder-list-sort";
+const COLLAPSED_FOLDERS_KEY = "apostrophi:collapsed-folders";
+const FOLDER_LIST_SORT_KEY = "apostrophi:folder-list-sort";
 const FolderListSortSchema = z
   .enum(["manual", "createdAt", "title"])
   .catch("manual");

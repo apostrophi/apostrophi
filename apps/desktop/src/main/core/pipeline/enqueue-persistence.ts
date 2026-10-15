@@ -8,9 +8,9 @@ import {
   saves,
   syncActions,
   tasks,
-} from "@pond/schema/db";
-import { domainFromUrl } from "@pond/schema/domain";
-import { listKindsEqual, mergeListKinds } from "@pond/schema/list-kinds";
+} from "@apostrophi/schema/db";
+import { domainFromUrl } from "@apostrophi/schema/domain";
+import { listKindsEqual, mergeListKinds } from "@apostrophi/schema/list-kinds";
 import { and, eq, inArray } from "drizzle-orm";
 import { ulid } from "ulid";
 import { getDb } from "../../db";

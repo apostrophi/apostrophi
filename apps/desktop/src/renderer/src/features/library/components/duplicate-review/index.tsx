@@ -1,4 +1,4 @@
-import { Button, Dialog, Empty } from "@pond/ui";
+import { Button, Dialog, Empty } from "@apostrophi/ui";
 import { useSelector } from "@tanstack/react-store";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -65,7 +65,7 @@ export function DuplicateReview({
 
   useEffect(() => {
     let active = true;
-    void window.pond
+    void window.apostrophi
       .query("saves.findDuplicates", {})
       .then((result) => {
         if (!active) return;
@@ -126,7 +126,10 @@ export function DuplicateReview({
     const merged: { keepId: string; ids: string[] }[] = [];
     try {
       for (const item of plan) {
-        const result = await window.pond.query("saves.mergeDuplicates", item);
+        const result = await window.apostrophi.query(
+          "saves.mergeDuplicates",
+          item,
+        );
         if (!result.ok)
           throw Error(result.error ?? "Couldn't merge these saves. Try again.");
         merged.push(item);

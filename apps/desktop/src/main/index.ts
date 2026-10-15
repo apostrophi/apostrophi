@@ -59,7 +59,7 @@ import { recoverUnreadableLibrary } from "./library-recovery";
 import { installAppMenu, setMenuRecents } from "./menu";
 import { writeNativeHostManifests } from "./native/manifests";
 import { startNativeServer, stopNativeServer } from "./native/server";
-import { libraryRoot, type PondPaths, resolvePaths } from "./paths";
+import { type ApostrophiPaths, libraryRoot, resolvePaths } from "./paths";
 import { registerProtocol, registerScheme } from "./protocol";
 import { runtimeControls } from "./runtime";
 import { configureSessionDefaults } from "./session-config";
@@ -86,11 +86,11 @@ import {
 markStartup("modules-loaded");
 
 /** Force app.name before any menu/dock work; dev falls back to "Electron" otherwise. */
-app.setName("Pond");
+app.setName("Apostrophi");
 disableMenuActionImages();
 
-if (process.env.POND_SANDBOX) {
-  const sandbox = resolvePath(process.env.POND_SANDBOX);
+if (process.env.APOSTROPHI_SANDBOX) {
+  const sandbox = resolvePath(process.env.APOSTROPHI_SANDBOX);
   /** setPath does not create directories, and Chromium expects sessionData to exist. */
   for (const [name, dir] of [
     ["userData", join(sandbox, "app-data")],
@@ -104,14 +104,14 @@ if (process.env.POND_SANDBOX) {
 }
 if (process.platform === "darwin") {
   app.setAboutPanelOptions({
-    applicationName: "Pond",
+    applicationName: "Apostrophi",
     applicationVersion: app.getVersion(),
-    copyright: "Copyright © 2026 Raphael Salaja",
+    copyright: "Copyright © 2026 Apostrophi contributors",
   });
 }
 
 log.initialize();
-log.info("[pond] main starting", {
+log.info("[apostrophi] main starting", {
   version: app.getVersion(),
   platform: process.platform,
 });
@@ -142,14 +142,14 @@ if (!gotSingleInstanceLock) {
   app.quit();
 }
 
-if (!process.env.POND_SANDBOX && process.defaultApp) {
+if (!process.env.APOSTROPHI_SANDBOX && process.defaultApp) {
   if (process.argv.length >= 2) {
-    app.setAsDefaultProtocolClient("pond", process.execPath, [
+    app.setAsDefaultProtocolClient("apostrophi", process.execPath, [
       resolvePath(process.argv[1] ?? ""),
     ]);
   }
-} else if (!process.env.POND_SANDBOX) {
-  app.setAsDefaultProtocolClient("pond");
+} else if (!process.env.APOSTROPHI_SANDBOX) {
+  app.setAsDefaultProtocolClient("apostrophi");
 }
 
 app.on("open-url", (event, url) => {
@@ -159,7 +159,7 @@ app.on("open-url", (event, url) => {
 });
 
 app.on("second-instance", (_event, argv) => {
-  const url = argv.find((a) => a.startsWith("pond://"));
+  const url = argv.find((a) => a.startsWith("apostrophi://"));
   if (url) {
     const destination = handleDeepLink(url, getMainWindow());
     if (destination === "library") void openLibraryWindow();
@@ -182,7 +182,7 @@ app.whenReady().then(async () => {
 
   const paths = await openActiveLibrary();
   if (!paths) return;
-  log.info("[pond] paths", paths);
+  log.info("[apostrophi] paths", paths);
 
   configureSessionDefaults();
 
@@ -190,8 +190,8 @@ app.whenReady().then(async () => {
 
   if (wantsMcp) {
     await ensureIngestToken();
-    const { startPondMcp } = await import("./core/agent/mcp");
-    await startPondMcp();
+    const { startApostrophiMcp } = await import("./core/agent/mcp");
+    await startApostrophiMcp();
     return;
   }
 
@@ -230,26 +230,30 @@ app.whenReady().then(async () => {
     getDb(),
   ]);
   if (tokenResult.status === "rejected") {
-    log.error("[pond] ingest token init failed", tokenResult.reason);
+    log.error("[apostrophi] ingest token init failed", tokenResult.reason);
   }
   if (dbResult.status === "rejected") {
-    log.error("[pond] db init failed", dbResult.reason);
+    log.error("[apostrophi] db init failed", dbResult.reason);
   }
 
   app.on("activate", () => void handleActivate());
 
   void postLaunchInit().catch((err) =>
-    log.error("[pond] post-launch init failed", err),
+    log.error("[apostrophi] post-launch init failed", err),
   );
 });
 
-async function openActiveLibrary(): Promise<PondPaths | null> {
+async function openActiveLibrary(): Promise<ApostrophiPaths | null> {
   try {
     ensureDefaultLibrary();
     return resolvePaths();
   } catch (error) {
     if (!(error instanceof LibraryMetadataError)) throw error;
-    log.error("[pond] Library metadata is unreadable", error.file, error.cause);
+    log.error(
+      "[apostrophi] Library metadata is unreadable",
+      error.file,
+      error.cause,
+    );
     if (wantsMcp) app.exit(1);
     else await recoverUnreadableLibrary(error);
     return null;
@@ -257,7 +261,7 @@ async function openActiveLibrary(): Promise<PondPaths | null> {
 }
 
 async function postLaunchInit(): Promise<void> {
-  if (!process.env.POND_SANDBOX) {
+  if (!process.env.APOSTROPHI_SANDBOX) {
     await registerSummonHotkey();
     registerAutoUpdater();
   }
@@ -268,46 +272,47 @@ async function postLaunchInit(): Promise<void> {
       snapshotBundleJsons();
     }
   } catch (err) {
-    log.warn("[pond] recording active library failed", err);
+    log.warn("[apostrophi] recording active library failed", err);
   }
 
   try {
     await hydrateTagsFromBundle();
   } catch (err) {
-    log.warn("[pond] tags.json hydrate failed", err);
+    log.warn("[apostrophi] tags.json hydrate failed", err);
   }
 
   void startDeferredMaintenance();
 
   try {
-    if (!process.env.POND_SANDBOX) await runtimeControls.startHttpServer();
+    if (!process.env.APOSTROPHI_SANDBOX)
+      await runtimeControls.startHttpServer();
   } catch (err) {
-    log.error("[pond] http server failed to start", err);
+    log.error("[apostrophi] http server failed to start", err);
   }
 
   try {
-    if (!process.env.POND_SANDBOX) {
+    if (!process.env.APOSTROPHI_SANDBOX) {
       nativeServer = await startNativeServer();
       writeNativeHostManifests();
     }
   } catch (err) {
-    log.error("[pond] native host failed to start", err);
+    log.error("[apostrophi] native host failed to start", err);
   }
 
   void recoverInterruptedSyncs().catch((err) =>
-    log.warn("[pond] interrupted-sync recovery failed", err),
+    log.warn("[apostrophi] interrupted-sync recovery failed", err),
   );
   registerTrashCron();
   registerYtDlpUpdateCron();
   registerSyncCron();
   void startStorageWatcher().catch((err) =>
-    log.warn("[pond] storage watcher failed to start", err),
+    log.warn("[apostrophi] storage watcher failed to start", err),
   );
   void captures
     .recover()
-    .catch((error) => log.warn("[pond] capture recovery failed", error));
+    .catch((error) => log.warn("[apostrophi] capture recovery failed", error));
   void startAutoImport().catch((err) =>
-    log.warn("[pond] auto-import failed to start", err),
+    log.warn("[apostrophi] auto-import failed to start", err),
   );
 
   await initTray();
@@ -315,7 +320,7 @@ async function postLaunchInit(): Promise<void> {
 
   void runtimeControls
     .applyPrefsAtRuntime()
-    .catch((err) => log.warn("[pond] applyPrefsAtRuntime failed", err));
+    .catch((err) => log.warn("[apostrophi] applyPrefsAtRuntime failed", err));
 
   subscribeToSyncStatus(broadcastSyncStatus);
 }
@@ -343,33 +348,35 @@ async function startDeferredMaintenance(): Promise<void> {
 
   void scanModule
     .reconcileLibrary()
-    .catch((err) => log.warn("[pond] scan failed", err))
+    .catch((err) => log.warn("[apostrophi] scan failed", err))
     .finally(() => mediaModule.startMediaWarmer())
     .then(async () =>
       (await import("./core/refresh/archive-backfill")).startArchiveBackfill(),
     )
-    .catch((err) => log.warn("[pond] archive backfill failed", err))
+    .catch((err) => log.warn("[apostrophi] archive backfill failed", err))
     .then(async () =>
       (
         await import("./core/refresh/missing-video-backfill")
       ).startMissingVideoBackfill(),
     )
-    .catch((err) => log.warn("[pond] missing video backfill failed", err))
+    .catch((err) => log.warn("[apostrophi] missing video backfill failed", err))
     .then(async () =>
       (
         await import("./core/refresh/threads-card-backfill")
       ).startThreadsCardBackfill(),
     )
-    .catch((err) => log.warn("[pond] native card backfill failed", err))
+    .catch((err) => log.warn("[apostrophi] native card backfill failed", err))
     .then(async () =>
       (
         await import("./core/refresh/source-icon-backfill")
       ).backfillSourceIcons(),
     )
-    .catch((err) => log.warn("[pond] source icon backfill failed", err));
+    .catch((err) => log.warn("[apostrophi] source icon backfill failed", err));
   void enrichmentModule
     .backfillEnrichmentSidecars()
-    .catch((err) => log.warn("[pond] enrichment sidecar backfill failed", err));
+    .catch((err) =>
+      log.warn("[apostrophi] enrichment sidecar backfill failed", err),
+    );
 }
 
 function snapshotBundleJsons(): void {
@@ -381,13 +388,13 @@ function snapshotBundleJsons(): void {
       paths.tagsFile,
     ]);
   } catch (err) {
-    log.warn("[pond] bundle backup snapshot failed", err);
+    log.warn("[apostrophi] bundle backup snapshot failed", err);
   }
 }
 
 async function registerSummonHotkey() {
   const run = (action: () => Promise<void>) => () => {
-    void action().catch((error) => log.warn("[pond shortcut]", error));
+    void action().catch((error) => log.warn("[apostrophi shortcut]", error));
   };
   startGlobalShortcuts(
     globalShortcut,
@@ -439,32 +446,32 @@ app.on("before-quit", async (event) => {
     await stopAutoImport();
     await stopLibraryTransfers();
   } catch (error) {
-    log.warn("[pond] auto import shutdown failed", error);
+    log.warn("[apostrophi] auto import shutdown failed", error);
   }
   try {
     await flushTagsDump();
   } catch (err) {
-    log.warn("[pond] tags.json flush failed", err);
+    log.warn("[apostrophi] tags.json flush failed", err);
   }
   try {
     stopStorageWatcher();
   } catch (err) {
-    log.warn("[pond] storage watcher stop failed", err);
+    log.warn("[apostrophi] storage watcher stop failed", err);
   }
   try {
     flushGovernor();
   } catch (err) {
-    log.warn("[pond] governor flush failed", err);
+    log.warn("[apostrophi] governor flush failed", err);
   }
   try {
     disposeHiddenWindow();
   } catch (err) {
-    log.warn("[pond] hidden window dispose failed", err);
+    log.warn("[apostrophi] hidden window dispose failed", err);
   }
   try {
     disposeRenderCardWindow();
   } catch (err) {
-    log.warn("[pond] render-card window dispose failed", err);
+    log.warn("[apostrophi] render-card window dispose failed", err);
   }
   disposeQueueWorkerHost();
   closePreviewWindows();
@@ -473,12 +480,12 @@ app.on("before-quit", async (event) => {
     await stopNativeServer(nativeServer);
     nativeServer = null;
   } catch (err) {
-    log.warn("[pond] native host close failed", err);
+    log.warn("[apostrophi] native host close failed", err);
   }
   try {
     await runtimeControls.closeHttpServer();
   } catch (err) {
-    log.warn("[pond] http server close failed", err);
+    log.warn("[apostrophi] http server close failed", err);
   }
   quitPrepared = true;
   app.quit();

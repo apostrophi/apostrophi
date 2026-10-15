@@ -66,7 +66,8 @@ export function useRetrievalOverlay(
           }),
         );
       } catch (error) {
-        if (!cancelled) console.warn("[pond overlay] retrieval failed", error);
+        if (!cancelled)
+          console.warn("[apostrophi overlay] retrieval failed", error);
       } finally {
         if (!cancelled) setSearching(false);
       }

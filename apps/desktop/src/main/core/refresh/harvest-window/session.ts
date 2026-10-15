@@ -1,4 +1,4 @@
-import type { ConnectedAccount, Source } from "@pond/schema/db";
+import type { ConnectedAccount, Source } from "@apostrophi/schema/db";
 import { type Cookie, session, shell } from "electron";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -22,10 +22,14 @@ export async function signInToSource(
   if (!url) return { ok: false, mode: "external" };
   try {
     await shell.openExternal(url);
-    log.info("[pond refresh:signin] opened external browser for", source, url);
+    log.info(
+      "[apostrophi refresh:signin] opened external browser for",
+      source,
+      url,
+    );
     return { ok: true, mode: "external" };
   } catch (err) {
-    log.warn("[pond refresh:signin] openExternal failed", source, err);
+    log.warn("[apostrophi refresh:signin] openExternal failed", source, err);
     return { ok: false, mode: "external" };
   }
 }
@@ -88,7 +92,7 @@ export async function writePartitionCookies(args: {
     } catch (err) {
       skipped += 1;
       log.warn(
-        "[pond refresh:cookies] set failed",
+        "[apostrophi refresh:cookies] set failed",
         c.name,
         c.domain,
         err instanceof Error ? err.message : err,
@@ -123,12 +127,12 @@ export async function probeUserHandle(
     const url = probeUrlForSource(source);
     const navOk = await navigateWithTimeout(lease.win, url, NAV_TIMEOUT_MS);
     if (!navOk) {
-      log.warn("[pond refresh:probe] navigate failed", source, url);
+      log.warn("[apostrophi refresh:probe] navigate failed", source, url);
       return null;
     }
     const current = lease.win.webContents.getURL();
     if (looksLikeAuthWall(current)) {
-      log.info("[pond refresh:probe] auth wall hit", source, current);
+      log.info("[apostrophi refresh:probe] auth wall hit", source, current);
       return null;
     }
 
@@ -136,17 +140,17 @@ export async function probeUserHandle(
     const raw = ProbeHandleSchema.parse(
       await Promise.race([
         lease.win.webContents.executeJavaScript(expr, true),
-        sleep(HARVEST_TIMEOUT_MS).then(() => "__pond_probe_timeout__"),
+        sleep(HARVEST_TIMEOUT_MS).then(() => "__apostrophi_probe_timeout__"),
       ]),
     );
-    if (!raw || raw === "__pond_probe_timeout__") {
-      log.warn("[pond refresh:probe] no handle in DOM", source);
+    if (!raw || raw === "__apostrophi_probe_timeout__") {
+      log.warn("[apostrophi refresh:probe] no handle in DOM", source);
       return null;
     }
     const handle = raw.trim().replace(/^@/, "");
     return handle.length > 0 ? handle : null;
   } catch (err) {
-    log.warn("[pond refresh:probe] unexpected error", source, err);
+    log.warn("[apostrophi refresh:probe] unexpected error", source, err);
     return null;
   } finally {
     lease.release();
@@ -198,7 +202,7 @@ async function listCookiesForSource(
       return ck === host || ck.endsWith(`.${host}`);
     });
   } catch (err) {
-    log.warn("[pond refresh:window] cookies.get failed", domain, err);
+    log.warn("[apostrophi refresh:window] cookies.get failed", domain, err);
     return [];
   }
 }

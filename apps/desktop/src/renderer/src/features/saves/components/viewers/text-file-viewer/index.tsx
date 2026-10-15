@@ -2,7 +2,7 @@ import {
   IconArrowAnticlockwiseText,
   IconCopy,
   IconFileExport,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import { decodeTextBytes, type TextEncoding } from "@shared/text-encoding";
 import { useEffect, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
@@ -62,10 +62,13 @@ export function TextFileViewer({
   const convert = async () => {
     setConverting(true);
     try {
-      const result = await window.pond.query("saves.convertTextEncoding", {
-        id: save.id,
-        fileIndex,
-      });
+      const result = await window.apostrophi.query(
+        "saves.convertTextEncoding",
+        {
+          id: save.id,
+          fileIndex,
+        },
+      );
       if (!result.ok) throw new Error();
       setEncoding("utf-8");
       notify({ id: "text-encoding", title: "Converted to UTF-8" });
@@ -80,7 +83,7 @@ export function TextFileViewer({
     }
   };
   const exportDotLottie = async () => {
-    const result = await window.pond.query("saves.exportDotLottie", {
+    const result = await window.apostrophi.query("saves.exportDotLottie", {
       id: save.id,
       fileIndex,
     });
@@ -143,7 +146,9 @@ export function TextFileViewer({
       </ChromePortal>
       <div className={styles.scroll}>
         {failed ? (
-          <p className={styles.status}>Pond couldn't read this text file.</p>
+          <p className={styles.status}>
+            Apostrophi couldn't read this text file.
+          </p>
         ) : (
           <pre>{text}</pre>
         )}

@@ -61,7 +61,7 @@ function compileForField(
   if (field === "color") {
     const color = readColorMatch(raw);
     return color && operator === "near"
-      ? sql`pond_color_near(${saves.dominantColors}, ${color.hex}, ${color.tolerance}) = 1`
+      ? sql`apostrophi_color_near(${saves.dominantColors}, ${color.hex}, ${color.tolerance}) = 1`
       : null;
   }
   if (field === "aspect") return aspectClause(operator, raw);

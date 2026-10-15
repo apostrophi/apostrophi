@@ -1,9 +1,9 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
 import type {
   FieldId,
   Predicate,
   PredicateValue,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import { z } from "zod";
 
 type ChoiceValue = string | number;

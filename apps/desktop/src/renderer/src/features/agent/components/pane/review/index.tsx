@@ -1,4 +1,4 @@
-import { Button, Checkbox } from "@pond/ui";
+import { Button, Checkbox } from "@apostrophi/ui";
 import type { AssistantChange } from "@shared/assistant";
 import { useState } from "react";
 import { assistant } from "@/features/agent/state/assistant";

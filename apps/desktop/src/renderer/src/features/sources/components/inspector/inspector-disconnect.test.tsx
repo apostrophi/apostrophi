@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
@@ -52,7 +52,7 @@ beforeEach(() => {
     addListener() {},
     removeListener() {},
   }));
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "accounts.list") return { accounts: [account] };
       if (name === "accounts.disconnect") return { ok: true };
@@ -69,7 +69,7 @@ afterEach(async () => {
   await act(async () => root.unmount());
   host.remove();
   sourceDetail.close();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => ({ accounts: [], watches: [] }),
   });
   await refetchAccounts();
@@ -83,7 +83,7 @@ it("disconnects from a confirm dialog over connection details", async () => {
     if (name === "watches.list") return { watches: [] };
     throw new Error(name);
   });
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   await act(async () => {
     root.render(
       <>

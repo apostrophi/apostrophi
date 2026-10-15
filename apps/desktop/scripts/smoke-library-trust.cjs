@@ -9,8 +9,8 @@ const {
 } = require("node:fs");
 const { tmpdir } = require("node:os");
 const { join } = require("node:path");
-const sandbox = mkdtempSync(join(tmpdir(), "pond-library-trust-"));
-process.env.POND_SANDBOX = sandbox;
+const sandbox = mkdtempSync(join(tmpdir(), "apostrophi-library-trust-"));
+process.env.APOSTROPHI_SANDBOX = sandbox;
 process.once("exit", () => rmSync(sandbox, { recursive: true, force: true }));
 let started = false;
 const timer = setTimeout(() => {
@@ -22,7 +22,7 @@ app.on("web-contents-created", (_, contents) => {
     if (!contents.getURL().includes("index.html") || started) return;
     started = true;
     try {
-      const backupPath = join(sandbox, "Proof Backup.pond");
+      const backupPath = join(sandbox, "Proof Backup.apostrophi");
       const eaglePath = join(sandbox, "Locked.library");
       mkdirSync(join(eaglePath, "images"), { recursive: true });
       writeFileSync(
@@ -42,7 +42,7 @@ app.on("web-contents-created", (_, contents) => {
         }),
       );
       const result = await contents.executeJavaScript(`(async () => {
-        const q = (name, input = {}) => window.pond.query(name, input);
+        const q = (name, input = {}) => window.apostrophi.query(name, input);
         const backup = await q("library.backupTo", {
           path: ${JSON.stringify(backupPath)},
         });
@@ -54,7 +54,10 @@ app.on("web-contents-created", (_, contents) => {
       })()`);
       assert.equal(result.backup.ok, true);
       const manifest = JSON.parse(
-        readFileSync(join(backupPath, "pond-backup-manifest.json"), "utf8"),
+        readFileSync(
+          join(backupPath, "apostrophi-backup-manifest.json"),
+          "utf8",
+        ),
       );
       assert.equal(manifest.version, 1);
       assert.ok(Array.isArray(manifest.files) && manifest.files.length > 0);

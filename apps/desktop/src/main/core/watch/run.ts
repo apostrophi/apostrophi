@@ -1,6 +1,6 @@
-import type { SourceSyncPrefs, WatchedAccount } from "@pond/schema/db";
-import { saves } from "@pond/schema/db";
-import type { SyncRunEvent } from "@pond/schema/events";
+import type { SourceSyncPrefs, WatchedAccount } from "@apostrophi/schema/db";
+import { saves } from "@apostrophi/schema/db";
+import type { SyncRunEvent } from "@apostrophi/schema/events";
 import { and, count, eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -31,13 +31,15 @@ export async function watchNow(
 ): Promise<void> {
   const watch = await getWatch(watchId);
   if (!watch) {
-    log.warn("[pond watch] unknown watch, skipping", watchId);
+    log.warn("[apostrophi watch] unknown watch, skipping", watchId);
     return;
   }
   const { source } = watch;
   const existing = inFlight.get(watchId);
   if (existing) {
-    log.info(`[pond watch] already running, ignoring ${source}/${watchId}`);
+    log.info(
+      `[apostrophi watch] already running, ignoring ${source}/${watchId}`,
+    );
     return;
   }
   if (isSyncBlockedByStorageGuard()) {
@@ -45,7 +47,8 @@ export async function watchNow(
       accountId: watchId,
       source,
       state: "error",
-      message: "Paused. Pond storage cap reached. Free space or raise the cap.",
+      message:
+        "Paused. Apostrophi storage cap reached. Free space or raise the cap.",
       lastError: "storage_cap_exceeded",
     });
     return;
@@ -55,7 +58,7 @@ export async function watchNow(
   let watchdogTripped = false;
   const watchdog = setTimeout(() => {
     watchdogTripped = true;
-    log.warn(`[pond watch] watchdog tripped for ${source}/${watchId}`);
+    log.warn(`[apostrophi watch] watchdog tripped for ${source}/${watchId}`);
     controller.abort();
   }, WATCH_WATCHDOG_MS);
   const startedAt = Date.now();
@@ -91,7 +94,7 @@ export async function watchNow(
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    log.error("[pond watch] fatal error", source, watchId, err);
+    log.error("[apostrophi watch] fatal error", source, watchId, err);
     await patchWatchSync(watchId, { lastError: msg });
     emit({
       accountId: watchId,
@@ -188,7 +191,7 @@ async function runWatch(
   const fresh = firstCheck ? allFresh.slice(0, FIRST_CHECK_CAP) : allFresh;
   if (firstCheck && allFresh.length > fresh.length) {
     log.info(
-      `[pond watch:${source}] first check cap: enqueueing ${fresh.length} of ${allFresh.length} fresh items`,
+      `[apostrophi watch:${source}] first check cap: enqueueing ${fresh.length} of ${allFresh.length} fresh items`,
     );
   }
   ev.harvest = {

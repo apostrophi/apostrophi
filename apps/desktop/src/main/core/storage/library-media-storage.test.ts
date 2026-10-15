@@ -18,7 +18,7 @@ afterEach(async () => {
 });
 
 async function createRoot(): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "pond-media-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-media-"));
   roots.push(root);
   return root;
 }
@@ -33,7 +33,7 @@ describe("Library media storage", () => {
   it("writes plaintext and serves byte ranges", async () => {
     const root = await createRoot();
     const file = join(root, "image.bin");
-    const bytes = Buffer.from("Pond media storage fixture bytes");
+    const bytes = Buffer.from("Apostrophi media storage fixture bytes");
     await writeLibraryMedia(file, bytes);
     expect(await readFile(file)).toEqual(bytes);
     expect(await libraryMediaMetadata(file)).toEqual({

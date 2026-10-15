@@ -14,7 +14,7 @@ import { ListCard } from "@/features/saves/components/card/views/list";
 import { WaterfallCard } from "@/features/saves/components/card/views/waterfall";
 import { SaveContextMenu } from "@/features/saves/components/context-menu";
 import { useSave } from "@/features/saves/hooks/use-saves";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import { beginSaveDrag, endSaveDrag } from "@/features/saves/lib/start-drag";
 import {
   useIsCursor,
@@ -67,7 +67,7 @@ export const SaveCard = memo(function SaveCard({
       (entry) =>
         classifyLibraryFile(entry.path, entry.mimeType).mediaType === "audio",
     );
-    return save && file ? buildPondUrl(save.id, file) : null;
+    return save && file ? buildApostrophiUrl(save.id, file) : null;
   }, [save]);
   useEffect(
     () => () => {

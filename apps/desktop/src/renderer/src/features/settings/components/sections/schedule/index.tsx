@@ -1,6 +1,13 @@
-import { FetchRecurrenceSchema } from "@pond/schema";
-import { DEFAULT_SYNC_CRON } from "@pond/schema/db";
-import { Input, Select, Settings, Switch, Toggle, ToggleGroup } from "@pond/ui";
+import { FetchRecurrenceSchema } from "@apostrophi/schema";
+import { DEFAULT_SYNC_CRON } from "@apostrophi/schema/db";
+import {
+  Input,
+  Select,
+  Settings,
+  Switch,
+  Toggle,
+  ToggleGroup,
+} from "@apostrophi/ui";
 import type { SyncSchedule } from "@shared/sync-schedule";
 import { useId, useRef, useState } from "react";
 import { AnimateHeight } from "@/shared/components/animate-height";

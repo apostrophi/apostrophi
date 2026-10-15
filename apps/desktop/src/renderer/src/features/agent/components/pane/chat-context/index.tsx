@@ -1,5 +1,5 @@
-import { IconLayers } from "@pond/icons";
-import { Button, Popover, Tooltip } from "@pond/ui";
+import { IconLayers } from "@apostrophi/icons";
+import { Button, Popover, Tooltip } from "@apostrophi/ui";
 import type { AssistantSource } from "@shared/assistant";
 import { SourceThumbnail, useSourceCovers } from "../save-preview";
 import styles from "./styles.module.css";

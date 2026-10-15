@@ -1,5 +1,8 @@
-import type { FieldDescriptor } from "@pond/schema/filters/fields";
-import type { ComparatorId, PredicateValue } from "@pond/schema/filters/types";
+import type { FieldDescriptor } from "@apostrophi/schema/filters/fields";
+import type {
+  ComparatorId,
+  PredicateValue,
+} from "@apostrophi/schema/filters/types";
 import { z } from "zod";
 import type { RuleChoice, RuleChoices } from "./types";
 

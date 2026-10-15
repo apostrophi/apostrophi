@@ -19,11 +19,11 @@ export function Logo({ size = 18, className, ...props }: LogoProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-label="Pond"
+      aria-label="Apostrophi"
       className={cn(className)}
       {...props}
     >
-      <title>Pond</title>
+      <title>Apostrophi</title>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

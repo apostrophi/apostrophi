@@ -4,7 +4,7 @@ import { LIBRARY_SAVE_GAP } from "./packing";
 
 const GAP_MIN = 0;
 const GAP_MAX = 64;
-const GAP_KEY = "pond.itemGap";
+const GAP_KEY = "apostrophi.itemGap";
 
 export const GAP_STEPS: ReadonlyArray<{ value: number; label: string }> = [
   { value: 0, label: "None" },

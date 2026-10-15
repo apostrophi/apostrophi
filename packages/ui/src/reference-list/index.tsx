@@ -1,4 +1,4 @@
-import { IconCheck, IconLink2, IconPlus } from "@pond/icons";
+import { IconCheck, IconLink2, IconPlus } from "@apostrophi/icons";
 import type { ReactNode } from "react";
 import { Button } from "../button";
 import styles from "./styles.module.css";

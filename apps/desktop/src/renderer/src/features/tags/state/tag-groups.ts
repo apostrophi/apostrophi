@@ -56,7 +56,7 @@ async function load(): Promise<ReadonlyArray<TagGroupRow>> {
   if (inflight) return inflight;
   inflight = (async () => {
     const rows = TagGroupRowsSchema.parse(
-      await window.pond.query("tagGroups.list", {}),
+      await window.apostrophi.query("tagGroups.list", {}),
     );
     const normalised = rows.filter((r): r is TagGroupRow => r !== null);
     setRows(normalised);
@@ -83,7 +83,7 @@ function scheduleRefetch(): void {
 function ensureSubscribed(): void {
   if (subscribed) return;
   subscribed = true;
-  window.pond.onSyncAction((event) => {
+  window.apostrophi.onSyncAction((event) => {
     if (event.modelName === "tag_group_member") {
       scheduleRefetch();
       return;

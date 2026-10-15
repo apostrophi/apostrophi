@@ -1,5 +1,5 @@
-import { IconApplications } from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconApplications } from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { createElement } from "react";
 import type { Save } from "@/features/saves/types";
 import { notify } from "@/shared/lib/toast";
@@ -45,7 +45,7 @@ function openWith(
   fileIndex: number | null,
   application: string,
 ): void {
-  void window.pond
+  void window.apostrophi
     .query("saves.openWith", {
       ids,
       fileIndex: ids.length > 1 ? undefined : (fileIndex ?? undefined),
@@ -112,7 +112,7 @@ async function listOpenWithApps(
   fileIndex?: number | null,
   includeIcons = false,
 ): Promise<OpenWithApp[]> {
-  const listed = await window.pond.query("saves.listOpenWith", {
+  const listed = await window.apostrophi.query("saves.listOpenWith", {
     ids,
     fileIndex: fileIndex ?? undefined,
     includeIcons: includeIcons || undefined,

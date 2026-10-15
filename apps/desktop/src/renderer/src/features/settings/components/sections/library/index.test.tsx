@@ -13,8 +13,8 @@ interface LibraryInfo {
 }
 
 let libraryInfo: LibraryInfo = {
-  path: "/Users/rafa/My Pond.pond",
-  name: "My Pond",
+  path: "/Users/rafa/My Apostrophi.apostrophi",
+  name: "My Apostrophi",
   icon: null,
   accent: "#008FFF",
 };
@@ -47,13 +47,13 @@ describe("library settings", () => {
 
   beforeEach(async () => {
     libraryInfo = {
-      path: "/Users/rafa/My Pond.pond",
-      name: "My Pond",
+      path: "/Users/rafa/My Apostrophi.apostrophi",
+      name: "My Apostrophi",
       icon: null,
       accent: "#008FFF",
     };
     query.mockClear();
-    vi.stubGlobal("pond", { query });
+    vi.stubGlobal("apostrophi", { query });
     host = document.createElement("div");
     document.body.append(host);
     root = createRoot(host);

@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -79,7 +79,7 @@ describe("SaveViewer", () => {
       configurable: true,
       value: { add() {}, delete() {} },
     });
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       openSaveFile: async () => ({ ok: true }),
       query: async () => PrefsSchema.parse({}),
       tx: async () => ({ ok: true }),

@@ -17,11 +17,11 @@ function runApply(
     | "window.applyPrefs"
     | "updates.applyPrefs",
 ): void {
-  void window.pond.query(channel, {}).catch(() =>
+  void window.apostrophi.query(channel, {}).catch(() =>
     notify({
       id: "settings-apply-error",
       title: "Couldn't apply this setting",
-      description: "Try again or restart Pond.",
+      description: "Try again or restart Apostrophi.",
     }),
   );
 }
@@ -37,7 +37,7 @@ export const generalSection = defineCustomSection({
           control: "select",
           key: "startupPage",
           title: "Startup Behavior",
-          description: "Where Pond opens when you launch.",
+          description: "Where Apostrophi opens when you launch.",
           options: [
             { value: "continue", label: "Last Screen" },
             { value: "library", label: "Library" },
@@ -50,7 +50,7 @@ export const generalSection = defineCustomSection({
           control: "switch",
           key: "launchAtLogin",
           title: "Launch at Login",
-          description: "Start Pond when you sign in.",
+          description: "Start Apostrophi when you sign in.",
           prefsKey: "quickCapture",
           apply: () => runApply("quickCapture.applyPrefs"),
         },
@@ -58,7 +58,7 @@ export const generalSection = defineCustomSection({
           control: "switch",
           key: "launchHidden",
           title: "Launch in Background",
-          description: "Start Pond without opening its window.",
+          description: "Start Apostrophi without opening its window.",
           apply: () => runApply("window.applyPrefs"),
         },
       ],
@@ -71,7 +71,7 @@ export const generalSection = defineCustomSection({
           key: "proxyMode",
           title: "Proxy",
           description:
-            "Choose how Pond's main-process requests reach the network.",
+            "Choose how Apostrophi's main-process requests reach the network.",
           options: [
             { value: "system", label: "System Settings" },
             { value: "direct", label: "Direct" },
@@ -91,7 +91,7 @@ export const generalSection = defineCustomSection({
           key: "displayColorSpace",
           title: "Display Color Space",
           description:
-            "Choose the color space Pond requests for viewer surfaces.",
+            "Choose the color space Apostrophi requests for viewer surfaces.",
           options: [
             { value: "auto", label: "Automatic" },
             { value: "srgb", label: "sRGB" },
@@ -102,14 +102,15 @@ export const generalSection = defineCustomSection({
           control: "switch",
           key: "hardwareAcceleration",
           title: "Hardware Acceleration",
-          description: "Use the GPU after you restart Pond.",
+          description: "Use the GPU after you restart Apostrophi.",
           apply: () => runApply("system.applyPrefs"),
         },
         {
           control: "select",
           key: "dockVisibility",
           title: "Dock Visibility",
-          description: "Keep Pond in the Dock or hide it with closed windows.",
+          description:
+            "Keep Apostrophi in the Dock or hide it with closed windows.",
           options: [
             { value: "automatic", label: "Automatic" },
             { value: "always", label: "Always Visible" },
@@ -125,7 +126,7 @@ export const generalSection = defineCustomSection({
           control: "switch",
           key: "restorePosition",
           title: "Restore Window Position",
-          description: "Reopen Pond where you last left it.",
+          description: "Reopen Apostrophi where you last left it.",
           apply: () => runApply("window.applyPrefs"),
         },
         {
@@ -139,7 +140,8 @@ export const generalSection = defineCustomSection({
           control: "range",
           key: "interfaceZoom",
           title: "Interface Zoom",
-          description: "Scale Pond's interface without changing media zoom.",
+          description:
+            "Scale Apostrophi's interface without changing media zoom.",
           min: 50,
           max: 200,
           step: 5,
@@ -249,7 +251,7 @@ export const generalSection = defineCustomSection({
           control: "switch",
           key: "menuBarIcon",
           title: "Menu Bar Icon",
-          description: "Show Pond in the menu bar.",
+          description: "Show Apostrophi in the menu bar.",
           apply: () => runApply("quickCapture.applyPrefs"),
         },
       ],

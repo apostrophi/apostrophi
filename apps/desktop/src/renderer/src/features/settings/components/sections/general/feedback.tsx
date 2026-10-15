@@ -1,4 +1,4 @@
-import { Button, Settings, Switch } from "@pond/ui";
+import { Button, Settings, Switch } from "@apostrophi/ui";
 import { useEffect, useState } from "react";
 import { usePrefs } from "@/shared/state/prefs";
 
@@ -36,7 +36,7 @@ export function SoundPreferences() {
         <Settings.ItemDetails>
           <Settings.ItemTitle>Interface Sounds</Settings.ItemTitle>
           <Settings.ItemDescription>
-            Control all sound feedback in Pond.
+            Control all sound feedback in Apostrophi.
           </Settings.ItemDescription>
         </Settings.ItemDetails>
         <Settings.ItemControl>
@@ -96,7 +96,7 @@ export function NotificationPreferences() {
                 ? "Notifications are blocked in System Settings."
                 : permission === "unsupported"
                   ? "Notifications aren't available on this platform."
-                  : "Allow Pond to show system notifications."}
+                  : "Allow Apostrophi to show system notifications."}
           </Settings.ItemDescription>
         </Settings.ItemDetails>
         {permission === "default" || permission === "denied" ? (
@@ -111,7 +111,7 @@ export function NotificationPreferences() {
                   );
                   return;
                 }
-                void window.pond.query("notifications.openSettings", {});
+                void window.apostrophi.query("notifications.openSettings", {});
               }}
             >
               {permission === "default"

@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
@@ -32,7 +32,7 @@ it("hydrates and previews the next logical save beyond loaded grid rows", async 
           },
         ],
   );
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     onPreviewNeighborRequested: () => () => {},
   });

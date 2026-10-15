@@ -1,8 +1,8 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
-import { saves } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import { saves } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { classifyLibraryFile } from "@shared/file-format";
 import { SavesDerivedPatchSchema } from "@shared/saves-contracts-shared";
 import { decodeTextBytes } from "@shared/text-encoding";
@@ -311,7 +311,7 @@ export const savesMutationQueries = {
       const decoded = decodeTextBytes(bytes);
       if (decoded.encoding === "utf-8" && !decoded.hadBom)
         return { ok: true, updated: false };
-      const directory = await mkdtemp(join(tmpdir(), "pond-text-"));
+      const directory = await mkdtemp(join(tmpdir(), "apostrophi-text-"));
       const path = join(directory, basename(file.path));
       try {
         await writeFile(path, decoded.text, "utf8");

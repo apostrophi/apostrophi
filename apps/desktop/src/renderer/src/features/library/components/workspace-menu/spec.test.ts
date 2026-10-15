@@ -22,20 +22,13 @@ describe("workspace menu spec", () => {
       "Settings",
       "Check for Updates",
       "Browser Extension",
-      "Twitter",
       "GitHub",
-      "Email",
-      "Buy Me a Coffee",
     ];
     expect(menuLabels(items)).toEqual(labels);
     expect(topLevelMenuLabels(items)).toEqual(labels);
     expect(items.map((item) => item.type ?? "item")).toEqual([
       "item",
       "separator",
-      "item",
-      "item",
-      "separator",
-      "item",
       "item",
       "item",
       "separator",

@@ -1,9 +1,9 @@
-import { Button, Dialog } from "@pond/ui";
+import { Button, Dialog } from "@apostrophi/ui";
 import { useState } from "react";
 import { Demo } from "./demo";
 import styles from "./styles.module.css";
 
-const KEY = "pond:onboarding:2026";
+const KEY = "apostrophi:onboarding:2026";
 
 function firstRun(): boolean {
   try {
@@ -43,7 +43,7 @@ export function Onboarding({
           </div>
           <div className={styles.body}>
             <Dialog.Title className={styles.title}>
-              Welcome to Pond
+              Welcome to Apostrophi
             </Dialog.Title>
             <Dialog.Description className={styles.description}>
               Keep everything you save on X, Instagram, YouTube, and the web in

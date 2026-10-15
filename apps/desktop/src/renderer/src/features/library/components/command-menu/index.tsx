@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import {
   type KeyboardEvent,
   useDeferredValue,
@@ -100,8 +100,10 @@ export function CommandMenuHost({
     >
       <Dialog.Portal>
         <Dialog.Backdrop />
-        <Dialog.Popup className={styles.popup} aria-label="Search Pond">
-          <Dialog.Title className={styles["sr-only"]}>Search Pond</Dialog.Title>
+        <Dialog.Popup className={styles.popup} aria-label="Search Apostrophi">
+          <Dialog.Title className={styles["sr-only"]}>
+            Search Apostrophi
+          </Dialog.Title>
           <SearchField
             inputRef={inputRef}
             value={query}

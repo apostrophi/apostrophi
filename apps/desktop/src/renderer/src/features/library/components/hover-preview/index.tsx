@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@pond/ui";
+import { Button, Dialog } from "@apostrophi/ui";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -104,7 +104,7 @@ export function HoverPreview() {
   );
   useEffect(
     () =>
-      window.pond.onPreviewNeighborRequested((request) => {
+      window.apostrophi.onPreviewNeighborRequested((request) => {
         void (async () => {
           if (request.windowId === null) return;
           let current = request.saveId;
@@ -114,7 +114,7 @@ export function HoverPreview() {
             await ensureSaves([saveId]);
             const fileIndex = previewFileIndex(saveId, request.kind);
             if (fileIndex !== null) {
-              await window.pond.navigatePreviewWindow({
+              await window.apostrophi.navigatePreviewWindow({
                 windowId: request.windowId,
                 saveId,
                 fileIndex,

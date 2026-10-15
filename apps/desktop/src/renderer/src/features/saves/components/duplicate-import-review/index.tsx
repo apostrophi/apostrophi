@@ -1,4 +1,11 @@
-import { Badge, Button, Checkbox, Dialog, Toggle, ToggleGroup } from "@pond/ui";
+import {
+  Badge,
+  Button,
+  Checkbox,
+  Dialog,
+  Toggle,
+  ToggleGroup,
+} from "@apostrophi/ui";
 import type {
   DuplicateImportCandidate,
   DuplicateImportChoice,

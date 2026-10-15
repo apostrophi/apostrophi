@@ -41,7 +41,7 @@ describe("Eagle thumbnail suffix", () => {
     expect(thumbnailFilename("media-1.jpg")).toBe("media-1.jpg_thumbnail.png");
   });
 
-  it("detects Eagle and Pond thumbnail names", () => {
+  it("detects Eagle and Apostrophi thumbnail names", () => {
     expect(isThumbnailFilename("layout.psd_thumbnail.png")).toBe(true);
     expect(isThumbnailFilename("thumbnail.png")).toBe(true);
     expect(isThumbnailFilename("thumbnail-dark.png")).toBe(true);

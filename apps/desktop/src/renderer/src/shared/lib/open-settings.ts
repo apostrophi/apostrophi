@@ -1,4 +1,4 @@
-import { SETTINGS_SECTIONS } from "@pond/schema";
+import { SETTINGS_SECTIONS } from "@apostrophi/schema";
 import { getAppRouter } from "@/shared/lib/app-router";
 
 const VALID_PATHS = new Set(SETTINGS_SECTIONS.map((section) => section.path));

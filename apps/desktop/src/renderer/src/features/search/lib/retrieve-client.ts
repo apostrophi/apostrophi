@@ -15,7 +15,7 @@ export async function retrieveSaveIds(input: {
   limit?: number;
 }): Promise<string[]> {
   const parsed = HitSchema.parse(
-    await window.pond.query("saves.retrieve", {
+    await window.apostrophi.query("saves.retrieve", {
       query: input.query,
       libraryQuery: input.libraryQuery,
       visual: input.visual,

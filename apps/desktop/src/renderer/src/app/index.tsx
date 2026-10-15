@@ -1,4 +1,4 @@
-import { Dialog, Tooltip } from "@pond/ui";
+import { Dialog, Tooltip } from "@apostrophi/ui";
 import type { ShellHint } from "@shared/shell-hint";
 import { HotkeysProvider } from "@tanstack/react-hotkeys";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ import { ConversionDialogHost } from "@/features/library/components/conversion-d
 import { FolderPickerHost } from "@/features/library/components/folder-picker";
 import { RenameDialogHost } from "@/features/library/components/rename-dialog/host";
 import { usePrefs } from "@/shared/state/prefs";
-import type { PondApi } from "../../../preload";
+import type { ApostrophiApi } from "../../../preload";
 import { ExtensionCaptureToast } from "../features/captures/effects/extension-capture-toast";
 import { NotificationStatusBridge } from "../features/downloads/effects/notification-status-bridge";
 import { EnrichmentSweep } from "../features/enrichment/effects/enrichment-sweep";
@@ -48,8 +48,8 @@ const OrganizationReviewHost = lazy(() =>
 );
 declare global {
   interface Window {
-    pond: PondApi;
-    __pondShell?: ShellHint;
+    apostrophi: ApostrophiApi;
+    __apostrophiShell?: ShellHint;
   }
 }
 
@@ -59,8 +59,8 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const LAST_PATH_KEY = libraryScopedKey("pond:lastPath");
-const STARTUP_PAGE_KEY = "pond:startupPage";
+const LAST_PATH_KEY = libraryScopedKey("apostrophi:lastPath");
+const STARTUP_PAGE_KEY = "apostrophi:startupPage";
 
 const STARTUP_ROUTES: ReadonlyMap<string, string> = new Map([
   ["library", "/"],

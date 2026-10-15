@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "pond-save-deep-links",
+  "id": "apostrophi-save-deep-links",
   "kind": "deep-links",
   "baseline": {
     "representations": [
       {
         "id": "library-bound-save",
-        "url": "pond://item/save-fixture?library=library-fixture",
+        "url": "apostrophi://item/save-fixture?library=library-fixture",
         "expectedLibrary": "library-fixture",
         "expectedSave": "save-fixture"
       },
       {
         "id": "legacy-unbound-save",
-        "url": "pond://item/legacy-save",
+        "url": "apostrophi://item/legacy-save",
         "expectedLibrary": null,
         "expectedSave": "legacy-save"
       }

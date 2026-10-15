@@ -1,4 +1,4 @@
-import type { JsonValue } from "@pond/schema/json";
+import type { JsonValue } from "@apostrophi/schema/json";
 import { z } from "zod";
 import {
   chosenModelId,

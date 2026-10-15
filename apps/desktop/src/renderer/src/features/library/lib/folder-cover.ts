@@ -3,7 +3,7 @@ import {
   isThumbnailKind,
 } from "@shared/save-file-names";
 import {
-  buildPondUrl,
+  buildApostrophiUrl,
   pickCardUnit,
   previewThumbUrlFor,
   thumbUrlFor,
@@ -38,5 +38,5 @@ export function folderCoverUrl(
       : thumbUrlFor(unit.url, width);
   }
   const cover = textCoverFile(save, theme);
-  return cover ? thumbUrlFor(buildPondUrl(save.id, cover), width) : null;
+  return cover ? thumbUrlFor(buildApostrophiUrl(save.id, cover), width) : null;
 }

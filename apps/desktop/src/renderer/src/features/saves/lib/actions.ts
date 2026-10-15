@@ -74,7 +74,7 @@ export async function untrashSave(save: Save): Promise<void> {
 /** Pasteboard writes go through main; renderer clipboard rejects once a closing menu steals focus. */
 async function writeClipboardText(text: string): Promise<void> {
   if (!text) return;
-  await window.pond.query("clipboard.writeText", { text });
+  await window.apostrophi.query("clipboard.writeText", { text });
 }
 
 export async function copyUrl(url: string): Promise<void> {
@@ -148,7 +148,7 @@ export async function openDefaultApp(
   const fileIndex = resolveFileIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = OkSchema.parse(
-    await window.pond.openSaveFile(save.id, fileIndex),
+    await window.apostrophi.openSaveFile(save.id, fileIndex),
   );
   if (!result.ok) statusFeed.error("Open", "Couldn't open this file.");
 }
@@ -160,7 +160,7 @@ export async function revealFile(
   const fileIndex = resolveFileIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = OkSchema.parse(
-    await window.pond.revealSave(save.id, fileIndex),
+    await window.apostrophi.revealSave(save.id, fileIndex),
   );
   if (!result.ok) {
     statusFeed.error("Reveal", "Couldn't find this file on disk.");
@@ -174,7 +174,7 @@ export async function copyFilePath(
   const fileIndex = resolveFileIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = FilePathReplySchema.parse(
-    await window.pond.query("saves.filePath", { id: save.id, fileIndex }),
+    await window.apostrophi.query("saves.filePath", { id: save.id, fileIndex }),
   );
   if (!result.ok || !result.path) return;
   await writeClipboardText(result.path);
@@ -191,7 +191,7 @@ async function copyFile(
   const fileIndex = resolveFileIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = OkSchema.parse(
-    await window.pond.query("saves.copyFile", { id: save.id, fileIndex }),
+    await window.apostrophi.query("saves.copyFile", { id: save.id, fileIndex }),
   );
   if (!result.ok) return;
   const file = save.files[fileIndex];
@@ -207,7 +207,7 @@ export async function openInBrowser(save: Save): Promise<void> {
   try {
     const parsed = new URL(save.url);
     if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-      await window.pond.openExternal(parsed.toString());
+      await window.apostrophi.openExternal(parsed.toString());
     }
   } catch {}
 }
@@ -218,7 +218,7 @@ export async function refreshSaveMetadata(save: Save): Promise<void> {
     id: "refresh-details",
     title: "Refreshing from source",
   });
-  await window.pond.refreshSave(save.id);
+  await window.apostrophi.refreshSave(save.id);
 }
 
 export function copyableImageIndex(
@@ -253,7 +253,10 @@ async function copyImage(
   const fileIndex = copyableImageIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = OkSchema.parse(
-    await window.pond.query("saves.copyImage", { id: save.id, fileIndex }),
+    await window.apostrophi.query("saves.copyImage", {
+      id: save.id,
+      fileIndex,
+    }),
   );
   if (!result.ok) return;
   notify({
@@ -275,7 +278,7 @@ export async function copyPrimaryMedia(
 
 export async function copyThumbnail(save: Save): Promise<void> {
   const result = OkSchema.parse(
-    await window.pond.query("saves.copyThumbnail", { id: save.id }),
+    await window.apostrophi.query("saves.copyThumbnail", { id: save.id }),
   );
   if (!result.ok) return;
   notify({
@@ -291,7 +294,7 @@ export async function copyBase64(
   const fileIndex = resolveFileIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = OkSchema.parse(
-    await window.pond.query("saves.copyBase64", {
+    await window.apostrophi.query("saves.copyBase64", {
       id: save.id,
       fileIndex,
     }),
@@ -329,7 +332,10 @@ export async function exportFile(
   const fileIndex = resolveFileIndex(save, preferredIndex);
   if (fileIndex == null) return;
   const result = FilePathReplySchema.parse(
-    await window.pond.query("saves.exportFile", { id: save.id, fileIndex }),
+    await window.apostrophi.query("saves.exportFile", {
+      id: save.id,
+      fileIndex,
+    }),
   );
   if (!result.ok) return;
   notify({

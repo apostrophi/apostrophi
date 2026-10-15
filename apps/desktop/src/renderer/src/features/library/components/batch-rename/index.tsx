@@ -6,7 +6,7 @@ import {
   Table,
   Toggle,
   ToggleGroup,
-} from "@pond/ui";
+} from "@apostrophi/ui";
 import {
   applyRenameTemplate,
   literalReplacement,

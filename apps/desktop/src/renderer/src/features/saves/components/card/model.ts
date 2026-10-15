@@ -1,4 +1,4 @@
-import type { IconComponent } from "@pond/icons/types";
+import type { IconComponent } from "@apostrophi/icons/types";
 import { useMemo } from "react";
 import { useMediaPickOptions } from "@/features/saves/hooks/use-media-pick-options";
 import {

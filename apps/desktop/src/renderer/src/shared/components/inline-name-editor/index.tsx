@@ -1,4 +1,4 @@
-import { Input } from "@pond/ui";
+import { Input } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";

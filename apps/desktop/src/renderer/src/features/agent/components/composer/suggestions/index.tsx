@@ -1,11 +1,3 @@
-import { $isCodeNode } from "@lexical/code";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
-  LexicalTypeaheadMenuPlugin,
-  MenuOption,
-  type MenuTextMatch,
-} from "@lexical/react/LexicalTypeaheadMenuPlugin";
-import { $findMatchingParent } from "@lexical/utils";
 import {
   IconBlockquote,
   IconBulletList,
@@ -17,9 +9,17 @@ import {
   IconHeading3,
   IconOrderedList,
   IconSquareCode,
-} from "@pond/icons";
-import type { IconComponent } from "@pond/icons/types";
-import { Menu, Popover } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { IconComponent } from "@apostrophi/icons/types";
+import { Menu, Popover } from "@apostrophi/ui";
+import { $isCodeNode } from "@lexical/code";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import {
+  LexicalTypeaheadMenuPlugin,
+  MenuOption,
+  type MenuTextMatch,
+} from "@lexical/react/LexicalTypeaheadMenuPlugin";
+import { $findMatchingParent } from "@lexical/utils";
 import { type AssistantSource, assistantSources } from "@shared/assistant";
 import {
   $getSelection,
@@ -171,7 +171,7 @@ export function ComposerSuggestions({
     if (!mention) return;
     let active = true;
     const timer = setTimeout(() => {
-      void window.pond
+      void window.apostrophi
         .query("agent.searchSaves", { query: term, limit: 12 })
         .then((data) => {
           if (active)

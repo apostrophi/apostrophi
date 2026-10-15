@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import type {
   LibraryRepairJob,
   LibraryRepairKind,
@@ -16,13 +16,13 @@ const LABELS = {
 
 const DESCRIPTIONS = {
   thumbnails:
-    "Pond rebuilds missing or damaged thumbnails from each save's original file.",
+    "Apostrophi rebuilds missing or damaged thumbnails from each save's original file.",
   "physical-file-names":
-    "Pond renames files on disk whose names other computers can't store.",
+    "Apostrophi renames files on disk whose names other computers can't store.",
   "invalid-content":
     "Saves whose files are all missing or damaged move to Trash.",
   "save-metadata":
-    "Pond rewrites the record stored with each save when it no longer matches your library.",
+    "Apostrophi rewrites the record stored with each save when it no longer matches your library.",
 } satisfies Record<LibraryRepairKind, string>;
 
 export function LibraryRepairDialog({
@@ -44,14 +44,14 @@ export function LibraryRepairDialog({
     let active = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
     async function track(id: string): Promise<void> {
-      const next = await window.pond.query("libraryRepairs.get", { id });
+      const next = await window.apostrophi.query("libraryRepairs.get", { id });
       if (!active || !next) return;
       setJob(next);
       if (next.status === "queued" || next.status === "running") {
         timer = setTimeout(() => void track(id), 200);
       }
     }
-    void window.pond
+    void window.apostrophi
       .query("libraryRepairs.preview", { kind })
       .then((next) => {
         if (!active) return;
@@ -61,7 +61,10 @@ export function LibraryRepairDialog({
       .catch((cause) => {
         if (active)
           setError(
-            errorCopy(cause, "Pond couldn't check your library. Try again."),
+            errorCopy(
+              cause,
+              "Apostrophi couldn't check your library. Try again.",
+            ),
           );
       });
     return () => {
@@ -74,20 +77,20 @@ export function LibraryRepairDialog({
     if (!preview) return;
     setError(null);
     try {
-      const next = await window.pond.query("libraryRepairs.apply", {
+      const next = await window.apostrophi.query("libraryRepairs.apply", {
         token: preview.token,
       });
       setJob(next);
       await poll(next.id);
     } catch (cause) {
       setError(
-        errorCopy(cause, "Pond couldn't repair your library. Try again."),
+        errorCopy(cause, "Apostrophi couldn't repair your library. Try again."),
       );
     }
   }
 
   async function poll(id: string): Promise<void> {
-    const next = await window.pond.query("libraryRepairs.get", { id });
+    const next = await window.apostrophi.query("libraryRepairs.get", { id });
     if (!next) return;
     setJob(next);
     if (next.status === "queued" || next.status === "running") {
@@ -100,7 +103,7 @@ export function LibraryRepairDialog({
 
   async function close(): Promise<void> {
     if (running && job) {
-      await window.pond.query("libraryRepairs.cancel", { id: job.id });
+      await window.apostrophi.query("libraryRepairs.cancel", { id: job.id });
     }
     onClose();
   }
@@ -157,7 +160,9 @@ export function LibraryRepairDialog({
                       ))}
                     </div>
                     <div className={styles.confirmation}>
-                      <span>Pond backs up every file it changes first.</span>
+                      <span>
+                        Apostrophi backs up every file it changes first.
+                      </span>
                       {preview.confirmation.movesToTrash ? (
                         <span>
                           These saves move to Trash. Their folders on disk stay

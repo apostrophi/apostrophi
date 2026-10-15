@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import type { ExternalSource } from "@pond/schema/sources";
+import type { Source } from "@apostrophi/schema/db";
+import type { ExternalSource } from "@apostrophi/schema/sources";
 import { UnsupportedError } from "./errors";
 import { ArenaBlockExtractor } from "./sources/arena";
 import { CosmosTileExtractor } from "./sources/cosmos";

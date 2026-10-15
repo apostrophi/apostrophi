@@ -1,4 +1,4 @@
-import { IconXmark } from "@pond/icons";
+import { IconXmark } from "@apostrophi/icons";
 import type { ReactNode } from "react";
 import styles from "./styles.module.css";
 

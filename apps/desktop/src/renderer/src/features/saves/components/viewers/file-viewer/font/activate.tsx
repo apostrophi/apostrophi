@@ -1,4 +1,4 @@
-import { IconTypography } from "@pond/icons";
+import { IconTypography } from "@apostrophi/icons";
 import { useEffect, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import type { Save } from "@/features/saves/types";
@@ -8,7 +8,7 @@ export function FontActivate({ save }: { save: Save }) {
 
   useEffect(() => {
     let active = true;
-    void window.pond
+    void window.apostrophi
       .query("saves.fontStatus", { id: save.id })
       .then((status) => {
         if (active) setActivated(status.activated);
@@ -23,7 +23,7 @@ export function FontActivate({ save }: { save: Save }) {
       label={activated ? "Deactivate Font" : "Activate Font"}
       pressed={activated}
       onClick={() => {
-        void window.pond
+        void window.apostrophi
           .query(activated ? "saves.deactivateFont" : "saves.activateFont", {
             id: save.id,
           })

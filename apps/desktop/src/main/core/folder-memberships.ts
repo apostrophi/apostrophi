@@ -1,4 +1,4 @@
-import { saveFolders as saveFoldersTable } from "@pond/schema/db";
+import { saveFolders as saveFoldersTable } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import { getDb } from "../db";
 

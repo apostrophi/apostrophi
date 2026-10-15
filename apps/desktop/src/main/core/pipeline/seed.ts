@@ -5,8 +5,8 @@ import {
   saves,
   syncActions,
   tasks,
-} from "@pond/schema/db";
-import type { Capture, CaptureAuthor, RawJson } from "@pond/schema/raw";
+} from "@apostrophi/schema/db";
+import type { Capture, CaptureAuthor, RawJson } from "@apostrophi/schema/raw";
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { getDb } from "../../db";

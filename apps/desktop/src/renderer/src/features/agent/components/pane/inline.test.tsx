@@ -5,7 +5,7 @@ import { AssistantResponse } from "./assistant-response";
 import { ConsultedSaves } from "./consulted-saves";
 
 beforeEach(() => {
-  vi.stubGlobal("pond", { query: async () => [] });
+  vi.stubGlobal("apostrophi", { query: async () => [] });
 });
 afterAll(() => vi.unstubAllGlobals());
 

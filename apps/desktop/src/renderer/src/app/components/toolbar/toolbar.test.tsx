@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -39,7 +39,7 @@ describe("breadcrumb toolbar", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string) => {
         if (name === "settings.getPrefs") return PrefsSchema.parse({});
         if (name === "folders.list")

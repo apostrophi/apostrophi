@@ -33,7 +33,9 @@ const ImportReplySchema = z
   .catch({ ok: false });
 
 function pasteSavedTitle(count: number): string {
-  return count === 1 ? "Saved to Pond" : `Saved ${count} items to Pond`;
+  return count === 1
+    ? "Saved to Apostrophi"
+    : `Saved ${count} items to Apostrophi`;
 }
 
 function downloadingTitle(count: number): string {
@@ -57,7 +59,7 @@ async function quickAddUrls(urls: readonly string[]): Promise<void> {
   const added: Array<string | null> = [];
   for (const url of urls) {
     const result = ImportReplySchema.parse(
-      await window.pond.query("saves.quickAdd", { url }),
+      await window.apostrophi.query("saves.quickAdd", { url }),
     );
     if (result.ok) added.push(result.id ?? null);
   }
@@ -73,7 +75,7 @@ async function quickAddUrls(urls: readonly string[]): Promise<void> {
 
 async function importClipboardAndNotify(): Promise<void> {
   const result = ImportReplySchema.parse(
-    await window.pond.query("saves.importClipboard", {}),
+    await window.apostrophi.query("saves.importClipboard", {}),
   );
   if (!result.ok) return;
   const count = result.ids?.length ?? 1;
@@ -143,7 +145,7 @@ export function useCardActions(
       const paths = files
         .map((f) => {
           try {
-            return window.pond.pathForFile(f);
+            return window.apostrophi.pathForFile(f);
           } catch {
             return "";
           }
@@ -211,7 +213,7 @@ export function useCardActions(
     const paths = Array.from(dt.files ?? [])
       .map((f) => {
         try {
-          return window.pond.pathForFile(f);
+          return window.apostrophi.pathForFile(f);
         } catch {
           return "";
         }

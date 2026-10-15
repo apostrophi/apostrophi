@@ -1,5 +1,5 @@
-import { IconCircleCheck, IconFile, IconLink2 } from "@pond/icons";
-import { DataTable } from "@pond/ui";
+import { IconCircleCheck, IconFile, IconLink2 } from "@apostrophi/icons";
+import { DataTable } from "@apostrophi/ui";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SourcesEmpty } from "@/features/sources/components/empty";
 import { NewSourceMenu } from "@/features/sources/components/new-menu";

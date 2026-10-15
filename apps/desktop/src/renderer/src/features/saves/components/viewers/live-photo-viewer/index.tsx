@@ -1,4 +1,4 @@
-import { IconImage, IconVideo } from "@pond/icons";
+import { IconImage, IconVideo } from "@apostrophi/icons";
 import JSZip from "jszip";
 import { type ReactNode, useEffect, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";

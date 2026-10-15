@@ -46,11 +46,11 @@ export async function ensureTray(opts: TrayOptions): Promise<TrayHandle> {
   try {
     tray = new Tray(loadTrayIcon());
   } catch (err) {
-    log.error("[pond tray] failed to create tray", err);
+    log.error("[apostrophi tray] failed to create tray", err);
     throw err;
   }
-  tray.setToolTip("Pond");
-  log.info("[pond tray] created");
+  tray.setToolTip("Apostrophi");
+  log.info("[apostrophi tray] created");
 
   const instance: TrayHandle = {
     tray,
@@ -63,7 +63,7 @@ export async function ensureTray(opts: TrayOptions): Promise<TrayHandle> {
         setTrayCount(inflight);
         scheduleBusyPoll(ingesting > 0 || inflight > 0);
       } catch (err) {
-        log.warn("[pond tray] refresh failed", err);
+        log.warn("[apostrophi tray] refresh failed", err);
       }
     },
     destroy() {

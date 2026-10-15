@@ -1,5 +1,5 @@
 <!--
-Thanks for contributing to pond! Please fill in the sections below.
+Thanks for contributing to apostrophi! Please fill in the sections below.
 Keep PRs focused: one feature or fix per PR.
 -->
 

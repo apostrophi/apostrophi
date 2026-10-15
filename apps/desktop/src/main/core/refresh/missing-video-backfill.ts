@@ -1,4 +1,4 @@
-import { type NewTask, type Save, saves, tasks } from "@pond/schema/db";
+import { type NewTask, type Save, saves, tasks } from "@apostrophi/schema/db";
 import { isVideoFile } from "@shared/media-index";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 import log from "electron-log/main.js";
@@ -122,9 +122,12 @@ export async function startMissingVideoBackfill(): Promise<{
   }
 
   if (queued > 0) {
-    log.info("[pond missing-video-backfill] queued saves for video download", {
-      queued,
-    });
+    log.info(
+      "[apostrophi missing-video-backfill] queued saves for video download",
+      {
+        queued,
+      },
+    );
     kickReconciler();
   }
   return { ok: true, queued };

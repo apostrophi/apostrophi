@@ -1,6 +1,6 @@
-import type { ConnectedAccount, Source } from "@pond/schema/db";
-import type { SyncRunEvent } from "@pond/schema/events";
-import { sourceLabel } from "@pond/schema/sources";
+import type { ConnectedAccount, Source } from "@apostrophi/schema/db";
+import type { SyncRunEvent } from "@apostrophi/schema/events";
+import { sourceLabel } from "@apostrophi/schema/sources";
 import log from "electron-log/main.js";
 import { type EnqueueItem, enqueue } from "../pipeline/enqueue";
 import { mergeListKindsOntoExisting } from "../pipeline/list-kinds";
@@ -44,7 +44,7 @@ export async function syncListSource(
   const knownIds = baseline.knownIds;
   await patchAccountSync(accountId, { knownCount: baseline.total });
   log.info(
-    `[pond sync:${source}] starting for @${account.handle ?? accountId}; ${baseline.total} items already in library (${baseline.full ? "full" : `incremental, ${knownIds.size}-id window`})`,
+    `[apostrophi sync:${source}] starting for @${account.handle ?? accountId}; ${baseline.total} items already in library (${baseline.full ? "full" : `incremental, ${knownIds.size}-id window`})`,
   );
   emit({
     accountId,
@@ -57,7 +57,9 @@ export async function syncListSource(
   if (source === "arena" || source === "tiktok" || source === "reddit") {
     accountKey = (await resolveAccountHandle(account)) ?? undefined;
     if (!accountKey) {
-      log.info(`[pond sync:${source}] could not resolve account from session`);
+      log.info(
+        `[apostrophi sync:${source}] could not resolve account from session`,
+      );
       await patchAccountSync(accountId, { lastError: "auth_required" });
       emit({
         accountId,
@@ -162,7 +164,9 @@ export async function syncListSource(
         mergeEntryListKinds,
       );
     } else {
-      log.warn(`[pond sync:instagram] likes harvest failed: ${liked.reason}`);
+      log.warn(
+        `[apostrophi sync:instagram] likes harvest failed: ${liked.reason}`,
+      );
       gaps.push(listGapNote("Likes", liked.reason));
     }
   }
@@ -183,7 +187,7 @@ export async function syncListSource(
       );
     } else {
       log.warn(
-        `[pond sync:youtube] liked list harvest failed: ${liked.reason}`,
+        `[apostrophi sync:youtube] liked list harvest failed: ${liked.reason}`,
       );
       gaps.push(listGapNote("Liked videos", liked.reason));
     }
@@ -196,7 +200,7 @@ export async function syncListSource(
     maxItems && maxItems > 0 ? allFresh.slice(0, maxItems) : allFresh;
   if (maxItems && allFresh.length > fresh.length) {
     log.info(
-      `[pond sync:${source}] test cap active. Enqueueing ${fresh.length} of ${allFresh.length} fresh items`,
+      `[apostrophi sync:${source}] test cap active. Enqueueing ${fresh.length} of ${allFresh.length} fresh items`,
     );
   }
   ev.harvest = {
@@ -229,7 +233,7 @@ export async function syncListSource(
   }
 
   log.info(
-    `[pond sync:${source}] enqueueing ${fresh.length} new URLs into pipeline`,
+    `[apostrophi sync:${source}] enqueueing ${fresh.length} new URLs into pipeline`,
   );
   emit({
     accountId,

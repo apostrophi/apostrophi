@@ -1,5 +1,5 @@
 import { extname } from "node:path";
-import type { TxSaveFile } from "@pond/schema/tx";
+import type { TxSaveFile } from "@apostrophi/schema/tx";
 import {
   assignHarvestedFilenames,
   harvestedFilename,
@@ -77,7 +77,7 @@ async function fetchMediaToTxFile(
     });
   } catch (error) {
     if (options.signal?.aborted) throw error;
-    log.warn("[pond blob] fetch failed", mediaUrl, error);
+    log.warn("[apostrophi blob] fetch failed", mediaUrl, error);
     return {
       miss: error instanceof DownloadSizeError ? "permanent" : "transient",
     };
@@ -119,18 +119,18 @@ async function fetchSmallImageToTxFile(
       signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS),
     });
   } catch (err) {
-    log.warn(`[pond blob] ${baseName} fetch failed`, imageUrl, err);
+    log.warn(`[apostrophi blob] ${baseName} fetch failed`, imageUrl, err);
     return { miss: "transient" };
   }
   if (!res.ok) {
-    log.warn(`[pond blob] ${baseName} non-2xx`, res.status, imageUrl);
+    log.warn(`[apostrophi blob] ${baseName} non-2xx`, res.status, imageUrl);
     return { miss: classifyHttpStatus(res.status) };
   }
 
   const contentLength = Number(res.headers.get("content-length") ?? 0);
   if (contentLength > MAX_AVATAR_BYTES) {
     log.warn(
-      `[pond blob] ${baseName} too big, skipping`,
+      `[apostrophi blob] ${baseName} too big, skipping`,
       contentLength,
       imageUrl,
     );
@@ -140,7 +140,7 @@ async function fetchSmallImageToTxFile(
   const buf = Buffer.from(await res.arrayBuffer());
   if (buf.byteLength > MAX_AVATAR_BYTES) {
     log.warn(
-      `[pond blob] ${baseName} declared size mismatch, skipping`,
+      `[apostrophi blob] ${baseName} declared size mismatch, skipping`,
       buf.byteLength,
       imageUrl,
     );
@@ -149,7 +149,11 @@ async function fetchSmallImageToTxFile(
 
   const mime = res.headers.get("content-type")?.split(";")[0]?.trim() ?? null;
   if (mime && !mime.startsWith("image/")) {
-    log.warn(`[pond blob] ${baseName} not an image, skipping`, mime, imageUrl);
+    log.warn(
+      `[apostrophi blob] ${baseName} not an image, skipping`,
+      mime,
+      imageUrl,
+    );
     return { miss: "permanent" };
   }
 
@@ -202,7 +206,7 @@ export async function fetchMediaBatch(
             : { url: u, file: null, miss: outcome.miss };
         } catch (err) {
           if (options.signal?.aborted) throw err;
-          log.warn("[pond blob] batch fetch failed", u, err);
+          log.warn("[apostrophi blob] batch fetch failed", u, err);
           return { url: u, file: null, miss: "transient" };
         }
       }),

@@ -1,4 +1,4 @@
-import type { ComparatorId } from "@pond/schema/filters/types";
+import type { ComparatorId } from "@apostrophi/schema/filters/types";
 import type { AskSort } from "@/features/search/lib/nl-query";
 
 export const FILLER = new Set([

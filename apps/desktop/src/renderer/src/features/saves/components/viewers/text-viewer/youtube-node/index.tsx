@@ -1,6 +1,6 @@
+import { IconArrowUpRight } from "@apostrophi/icons";
+import { Button, Input } from "@apostrophi/ui";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { IconArrowUpRight } from "@pond/icons";
-import { Button, Input } from "@pond/ui";
 import {
   $applyNodeReplacement,
   $getNodeByKey,
@@ -103,7 +103,7 @@ export class YouTubeNode extends DecoratorNode<JSX.Element> {
           variant="ghost"
           aria-label="Open"
           onClick={() => {
-            void window.pond.openExternal(watch);
+            void window.apostrophi.openExternal(watch);
           }}
         >
           <IconArrowUpRight />

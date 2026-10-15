@@ -1,5 +1,5 @@
-import { IconCircleCheckFill } from "@pond/icons";
-import { Button, Dialog } from "@pond/ui";
+import { IconCircleCheckFill } from "@apostrophi/icons";
+import { Button, Dialog } from "@apostrophi/ui";
 import { useEffect, useState } from "react";
 import { ConnectionVisual } from "@/features/sources/components/flow/connection-visual";
 import {
@@ -46,12 +46,12 @@ export function ConnectWaitSection() {
             ? `${label} is connected`
             : failed
               ? `Couldn't connect ${label}`
-              : `Connect ${label} to Pond`}
+              : `Connect ${label} to Apostrophi`}
         </h2>
         <p className={styles.description}>
           {completed ? (
             <>
-              Pond is syncing your saved posts now.
+              Apostrophi is syncing your saved posts now.
               <br />
               New saves keep arriving in your library.
             </>
@@ -61,7 +61,7 @@ export function ConnectWaitSection() {
             <>
               Sign in to {label} in your browser.
               <br />
-              Pond will finish the connection here.
+              Apostrophi will finish the connection here.
             </>
           )}
         </p>
@@ -72,7 +72,7 @@ export function ConnectWaitSection() {
 }
 
 const RESPONSIBLE_USE_URL =
-  "https://github.com/raphaelsalaja/pond/blob/main/RESPONSIBLE-USE.md";
+  "https://github.com/apostrophi/apostrophi/blob/main/RESPONSIBLE-USE.md";
 
 function ConnectPromises({
   completed,
@@ -84,7 +84,7 @@ function ConnectPromises({
   return (
     <>
       <div className={styles.details}>
-        <p className={styles["details-title"]}>Pond will</p>
+        <p className={styles["details-title"]}>Apostrophi will</p>
         <ul className={styles.checklist}>
           <li>
             <IconCircleCheckFill size={12} className={styles.check} />
@@ -104,12 +104,14 @@ function ConnectPromises({
         <>
           <ExtensionNote />
           <p className={styles.note}>
-            You're responsible for following {label}'s terms while Pond syncs
-            your account.{" "}
+            You're responsible for following {label}'s terms while Apostrophi
+            syncs your account.{" "}
             <Button
               variant="link"
               size="xs"
-              onClick={() => void window.pond.openExternal(RESPONSIBLE_USE_URL)}
+              onClick={() =>
+                void window.apostrophi.openExternal(RESPONSIBLE_USE_URL)
+              }
             >
               Responsible Use
             </Button>
@@ -124,8 +126,8 @@ function ExtensionNote() {
   const [open, setOpen] = useState(false);
   return (
     <p className={styles.note}>
-      Pond gets your session through its browser extension. Install it in the
-      browser you sign in with.{" "}
+      Apostrophi gets your session through its browser extension. Install it in
+      the browser you sign in with.{" "}
       <Button variant="link" size="xs" onClick={() => setOpen(true)}>
         Get Extension
       </Button>
@@ -191,7 +193,7 @@ function useConnectArrival(): void {
       if (cancelled || arrivedOnce) return;
       arrivedOnce = true;
       syncMonitor.seed(account.id, source, { connected: true });
-      void window.pond.syncRunNow(account.id);
+      void window.apostrophi.syncRunNow(account.id);
       connectFlow.complete(account);
     };
 
@@ -225,7 +227,7 @@ function useConnectArrival(): void {
       })();
     };
 
-    const stopListen = window.pond.onSessionImported((payload) => {
+    const stopListen = window.apostrophi.onSessionImported((payload) => {
       if (payload.source !== source) return;
       importedAccountId = payload.accountId;
       tick();

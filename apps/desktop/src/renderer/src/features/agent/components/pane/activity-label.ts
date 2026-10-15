@@ -21,9 +21,9 @@ const runningLabels = new Map([
   ["Find duplicates", "Finding duplicates"],
   ["Describe images", "Examining images"],
   ["Prepare changes for review", "Preparing changes for review"],
-  ["Find Pond capabilities", "Finding Pond capabilities"],
+  ["Find Apostrophi capabilities", "Finding Apostrophi capabilities"],
   ["Read operation details", "Checking operation details"],
-  ["Use Pond", "Using Pond"],
+  ["Use Apostrophi", "Using Apostrophi"],
   ["Read operation result", "Reading operation results"],
 ]);
 

@@ -3,7 +3,7 @@ import { clamp } from "@/shared/lib/math";
 const ZOOM_MIN = 80;
 const ZOOM_MAX = 240;
 export const ZOOM_DEFAULT = 130;
-export const ZOOM_STORAGE_KEY = "pond.gridZoom";
+export const ZOOM_STORAGE_KEY = "apostrophi.gridZoom";
 
 export const ZOOM_STEPS: ReadonlyArray<{ value: number; label: string }> = [
   { value: ZOOM_MIN, label: "Tiny" },

@@ -1,5 +1,5 @@
-import type { Prefs } from "@pond/schema";
-import type { Folder } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema";
+import type { Folder } from "@apostrophi/schema/db";
 import { folderColorCss } from "@/shared/lib/folder-icons";
 import { FolderCover } from "../../cover";
 import { Row } from "../../sidebar-row";

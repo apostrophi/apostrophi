@@ -12,11 +12,11 @@ export interface DisplayPrefs {
 }
 
 const STORAGE_KEYS = {
-  name: "pond.display.name",
-  date: "pond.display.date",
-  fileCount: "pond.display.fileCount",
-  source: "pond.display.source",
-  type: "pond.display.type",
+  name: "apostrophi.display.name",
+  date: "apostrophi.display.date",
+  fileCount: "apostrophi.display.fileCount",
+  source: "apostrophi.display.source",
+  type: "apostrophi.display.type",
 } satisfies Record<DisplayPrefKey, string>;
 
 const DISPLAY_DEFAULTS: DisplayPrefs = {
@@ -76,8 +76,8 @@ export interface ItemInfo {
   visible: boolean;
 }
 
-const ITEM_INFO_FIELD_KEY = "pond.display.itemInfoField";
-const ITEM_INFO_VISIBLE_KEY = "pond.display.itemInfo";
+const ITEM_INFO_FIELD_KEY = "apostrophi.display.itemInfoField";
+const ITEM_INFO_VISIBLE_KEY = "apostrophi.display.itemInfo";
 const ITEM_INFO_FIELDS: ReadonlyArray<ItemInfoField> = [
   "dimensions",
   "fileSize",

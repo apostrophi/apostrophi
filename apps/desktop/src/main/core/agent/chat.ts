@@ -1,4 +1,4 @@
-import { agentChats } from "@pond/schema/db";
+import { agentChats } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import {

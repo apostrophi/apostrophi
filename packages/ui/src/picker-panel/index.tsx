@@ -1,7 +1,7 @@
 import {
   IconCheck as Check,
   IconChevronRight as ChevronRight,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import { clsx as cn } from "clsx";
 import {
   Fragment,

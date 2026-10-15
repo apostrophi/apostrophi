@@ -1,4 +1,4 @@
-import type { ImageCrop } from "@pond/schema/db";
+import type { ImageCrop } from "@apostrophi/schema/db";
 
 export interface MediaTiming {
   frameRate: number | null;

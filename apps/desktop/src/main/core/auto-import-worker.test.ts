@@ -23,7 +23,7 @@ afterEach(async () => {
 });
 
 async function fixture(mode: "copy" | "move" = "copy") {
-  const root = await mkdtemp(join(tmpdir(), "pond-watch-test-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-watch-test-"));
   roots.push(root);
   const directory = join(root, "watched");
   const library = join(root, "library");

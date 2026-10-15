@@ -20,7 +20,7 @@ beforeEach(() => {
       disconnect() {}
     },
   );
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: vi.fn(async (name: string) => {
       if (name === "library.identity.pickIcon") return { ok: true, icon: LOGO };
       return { ok: true };
@@ -45,7 +45,7 @@ function render(mark: LibraryMarkSource | null = null): Promise<void> {
       <QueryClientProvider client={client}>
         <LibraryCustomizeDialog
           library={{
-            path: "/Users/rafa/Memes.pond",
+            path: "/Users/rafa/Memes.apostrophi",
             name: "Memes",
             icon: mark ? LOGO : null,
             mark,
@@ -90,14 +90,14 @@ it("offers emoji, icon, and image logos", async () => {
   expect(document.body.textContent).not.toContain("Reset Logo");
 });
 
-it("starts icon logos on the Pond mark", async () => {
+it("starts icon logos on the Apostrophi mark", async () => {
   await render();
   await openLogoMenu();
   await act(async () => menuItem("Choose Icon").click());
   await vi.waitFor(() =>
     expect(
       document
-        .querySelector('button[aria-label="Pond"]')
+        .querySelector('button[aria-label="Apostrophi"]')
         ?.getAttribute("aria-pressed"),
     ).toBe("true"),
   );
@@ -151,10 +151,13 @@ it("saves an uploaded image as the library logo", async () => {
     expect(document.querySelector(`img[src="${LOGO}"]`)).not.toBeNull(),
   );
   await save();
-  expect(window.pond.query).toHaveBeenCalledWith("library.identity.update", {
-    icon: LOGO,
-    mark: null,
-  });
+  expect(window.apostrophi.query).toHaveBeenCalledWith(
+    "library.identity.update",
+    {
+      icon: LOGO,
+      mark: null,
+    },
+  );
   expect(onClose).toHaveBeenCalled();
 });
 
@@ -172,7 +175,7 @@ it("renames the library bundle when the name changes", async () => {
     input.dispatchEvent(new InputEvent("input", { bubbles: true }));
   });
   await save();
-  expect(window.pond.query).toHaveBeenCalledWith("library.rename", {
+  expect(window.apostrophi.query).toHaveBeenCalledWith("library.rename", {
     name: "Work",
   });
 });

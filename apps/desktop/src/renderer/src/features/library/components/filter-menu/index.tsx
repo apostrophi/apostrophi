@@ -1,6 +1,6 @@
-import { IconBookmark, IconFilterOff } from "@pond/icons";
-import { isPredicate, type Predicate } from "@pond/schema/filters/types";
-import { Button, Tooltip } from "@pond/ui";
+import { IconBookmark, IconFilterOff } from "@apostrophi/icons";
+import { isPredicate, type Predicate } from "@apostrophi/schema/filters/types";
+import { Button, Tooltip } from "@apostrophi/ui";
 import { useFolders } from "@/features/library/state/folders";
 import { libraryHeader } from "@/features/library/state/library-header";
 import { savedViews } from "@/features/library/state/saved-views";

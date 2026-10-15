@@ -3,7 +3,7 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconWindowDownload,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import styles from "./styles.module.css";
 
 function PanelGlyph() {

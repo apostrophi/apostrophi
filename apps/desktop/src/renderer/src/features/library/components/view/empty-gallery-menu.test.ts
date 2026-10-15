@@ -4,7 +4,7 @@ import { buildEmptyGalleryMenu } from "./empty-gallery-menu";
 
 describe("empty gallery menu", () => {
   beforeEach(() => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: vi.fn(async () => ({ kinds: [] })),
     });
   });

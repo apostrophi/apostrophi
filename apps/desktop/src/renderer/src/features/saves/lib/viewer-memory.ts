@@ -16,7 +16,7 @@ const entrySchema = z.object({
     .optional(),
 });
 type ViewerMemory = z.infer<typeof entrySchema>;
-const storageKey = "pond:viewer-memory";
+const storageKey = "apostrophi:viewer-memory";
 const entries = new Map<string, ViewerMemory>();
 let loaded = false;
 

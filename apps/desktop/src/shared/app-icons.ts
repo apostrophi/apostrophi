@@ -1,4 +1,4 @@
-import { DEFAULT_APP_ICON } from "@pond/schema/db";
+import { DEFAULT_APP_ICON } from "@apostrophi/schema/db";
 
 export { DEFAULT_APP_ICON };
 

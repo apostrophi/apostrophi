@@ -9,26 +9,28 @@ const ConfigSchema = z.object({
   timeout: z.number().int().positive().optional(),
 });
 
-export type PondCliConfig = z.infer<typeof ConfigSchema>;
+export type ApostrophiCliConfig = z.infer<typeof ConfigSchema>;
 
 export function configPath(env = process.env): string {
-  if (env.POND_CONFIG) return env.POND_CONFIG;
+  if (env.APOSTROPHI_CONFIG) return env.APOSTROPHI_CONFIG;
   if (process.platform === "darwin")
     return join(
       homedir(),
       "Library",
       "Application Support",
-      "Pond",
+      "Apostrophi",
       "cli.json",
     );
   return join(
     env.XDG_CONFIG_HOME ?? join(homedir(), ".config"),
-    "pond",
+    "apostrophi",
     "cli.json",
   );
 }
 
-export async function readConfig(path = configPath()): Promise<PondCliConfig> {
+export async function readConfig(
+  path = configPath(),
+): Promise<ApostrophiCliConfig> {
   try {
     return ConfigSchema.parse(JSON.parse(await readFile(path, "utf8")));
   } catch (error) {
@@ -39,7 +41,7 @@ export async function readConfig(path = configPath()): Promise<PondCliConfig> {
 }
 
 export async function writeConfig(
-  config: PondCliConfig,
+  config: ApostrophiCliConfig,
   path = configPath(),
 ): Promise<void> {
   const parsed = ConfigSchema.parse(config);
@@ -54,15 +56,16 @@ export async function resolvedConfig(overrides: {
   baseUrl?: string;
   token?: string;
   timeout?: number;
-}): Promise<Required<PondCliConfig>> {
+}): Promise<Required<ApostrophiCliConfig>> {
   const stored = await readConfig();
   return {
     baseUrl:
       overrides.baseUrl ??
-      process.env.POND_BASE_URL ??
+      process.env.APOSTROPHI_BASE_URL ??
       stored.baseUrl ??
       "http://127.0.0.1:41610/api/v2",
-    token: overrides.token ?? process.env.POND_TOKEN ?? stored.token ?? "",
+    token:
+      overrides.token ?? process.env.APOSTROPHI_TOKEN ?? stored.token ?? "",
     timeout: overrides.timeout ?? stored.timeout ?? 15_000,
   };
 }

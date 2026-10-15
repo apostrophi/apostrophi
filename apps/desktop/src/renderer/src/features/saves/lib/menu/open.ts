@@ -7,8 +7,8 @@ import {
   IconLink2,
   IconOpenInNewWindow,
   IconWindowShare,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { previewMediaType } from "@shared/preview-window-contracts";
 import {
   openDefaultApp,

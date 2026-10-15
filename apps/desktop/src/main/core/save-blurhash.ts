@@ -1,4 +1,4 @@
-import type { Save } from "@pond/schema/db";
+import type { Save } from "@apostrophi/schema/db";
 import { encodeBlurhash, pickBlurhashStill } from "../lib/blurhash";
 import { saveFile } from "../paths";
 import { persistSave } from "./persist-save";

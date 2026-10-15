@@ -38,7 +38,7 @@ it("builds codec-specific JXL and ICO adapter arguments", () => {
 });
 
 it("resizes and converts copies with collision-safe names while preserving the original", async () => {
-  const directory = await mkdtemp(join(tmpdir(), "pond-convert-test-"));
+  const directory = await mkdtemp(join(tmpdir(), "apostrophi-convert-test-"));
   try {
     const source = join(directory, "photo.png");
     await sharp({
@@ -82,7 +82,7 @@ it.skipIf(!ffmpegPath)(
   async () => {
     const ffmpeg = ffmpegPath;
     if (!ffmpeg) throw new Error("FFmpeg unavailable");
-    const directory = await mkdtemp(join(tmpdir(), "pond-gif-test-"));
+    const directory = await mkdtemp(join(tmpdir(), "apostrophi-gif-test-"));
     try {
       const source = join(directory, "clip.mp4");
       await promisify(execFile)(ffmpeg, [
@@ -130,7 +130,9 @@ it.skipIf(!ffmpegPath)(
   async () => {
     const ffmpeg = ffmpegPath;
     if (!ffmpeg) throw new Error("FFmpeg unavailable");
-    const directory = await mkdtemp(join(tmpdir(), "pond-pro-format-test-"));
+    const directory = await mkdtemp(
+      join(tmpdir(), "apostrophi-pro-format-test-"),
+    );
     try {
       const source = join(directory, "source.png");
       await sharp({
@@ -178,7 +180,9 @@ it.skipIf(!ffmpegPath)(
   async () => {
     const ffmpeg = ffmpegPath;
     if (!ffmpeg) throw new Error("FFmpeg unavailable");
-    const directory = await mkdtemp(join(tmpdir(), "pond-pro-gate-test-"));
+    const directory = await mkdtemp(
+      join(tmpdir(), "apostrophi-pro-gate-test-"),
+    );
     try {
       const source = join(directory, "source.png");
       await sharp({

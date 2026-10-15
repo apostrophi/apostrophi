@@ -1,5 +1,5 @@
-import type { SidebarBadgeStyle } from "@pond/schema";
-import { Sidebar } from "@pond/ui";
+import type { SidebarBadgeStyle } from "@apostrophi/schema";
+import { Sidebar } from "@apostrophi/ui";
 import { forwardRef } from "react";
 import { formatCount } from "../counts";
 

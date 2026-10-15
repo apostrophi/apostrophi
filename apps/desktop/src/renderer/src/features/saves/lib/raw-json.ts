@@ -1,4 +1,7 @@
-import { StoredRawJsonSchema, storedAsRawJson } from "@pond/schema/raw-schema";
+import {
+  StoredRawJsonSchema,
+  storedAsRawJson,
+} from "@apostrophi/schema/raw-schema";
 import { z } from "zod";
 import { patchSaveRawJson, pool } from "@/features/saves/state/pool";
 
@@ -14,7 +17,7 @@ export async function ensureRawJson(id: string): Promise<void> {
   inflight.add(id);
   try {
     const res = RawJsonReplySchema.parse(
-      await window.pond.query("saves.rawJson", { id }),
+      await window.apostrophi.query("saves.rawJson", { id }),
     );
     loaded.add(id);
     if (pool.get(id)) patchSaveRawJson(id, res.rawJson ?? null);

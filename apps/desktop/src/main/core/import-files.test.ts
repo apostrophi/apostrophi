@@ -12,7 +12,7 @@ afterEach(async () => {
 });
 
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-folder-import-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-folder-import-"));
   roots.push(root);
   const tree = join(root, "Design");
   await mkdir(join(tree, "Type"), { recursive: true });

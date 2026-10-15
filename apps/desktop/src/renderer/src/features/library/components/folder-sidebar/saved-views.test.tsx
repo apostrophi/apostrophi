@@ -7,8 +7,8 @@ import {
   updateLocalFilters,
 } from "@/features/library/state/view-store";
 import {
+  apostrophiQuery,
   createFolderSidebarHarness,
-  pondQuery,
   savedView,
   savedViewList,
 } from "./test-harness";
@@ -33,10 +33,10 @@ describe("folder sidebar saved views", () => {
   async function deleteFromMenu(): Promise<void> {
     await act(async () => harness.menuItem("Delete").click());
     expect(document.querySelector('[role="alertdialog"]')).toBeNull();
-    expect(pondQuery).toHaveBeenCalledWith("savedViews.delete", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("savedViews.delete", {
       id: "view-1",
     });
-    expect(pondQuery).toHaveBeenCalledWith("savedViews.list", {});
+    expect(apostrophiQuery).toHaveBeenCalledWith("savedViews.list", {});
   }
 
   function setInput(input: HTMLInputElement, value: string): void {
@@ -72,7 +72,7 @@ describe("folder sidebar saved views", () => {
         new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
       );
     });
-    expect(pondQuery).toHaveBeenCalledWith("savedViews.rename", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("savedViews.rename", {
       id: "view-1",
       name: "Later",
     });
@@ -204,14 +204,14 @@ describe("folder sidebar saved views", () => {
         (node) => node.textContent === "Create",
       );
       if (!create) throw new Error("Missing Create button");
-      pondQuery.mockImplementationOnce(async () => {
+      apostrophiQuery.mockImplementationOnce(async () => {
         savedViewList.current = [
           { ...savedView("created", kind), name: "Untitled" },
         ];
         return { ok: true, id: "created" };
       });
       await act(async () => create.click());
-      expect(pondQuery).toHaveBeenCalledWith(
+      expect(apostrophiQuery).toHaveBeenCalledWith(
         "savedViews.create",
         expect.objectContaining({ kind, parentId: null, name: "Untitled" }),
       );
@@ -228,7 +228,7 @@ describe("folder sidebar saved views", () => {
     await act(async () =>
       harness.iconButton("New Smart Folder, Group, or Saved View").click(),
     );
-    pondQuery.mockImplementationOnce(async () => {
+    apostrophiQuery.mockImplementationOnce(async () => {
       savedViewList.current = [
         { ...savedView("created", "saved_view"), name: "Untitled" },
       ];
@@ -243,7 +243,7 @@ describe("folder sidebar saved views", () => {
       expect(document.activeElement).toBe(input);
     });
     expect(document.querySelector('[role="dialog"]')).toBeNull();
-    expect(pondQuery).toHaveBeenCalledWith(
+    expect(apostrophiQuery).toHaveBeenCalledWith(
       "savedViews.create",
       expect.objectContaining({
         kind: "saved_view",
@@ -257,7 +257,7 @@ describe("folder sidebar saved views", () => {
     );
     if (!(input instanceof HTMLInputElement))
       throw new Error("Missing inline name input");
-    pondQuery.mockImplementationOnce(async () => {
+    apostrophiQuery.mockImplementationOnce(async () => {
       savedViewList.current = [
         { ...savedView("created", "saved_view"), name: "Reading" },
       ];
@@ -269,7 +269,7 @@ describe("folder sidebar saved views", () => {
         new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
       );
     });
-    expect(pondQuery).toHaveBeenCalledWith("savedViews.rename", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("savedViews.rename", {
       id: "created",
       name: "Reading",
     });
@@ -329,7 +329,7 @@ describe("folder sidebar saved views", () => {
     await act(async () =>
       harness.iconButton("More Actions for Images").click(),
     );
-    pondQuery.mockImplementationOnce(async () => {
+    apostrophiQuery.mockImplementationOnce(async () => {
       savedViewList.current = savedViewList.current.map((view) =>
         view.id === "Images"
           ? { ...view, query: { combinator: "and", rules: [...rules] } }
@@ -338,7 +338,7 @@ describe("folder sidebar saved views", () => {
       return { ok: true };
     });
     await act(async () => harness.menuItem("Save Filters").click());
-    expect(pondQuery).toHaveBeenCalledWith("savedViews.update", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("savedViews.update", {
       id: "Images",
       patch: { query: { combinator: "and", rules: [...rules] } },
     });

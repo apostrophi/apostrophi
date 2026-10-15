@@ -2,7 +2,7 @@ import type { BrowserValidators } from "../lib/browser-validation";
 import { browserValidationSource } from "../lib/browser-validation-source";
 /// <reference lib="dom" />
 
-import type { MediaType } from "@pond/schema/db";
+import type { MediaType } from "@apostrophi/schema/db";
 import type { ListHarvestArgs, ListHarvestResult } from "../list-types";
 import { inPageRedditNormalize } from "./normalize";
 
@@ -25,7 +25,7 @@ export function buildRedditListExpression(args: ListHarvestArgs): string {
   const fnSrc = `(${inPageRedditList.toString()})`;
   return `(async () => {
     ${browserValidationSource}
-    const validators = PondHarvestValidation.browserValidators;
+    const validators = ApostrophiHarvestValidation.browserValidators;
     const norm = ${normSrc};
     const args = ${JSON.stringify(args)};
     try { return await ${fnSrc}(args, norm, validators); }
@@ -85,7 +85,7 @@ async function inPageRedditList(
 
     function reportProgress(phase: string) {
       Object.assign(globalThis, {
-        __pondHarvestStats: {
+        __apostrophiHarvestStats: {
           phase,
           collected: entries.length,
           fresh: entries.filter((e) => !known.has(e.sourceId)).length,
@@ -281,7 +281,7 @@ async function inPageRedditList(
         }
       }
       Object.assign(globalThis, {
-        __pondHarvestStats: {
+        __apostrophiHarvestStats: {
           phase: "scrolling",
           collected: collected.size,
           fresh: [...collected.keys()].filter((id) => !known.has(id)).length,

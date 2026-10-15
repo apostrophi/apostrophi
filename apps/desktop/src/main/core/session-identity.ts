@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import { cosmosIdentityFromToken } from "../lib/cosmos-token";
 import { redditIdentityFromToken } from "../lib/reddit-token";
 

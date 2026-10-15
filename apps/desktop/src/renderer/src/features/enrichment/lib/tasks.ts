@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import { z } from "zod";
 import { statusFeed } from "@/features/downloads/status-feed";
 import { clearEmbeddings } from "@/features/enrichment/state/embedding-store";
@@ -53,7 +53,7 @@ export async function autoTag(ids?: TaskScope): Promise<TaskResult> {
   const targets = ids?.length
     ? [...ids]
     : (
-        await window.pond.query("saves.queryIds", {
+        await window.apostrophi.query("saves.queryIds", {
           query: { combinator: "and", rules: [] },
         })
       ).ids;
@@ -73,7 +73,7 @@ export async function autoTag(ids?: TaskScope): Promise<TaskResult> {
 export async function backfillColors(): Promise<TaskResult> {
   const job = statusFeed.start("Backfilling colors");
   const res = BackfillReplySchema.parse(
-    await window.pond.query("saves.backfillColors", {}),
+    await window.apostrophi.query("saves.backfillColors", {}),
   );
   if (!res.ok) {
     statusFeed.fail(job, "Color backfill failed.");
@@ -98,7 +98,7 @@ export async function backfillColors(): Promise<TaskResult> {
 export async function backfillMetadata(): Promise<TaskResult> {
   const job = statusFeed.start("Extracting media metadata");
   const res = BackfillReplySchema.parse(
-    await window.pond.query("saves.backfillMetadata", {}),
+    await window.apostrophi.query("saves.backfillMetadata", {}),
   );
   if (!res.ok) {
     statusFeed.fail(job, "Media metadata extraction failed.");

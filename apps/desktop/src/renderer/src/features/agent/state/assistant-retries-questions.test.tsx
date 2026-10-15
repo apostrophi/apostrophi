@@ -34,7 +34,7 @@ it("keeps the composer draft and attachments and streams question answers", asyn
     requests.push(request);
     return {};
   });
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     agentStream,
     onAgentChunk: () => () => {},
@@ -109,7 +109,7 @@ it("preserves new attachments and retries through the shared stream session", as
     requests.push(request);
     return requests.length === 1 ? failed.promise : {};
   });
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     agentStream,
     onAgentChunk: () => () => {},

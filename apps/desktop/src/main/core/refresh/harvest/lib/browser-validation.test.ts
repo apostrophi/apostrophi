@@ -52,7 +52,7 @@ describe("standalone harvest validation", () => {
 
   it("preserves valid TikTok fields and drops malformed optional metrics", () => {
     const result = runInNewContext(
-      `${browserValidationSource}\nPondHarvestValidation.browserValidators.tiktokItem.parse({ id: '1', createTime: 123, author: { verified: false }, stats: { playCount: 7, diggCount: '7' }, video: { duration: 'bad' } });`,
+      `${browserValidationSource}\nApostrophiHarvestValidation.browserValidators.tiktokItem.parse({ id: '1', createTime: 123, author: { verified: false }, stats: { playCount: 7, diggCount: '7' }, video: { duration: 'bad' } });`,
       {},
     );
     expect(result).toMatchObject({
@@ -67,7 +67,7 @@ describe("standalone harvest validation", () => {
 
   it("rejects invalid scalars and arrays at object boundaries", () => {
     const result = runInNewContext(
-      `${browserValidationSource}\nconst validators = PondHarvestValidation.browserValidators; [validators.text.safeParse(7).success, validators.number.safeParse('7').success, validators.number.safeParse(Infinity).success, validators.object.safeParse([]).success, validators.object.safeParse(null).success, validators.object.safeParse({ id: 1 }).success];`,
+      `${browserValidationSource}\nconst validators = ApostrophiHarvestValidation.browserValidators; [validators.text.safeParse(7).success, validators.number.safeParse('7').success, validators.number.safeParse(Infinity).success, validators.object.safeParse([]).success, validators.object.safeParse(null).success, validators.object.safeParse({ id: 1 }).success];`,
       {},
     );
     expect(result).toEqual([false, false, false, false, false, true]);

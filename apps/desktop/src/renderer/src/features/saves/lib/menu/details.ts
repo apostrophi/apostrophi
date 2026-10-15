@@ -12,8 +12,8 @@ import {
   IconMagicWand,
   IconMerge,
   IconRefresh,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { createElement } from "react";
 import { saveLibraryBridge } from "@/features/saves/lib/library-bridge";
 import { deriveTypeKind } from "@/features/saves/lib/media/units";
@@ -138,7 +138,7 @@ export function buildDetailItems({
         icon: glyph(IconMagicWand),
         hidden: batch || save.mediaType !== "image",
         onClick: () => {
-          void window.pond
+          void window.apostrophi
             .query("saves.reanalyzeColors", { id: save.id })
             .then((result) =>
               notify({
@@ -155,7 +155,7 @@ export function buildDetailItems({
         onClick: () => {
           const file = save.files[fileIndex ?? 0] ?? save.files[0];
           if (!file) return;
-          const src = `pond://${save.id}/${file.path}`;
+          const src = `apostrophi://${save.id}/${file.path}`;
           viewerMemory.setLoop(src, null);
         },
       },
@@ -166,12 +166,12 @@ export function buildDetailItems({
         onClick: () => {
           const file = save.files[fileIndex ?? 0] ?? save.files[0];
           if (!file) return;
-          const src = `pond://${save.id}/${file.path}`;
+          const src = `apostrophi://${save.id}/${file.path}`;
           const canvas = document.querySelector<HTMLCanvasElement>(
             `[data-gif-player] canvas[data-frame]`,
           );
           const frameIndex = Number(canvas?.getAttribute("data-frame") ?? 0);
-          void window.pond
+          void window.apostrophi
             .query("saves.setGifThumbnail", {
               id: save.id,
               src,
@@ -191,7 +191,7 @@ export function buildDetailItems({
         icon: glyph(IconFile),
         hidden: !isVideo,
         onClick: () => {
-          void window.pond
+          void window.apostrophi
             .query("saves.loadSubtitles", { id: save.id })
             .then((result) => {
               if (!result.ok && result.reason !== "cancelled")
@@ -207,7 +207,7 @@ export function buildDetailItems({
         icon: glyph(IconRefresh),
         hidden: batch || !isVideo,
         onClick: () => {
-          void window.pond
+          void window.apostrophi
             .query("saves.regeneratePoster", { id: save.id })
             .then((result) =>
               notify({
@@ -226,7 +226,7 @@ export function buildDetailItems({
         icon: glyph(IconFile),
         hidden: batch || !hasFiles,
         onClick: () => {
-          void window.pond
+          void window.apostrophi
             .query("saves.replaceFile", { id: save.id })
             .then((result) => {
               if (!result.ok) {
@@ -251,7 +251,7 @@ export function buildDetailItems({
             void refreshDetailsForSelection(ids);
             return;
           }
-          if (save.url) void window.pond.refreshSave(save.id);
+          if (save.url) void window.apostrophi.refreshSave(save.id);
         },
       },
       {
@@ -260,7 +260,7 @@ export function buildDetailItems({
         hidden: !archivable,
         onClick: () => {
           if (batch) void archiveSitesForSelection(ids);
-          else void window.pond.archiveSite(save.id);
+          else void window.apostrophi.archiveSite(save.id);
         },
       },
     ],
@@ -270,7 +270,9 @@ export function buildDetailItems({
         icon: glyph(IconImagePlus),
         hidden: batch,
         onClick: () => {
-          void window.pond.query("saves.setCustomThumbnail", { id: save.id });
+          void window.apostrophi.query("saves.setCustomThumbnail", {
+            id: save.id,
+          });
         },
       },
       {
@@ -278,7 +280,7 @@ export function buildDetailItems({
         icon: glyph(IconClipboardArrowIn),
         hidden: batch,
         onClick: () => {
-          void window.pond
+          void window.apostrophi
             .query("saves.setThumbnailFromClipboard", { id: save.id })
             .then((result) => {
               if (!result.ok)
@@ -295,7 +297,7 @@ export function buildDetailItems({
         variant: "destructive",
         hidden: batch || !hasCustomThumbnail,
         onClick: () => {
-          void window.pond.query("saves.removeCustomThumbnail", {
+          void window.apostrophi.query("saves.removeCustomThumbnail", {
             id: save.id,
           });
         },

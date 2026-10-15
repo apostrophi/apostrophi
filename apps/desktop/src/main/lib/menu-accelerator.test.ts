@@ -5,7 +5,7 @@ import { menuAccelerator } from "./menu-accelerator";
 describe("native menu shortcut presentation", () => {
   it("uses effective overrides for native-owned commands", () => {
     const bindings = resolveShortcuts({
-      profile: "pond",
+      profile: "apostrophi",
       overrides: {
         "view.layout-cycle": "Control+Shift+J",
         "view.inspector": "Alt+I",
@@ -29,14 +29,17 @@ describe("native menu shortcut presentation", () => {
     expect(menuAccelerator(eagle["save.add-tag"])).toBe("T");
     expect(menuAccelerator(eagle["save.reveal"])).toBe("CommandOrControl+R");
     expect(menuAccelerator(eagle["view.layout-grid"])).toBe("Alt+2");
-    const pond = resolveShortcuts({ profile: "pond", overrides: {} });
-    expect(menuAccelerator(pond["view.layout-cycle"])).toBe(
+    const apostrophi = resolveShortcuts({
+      profile: "apostrophi",
+      overrides: {},
+    });
+    expect(menuAccelerator(apostrophi["view.layout-cycle"])).toBe(
       "CommandOrControl+Shift+L",
     );
-    expect(menuAccelerator(pond["view.grayscale"])).toBe(
+    expect(menuAccelerator(apostrophi["view.grayscale"])).toBe(
       "CommandOrControl+Alt+G",
     );
-    expect(menuAccelerator(pond["nav.library"])).toBe("G L");
-    expect(menuAccelerator(pond["save.reveal"])).toBe("F");
+    expect(menuAccelerator(apostrophi["nav.library"])).toBe("G L");
+    expect(menuAccelerator(apostrophi["save.reveal"])).toBe("F");
   });
 });

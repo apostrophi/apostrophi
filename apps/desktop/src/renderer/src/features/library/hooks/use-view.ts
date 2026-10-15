@@ -1,4 +1,8 @@
-import type { FieldId, Predicate, Query } from "@pond/schema/filters/types";
+import type {
+  FieldId,
+  Predicate,
+  Query,
+} from "@apostrophi/schema/filters/types";
 import { useMemo } from "react";
 import type { LayoutValue } from "@/features/library/lib/view-prefs";
 import {

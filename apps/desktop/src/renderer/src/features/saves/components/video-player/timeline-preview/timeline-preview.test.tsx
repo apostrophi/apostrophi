@@ -19,7 +19,9 @@ afterEach(async () => {
 
 it("keeps a stable frame for portrait video", async () => {
   await act(async () => {
-    root.render(<TimelinePreview src="pond://test/portrait.mp4" time={4} />);
+    root.render(
+      <TimelinePreview src="apostrophi://test/portrait.mp4" time={4} />,
+    );
   });
 
   expect(host.querySelector("video")?.style.aspectRatio).toBe("16 / 9");

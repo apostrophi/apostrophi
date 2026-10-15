@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import type { Save, SaveFile } from "@/features/saves/types";
 
 const ARCHIVE_KIND = "archive";
@@ -56,7 +56,7 @@ export async function loadArchiveManifest(
   const file = archiveManifestFile(save);
   if (!file) return null;
   try {
-    const res = await fetch(buildPondUrl(save.id, file));
+    const res = await fetch(buildApostrophiUrl(save.id, file));
     if (!res.ok) return null;
     const parsed = ManifestSchema.safeParse(await res.json());
     if (!parsed.success) return null;
@@ -80,10 +80,10 @@ export function buildArchiveViewerUrl(
 ): string | null {
   const warc = archiveWarcFile(save);
   if (!warc) return null;
-  const source = `pond://${save.id}/${warc.path}`;
+  const source = `apostrophi://${save.id}/${warc.path}`;
   const coll = `${save.id}-${manifest.archivedAt.replace(/[^0-9]/g, "")}`;
   const params = new URLSearchParams({ source, url: pageUrl, coll });
-  return `pond://_replay/index.html?${params.toString()}`;
+  return `apostrophi://_replay/index.html?${params.toString()}`;
 }
 
 export function archiveUrlKey(url: string): string {

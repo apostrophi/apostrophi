@@ -1,10 +1,10 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "pond",
-  "title": "Pond",
-  "description": "Search and save to your local Pond Library.",
+  "name": "apostrophi",
+  "title": "Apostrophi",
+  "description": "Search and save to your local Apostrophi Library.",
   "icon": "icon.png",
-  "author": "raphaelsalaja",
+  "author": "apostrophi",
   "platforms": [
     "macOS"
   ],
@@ -14,22 +14,22 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "apps/raycast"
   },
   "commands": [
     {
       "name": "search-library",
       "title": "Search Library",
-      "subtitle": "Pond",
-      "description": "Find Saves in the active Pond Library.",
+      "subtitle": "Apostrophi",
+      "description": "Find Saves in the active Apostrophi Library.",
       "mode": "view"
     },
     {
       "name": "save-url",
       "title": "Save URL",
-      "subtitle": "Pond",
-      "description": "Save a URL to the active Pond Library.",
+      "subtitle": "Apostrophi",
+      "description": "Save a URL to the active Apostrophi Library.",
       "mode": "view",
       "arguments": [
         {
@@ -43,22 +43,22 @@
     {
       "name": "save-clipboard",
       "title": "Save Clipboard URL",
-      "subtitle": "Pond",
+      "subtitle": "Apostrophi",
       "description": "Save the URL on your clipboard.",
       "mode": "no-view"
     },
     {
       "name": "switch-library",
       "title": "Switch Library",
-      "subtitle": "Pond",
-      "description": "Switch to a recent Pond Library.",
+      "subtitle": "Apostrophi",
+      "description": "Switch to a recent Apostrophi Library.",
       "mode": "view"
     },
     {
       "name": "open-library",
       "title": "Open Library",
-      "subtitle": "Pond",
-      "description": "Open the active Pond Library.",
+      "subtitle": "Apostrophi",
+      "description": "Open the active Apostrophi Library.",
       "mode": "no-view"
     }
   ],
@@ -66,7 +66,7 @@
     {
       "name": "baseUrl",
       "title": "Local API URL",
-      "description": "The local API address configured in Pond.",
+      "description": "The local API address configured in Apostrophi.",
       "type": "textfield",
       "required": true,
       "default": "http://127.0.0.1:41610/api/v2"
@@ -74,10 +74,10 @@
     {
       "name": "token",
       "title": "Local API Token",
-      "description": "Copy this token from Pond Settings under General and Raycast.",
+      "description": "Copy this token from Apostrophi Settings under General and Raycast.",
       "type": "password",
       "required": true,
-      "placeholder": "Paste your Pond token"
+      "placeholder": "Paste your Apostrophi token"
     }
   ],
   "scripts": {
@@ -88,8 +88,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@pond/local-api": "workspace:*",
-    "@pond/schema": "workspace:*",
+    "@apostrophi/local-api": "workspace:*",
+    "@apostrophi/schema": "workspace:*",
     "@raycast/api": "^2.4.1",
     "react": "19.0.0",
     "zod": "^4.6.5"

@@ -1,5 +1,10 @@
-import { IconCircleInfo, IconPlus, IconSliders, IconXmark } from "@pond/icons";
-import { Button, Pane, PickerPanel, Tabs } from "@pond/ui";
+import {
+  IconCircleInfo,
+  IconPlus,
+  IconSliders,
+  IconXmark,
+} from "@apostrophi/icons";
+import { Button, Pane, PickerPanel, Tabs } from "@apostrophi/ui";
 import { mediaEmbeddingVersion } from "@shared/embeddings";
 import { useEffect, useMemo, useState } from "react";
 import { FolderMenu } from "@/features/saves/components/detail/folder-menu";
@@ -173,7 +178,7 @@ export function SaveInspector({
   }
 
   async function assignFolder(folderId: string, add: boolean) {
-    await window.pond.query("folders.assign", {
+    await window.apostrophi.query("folders.assign", {
       saveIds: [...ids],
       addIds: add ? [folderId] : [],
       removeIds: add ? [] : [folderId],
@@ -187,7 +192,8 @@ export function SaveInspector({
     let createdId: string | null = null;
     void run(async () => {
       if (!createdId)
-        createdId = (await window.pond.query("folders.create", { name })).id;
+        createdId = (await window.apostrophi.query("folders.create", { name }))
+          .id;
       await assignFolder(createdId, true);
     });
   }

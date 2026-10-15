@@ -15,7 +15,7 @@ import {
 
 declare global {
   interface Window {
-    __pondThreadsInjected?: boolean;
+    __apostrophiThreadsInjected?: boolean;
   }
 }
 
@@ -299,8 +299,8 @@ function postUrlFromSaveRequest(
 }
 
 export function inject(): void {
-  if (window.__pondThreadsInjected) return;
-  window.__pondThreadsInjected = true;
+  if (window.__apostrophiThreadsInjected) return;
+  window.__apostrophiThreadsInjected = true;
 
   const recent = new Map<string, number>();
 

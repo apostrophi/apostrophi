@@ -1,5 +1,5 @@
-import { IconFolderSend } from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconFolderSend } from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { notify } from "@/shared/lib/toast";
 import { glyph } from "./shared";
 import type { SaveMenuContext } from "./types";
@@ -15,7 +15,7 @@ export function buildShareItem({
     icon: glyph(IconFolderSend),
     hidden: !hasFiles || batch,
     onClick: () => {
-      void window.pond
+      void window.apostrophi
         .query("saves.share", {
           id: save.id,
           fileIndex: fileIndex ?? undefined,

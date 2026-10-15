@@ -1,5 +1,5 @@
-import { IconMagnifier } from "@pond/icons";
-import { Keyboard } from "@pond/ui";
+import { IconMagnifier } from "@apostrophi/icons";
+import { Keyboard } from "@apostrophi/ui";
 import type {
   ChangeEventHandler,
   KeyboardEventHandler,
@@ -32,11 +32,11 @@ export function SearchField({
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        placeholder="Search Pond or type a command…"
-        aria-label="Search Pond"
+        placeholder="Search Apostrophi or type a command…"
+        aria-label="Search Apostrophi"
         role="combobox"
         aria-expanded="true"
-        aria-controls="pond-command-menu-results"
+        aria-controls="apostrophi-command-menu-results"
         aria-activedescendant={activeDescendant}
         spellCheck={false}
       />

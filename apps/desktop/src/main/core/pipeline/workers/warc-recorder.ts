@@ -1,6 +1,6 @@
 import { once } from "node:events";
 import { createWriteStream, type WriteStream } from "node:fs";
-import type { JsonValue } from "@pond/schema/json";
+import type { JsonValue } from "@apostrophi/schema/json";
 import type { WebContents } from "electron";
 import log from "electron-log/main.js";
 import { WARCRecord, WARCSerializer } from "warcio";
@@ -189,7 +189,7 @@ export class WarcRecorder {
         if (!meta) return;
         this.responses.delete(p.requestId);
         const task = this.captureBody(p.requestId, meta).catch((err) => {
-          log.debug("[pond warc] body capture failed", meta.url, err);
+          log.debug("[apostrophi warc] body capture failed", meta.url, err);
         });
         this.pending.add(task);
         void task.finally(() => this.pending.delete(task));
@@ -203,13 +203,17 @@ export class WarcRecorder {
       if (method === "Fetch.requestPaused") {
         const p = FetchRequestPausedSchema.parse(params);
         const task = this.capturePausedResponse(p).catch((err) => {
-          log.debug("[pond warc] paused capture failed", p.request.url, err);
+          log.debug(
+            "[apostrophi warc] paused capture failed",
+            p.request.url,
+            err,
+          );
         });
         this.pending.add(task);
         void task.finally(() => this.pending.delete(task));
       }
     } catch (err) {
-      log.debug("[pond warc] event handling failed", method, err);
+      log.debug("[apostrophi warc] event handling failed", method, err);
     }
   };
 
@@ -326,7 +330,7 @@ export class WarcRecorder {
       }
     });
     this.writeChain = task.catch((err) => {
-      log.warn("[pond warc] record write failed", meta.url, err);
+      log.warn("[apostrophi warc] record write failed", meta.url, err);
     });
     this.pending.add(task);
     void task.catch(() => {}).finally(() => this.pending.delete(task));

@@ -1,5 +1,5 @@
 /** Marks an error whose message is product copy, so the renderer may show it verbatim. */
-export const USER_ERROR_NAME = "PondUserError";
+export const USER_ERROR_NAME = "ApostrophiUserError";
 
 /**
  * Electron serializes a rejected invoke as `<name>: <message>`, so the name is the only

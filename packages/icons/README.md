@@ -1,10 +1,10 @@
-# @pond/icons
+# @apostrophi/icons
 
-Pond's own icon set. Every glyph is drawn once on an 18×18 grid and scales to
+Apostrophi's own icon set. Every glyph is drawn once on an 18×18 grid and scales to
 any size. Import from the package root:
 
 ```tsx
-import { IconFolder, IconStarFill } from "@pond/icons";
+import { IconFolder, IconStarFill } from "@apostrophi/icons";
 
 <IconFolder />
 <IconFolder size={12} />
@@ -31,7 +31,7 @@ exists. Props:
 2. Save the outline as `svg/outline/<kebab-name>.svg` and the fill, if any, as
    `svg/fill/<kebab-name>.svg`. Use only `<path>`, `<circle>`, and `<rect>`.
    Fills are flattened shapes with `fill="currentColor"`, not strokes.
-3. Run `pnpm --filter @pond/icons generate` to rebuild `index.ts` and
+3. Run `pnpm --filter @apostrophi/icons generate` to rebuild `index.ts` and
    `manifest.ts`. CI runs the same script with `--check`.
 
 The generator lists glyphs nothing imports, so unused drawings are easy to
@@ -44,11 +44,11 @@ Google Chrome paths come from [Simple Icons](https://simpleicons.org/) (CC0).
 Provider logos are documented in `social-media/custom/provider-logos.md`. The
 marks remain their owners' trademarks.
 
-The Pond mark lives in `brand/`: `icon.svg` is the vector source, and `tints/`
+The Apostrophi mark lives in `brand/`: `icon.svg` is the vector source, and `tints/`
 holds Icon Composer colorways. The desktop app defaults to `tints/aqua` for the
 Dock icon.
 
 ## License
 
-The glyphs in `svg/` are original Pond artwork under the repository's MIT
+The glyphs in `svg/` are original Apostrophi artwork under the repository's MIT
 license.

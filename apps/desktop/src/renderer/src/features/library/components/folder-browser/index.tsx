@@ -1,5 +1,5 @@
-import type { Folder } from "@pond/schema/db";
-import { Button, Menu } from "@pond/ui";
+import type { Folder } from "@apostrophi/schema/db";
+import { Button, Menu } from "@apostrophi/ui";
 import type { FolderSummary } from "@shared/folder-contracts";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { FolderCustomizeDialog } from "@/features/library/components/folder-customize-dialog";
@@ -137,7 +137,7 @@ function FolderCard({
               label: option.label,
               checked: folder.color === option.id,
               onCheckedChange: () =>
-                void window.pond
+                void window.apostrophi
                   .query("folders.setColor", {
                     id: folder.id,
                     color: option.id,
@@ -257,7 +257,9 @@ export function FolderBrowser({
     let active = true;
     const load = async () => {
       try {
-        const next = await window.pond.query("folders.summaries", { parentId });
+        const next = await window.apostrophi.query("folders.summaries", {
+          parentId,
+        });
         if (!active) return;
         setSummaries(next);
         const summaryById = new Map(
@@ -272,11 +274,11 @@ export function FolderBrowser({
         });
         await ensureSaves(coverIds);
       } catch (error) {
-        console.warn("[pond] folder summaries failed", error);
+        console.warn("[apostrophi] folder summaries failed", error);
       }
     };
     void load();
-    const unsubscribe = window.pond.onSyncAction((event) => {
+    const unsubscribe = window.apostrophi.onSyncAction((event) => {
       if (
         event.modelName === "folder" ||
         event.modelName === "save_folder" ||

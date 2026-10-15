@@ -1,4 +1,4 @@
-import type { Menu } from "@pond/ui";
+import type { Menu } from "@apostrophi/ui";
 import { type ComponentProps, useCallback, useState } from "react";
 
 type FilterProviderProps = ComponentProps<typeof Menu.FilterProvider>;

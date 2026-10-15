@@ -2,7 +2,7 @@ import { resolveFileIndex } from "@/features/saves/lib/actions";
 import { pool } from "@/features/saves/state/pool";
 import { selection } from "@/features/saves/state/selection";
 
-export const SAVE_DRAG_TYPE = "application/x-pond-save";
+export const SAVE_DRAG_TYPE = "application/x-apostrophi-save";
 
 export interface SaveDragDataTransfer {
   readonly types: readonly string[];
@@ -166,7 +166,7 @@ export function beginSaveDrag(id: string, event?: SaveDragStartEvent): void {
     installNativeSessionListeners();
     const save = pool.get(ids[0] ?? id);
     const fileIndex = save ? resolveFileIndex(save) : 0;
-    void window.pond.query("saves.startDrag", { ids, fileIndex });
+    void window.apostrophi.query("saves.startDrag", { ids, fileIndex });
     return;
   }
   const dataTransfer = event?.dataTransfer;

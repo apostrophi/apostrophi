@@ -1,5 +1,5 @@
-import type { SavedView } from "@pond/schema/db";
-import type { MenuItemSpec } from "@pond/ui";
+import type { SavedView } from "@apostrophi/schema/db";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import {
   groupMoveChoices,
   selectedViewRoots,

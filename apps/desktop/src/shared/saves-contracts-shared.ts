@@ -1,4 +1,4 @@
-import type { MediaType, Source } from "@pond/schema/db";
+import type { MediaType, Source } from "@apostrophi/schema/db";
 import { z } from "zod";
 import type { LibraryQueryRequest } from "./library-query";
 import type { OkResult, ReasonResult } from "./query-contracts-shared";

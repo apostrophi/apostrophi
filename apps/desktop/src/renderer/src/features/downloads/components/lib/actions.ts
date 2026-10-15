@@ -28,7 +28,7 @@ export async function retryDownloadRows(
   const ids = rows.filter((r) => r.status === "failed").map((r) => r.saveId);
   if (ids.length === 0) return false;
   const result = RetryResultSchema.parse(
-    await window.pond.query("saves.retryFailed", { ids }),
+    await window.apostrophi.query("saves.retryFailed", { ids }),
   );
   if (!result.ok || result.requeued === 0) {
     statusFeed.error("Retry failed items", "Couldn't retry failed items.");
@@ -41,7 +41,7 @@ export function cancelDownloadRows(rows: readonly DownloadRow[]): void {
   const live = rows.filter(canCancelDownload);
   if (live.length === 0) return;
   void Promise.all(
-    live.map((row) => window.pond.pipelineCancelSave(row.saveId)),
+    live.map((row) => window.apostrophi.pipelineCancelSave(row.saveId)),
   ).then(() => downloadsSelection.clear());
 }
 
@@ -50,7 +50,7 @@ export function skipDownloadRows(rows: readonly DownloadRow[]): void {
     ...new Set(rows.filter(canSkipDownload).map((row) => row.saveId)),
   ];
   if (ids.length === 0) return;
-  void window.pond
+  void window.apostrophi
     .query("saves.skipIngest", { ids })
     .then((value) => {
       const result = SkipResultSchema.parse(value);
@@ -74,7 +74,7 @@ interface TrashDownloadDependencies {
 const TRASH_DOWNLOAD_DEPENDENCIES: TrashDownloadDependencies = {
   trash: trashSaves,
   notify,
-  undo: () => window.pond.undo(),
+  undo: () => window.apostrophi.undo(),
 };
 
 export function trashDownloadRows(

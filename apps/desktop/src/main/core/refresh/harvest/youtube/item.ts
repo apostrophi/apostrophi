@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 
-import type { JsonValue } from "@pond/schema/json";
+import type { JsonValue } from "@apostrophi/schema/json";
 import { captureFromPageDom, type HarvestAdaptCtx } from "../from-page";
 import { buildItemExpression } from "../lib/expression";
 import { inPageYoutubeNormalize, type YoutubeWatchPage } from "./normalize";

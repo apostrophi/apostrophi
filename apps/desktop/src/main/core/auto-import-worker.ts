@@ -128,7 +128,7 @@ export async function createAutoImportWorker(options: AutoImportWorkerOptions) {
           previous.completed = true;
           continue;
         }
-        staging = await mkdtemp(join(tmpdir(), "pond-auto-import-"));
+        staging = await mkdtemp(join(tmpdir(), "apostrophi-auto-import-"));
         const snapshot = join(staging, basename(path));
         await copyFile(path, snapshot);
         const afterCopy = await stat(path);

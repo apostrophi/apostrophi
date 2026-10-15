@@ -1,4 +1,4 @@
-import type { Query } from "@pond/schema/filters/types";
+import type { Query } from "@apostrophi/schema/filters/types";
 import { Group } from "../group";
 import type { RuleChoices } from "../types";
 

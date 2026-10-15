@@ -1,10 +1,10 @@
-# @pond/extension
+# @apostrophi/extension
 
-Browser extension that captures saves from supported sites into your local Pond library, and pushes signed-in cookies when you connect a source.
+Browser extension that captures saves from supported sites into your local Apostrophi library, and pushes signed-in cookies when you connect a source.
 
 ## Install from a release
 
-1. Download `pond-extension-X.Y.Z.zip` from [GitHub Releases](https://github.com/raphaelsalaja/pond/releases).
+1. Download `apostrophi-extension-X.Y.Z.zip` from [GitHub Releases](https://github.com/apostrophi/apostrophi/releases).
 2. Unzip the archive.
 3. Open Chrome → `chrome://extensions`
 4. Enable **Developer mode**
@@ -14,20 +14,20 @@ Browser extension that captures saves from supported sites into your local Pond 
 
 ```bash
 pnpm install
-pnpm --filter @pond/extension zip   # produces .output/*.zip
+pnpm --filter @apostrophi/extension zip   # produces .output/*.zip
 # or for dev with hot reload:
-pnpm --filter @pond/extension dev
+pnpm --filter @apostrophi/extension dev
 ```
 
 Load unpacked from `apps/extension/.output/chrome-mv3` while developing.
 
 ## Capture
 
-Open Pond once so it can register the native host. Then:
+Open Apostrophi once so it can register the native host. Then:
 
-1. Click the Pond icon in the toolbar to save the current tab, or right-click a page, link, or image → **Save to Pond**.
+1. Click the Apostrophi icon in the toolbar to save the current tab, or right-click a page, link, or image → **Save to Apostrophi**.
 2. On supported sites, the usual save/bookmark control still sends the item into your library.
-3. Session connect happens in the background when Pond is waiting and you open that site signed in.
+3. Session connect happens in the background when Apostrophi is waiting and you open that site signed in.
 
 ## Supported sources
 

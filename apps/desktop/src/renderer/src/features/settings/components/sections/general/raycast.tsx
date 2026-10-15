@@ -1,4 +1,4 @@
-import { Button, Dialog, Settings } from "@pond/ui";
+import { Button, Dialog, Settings } from "@apostrophi/ui";
 import { useState } from "react";
 import { errorCopy } from "@/shared/lib/error-copy";
 
@@ -12,10 +12,13 @@ export function RaycastRow() {
     setCopied(false);
     setError(null);
     try {
-      const { token } = await window.pond.query("settings.ingestToken", {});
+      const { token } = await window.apostrophi.query(
+        "settings.ingestToken",
+        {},
+      );
       if (!token)
         throw new Error("Couldn't read the Local API Token. Try again.");
-      const result = await window.pond.query("clipboard.writeText", {
+      const result = await window.apostrophi.query("clipboard.writeText", {
         text: token,
       });
       if (!result.ok) throw new Error("Couldn't copy the token. Try again.");
@@ -32,11 +35,11 @@ export function RaycastRow() {
     setCopied(false);
     setError(null);
     try {
-      const { token } = await window.pond.query(
+      const { token } = await window.apostrophi.query(
         "settings.rotateIngestToken",
         {},
       );
-      const result = await window.pond.query("clipboard.writeText", {
+      const result = await window.apostrophi.query("clipboard.writeText", {
         text: token,
       });
       if (!result.ok)
@@ -54,8 +57,8 @@ export function RaycastRow() {
       <Settings.ItemDetails>
         <Settings.ItemTitle>Raycast</Settings.ItemTitle>
         <Settings.ItemDescription>
-          Connect the Raycast extension to Pond's local API. Treat this token
-          like a password.
+          Connect the Raycast extension to Apostrophi's local API. Treat this
+          token like a password.
           {error ? (
             <>
               <br />

@@ -9,8 +9,8 @@ import {
   IconNodes3,
   IconTrashXmark,
   IconWindowDownload,
-} from "@pond/icons";
-import { Button, Menu } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, Menu } from "@apostrophi/ui";
 import { useRouter, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChromeHistoryNav } from "@/app/components/chrome-toolbar";
@@ -138,7 +138,7 @@ function Breadcrumbs() {
             label: option.label,
             checked: folder.color === option.id,
             onCheckedChange: () =>
-              void window.pond
+              void window.apostrophi
                 .query("folders.setColor", {
                   id: folder.id,
                   color: option.id,

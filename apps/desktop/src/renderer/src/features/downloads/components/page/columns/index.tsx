@@ -1,5 +1,5 @@
-import { sourceLabel } from "@pond/schema/sources";
-import type { RenderRowArgs, TableColumn } from "@pond/ui";
+import { sourceLabel } from "@apostrophi/schema/sources";
+import type { RenderRowArgs, TableColumn } from "@apostrophi/ui";
 import type { DownloadActivity } from "@shared/download-activity";
 import { useDownloadClock } from "@/features/downloads/hooks/use-download-activity";
 import type { DownloadRow } from "@/features/downloads/lib/status-feed";

@@ -23,17 +23,17 @@ export async function probeTiktokHandle(
       },
     });
   } catch (err) {
-    log.warn("[pond tiktok-api] homepage fetch threw", err);
+    log.warn("[apostrophi tiktok-api] homepage fetch threw", err);
     return null;
   }
   const html = await res.text();
   const handle = uniqueIdFromTiktokHtml(html);
   if (handle) {
-    log.info("[pond tiktok-api] probed handle", handle);
+    log.info("[apostrophi tiktok-api] probed handle", handle);
     return handle;
   }
   if (!res.ok) {
-    log.warn("[pond tiktok-api] homepage fetch failed", res.status);
+    log.warn("[apostrophi tiktok-api] homepage fetch failed", res.status);
   }
   return null;
 }

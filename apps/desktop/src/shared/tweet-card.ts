@@ -1,4 +1,4 @@
-import type { Capture, CaptureMedia } from "@pond/schema/raw";
+import type { Capture, CaptureMedia } from "@apostrophi/schema/raw";
 import { z } from "zod";
 
 const TweetCardAuthorSchema = z.object({

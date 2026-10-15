@@ -114,7 +114,7 @@ export function useSearchResults(
           setResults(next);
         } catch (error) {
           if (!cancelled)
-            console.warn("[pond search] keyword search failed", error);
+            console.warn("[apostrophi search] keyword search failed", error);
         } finally {
           if (!cancelled) setSearching(false);
         }

@@ -1,5 +1,5 @@
-import type { JsonValue } from "@pond/schema/json";
-import type { Capture } from "@pond/schema/raw";
+import type { JsonValue } from "@apostrophi/schema/json";
+import type { Capture } from "@apostrophi/schema/raw";
 import {
   captureFromTweetDraft,
   draftFromDomHarvest,

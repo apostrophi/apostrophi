@@ -13,7 +13,7 @@ export const harvestingSection: SectionConfig = {
   ...videosSection,
   title: "Harvesting",
   description:
-    "Choose when Pond fetches updates and how new files are imported.",
+    "Choose when Apostrophi fetches updates and how new files are imported.",
   keywords: ["downloads", "fetch", "schedule", "sync", "images", "videos"],
   groups: [
     { title: "Fetch Schedule", render: () => <ScheduleSection /> },

@@ -4,7 +4,7 @@ import { assistant } from "./assistant";
 import { createAssistantHarness } from "./assistant.test-harness";
 
 it("appends shortcut actions without replacing the draft and rejects oversized insertions", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => [],
     onAgentChunk: () => () => {},
   });
@@ -44,7 +44,7 @@ it("keeps reference browsing scoped to a conversation without changing the draft
     source: "arena",
     url: "https://example.com",
   };
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string, args: { chatId?: string }) =>
       name === "agent.chats"
         ? []

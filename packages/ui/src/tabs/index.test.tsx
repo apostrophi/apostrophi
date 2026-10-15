@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { Tabs } from ".";
 
 describe("Tabs", () => {
-  it("renders Base UI tabs with shared Pond styling hooks", () => {
+  it("renders Base UI tabs with shared Apostrophi styling hooks", () => {
     const markup = renderToStaticMarkup(
       <Tabs.Root defaultValue="first">
         <Tabs.List aria-label="Example tabs">

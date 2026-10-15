@@ -2,7 +2,7 @@ import {
   formatListKinds,
   mergeListKinds,
   normalizeListKinds,
-} from "@pond/schema/list-kinds";
+} from "@apostrophi/schema/list-kinds";
 import { describe, expect, it } from "vitest";
 import { listKindsFromTrigger } from "./list-kinds";
 

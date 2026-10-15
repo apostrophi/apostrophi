@@ -14,7 +14,7 @@ describe("pickProducedFiles", () => {
   });
 
   it("keeps playlist order even when a later clip is larger", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "pond-ytdlp-out-"));
+    const dir = await mkdtemp(join(tmpdir(), "apostrophi-ytdlp-out-"));
     dirs.push(dir);
     await writeFile(join(dir, "quoted.mp4"), Buffer.alloc(200));
     await writeFile(

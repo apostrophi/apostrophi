@@ -9,12 +9,12 @@ import {
 import { selection } from "@/features/saves/navigation";
 import { toastManager } from "@/shared/lib/toast";
 import {
+  apostrophiQuery,
   createFolderSidebarHarness,
   fireDrag,
   folder,
   folderList,
   folderTransfer,
-  pondQuery,
 } from "./test-harness";
 
 function pointer(type: string, clientY: number): MouseEvent {
@@ -72,12 +72,12 @@ describe("folder sidebar drag and drop", () => {
       document.dispatchEvent(pointer("pointerup", 20));
     });
     await vi.waitFor(() =>
-      expect(pondQuery).toHaveBeenCalledWith("folders.move", {
+      expect(apostrophiQuery).toHaveBeenCalledWith("folders.move", {
         id: "Shots",
         parentId: "Travel",
       }),
     );
-    expect(pondQuery).not.toHaveBeenCalledWith(
+    expect(apostrophiQuery).not.toHaveBeenCalledWith(
       "folders.addSaves",
       expect.anything(),
     );
@@ -92,7 +92,7 @@ describe("folder sidebar drag and drop", () => {
       fireDrag(harness.button("Tickets"), "drop", transfer);
     });
     expect(
-      pondQuery.mock.calls.filter((call) => call[0] === "folders.move"),
+      apostrophiQuery.mock.calls.filter((call) => call[0] === "folders.move"),
     ).toEqual([]);
   });
 
@@ -106,7 +106,7 @@ describe("folder sidebar drag and drop", () => {
     await act(async () => {
       fireDrag(harness.button("Travel"), "drop", transfer);
     });
-    expect(pondQuery).toHaveBeenCalledWith("folders.addSaves", {
+    expect(apostrophiQuery).toHaveBeenCalledWith("folders.addSaves", {
       folderId: "Travel",
       saveIds: ["save-1"],
     });
@@ -132,7 +132,7 @@ describe("folder sidebar drag and drop", () => {
       fireDrag(target, "drop", transfer);
     });
     await vi.waitFor(() =>
-      expect(pondQuery).toHaveBeenCalledWith("folders.addSaves", {
+      expect(apostrophiQuery).toHaveBeenCalledWith("folders.addSaves", {
         folderId: "Travel",
         saveIds: ["drag-a", "drag-b"],
       }),
@@ -149,7 +149,7 @@ describe("folder sidebar drag and drop", () => {
     const transfer = folderTransfer();
     transfer.setData(SAVE_DRAG_TYPE, "save-1");
     await harness.mount();
-    pondQuery.mockRejectedValueOnce(new Error("Disk unavailable"));
+    apostrophiQuery.mockRejectedValueOnce(new Error("Disk unavailable"));
 
     await act(async () => {
       fireDrag(harness.button("Travel"), "drop", transfer);
@@ -170,9 +170,9 @@ describe("folder sidebar drag and drop", () => {
       fireDrag(harness.button("Travel"), "drop", folderTransfer("Shots"));
     });
     expect(
-      pondQuery.mock.calls.filter((call) => call[0] === "folders.move"),
+      apostrophiQuery.mock.calls.filter((call) => call[0] === "folders.move"),
     ).toEqual([]);
-    expect(pondQuery).not.toHaveBeenCalledWith(
+    expect(apostrophiQuery).not.toHaveBeenCalledWith(
       "folders.addSaves",
       expect.anything(),
     );

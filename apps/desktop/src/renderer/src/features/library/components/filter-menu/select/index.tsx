@@ -1,4 +1,4 @@
-import { Select } from "@pond/ui";
+import { Select } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import styles from "./styles.module.css";
 

@@ -1,4 +1,4 @@
-import { IconXmark } from "@pond/icons";
+import { IconXmark } from "@apostrophi/icons";
 import { clsx as cn } from "clsx";
 import type {
   ComponentProps,

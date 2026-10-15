@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { mkdir, readdir, realpath, stat, writeFile } from "node:fs/promises";
 import { basename, extname, join, relative, resolve, sep } from "node:path";
-import type { Folder, Save } from "@pond/schema/db";
+import type { Folder, Save } from "@apostrophi/schema/db";
 import { isAuxiliaryKind } from "@shared/save-file-names";
 import { z } from "zod";
 import { readBundleJson } from "../lib/library-config";
@@ -276,7 +276,7 @@ export async function exportFiles(input: {
   checkTransferCancellation();
   const manifest = await writeExportFile(
     root,
-    "pond-export.json",
+    "apostrophi-export.json",
     JSON.stringify(
       {
         version: 1,

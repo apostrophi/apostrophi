@@ -15,7 +15,7 @@ beforeEach(() => {
       disconnect() {}
     },
   );
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: vi.fn(async (name: string) => {
       if (name === "folders.metadata.get")
         return { description: null, externalLink: null };
@@ -83,7 +83,7 @@ it("renames the folder when the name changes", async () => {
       .find((candidate) => candidate.textContent?.trim() === "Save")
       ?.click(),
   );
-  expect(window.pond.query).toHaveBeenCalledWith("folders.rename", {
+  expect(window.apostrophi.query).toHaveBeenCalledWith("folders.rename", {
     id: "folder",
     name: "References",
   });

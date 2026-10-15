@@ -1,6 +1,6 @@
-import type { MediaType } from "@pond/schema/db";
-import { majorityMediaType } from "@pond/schema/media-type";
-import type { RawJson } from "@pond/schema/raw";
+import type { MediaType } from "@apostrophi/schema/db";
+import { majorityMediaType } from "@apostrophi/schema/media-type";
+import type { RawJson } from "@apostrophi/schema/raw";
 import {
   captureFromTweetDraft,
   draftFromRichPost,

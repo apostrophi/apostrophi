@@ -1,4 +1,4 @@
-import { type NewTask, type Source, saves, tasks } from "@pond/schema/db";
+import { type NewTask, type Source, saves, tasks } from "@apostrophi/schema/db";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { ulid } from "ulid";
@@ -127,7 +127,7 @@ export async function resetTasksForSave(
     .where(eq(saves.id, saveId))
     .run();
   if (isInteractiveTrigger(reason)) await promoteInteractiveTasks(saveId);
-  log.info("[pond pipeline:enqueue] reset tasks", { saveId, reason });
+  log.info("[apostrophi pipeline:enqueue] reset tasks", { saveId, reason });
 }
 
 export async function retryFailedSaves(
@@ -141,7 +141,7 @@ async function retryFailedSavesGeneration(
   ids?: readonly string[],
 ): Promise<RetryGenerationResult> {
   const result = await createRetryGeneration(ids);
-  log.info("[pond pipeline:enqueue] retry failed generation", {
+  log.info("[apostrophi pipeline:enqueue] retry failed generation", {
     generationId: result.generationId,
     requeued: result.queued,
     scoped: ids != null && ids.length > 0,

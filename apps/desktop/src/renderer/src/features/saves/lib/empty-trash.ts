@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 
 export function confirmEmptyTrash(): void {
   Dialog.confirm({
@@ -8,7 +8,7 @@ export function confirmEmptyTrash(): void {
     confirmLabel: "Empty Trash",
     busyLabel: "Emptying",
     onConfirm: async () => {
-      await window.pond.query("saves.emptyTrash", {});
+      await window.apostrophi.query("saves.emptyTrash", {});
     },
   });
 }

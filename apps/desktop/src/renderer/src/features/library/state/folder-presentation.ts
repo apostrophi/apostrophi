@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema";
+import type { Prefs } from "@apostrophi/schema";
 import { loadPrefs, savePrefsSection } from "@/shared/state/prefs";
 export type FolderPresentation = Prefs["folderViews"][string];
 const defaults: FolderPresentation = {
@@ -7,7 +7,7 @@ const defaults: FolderPresentation = {
   sortDir: "desc",
   zoom: 130,
   includeSubfolders: true,
-  randomSeed: "pond",
+  randomSeed: "apostrophi",
   manualOrder: [],
   pinnedIds: [],
   coverSaveId: null,

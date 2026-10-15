@@ -4,7 +4,7 @@ import {
   tagGroupMembers as tagGroupMembersTable,
   tagGroups as tagGroupsTable,
   tags as tagsTable,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { getDb } from "../db";
@@ -149,7 +149,7 @@ export async function hydrateTagsFromBundle(): Promise<void> {
   if (!read || !bundle.tags) {
     if (indexHasRows) {
       await dumpTagsToBundle();
-      log.info("[pond tags-bundle] seeded tags.json from index");
+      log.info("[apostrophi tags-bundle] seeded tags.json from index");
     }
     return;
   }
@@ -193,7 +193,9 @@ export async function hydrateTagsFromBundle(): Promise<void> {
   })();
 
   if (inserted > 0) {
-    log.info(`[pond tags-bundle] hydrated ${inserted} rows from tags.json`);
+    log.info(
+      `[apostrophi tags-bundle] hydrated ${inserted} rows from tags.json`,
+    );
   }
   await dumpTagsToBundle();
 }

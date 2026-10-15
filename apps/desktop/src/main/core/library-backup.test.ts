@@ -25,9 +25,9 @@ afterEach(async () => {
 });
 
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-backup-test-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-backup-test-"));
   roots.push(root);
-  const source = join(root, "Source.pond");
+  const source = join(root, "Source.apostrophi");
   const item = join(source, "items", "save.info");
   await mkdir(item, { recursive: true });
   const bytes = Buffer.from("original image bytes");
@@ -49,7 +49,7 @@ async function fixture() {
       ],
     }),
   );
-  return { root, source, item, destination: join(root, "Backup.pond") };
+  return { root, source, item, destination: join(root, "Backup.apostrophi") };
 }
 
 describe("verified library backup", () => {
@@ -72,7 +72,7 @@ describe("verified library backup", () => {
   it("restores a separate editable library while leaving the verified snapshot untouched", async () => {
     const { root, source, destination } = await fixture();
     await createLibraryBackup({ source, destination });
-    const restored = join(root, "Restored.pond");
+    const restored = join(root, "Restored.apostrophi");
     expect(
       (
         await restoreLibraryBackup({
@@ -110,7 +110,7 @@ describe("verified library backup", () => {
         },
       }),
     ).rejects.toThrow("changed during backup");
-    expect(await readdir(root)).toEqual(["Source.pond"]);
+    expect(await readdir(root)).toEqual(["Source.apostrophi"]);
   });
 
   it("rejects damaged originals before publishing and detects later backup corruption", async () => {

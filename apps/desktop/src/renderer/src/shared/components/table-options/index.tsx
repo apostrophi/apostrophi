@@ -2,8 +2,8 @@ import {
   IconAscendingSorting,
   IconDescendingSorting,
   IconSliders,
-} from "@pond/icons";
-import { Button, Popover, Select, Toggle, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, Popover, Select, Toggle, Tooltip } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import { useState } from "react";
 import type {

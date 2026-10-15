@@ -31,8 +31,8 @@ export function ViewerFallback({
 }: ViewerFallbackProps) {
   const detail =
     reason === "preview"
-      ? "Pond couldn't create a compatible preview. Open or export the original file."
-      : "Pond couldn't decode this file. Open or export the original file.";
+      ? "Apostrophi couldn't create a compatible preview. Open or export the original file."
+      : "Apostrophi couldn't decode this file. Open or export the original file.";
 
   return (
     <div className={styles.root} data-viewer-fallback>

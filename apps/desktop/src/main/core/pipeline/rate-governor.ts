@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import {
   AT_RISK_PARK_MS,
@@ -73,7 +73,7 @@ function noteBudgetPark(source: Source, until: number): void {
   budgetParkLogged.set(source, until);
   const p = profile(source);
   log.warn(
-    `[pond governor] ${source} hit its request ceiling (${p.maxPerHour}/h, ${p.maxPerDay}/day); parked for ${Math.ceil((until - now()) / 60_000)}m`,
+    `[apostrophi governor] ${source} hit its request ceiling (${p.maxPerHour}/h, ${p.maxPerDay}/day); parked for ${Math.ceil((until - now()) / 60_000)}m`,
   );
 }
 
@@ -84,7 +84,7 @@ export function setSourceCooldown(source: Source, ms: number): void {
   const prev = cooldownUntil.get(source) ?? 0;
   if (until <= prev) return;
   cooldownUntil.set(source, until);
-  log.info("[pond governor] cooldown set", { source, ms });
+  log.info("[apostrophi governor] cooldown set", { source, ms });
   void transitionSourceGate({
     source,
     state: "open",
@@ -114,7 +114,7 @@ export function noteTransientFailure(source: Source): void {
     const prev = breakerUntil.get(source) ?? 0;
     if (until > prev) {
       breakerUntil.set(source, until);
-      log.warn("[pond governor] circuit breaker tripped", { source });
+      log.warn("[apostrophi governor] circuit breaker tripped", { source });
       schedulePersist(true);
     }
   }
@@ -140,7 +140,11 @@ export function noteSuccess(source: Source): void {
 export function markAtRisk(source: Source, kind: AtRiskKind, note = ""): void {
   loadState();
   atRisk.set(source, { source, kind, since: now(), note });
-  log.warn("[pond governor] source marked at-risk", { source, kind, note });
+  log.warn("[apostrophi governor] source marked at-risk", {
+    source,
+    kind,
+    note,
+  });
   void transitionSourceGate({
     source,
     state: "open",

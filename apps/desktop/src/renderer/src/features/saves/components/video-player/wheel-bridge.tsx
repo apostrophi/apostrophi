@@ -1,4 +1,4 @@
-import { stepVolume, useVideo } from "@pond/ui";
+import { stepVolume, useVideo } from "@apostrophi/ui";
 import { useEffect, useRef } from "react";
 import { usePrefs } from "@/shared/state/prefs";
 

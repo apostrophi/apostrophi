@@ -1,9 +1,9 @@
-import { QuerySchema } from "@pond/schema/filters";
+import { QuerySchema } from "@apostrophi/schema/filters";
 import {
   type LocalApiLibraryQueryRequest,
   LocalApiLibraryQueryRequestSchema,
   type LocalApiQueryPage,
-} from "@pond/schema/local-api";
+} from "@apostrophi/schema/local-api";
 
 export type LibraryQueryRequest = LocalApiLibraryQueryRequest;
 export type LibraryQueryPage = LocalApiQueryPage;

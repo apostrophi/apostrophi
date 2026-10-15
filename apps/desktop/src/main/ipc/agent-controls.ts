@@ -1,9 +1,9 @@
-import { PrefsSchema, SOURCES } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
-import { SETTINGS_SECTIONS } from "@pond/schema/settings";
+import { PrefsSchema, SOURCES } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
+import { SETTINGS_SECTIONS } from "@apostrophi/schema/settings";
 import { z } from "zod";
 import { IPC, type MenuActionId } from "../../shared/constants";
-import type { PondOperation } from "../core/agent/operations";
+import type { ApostrophiOperation } from "../core/agent/operations";
 import {
   isAllPaused,
   pauseAll,
@@ -44,10 +44,10 @@ import { setPendingSessionSource } from "../pending-session";
 function operation<Params>(
   name: string,
   description: string,
-  access: PondOperation["access"],
+  access: ApostrophiOperation["access"],
   schema: z.ZodType<Params>,
   execute: (params: Params) => Promise<JsonValue>,
-): PondOperation {
+): ApostrophiOperation {
   return {
     name,
     description,
@@ -100,7 +100,7 @@ const viewCommands = [
   "view.grayscale",
 ] as const satisfies readonly MenuActionId[];
 
-export const agentControlOperations: PondOperation[] = [
+export const agentControlOperations: ApostrophiOperation[] = [
   operation(
     "settings.preferenceSchema",
     "Read valid preference field names and enum choices. Read this and settings.getPrefs before settings.setPrefs; send only requested fields in the patch.",
@@ -147,7 +147,7 @@ export const agentControlOperations: PondOperation[] = [
   ...Object.entries(nativeFlows).map(([command, label]) =>
     operation(
       `navigation.${command}`,
-      `${label} using Pond's existing dialog. Returns immediately after opening the flow; the user completes the native dialog. Library transitions restart Pond and end the active chat. Do not claim the operation is finished.`,
+      `${label} using Apostrophi's existing dialog. Returns immediately after opening the flow; the user completes the native dialog. Library transitions restart Apostrophi and end the active chat. Do not claim the operation is finished.`,
       "read",
       empty,
       async () => {
@@ -158,21 +158,21 @@ export const agentControlOperations: PondOperation[] = [
   ),
   operation(
     "history.status",
-    "Read whether Pond has an operation available to Undo or Redo.",
+    "Read whether Apostrophi has an operation available to Undo or Redo.",
     "read",
     empty,
     async () => ({ canUndo: canUndo(), canRedo: canRedo() }),
   ),
   operation(
     "history.undo",
-    "Undo the latest operation recorded in Pond's global Undo history. Read history.status first; applies to the latest app action, not necessarily an Assistant action.",
+    "Undo the latest operation recorded in Apostrophi's global Undo history. Read history.status first; applies to the latest app action, not necessarily an Assistant action.",
     "review",
     empty,
     async () => ({ ok: await undo(), canUndo: canUndo(), canRedo: canRedo() }),
   ),
   operation(
     "history.redo",
-    "Redo the latest undone operation in Pond's global history.",
+    "Redo the latest undone operation in Apostrophi's global history.",
     "review",
     empty,
     async () => ({ ok: await redo(), canUndo: canUndo(), canRedo: canRedo() }),
@@ -261,7 +261,7 @@ export const agentControlOperations: PondOperation[] = [
   ),
   operation(
     "sync.resumeSource",
-    "Resume a paused source through Pond's rate governor.",
+    "Resume a paused source through Apostrophi's rate governor.",
     "review",
     sourceInput,
     async ({ source }) => {

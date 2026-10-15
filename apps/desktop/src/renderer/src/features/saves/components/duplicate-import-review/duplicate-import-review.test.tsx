@@ -52,7 +52,7 @@ const query = vi.fn(async (name: string, _args?: WireJson) => {
 
 beforeEach(() => {
   query.mockClear();
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   vi.stubGlobal(
     "ResizeObserver",
     class {

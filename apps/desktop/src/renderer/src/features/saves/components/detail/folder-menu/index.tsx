@@ -1,12 +1,12 @@
 import {
   IconChevronRight as ChevronRight,
   IconPlus as Plus,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import {
   PickerPanel,
   type PickerSelectionState,
   usePickerCursor,
-} from "@pond/ui";
+} from "@apostrophi/ui";
 import { type CSSProperties, useMemo, useState } from "react";
 import {
   FolderIcon,

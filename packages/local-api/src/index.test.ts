@@ -1,6 +1,6 @@
-import type { JsonValue } from "@pond/schema/json";
+import type { JsonValue } from "@apostrophi/schema/json";
 import { describe, expect, it, vi } from "vitest";
-import { PondLocalApi, PondLocalApiError } from "./index";
+import { ApostrophiLocalApi, ApostrophiLocalApiError } from "./index";
 
 function response(body: JsonValue, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -9,10 +9,10 @@ function response(body: JsonValue, status = 200): Response {
   });
 }
 
-describe("PondLocalApi", () => {
+describe("ApostrophiLocalApi", () => {
   it("rejects non-loopback endpoints by default", () => {
     expect(
-      () => new PondLocalApi({ baseUrl: "https://example.com/api/v2" }),
+      () => new ApostrophiLocalApi({ baseUrl: "https://example.com/api/v2" }),
     ).toThrow("loopback");
   });
 
@@ -21,14 +21,14 @@ describe("PondLocalApi", () => {
       response({
         status: "success",
         data: {
-          name: "pond",
+          name: "apostrophi",
           version: "1.2.3",
           platform: "darwin",
           arch: "arm64",
         },
       }),
     );
-    const client = new PondLocalApi({
+    const client = new ApostrophiLocalApi({
       token: async () => "secret",
       fetch: fetcher,
     });
@@ -50,7 +50,7 @@ describe("PondLocalApi", () => {
           headers: { "content-type": "image/png" },
         }),
     );
-    const client = new PondLocalApi({ token: "secret", fetch: fetcher });
+    const client = new ApostrophiLocalApi({ token: "secret", fetch: fetcher });
     await expect(client.thumbnail("save 1")).resolves.toEqual({
       type: "image/png",
       bytes: new Uint8Array([137, 80, 78, 71]),
@@ -64,14 +64,14 @@ describe("PondLocalApi", () => {
   });
 
   it("returns no thumbnail when the Save has no cover", async () => {
-    const client = new PondLocalApi({
+    const client = new ApostrophiLocalApi({
       fetch: async () => response({ status: "error", error: "no cover" }, 404),
     });
     await expect(client.thumbnail("save")).resolves.toBeNull();
   });
 
   it("rejects thumbnail requests with a stale token", async () => {
-    const client = new PondLocalApi({
+    const client = new ApostrophiLocalApi({
       fetch: async () =>
         response({ status: "error", error: "unauthorized" }, 401),
     });
@@ -81,11 +81,13 @@ describe("PondLocalApi", () => {
   });
 
   it("maps API failures to typed errors", async () => {
-    const client = new PondLocalApi({
+    const client = new ApostrophiLocalApi({
       fetch: async () =>
         response({ status: "error", error: "unauthorized" }, 401),
     });
-    await expect(client.appInfo()).rejects.toBeInstanceOf(PondLocalApiError);
+    await expect(client.appInfo()).rejects.toBeInstanceOf(
+      ApostrophiLocalApiError,
+    );
     await expect(client.appInfo()).rejects.toMatchObject({
       kind: "authentication",
       status: 401,

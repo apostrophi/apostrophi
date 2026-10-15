@@ -64,7 +64,7 @@ it("keeps ordinary numbered citations working alongside bare references", () => 
   expect(html).toContain("invalid [1, 7]");
 });
 
-it("renders bare bold references as Pond Save controls with verified titles", () => {
+it("renders bare bold references as Apostrophi Save controls with verified titles", () => {
   const sources = Array.from({ length: 6 }, (_, index) => ({
     id: `save-${index + 1}`,
     title:

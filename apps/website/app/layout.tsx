@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const SITE_URL = "https://pond.raphaelsalaja.com";
-const TITLE = "Pond";
+// Set SITE_URL to the production domain at build time.
+const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
+const TITLE = "Apostrophi";
 const DESCRIPTION =
   "Keep what you save on X, Instagram, Pinterest, and more in a folder on your Mac. Free and open source.";
 

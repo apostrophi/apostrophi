@@ -1,6 +1,6 @@
 import { resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { isThumbnailKind } from "@shared/save-file-names";
 import { eq } from "drizzle-orm";
 import { ClipboardItem, clipboard, nativeImage } from "electron";
@@ -53,7 +53,7 @@ export const savesClipboardQueries = {
         ]);
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] saves.copyImage failed", error);
+        log.warn("[apostrophi ipc] saves.copyImage failed", error);
         return { ok: false, reason: "internal_error" };
       }
     },
@@ -87,7 +87,7 @@ export const savesClipboardQueries = {
         ]);
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] saves.copyThumbnail failed", error);
+        log.warn("[apostrophi ipc] saves.copyThumbnail failed", error);
         return { ok: false, reason: "internal_error" };
       }
     },
@@ -105,7 +105,7 @@ export const savesClipboardQueries = {
         );
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] saves.copyBase64 failed", error);
+        log.warn("[apostrophi ipc] saves.copyBase64 failed", error);
         return { ok: false, reason: "internal_error" };
       }
     },
@@ -121,7 +121,7 @@ export const savesClipboardQueries = {
         await writeFileRefsToClipboard([target.path]);
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] saves.copyFile failed", error);
+        log.warn("[apostrophi ipc] saves.copyFile failed", error);
         return { ok: false, reason: "internal_error" };
       }
     },
@@ -144,7 +144,7 @@ export const savesClipboardQueries = {
         await writeFileRefsToClipboard(paths);
         return { ok: true, copied: paths.length };
       } catch (error) {
-        log.warn("[pond ipc] saves.copyFiles failed", error);
+        log.warn("[apostrophi ipc] saves.copyFiles failed", error);
         return { ok: false, reason: "internal_error" };
       }
     },
@@ -159,7 +159,7 @@ export const savesClipboardQueries = {
         await clipboard.writeText(params.text);
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] clipboard.writeText failed", error);
+        log.warn("[apostrophi ipc] clipboard.writeText failed", error);
         return { ok: false, error: "Couldn't copy to the clipboard." };
       }
     },

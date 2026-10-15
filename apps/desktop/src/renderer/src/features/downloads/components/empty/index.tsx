@@ -1,5 +1,5 @@
-import { IconWindowDownloadFill } from "@pond/icons";
-import { Button, Empty } from "@pond/ui";
+import { IconWindowDownloadFill } from "@apostrophi/icons";
+import { Button, Empty } from "@apostrophi/ui";
 import { getAppRouter } from "@/shared/lib/app-router";
 
 export function DownloadsEmpty() {
@@ -10,7 +10,7 @@ export function DownloadsEmpty() {
       </Empty.Media>
       <Empty.Title>No downloads yet</Empty.Title>
       <Empty.Description>
-        Files appear here while Pond downloads them for your library.
+        Files appear here while Apostrophi downloads them for your library.
       </Empty.Description>
       <Empty.Action>
         <Button

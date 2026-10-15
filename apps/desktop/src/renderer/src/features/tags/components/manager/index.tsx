@@ -1,5 +1,15 @@
-import { IconBookmarkFill, IconMagnifier as Magnifier } from "@pond/icons";
-import { Accordion, Button, DataTable, Empty, Input, Settings } from "@pond/ui";
+import {
+  IconBookmarkFill,
+  IconMagnifier as Magnifier,
+} from "@apostrophi/icons";
+import {
+  Accordion,
+  Button,
+  DataTable,
+  Empty,
+  Input,
+  Settings,
+} from "@apostrophi/ui";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useMemo, useRef } from "react";
 import { useTagCreation } from "@/features/tags/hooks/use-tag-creation";

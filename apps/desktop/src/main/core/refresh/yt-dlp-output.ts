@@ -1,7 +1,7 @@
 import { readdir, readFile, stat } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
-import type { RawYtdlp } from "@pond/schema/raw";
-import { RawYtdlpSchema } from "@pond/schema/raw-schema";
+import type { RawYtdlp } from "@apostrophi/schema/raw";
+import { RawYtdlpSchema } from "@apostrophi/schema/raw-schema";
 
 export interface SubtitleFile {
   path: string;

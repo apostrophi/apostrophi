@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { folders, saveFolders, saves } from "@pond/schema/db";
+import { folders, saveFolders, saves } from "@apostrophi/schema/db";
 import { eq, inArray } from "drizzle-orm";
 import type { Db } from "../db";
 import { StoredInfoDocSchema } from "../lib/library-format";

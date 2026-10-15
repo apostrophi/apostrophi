@@ -45,8 +45,8 @@ describe("buildMediaUnits video posters", () => {
     });
 
     expect(buildMediaUnits(save).map((unit) => unit.posterUrl)).toEqual([
-      "pond://multi-video/poster.jpg?v=abcdef123456",
-      "pond://multi-video/poster.jpg?v=abcdef123456",
+      "apostrophi://multi-video/poster.jpg?v=abcdef123456",
+      "apostrophi://multi-video/poster.jpg?v=abcdef123456",
     ]);
   });
 
@@ -63,7 +63,7 @@ describe("buildMediaUnits video posters", () => {
     expect(buildMediaUnits(save)).toEqual([
       {
         key: "cover.jpg",
-        url: "pond://image-cover/cover.jpg?v=abcdef123456",
+        url: "apostrophi://image-cover/cover.jpg?v=abcdef123456",
         isVideo: false,
       },
     ]);
@@ -79,7 +79,7 @@ describe("buildMediaUnits video posters", () => {
     expect(buildMediaUnits(save)).toEqual([
       {
         key: "cover.",
-        url: "pond://bare-cover/cover.?v=abcdef123456",
+        url: "apostrophi://bare-cover/cover.?v=abcdef123456",
         isVideo: false,
       },
     ]);

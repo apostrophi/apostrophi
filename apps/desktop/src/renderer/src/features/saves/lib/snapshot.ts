@@ -6,7 +6,7 @@ import {
 import { pool } from "@/features/saves/state/pool";
 import type { Save } from "@/features/saves/types";
 
-const DB_NAME = "pond-pool";
+const DB_NAME = "apostrophi-pool";
 const STORE = "snapshot";
 const VERSION = 1;
 const SNAPSHOT_LIMIT = 250;
@@ -45,7 +45,7 @@ export async function readSnapshot(): Promise<Array<SavePatch | null>> {
       req.onerror = () => reject(req.error);
     });
   } catch (err) {
-    console.warn("[pond pool] snapshot read failed", err);
+    console.warn("[apostrophi pool] snapshot read failed", err);
     return [];
   }
 }
@@ -72,6 +72,6 @@ async function writeSnapshot(saves: ReadonlyArray<Save>): Promise<void> {
       for (const save of saves) store.put(save);
     });
   } catch (err) {
-    console.warn("[pond pool] snapshot write failed", err);
+    console.warn("[apostrophi pool] snapshot write failed", err);
   }
 }

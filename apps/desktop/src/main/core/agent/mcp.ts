@@ -69,10 +69,10 @@ function withAccess<Args extends unknown[]>(
   };
 }
 
-export async function startPondMcp(): Promise<void> {
+export async function startApostrophiMcp(): Promise<void> {
   log.transports.console.level = false;
   const server = new McpServer({
-    name: "pond",
+    name: "apostrophi",
     version: "0.0.1",
   });
 
@@ -98,7 +98,7 @@ export async function startPondMcp(): Promise<void> {
     "search_library",
     {
       description:
-        "Search saves in the local Pond library. Supports media probes via saveId or a media embedding vector.",
+        "Search saves in the local Apostrophi library. Supports media probes via saveId or a media embedding vector.",
       inputSchema: searchLibraryInput,
     },
     withAccess("search", async (args) =>
@@ -130,7 +130,7 @@ export async function startPondMcp(): Promise<void> {
   server.registerTool(
     "list_folders",
     {
-      description: "List folders in the Pond library.",
+      description: "List folders in the Apostrophi library.",
       inputSchema: listFoldersInput,
     },
     withAccess("search", async () => textResult(await listLibraryFolders())),
@@ -138,7 +138,7 @@ export async function startPondMcp(): Promise<void> {
   server.registerTool(
     "open_save",
     {
-      description: "Focus Pond on a save.",
+      description: "Focus Apostrophi on a save.",
       inputSchema: openSaveInput,
     },
     withAccess("open", async (args) =>
@@ -148,7 +148,7 @@ export async function startPondMcp(): Promise<void> {
   server.registerTool(
     "apply_filter",
     {
-      description: "Apply a structured filter to the Pond Library grid.",
+      description: "Apply a structured filter to the Apostrophi Library grid.",
       inputSchema: applyFilterInput,
     },
     withAccess("open", async (args) =>
@@ -160,7 +160,7 @@ export async function startPondMcp(): Promise<void> {
     "list_conversion_capabilities",
     {
       description:
-        "List image, animation, and video conversion formats available in this Pond build.",
+        "List image, animation, and video conversion formats available in this Apostrophi build.",
       inputSchema: z.object({}),
       annotations: { readOnlyHint: true },
     },

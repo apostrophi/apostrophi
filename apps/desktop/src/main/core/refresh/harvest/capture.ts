@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import type { Capture } from "@pond/schema/raw";
+import type { Source } from "@apostrophi/schema/db";
+import type { Capture } from "@apostrophi/schema/raw";
 import type { ReportDownloadActivity } from "@shared/download-activity";
 import {
   AuthRequiredError,

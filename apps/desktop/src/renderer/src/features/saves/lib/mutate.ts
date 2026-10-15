@@ -1,5 +1,5 @@
-import type { NewSave } from "@pond/schema/db";
-import type { Transaction, TxMeta } from "@pond/schema/tx";
+import type { NewSave } from "@apostrophi/schema/db";
+import type { Transaction, TxMeta } from "@apostrophi/schema/tx";
 import { optimistic } from "@/features/saves/lib/optimistic";
 import { pool } from "@/features/saves/state/pool";
 import type { Save } from "@/features/saves/types";
@@ -78,7 +78,7 @@ export async function mutateSave(
   const result = await optimistic(
     () => pool.upsert({ ...prev, ...patch }),
     () => pool.upsert(prev),
-    async () => window.pond.tx(tx),
+    async () => window.apostrophi.tx(tx),
   );
   if (result === null && opts.throwOnError)
     throw new Error(
@@ -92,7 +92,8 @@ export async function setSaveTags(id: string, tags: string[]): Promise<void> {
   await optimistic(
     () => pool.upsert({ ...prev, tags }),
     () => pool.upsert(prev),
-    async () => window.pond.query("tags.setForSave", { saveId: id, tags }),
+    async () =>
+      window.apostrophi.query("tags.setForSave", { saveId: id, tags }),
   );
 }
 
@@ -102,7 +103,7 @@ export async function trashSave(id: string): Promise<void> {
   await optimistic(
     () => pool.upsert({ ...prev, deletedAt: Date.now() }),
     () => pool.upsert(prev),
-    async () => window.pond.tx({ kind: "trash", model: "save", id }),
+    async () => window.apostrophi.tx({ kind: "trash", model: "save", id }),
   );
   emitFeedback("saveDeletion");
 }
@@ -113,7 +114,7 @@ export async function untrashSave(id: string): Promise<void> {
   await optimistic(
     () => pool.upsert({ ...prev, deletedAt: null }),
     () => pool.upsert(prev),
-    async () => window.pond.tx({ kind: "untrash", model: "save", id }),
+    async () => window.apostrophi.tx({ kind: "untrash", model: "save", id }),
   );
 }
 
@@ -124,7 +125,7 @@ export async function purgeSave(id: string): Promise<void> {
     () => pool.delete(id),
     () => pool.upsert(prev),
     async () =>
-      window.pond.tx({
+      window.apostrophi.tx({
         kind: "purge",
         model: "save",
         id,
@@ -159,7 +160,7 @@ export async function bulkMutation(
       pool.upsert({ ...save, tags: operation.tags });
   }
   try {
-    const result = await window.pond.query("saves.bulkEdit", {
+    const result = await window.apostrophi.query("saves.bulkEdit", {
       ids: targets,
       operation,
       ...opts,

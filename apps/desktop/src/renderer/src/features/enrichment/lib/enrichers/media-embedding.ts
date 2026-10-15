@@ -5,7 +5,7 @@ import {
 } from "@shared/embeddings";
 import { setMediaEmbedding } from "@/features/enrichment/state/media-embedding-store";
 import {
-  buildPondUrl,
+  buildApostrophiUrl,
   deriveTypeKind,
   pickPrimaryFile,
   pickPrimaryUnit,
@@ -87,7 +87,7 @@ function mediaUrl(save: Save, kind: EmbeddableMedia): string | null {
     if (unit?.isVideo) return unit.url;
   }
   const file = pickPrimaryFile(save);
-  return file ? buildPondUrl(save.id, file) : null;
+  return file ? buildApostrophiUrl(save.id, file) : null;
 }
 
 function normalize(vector: Float32Array): Float32Array {
@@ -119,7 +119,7 @@ async function sampleVideo(
   url: string,
   options: VideoSampleOptions,
 ): Promise<SampledVideo | null> {
-  const result = await window.pond.query("video.sampleFrames", {
+  const result = await window.apostrophi.query("video.sampleFrames", {
     src: url,
     maxFrames: options.maxFrames,
     strategy: "embedding",

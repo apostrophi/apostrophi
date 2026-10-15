@@ -1,4 +1,4 @@
-import { Chip } from "@pond/ui";
+import { Chip } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import type { ComponentProps } from "react";
 import { libraryHeader } from "@/features/library/state/library-header";

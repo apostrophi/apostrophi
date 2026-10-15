@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
@@ -313,7 +313,7 @@ it("shows watch properties and the fetch error", async () => {
           { label: "Source", value: "YouTube" },
           { label: "Type", value: "Playlist" },
           { label: "Saved Items", value: "42" },
-          { label: "Connected Via", value: "@pond" },
+          { label: "Connected Via", value: "@apostrophi" },
         ]}
       />,
     );
@@ -324,7 +324,7 @@ it("shows watch properties and the fetch error", async () => {
 });
 
 it("shows watched folder details with its folder actions", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "autoImport.status")
         return {

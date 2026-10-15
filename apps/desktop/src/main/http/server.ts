@@ -82,7 +82,7 @@ function buildApp(): Hono {
     return c.json({
       status: "success",
       data: {
-        name: "pond",
+        name: "apostrophi",
         version: electronApp.getVersion(),
         platform: process.platform,
         arch: process.arch,
@@ -112,7 +112,10 @@ function buildApp(): Hono {
     if (!expected || !presented || presented !== expected) {
       const tripped = recordAuthFailure(ip);
       if (tripped) {
-        log.warn("[pond http] rate limited after repeated auth failures", ip);
+        log.warn(
+          "[apostrophi http] rate limited after repeated auth failures",
+          ip,
+        );
       }
       return c.json({ status: "error", error: "unauthorized" }, 401);
     }
@@ -140,7 +143,7 @@ function buildApp(): Hono {
 
   api.notFound((c) => c.json({ status: "error", error: "not found" }, 404));
   api.onError((err, c) => {
-    log.error("[pond http] unhandled error", err);
+    log.error("[apostrophi http] unhandled error", err);
     return c.json({ status: "error", error: String(err) }, 500);
   });
 
@@ -169,7 +172,9 @@ export async function startHttpServer(
     server.once("error", reject);
   });
 
-  log.info(`[pond http] listening on http://${host}:${preferredPort}/api/v2/`);
+  log.info(
+    `[apostrophi http] listening on http://${host}:${preferredPort}/api/v2/`,
+  );
 
   return {
     server: nodeServer,

@@ -106,7 +106,7 @@ export async function extractPageAssets(
       queued: draft.items.length,
     };
   } catch (err) {
-    log.warn("[pond page-extract] failed", href, err);
+    log.warn("[apostrophi page-extract] failed", href, err);
     return {
       ok: false,
       imported: 0,

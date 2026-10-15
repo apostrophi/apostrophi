@@ -1,5 +1,5 @@
-import { IconCopy, IconFloppyDisk, IconImagePlus } from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconCopy, IconFloppyDisk, IconImagePlus } from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { createElement } from "react";
 import {
   copyVideoFrame,

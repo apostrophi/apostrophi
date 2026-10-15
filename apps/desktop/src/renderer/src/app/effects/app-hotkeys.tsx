@@ -91,7 +91,7 @@ export function AppHotkeys() {
     if (loaded) configureShortcuts(preferences);
   }, [preferences, loaded]);
   useEffect(() => {
-    return window.pond.onShortcutAction((id) => {
+    return window.apostrophi.onShortcutAction((id) => {
       if (isEditableTarget()) return;
       if (id === "view.layout-cycle") cycleLayout();
     });
@@ -284,14 +284,14 @@ export function AppHotkeys() {
       {
         hotkey: bindingKeys(shortcuts, "sources.sync-all"),
         callback: () => {
-          void window.pond.syncRunAll();
+          void window.apostrophi.syncRunAll();
         },
         options: { ignoreInputs: true },
       },
       {
         hotkey: bindingKeys(shortcuts, "library.rescan"),
         callback: () => {
-          void window.pond.query("library.rescan", {});
+          void window.apostrophi.query("library.rescan", {});
         },
         options: { ignoreInputs: true },
       },

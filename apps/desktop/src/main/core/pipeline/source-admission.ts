@@ -2,8 +2,8 @@ import type {
   Source,
   SourceGateReason,
   SourceGateState,
-} from "@pond/schema/db";
-import { syncConfigFor } from "@pond/schema/sources";
+} from "@apostrophi/schema/db";
+import { syncConfigFor } from "@apostrophi/schema/sources";
 import type Database from "better-sqlite3";
 import { z } from "zod";
 import { getDb } from "../../db";

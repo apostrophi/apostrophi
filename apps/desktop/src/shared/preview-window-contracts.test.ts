@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema/db";
+import { DEFAULT_PREFS } from "@apostrophi/schema/db";
 import { describe, expect, it } from "vitest";
 import {
   PreviewFileActionSchema,
@@ -116,7 +116,7 @@ describe("preview window contracts", () => {
         fileIndex: 0,
         kind: "presentation",
         title: "Reference",
-        url: "pond://save/image.png",
+        url: "apostrophi://save/image.png",
         originalPath: "image.png",
         mediaType: "image",
         source: "original",

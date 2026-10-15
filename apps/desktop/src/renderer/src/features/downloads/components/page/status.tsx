@@ -1,4 +1,4 @@
-import { sourceLabel } from "@pond/schema/sources";
+import { sourceLabel } from "@apostrophi/schema/sources";
 import type { DownloadRow } from "@/features/downloads/lib/status-feed";
 
 export type DownloadTableStatus =

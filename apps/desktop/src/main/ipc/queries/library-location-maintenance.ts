@@ -25,7 +25,7 @@ import { mergeLibraryFrom } from "../../core/transfer-operations";
 import { closeDb } from "../../db";
 import { libraryRoot as libraryRootDir } from "../../paths";
 import {
-  ensurePondSuffix,
+  ensureApostrophiSuffix,
   recentLibrariesFile,
 } from "./library-location-paths";
 import {
@@ -137,9 +137,13 @@ export const libraryLocationMaintenanceQueries = {
         const win = BrowserWindow.getFocusedWindow() ?? undefined;
         const dialogOpts = {
           title: "Move Library",
-          nameFieldLabel: "Pond Name:",
+          nameFieldLabel: "Apostrophi Name:",
           buttonLabel: "Move",
-          defaultPath: join(app.getPath("home"), "Pond", "My Pond.pond"),
+          defaultPath: join(
+            app.getPath("home"),
+            "Apostrophi",
+            "My Apostrophi.apostrophi",
+          ),
           properties: ["createDirectory" as const],
         };
         const result = win
@@ -151,7 +155,10 @@ export const libraryLocationMaintenanceQueries = {
         dest = result.filePath;
       }
 
-      const destResolved = resolve(ensurePondSuffix(dest)).replace(/\/+$/, "");
+      const destResolved = resolve(ensureApostrophiSuffix(dest)).replace(
+        /\/+$/,
+        "",
+      );
       const srcResolved = resolve(src);
 
       if (srcResolved === destResolved) {

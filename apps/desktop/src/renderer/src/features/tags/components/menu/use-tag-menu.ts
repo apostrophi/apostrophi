@@ -1,5 +1,5 @@
-import { normalizeLabelName } from "@pond/schema/label-name";
-import { usePickerCursor } from "@pond/ui";
+import { normalizeLabelName } from "@apostrophi/schema/label-name";
+import { usePickerCursor } from "@apostrophi/ui";
 import { useMemo, useState } from "react";
 import { tagOperations } from "@/features/tags/operations/tag-client";
 import type { TagGroupRow } from "@/features/tags/state/tag-groups";

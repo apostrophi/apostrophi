@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { z } from "zod";
-import { migratePond } from "../../database/migrations";
+import { migrateApostrophi } from "../../database/migrations";
 import { claimSourceProbe, inspectSourceAdmission } from "./source-admission";
 import {
   extendOwnedLeasesSync,
@@ -24,7 +24,7 @@ describe.skipIf(!nativeSqliteAvailable())("Queue V2 simulations", () => {
 
   beforeEach(() => {
     sqlite = new Database(":memory:");
-    migratePond(sqlite);
+    migrateApostrophi(sqlite);
   });
 
   afterEach(() => sqlite.close());

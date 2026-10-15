@@ -1,5 +1,5 @@
-import { IconAscendingSorting, IconEyeFill, IconGrid } from "@pond/icons";
-import { Button, Popover, Tooltip } from "@pond/ui";
+import { IconAscendingSorting, IconEyeFill, IconGrid } from "@apostrophi/icons";
+import { Button, Popover, Tooltip } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import {
   libraryHeader,

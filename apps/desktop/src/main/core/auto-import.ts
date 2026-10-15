@@ -67,7 +67,7 @@ export async function startAutoImport(): Promise<void> {
     directory.startsWith(`${root}${sep}`) ||
     root.startsWith(`${directory}${sep}`)
   ) {
-    log.warn("[pond auto-import] watched folder overlaps the library");
+    log.warn("[apostrophi auto-import] watched folder overlaps the library");
     return;
   }
   const next = await createAutoImportWorker({
@@ -92,11 +92,11 @@ export async function startAutoImport(): Promise<void> {
         await mkdir(root, { recursive: true });
         await writeFile(logPath(root), JSON.stringify(history, null, 2));
       } catch (error) {
-        log.warn("[pond auto-import] import log not updated", error);
+        log.warn("[apostrophi auto-import] import log not updated", error);
       }
       if (entry.ok) {
         await emitFeedback("autoImport").catch((error) =>
-          log.warn("[pond auto-import] feedback failed", error),
+          log.warn("[apostrophi auto-import] feedback failed", error),
         );
       }
     },
@@ -114,7 +114,7 @@ export async function startAutoImport(): Promise<void> {
     try {
       await next.scan();
     } catch (error) {
-      log.warn("[pond auto-import] scan failed", error);
+      log.warn("[apostrophi auto-import] scan failed", error);
     } finally {
       scanning = false;
     }

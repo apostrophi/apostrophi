@@ -23,5 +23,5 @@ export function dropPageCookies(saveId: string): void {
 
 /** In-memory session so a logged-in crawl does not write cookies into the shared scraper partition. */
 export function pageCookiePartition(saveId: string): string {
-  return `pond-page-${saveId}`;
+  return `apostrophi-page-${saveId}`;
 }

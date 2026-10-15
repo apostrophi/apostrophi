@@ -1,4 +1,4 @@
-import { Slider } from "@pond/ui";
+import { Slider } from "@apostrophi/ui";
 import type {
   ConversionCapability,
   ConversionPreset,

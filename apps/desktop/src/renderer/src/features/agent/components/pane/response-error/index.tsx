@@ -1,5 +1,5 @@
-import { IconTriangleWarning } from "@pond/icons";
-import { Button } from "@pond/ui";
+import { IconTriangleWarning } from "@apostrophi/icons";
+import { Button } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 const OPENAI_BILLING_URL =
@@ -57,7 +57,9 @@ export function ResponseError({ error }: { error: string }) {
         <Button
           variant="secondary"
           size="xs"
-          onClick={() => void window.pond.openExternal(copy.action?.url ?? "")}
+          onClick={() =>
+            void window.apostrophi.openExternal(copy.action?.url ?? "")
+          }
         >
           {copy.action.label}
         </Button>

@@ -2,9 +2,9 @@ import {
   COLOR_PRESETS,
   DEFAULT_COLOR_TOLERANCE,
   readColorMatch,
-} from "@pond/schema/filters/color";
-import type { Predicate } from "@pond/schema/filters/types";
-import { Button, Chip, ColorField, Input, Slider } from "@pond/ui";
+} from "@apostrophi/schema/filters/color";
+import type { Predicate } from "@apostrophi/schema/filters/types";
+import { Button, Chip, ColorField, Input, Slider } from "@apostrophi/ui";
 import { useState } from "react";
 import { z } from "zod";
 import { stopMenuKeys } from "../menu-keys";

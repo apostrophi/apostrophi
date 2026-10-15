@@ -15,20 +15,25 @@ export function registerIntegrationCommands(
   action(program, mcp.command("serve"), async () => {
     const executable =
       process.platform === "darwin"
-        ? "/Applications/Pond.app/Contents/MacOS/Pond"
+        ? "/Applications/Apostrophi.app/Contents/MacOS/Apostrophi"
         : process.platform === "win32"
-          ? join(process.env.LOCALAPPDATA ?? "", "Programs", "Pond", "Pond.exe")
-          : "pond-desktop";
+          ? join(
+              process.env.LOCALAPPDATA ?? "",
+              "Programs",
+              "Apostrophi",
+              "Apostrophi.exe",
+            )
+          : "apostrophi-desktop";
     await access(executable).catch(() => {
       if (process.platform !== "linux")
-        throw new Error("Install Pond before starting its MCP server.");
+        throw new Error("Install Apostrophi before starting its MCP server.");
     });
     const child = spawn(executable, ["--mcp"], { stdio: "inherit" });
     const code = await new Promise<number | null>((resolve, reject) => {
       child.once("error", reject);
       child.once("exit", resolve);
     });
-    if (code !== 0) throw new Error(`Pond MCP exited with code ${code}.`);
+    if (code !== 0) throw new Error(`Apostrophi MCP exited with code ${code}.`);
     return { stopped: true };
   });
   action(
@@ -40,7 +45,7 @@ export function registerIntegrationCommands(
           "cursor",
           [
             "--add-mcp",
-            '{"name":"pond","command":"pond","args":["mcp","serve"]}',
+            '{"name":"apostrophi","command":"apostrophi","args":["mcp","serve"]}',
           ],
         ],
         claude: [
@@ -50,14 +55,17 @@ export function registerIntegrationCommands(
             "add",
             "--scope",
             "user",
-            "pond",
+            "apostrophi",
             "--",
-            "pond",
+            "apostrophi",
             "mcp",
             "serve",
           ],
         ],
-        codex: ["codex", ["mcp", "add", "pond", "--", "pond", "mcp", "serve"]],
+        codex: [
+          "codex",
+          ["mcp", "add", "apostrophi", "--", "apostrophi", "mcp", "serve"],
+        ],
       } as const;
       const parsedTarget = z
         .enum(["cursor", "claude", "codex"])
@@ -82,9 +90,9 @@ export function registerIntegrationCommands(
     skill.command("install").argument("<target>", "cursor, codex, or claude"),
     async (target) => {
       const roots = {
-        cursor: join(homedir(), ".cursor", "skills", "pond"),
-        codex: join(homedir(), ".codex", "skills", "pond"),
-        claude: join(homedir(), ".claude", "skills", "pond"),
+        cursor: join(homedir(), ".cursor", "skills", "apostrophi"),
+        codex: join(homedir(), ".codex", "skills", "apostrophi"),
+        claude: join(homedir(), ".claude", "skills", "apostrophi"),
       } as const;
       const parsedTarget = z
         .enum(["cursor", "codex", "claude"])

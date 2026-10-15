@@ -1,7 +1,7 @@
-import { readColorMatch } from "@pond/schema/filters/color";
-import { FIELD_META } from "@pond/schema/filters/meta";
-import type { FieldId, Predicate } from "@pond/schema/filters/types";
-import { Chip } from "@pond/ui";
+import { readColorMatch } from "@apostrophi/schema/filters/color";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
+import type { FieldId, Predicate } from "@apostrophi/schema/filters/types";
+import { Chip } from "@apostrophi/ui";
 import { useState } from "react";
 import { fieldIcon } from "@/features/search/query";
 import { useMenuFilterQuery } from "@/shared/hooks/use-menu-filter-query";

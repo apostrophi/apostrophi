@@ -44,7 +44,7 @@ const {
   importEaglePackage,
   importLinks,
   importPaths,
-  importPondPackage,
+  importApostrophiPackage,
   newFolder,
   newSource,
   newSmartFolder,
@@ -75,7 +75,7 @@ describe("new menu actions", () => {
     query.mockReset();
     currentFolderId.mockReturnValue(null);
     eagleImportProgress = null;
-    vi.stubGlobal("window", { pond: { query } });
+    vi.stubGlobal("window", { apostrophi: { query } });
   });
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -104,7 +104,7 @@ describe("new menu actions", () => {
       paths: ["/tmp/images"],
     });
     expect(notify).toHaveBeenCalledWith(
-      expect.objectContaining({ title: "Saved 2 items to Pond" }),
+      expect.objectContaining({ title: "Saved 2 items to Apostrophi" }),
     );
   });
 
@@ -128,8 +128,10 @@ describe("new menu actions", () => {
 
   it("normalizes and deduplicates links", () => {
     expect(
-      parseImportLinks("example.com\nhttps://example.com\nhttps://pond.app"),
-    ).toEqual(["https://example.com", "https://pond.app"]);
+      parseImportLinks(
+        "example.com\nhttps://example.com\nhttps://apostrophi.app",
+      ),
+    ).toEqual(["https://example.com", "https://apostrophi.app"]);
   });
 
   it.each([
@@ -137,7 +139,7 @@ describe("new menu actions", () => {
     "hello",
     "https://",
     "file:///tmp/file",
-    "https://pond.app invalid",
+    "https://apostrophi.app invalid",
   ])("rejects invalid links before importing: %s", async (input) => {
     await expect(importLinks(input)).rejects.toThrow(
       "Enter valid website links",
@@ -340,17 +342,17 @@ describe("new menu actions", () => {
     );
   });
 
-  it("does not import or notify when a Pond package picker is cancelled", async () => {
+  it("does not import or notify when an Apostrophi package picker is cancelled", async () => {
     query.mockResolvedValue({ ok: false, reason: "cancelled" });
-    await importPondPackage();
+    await importApostrophiPackage();
     expect(query).toHaveBeenCalledExactlyOnceWith("saves.importPackage", {});
     expect(notify).not.toHaveBeenCalled();
     expect(folders.refresh).not.toHaveBeenCalled();
   });
 
-  it("refreshes folders after importing a Pond package", async () => {
+  it("refreshes folders after importing an Apostrophi package", async () => {
     query.mockResolvedValue({ ok: true, imported: 4, skipped: 2 });
-    await importPondPackage();
+    await importApostrophiPackage();
     expect(folders.refresh).toHaveBeenCalledOnce();
     expect(notify).toHaveBeenCalledWith(
       expect.objectContaining({

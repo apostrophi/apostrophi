@@ -101,8 +101,8 @@ function OrganizationRenameDialog({
       onRename={async (request) => {
         const result =
           kind === "folders"
-            ? await window.pond.query("folders.renameBatch", request)
-            : await window.pond.query("savedViews.renameBatch", request);
+            ? await window.apostrophi.query("folders.renameBatch", request)
+            : await window.apostrophi.query("savedViews.renameBatch", request);
         if (!result.ok) throw new Error(result.error ?? "Rename failed.");
         await (kind === "folders" ? folders.refresh() : savedViews.refresh());
         notify({

@@ -1,4 +1,4 @@
-import type { Save } from "@pond/schema/db";
+import type { Save } from "@apostrophi/schema/db";
 import { z } from "zod";
 
 export const INFO_FILE = "info.json";

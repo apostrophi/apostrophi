@@ -5,7 +5,7 @@ import { RaycastRow } from "./raycast";
 
 it("copies the Local API Token without rendering it", async () => {
   const copied: string[] = [];
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     async query(name: string, params: { text?: string }) {
       if (name === "settings.ingestToken") return { token: "secret-token" };
       if (name === "clipboard.writeText") {

@@ -168,7 +168,7 @@ async function readJson<T>(
     text = await readFile(path, "utf8");
   } catch (cause) {
     if (errnoCode(cause) !== "ENOENT") {
-      log.warn("[pond eagle] failed to read json", path, cause);
+      log.warn("[apostrophi eagle] failed to read json", path, cause);
     }
     return null;
   }
@@ -342,7 +342,7 @@ async function importEagle(
   try {
     entries = await readdir(imagesDir, { withFileTypes: true });
   } catch (err) {
-    log.warn("[pond eagle] readdir failed", imagesDir, err);
+    log.warn("[apostrophi eagle] readdir failed", imagesDir, err);
     return emptyResult("read_failed");
   }
 
@@ -432,19 +432,19 @@ async function importEagle(
           failed += 1;
           continue;
         }
-        const pondFolderIds = (meta.folders ?? [])
+        const apostrophiFolderIds = (meta.folders ?? [])
           .map((id) => mapped.get(id))
           .filter((id): id is string => Boolean(id));
         if ((meta.folders ?? []).some((id) => !mapped.has(id))) {
           dropped.add("locked-folder membership");
         }
-        if (res.id && pondFolderIds.length > 0) {
-          await setSaveFolders(res.id, pondFolderIds);
+        if (res.id && apostrophiFolderIds.length > 0) {
+          await setSaveFolders(res.id, apostrophiFolderIds);
         }
         if (res.skipped) skipped += 1;
         else imported += 1;
       } catch (err) {
-        log.warn("[pond eagle] item import failed", meta.id, err);
+        log.warn("[apostrophi eagle] item import failed", meta.id, err);
         failed += 1;
       }
     } finally {

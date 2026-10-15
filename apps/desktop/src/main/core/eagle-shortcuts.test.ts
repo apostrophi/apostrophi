@@ -74,7 +74,7 @@ describe("Eagle Settings parsing", () => {
       status: "invalid",
       overrides: {},
     });
-    const dir = await mkdtemp(join(tmpdir(), "pond-eagle-shortcuts-"));
+    const dir = await mkdtemp(join(tmpdir(), "apostrophi-eagle-shortcuts-"));
     expect(await readEagleShortcuts(join(dir, "missing"), "darwin")).toEqual({
       status: "missing",
       overrides: {},

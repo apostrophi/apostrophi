@@ -1,4 +1,4 @@
-import { Button, Checkbox, Dialog } from "@pond/ui";
+import { Button, Checkbox, Dialog } from "@apostrophi/ui";
 import { useEffect, useId, useMemo, useState } from "react";
 import { folders } from "@/features/library/state/folders";
 import { TagMenu } from "@/features/tags";
@@ -36,7 +36,7 @@ export function AutomaticTagsDialog({
 
   useEffect(() => {
     let active = true;
-    void window.pond
+    void window.apostrophi
       .query("folders.rules.get", { id: folderId })
       .then((result) => {
         if (!active) return;
@@ -70,7 +70,7 @@ export function AutomaticTagsDialog({
     setBusy(true);
     setError(null);
     try {
-      await window.pond.query("folders.rules.set", {
+      await window.apostrophi.query("folders.rules.set", {
         id: folderId,
         tags: selected,
         applyExisting,

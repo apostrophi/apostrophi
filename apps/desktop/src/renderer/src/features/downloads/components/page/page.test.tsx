@@ -1,5 +1,5 @@
 import "@/app/effects/save-library-bridge";
-import { Tooltip } from "@pond/ui";
+import { Tooltip } from "@apostrophi/ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -87,7 +87,9 @@ beforeEach(() => {
   primarySelection.set(null);
   libraryChrome.inspectSave(null);
   libraryChrome.closeRightPane();
-  Object.assign(window, { pond: { query, pipelinePause, pipelineCancelSave } });
+  Object.assign(window, {
+    apostrophi: { query, pipelinePause, pipelineCancelSave },
+  });
   query.mockImplementation(async (name: string) => {
     if (name === "settings.getPrefs") return {};
     if (name === "downloads.activity") return [];
@@ -330,7 +332,7 @@ it("shows completed history in the table without opening a group", async () => {
             id: 2,
             saveId: "local-file",
             title: "Local file",
-            url: "pond:local/local-file",
+            url: "apostrophi:local/local-file",
             source: "local",
             outcome: "complete",
             durationMs: 0,

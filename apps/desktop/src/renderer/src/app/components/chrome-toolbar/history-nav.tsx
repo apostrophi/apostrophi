@@ -1,5 +1,5 @@
-import { IconArrowLeft, IconArrowRight } from "@pond/icons";
-import { Button } from "@pond/ui";
+import { IconArrowLeft, IconArrowRight } from "@apostrophi/icons";
+import { Button } from "@apostrophi/ui";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { libraryChrome } from "@/features/library/state/library-chrome";

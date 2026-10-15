@@ -1,4 +1,4 @@
-import { IconChatBubble, IconCheck, IconCopy } from "@pond/icons";
+import { IconChatBubble, IconCheck, IconCopy } from "@apostrophi/icons";
 import { useState } from "react";
 import { Button } from "../button";
 import { ActionHint } from "../shared/action-hint";

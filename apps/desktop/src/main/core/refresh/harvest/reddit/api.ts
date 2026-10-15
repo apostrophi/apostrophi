@@ -1,4 +1,8 @@
-import type { Capture, CaptureMedia, CaptureMetrics } from "@pond/schema/raw";
+import type {
+  Capture,
+  CaptureMedia,
+  CaptureMetrics,
+} from "@apostrophi/schema/raw";
 import { session } from "electron";
 import log from "electron-log/main.js";
 import type { z } from "zod";
@@ -45,7 +49,7 @@ async function fetchRedditJson<T>(
       },
     });
   } catch (err) {
-    log.warn("[pond reddit-api] fetch threw", url, err);
+    log.warn("[apostrophi reddit-api] fetch threw", url, err);
     return { ok: false, status: 0, html: false };
   }
   const text = await res.text();
@@ -72,7 +76,7 @@ export async function probeRedditHandle(
     if (!result.ok) continue;
     const handle = handleFromMeJson(result.json);
     if (handle) {
-      log.info("[pond reddit-api] probed handle", handle);
+      log.info("[apostrophi reddit-api] probed handle", handle);
       return handle;
     }
   }
@@ -146,7 +150,7 @@ async function harvestRedditListingJson(
     }
     if (!pageData.after) {
       log.info(
-        `[pond reddit-api] ${kind} json handle=${handle} entries=${entries.length}`,
+        `[apostrophi reddit-api] ${kind} json handle=${handle} entries=${entries.length}`,
       );
       return { ok: true, entries, reachedEnd: true, seen: entries.length };
     }
@@ -154,7 +158,7 @@ async function harvestRedditListingJson(
     await sleep(400);
   }
   log.info(
-    `[pond reddit-api] ${kind} json handle=${handle} entries=${entries.length} pages=200`,
+    `[apostrophi reddit-api] ${kind} json handle=${handle} entries=${entries.length} pages=200`,
   );
   return { ok: true, entries, reachedEnd: false, seen: entries.length };
 }

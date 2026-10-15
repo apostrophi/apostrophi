@@ -1,5 +1,5 @@
-import { IconPlusFill } from "@pond/icons";
-import { Menu } from "@pond/ui";
+import { IconPlusFill } from "@apostrophi/icons";
+import { Menu } from "@apostrophi/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { startConnect, startWatch } from "@/features/sources/lib/create";
 import { buildSourceNewMenuItems } from "@/features/sources/lib/create-menu";

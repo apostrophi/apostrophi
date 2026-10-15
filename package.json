@@ -1,47 +1,47 @@
 {
-  "name": "@pond/repo",
+  "name": "@apostrophi/repo",
   "private": true,
   "type": "module",
   "version": "1.0.1",
   "description": "A local-first archive for everything you save across Twitter/X, Instagram, Pinterest, Are.na, Cosmos, TikTok, YouTube, and any web article.",
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
-  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "homepage": "https://github.com/apostrophi/apostrophi#readme",
   "bugs": {
-    "url": "https://github.com/raphaelsalaja/pond/issues"
+    "url": "https://github.com/apostrophi/apostrophi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git"
+    "url": "git+https://github.com/apostrophi/apostrophi.git"
   },
   "packageManager": "pnpm@11.27.0",
   "scripts": {
     "build": "turbo run build perf:check:repo",
     "dev": "node scripts/run-dev-singleton.mjs -- pnpm exec turbo run dev",
-    "dev:desktop": "node scripts/run-dev-singleton.mjs -- pnpm --filter @pond/desktop dev",
-    "cli": "pnpm --filter @pond/cli exec tsx src/index.ts",
-    "cli:build": "pnpm --filter @pond/cli build",
-    "cli:link": "pnpm --filter @pond/cli build && pnpm --filter @pond/cli link --global",
+    "dev:desktop": "node scripts/run-dev-singleton.mjs -- pnpm --filter @apostrophi/desktop dev",
+    "cli": "pnpm --filter @apostrophi/cli exec tsx src/index.ts",
+    "cli:build": "pnpm --filter @apostrophi/cli build",
+    "cli:link": "pnpm --filter @apostrophi/cli build && pnpm --filter @apostrophi/cli link --global",
     "generate": "turbo run generate",
     "generate:check": "turbo run generate:check",
     "lint": "turbo run lint:repo",
     "lint:repo": "biome ci . --error-on-warnings",
     "knip": "turbo run knip:repo",
-    "knip:repo": "pnpm --filter @pond/desktop exec tsr generate && knip",
+    "knip:repo": "pnpm --filter @apostrophi/desktop exec tsr generate && knip",
     "oxlint": "turbo run oxlint:repo",
     "oxlint:repo": "oxlint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "perf:check": "turbo run perf:check:repo",
     "perf:check:repo": "node scripts/check-performance-budgets.mjs",
-    "sbom:generate": "pnpm sbom --sbom-format spdx --prod --out pond.spdx.json",
+    "sbom:generate": "pnpm sbom --sbom-format spdx --prod --out apostrophi.spdx.json",
     "dist": "turbo run dist",
-    "dist:mac": "turbo run build --filter @pond/desktop --filter @pond/extension && pnpm --filter @pond/desktop dist:mac",
-    "dist:win": "pnpm --filter @pond/desktop dist:win",
-    "dist:linux": "pnpm --filter @pond/desktop dist:linux",
+    "dist:mac": "turbo run build --filter @apostrophi/desktop --filter @apostrophi/extension && pnpm --filter @apostrophi/desktop dist:mac",
+    "dist:win": "pnpm --filter @apostrophi/desktop dist:win",
+    "dist:linux": "pnpm --filter @apostrophi/desktop dist:linux",
     "prepare": "husky",
     "lint:fix": "biome check . --write",
     "format": "biome format . --write",

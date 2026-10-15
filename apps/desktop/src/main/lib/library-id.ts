@@ -32,7 +32,7 @@ interface LibraryMetadata {
 }
 
 export function libraryNameFromPath(root: string): string {
-  return basename(root).replace(/\.(pond|library)$/i, "") || "Library";
+  return basename(root).replace(/\.(apostrophi|library)$/i, "") || "Library";
 }
 
 export function resolveLibraryId(root: string, committed: boolean): string {

@@ -1,22 +1,22 @@
 {
-  "name": "@pond/desktop",
-  "productName": "Pond",
+  "name": "@apostrophi/desktop",
+  "productName": "Apostrophi",
   "version": "1.0.1",
   "private": true,
   "type": "module",
-  "description": "Pond desktop app: local-first archive with a menu-bar tray, local SQLite index and filesystem library.",
+  "description": "Apostrophi desktop app: local-first archive with a menu-bar tray, local SQLite index and filesystem library.",
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
-  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "homepage": "https://github.com/apostrophi/apostrophi#readme",
   "bugs": {
-    "url": "https://github.com/raphaelsalaja/pond/issues"
+    "url": "https://github.com/apostrophi/apostrophi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "apps/desktop"
   },
   "main": "./out/main/index.js",
@@ -86,10 +86,10 @@
     "@lexical/table": "0.50.0",
     "@lexical/utils": "0.50.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "@pond/icons": "workspace:*",
-    "@pond/schema": "workspace:*",
-    "@pond/theme": "workspace:*",
-    "@pond/ui": "workspace:*",
+    "@apostrophi/icons": "workspace:*",
+    "@apostrophi/schema": "workspace:*",
+    "@apostrophi/theme": "workspace:*",
+    "@apostrophi/ui": "workspace:*",
     "@tanstack/hotkeys": "0.8.0",
     "@tanstack/pacer": "^0.22.0",
     "@tanstack/react-hotkeys": "0.10.0",

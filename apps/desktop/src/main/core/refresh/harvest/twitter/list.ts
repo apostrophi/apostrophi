@@ -1,13 +1,13 @@
 /// <reference lib="dom" />
 
-import type { ListKind, MediaType } from "@pond/schema/db";
+import type { ListKind, MediaType } from "@apostrophi/schema/db";
 import type { BookmarksCapture, RichTweet } from "./graphql";
 
 declare global {
-  var __pondBookmarksHookInstalled: boolean | undefined;
-  var __pondBookmarksCaptures: BookmarksCapture[] | undefined;
-  var __pondLikesCaptures: BookmarksCapture[] | undefined;
-  var __pondHarvestStats: HarvestStats | undefined;
+  var __apostrophiBookmarksHookInstalled: boolean | undefined;
+  var __apostrophiBookmarksCaptures: BookmarksCapture[] | undefined;
+  var __apostrophiLikesCaptures: BookmarksCapture[] | undefined;
+  var __apostrophiHarvestStats: HarvestStats | undefined;
 }
 
 export interface HarvestStats {
@@ -118,7 +118,7 @@ async function inPageBookmarks(
         finalArticleCount: 0,
         finalSeenSize: 0,
         finalCapturesLength: 0,
-        hookInstalled: !!globalThis.__pondBookmarksHookInstalled,
+        hookInstalled: !!globalThis.__apostrophiBookmarksHookInstalled,
         scrollerKind: "none",
         exitReason: "auth_required",
       },
@@ -136,15 +136,15 @@ async function inPageBookmarks(
     finalArticleCount: 0,
     finalSeenSize: 0,
     finalCapturesLength: 0,
-    hookInstalled: !!globalThis.__pondBookmarksHookInstalled,
+    hookInstalled: !!globalThis.__apostrophiBookmarksHookInstalled,
     scrollerKind: "none",
     exitReason: "deadline",
   };
 
   const drainCaptures = (): void => {
     for (const buf of [
-      globalThis.__pondBookmarksCaptures,
-      globalThis.__pondLikesCaptures,
+      globalThis.__apostrophiBookmarksCaptures,
+      globalThis.__apostrophiLikesCaptures,
     ]) {
       if (!Array.isArray(buf) || buf.length === 0) continue;
       for (const item of buf.splice(0)) captures.push(item);
@@ -160,7 +160,7 @@ async function inPageBookmarks(
     phase: "hydrate",
     updatedAt: Date.now(),
   };
-  globalThis.__pondHarvestStats = stats;
+  globalThis.__apostrophiHarvestStats = stats;
   const publishStats = (phase: "hydrate" | "scroll" | "done"): void => {
     stats.seen = seen.size;
     let fresh = 0;
@@ -310,7 +310,7 @@ async function inPageBookmarks(
   const hydrateStart = Date.now();
   const hydrateDeadline = hydrateStart + 20_000;
   const peekCapturesLen = (): number => {
-    const buf = globalThis.__pondBookmarksCaptures;
+    const buf = globalThis.__apostrophiBookmarksCaptures;
     return Array.isArray(buf) ? buf.length : 0;
   };
   while (Date.now() < hydrateDeadline) {

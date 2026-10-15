@@ -278,14 +278,14 @@ export function parseBookmarksResponses(
     try {
       json = JSON.parse(cap.body);
     } catch (err) {
-      log.warn("[pond bookmarks] capture body not JSON", cap.url, err);
+      log.warn("[apostrophi bookmarks] capture body not JSON", cap.url, err);
       continue;
     }
     const env = bookmarksEnvelope.safeParse(json);
     if (!env.success && !envelopeFailureLogged) {
       envelopeFailureLogged = true;
       log.warn(
-        "[pond bookmarks] envelope schema drift",
+        "[apostrophi bookmarks] envelope schema drift",
         cap.url,
         env.error.issues.map((i) => i.path.join(".")).join(", "),
       );

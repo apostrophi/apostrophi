@@ -3,7 +3,7 @@ import { join, resolve } from "node:path";
 import { app, BrowserWindow, dialog, nativeImage, shell } from "electron";
 import { z } from "zod";
 import type { QueryResult } from "../../../shared/query-contracts";
-import { createPondBundle } from "../../core/ensure-default-library";
+import { createApostrophiBundle } from "../../core/ensure-default-library";
 import { verifyLibraryBackup } from "../../core/library-backup";
 import { updateLibraryIdentity } from "../../core/library-identity";
 import { relocateLibrary } from "../../core/library-ops";
@@ -107,7 +107,7 @@ export const libraryLocationOpenQueries = {
       try {
         await suspendLibraryWork();
         await flushTagsDump();
-        const result = await createPondBundle(params.path, params.name);
+        const result = await createApostrophiBundle(params.path, params.name);
         if (!result.ok) {
           await resumeLibraryWork();
         } else {
@@ -127,9 +127,9 @@ export const libraryLocationOpenQueries = {
   async "library.pickFolder"(): Promise<QueryResult<"library.pickFolder">> {
     const win = BrowserWindow.getFocusedWindow() ?? undefined;
     const dialogOpts = {
-      title: "Choose Where to Save Your Pond",
+      title: "Choose Where to Save Your Apostrophi",
       buttonLabel: "Select",
-      defaultPath: join(app.getPath("home"), "Pond"),
+      defaultPath: join(app.getPath("home"), "Apostrophi"),
       properties: ["openDirectory" as const, "createDirectory" as const],
     };
     const result = win
@@ -145,7 +145,7 @@ export const libraryLocationOpenQueries = {
   async "library.pickExisting"(): Promise<QueryResult<"library.pickExisting">> {
     const win = BrowserWindow.getFocusedWindow() ?? undefined;
     const dialogOpts = {
-      title: "Open an Existing Pond",
+      title: "Open an Existing Apostrophi",
       buttonLabel: "Open",
       properties: ["openFile" as const, "openDirectory" as const],
     };

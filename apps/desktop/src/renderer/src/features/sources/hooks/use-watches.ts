@@ -1,4 +1,4 @@
-import { SOURCES, type Source, type WatchKind } from "@pond/schema/db";
+import { SOURCES, type Source, type WatchKind } from "@apostrophi/schema/db";
 import { useCallback, useEffect, useState } from "react";
 import { z } from "zod";
 import {
@@ -105,7 +105,7 @@ export function useWatches(): WatchesResult {
   const refetch = useCallback(async (): Promise<WatchRow[]> => {
     try {
       const rows = WatchesReplySchema.parse(
-        await window.pond.query("watches.list", {}),
+        await window.apostrophi.query("watches.list", {}),
       ).watches;
       setWatches(rows);
       for (const watch of rows) {

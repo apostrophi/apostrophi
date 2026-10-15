@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui";
+import { Button } from "@apostrophi/ui";
 import type { QueryResult } from "@shared/query-contracts";
 import { useEffect, useState } from "react";
 import { CardThumb } from "@/features/saves/components/card/media";
@@ -46,7 +46,7 @@ export function RelatedSaves({ saveId }: { saveId: string }) {
     let active = true;
     setItems(null);
     setFailed(false);
-    void window.pond
+    void window.apostrophi
       .query("saves.related", { id: saveId, limit: 12 })
       .then(async (result) => {
         await ensureSaves(result.items.map((item) => item.id));

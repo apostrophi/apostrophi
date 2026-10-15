@@ -21,7 +21,7 @@ const result = await build({
         root,
         "src/main/core/refresh/harvest/lib/browser-validation.ts",
       ),
-      name: "PondHarvestValidation",
+      name: "ApostrophiHarvestValidation",
       formats: ["iife"],
     },
   },

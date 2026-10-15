@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui";
+import { Button } from "@apostrophi/ui";
 import type { DownloadActivity } from "@shared/download-activity";
 import { type ReactNode, useEffect, useRef } from "react";
 import { useClientHeight } from "@/shared/hooks/use-client-height";

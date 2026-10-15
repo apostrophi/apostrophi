@@ -11,7 +11,7 @@ afterEach(async () => {
   );
 });
 it("only acknowledges complete source imports after each expected original is present", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-manual-recovery-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-manual-recovery-"));
   roots.push(root);
   await mkdir(join(root, "assets"));
   await writeFile(join(root, "assets", "one.txt"), "one");

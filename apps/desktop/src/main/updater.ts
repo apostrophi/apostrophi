@@ -14,13 +14,13 @@ async function loadAutoUpdater() {
 export function registerAutoUpdater(): void {
   if (wired) return;
   if (!app.isPackaged) {
-    log.info("[pond updater] skipped (dev build)");
+    log.info("[apostrophi updater] skipped (dev build)");
     return;
   }
   wired = true;
   void wireAutoUpdater().catch((error) => {
     wired = false;
-    log.warn("[pond updater] setup failed", error);
+    log.warn("[apostrophi updater] setup failed", error);
   });
 }
 
@@ -30,30 +30,30 @@ async function wireAutoUpdater(): Promise<void> {
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
   void applyUpdaterPrefs().catch((err) =>
-    log.warn("[pond updater] prefs apply failed", err),
+    log.warn("[apostrophi updater] prefs apply failed", err),
   );
 
   autoUpdater.on("update-available", (info) => {
-    log.info("[pond updater] update available", info.version);
+    log.info("[apostrophi updater] update available", info.version);
   });
 
   autoUpdater.on("update-not-available", () => {
-    log.info("[pond updater] no update");
+    log.info("[apostrophi updater] no update");
   });
 
   autoUpdater.on("error", (err) => {
-    log.warn("[pond updater] error", err);
+    log.warn("[apostrophi updater] error", err);
   });
 
   autoUpdater.on("update-downloaded", async (info) => {
-    log.info("[pond updater] downloaded", info.version);
+    log.info("[apostrophi updater] downloaded", info.version);
     const res = await dialog.showMessageBox({
       type: "info",
       buttons: ["Restart & Install", "Later"],
       defaultId: 0,
       cancelId: 1,
-      title: "Pond Update Ready",
-      message: `Pond ${info.version} has been downloaded.`,
+      title: "Apostrophi Update Ready",
+      message: `Apostrophi ${info.version} has been downloaded.`,
       detail: "Restart to apply the update.",
     });
     if (res.response === 0) {
@@ -63,7 +63,7 @@ async function wireAutoUpdater(): Promise<void> {
 
   setTimeout(() => {
     void autoUpdater.checkForUpdates().catch((err) => {
-      log.warn("[pond updater] startup check failed", err);
+      log.warn("[apostrophi updater] startup check failed", err);
     });
   }, 2000);
 

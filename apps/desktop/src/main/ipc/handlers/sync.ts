@@ -1,4 +1,4 @@
-import { isSource } from "@pond/schema/sources";
+import { isSource } from "@apostrophi/schema/sources";
 import { IPC } from "../../../shared/constants";
 import {
   isAllPaused,

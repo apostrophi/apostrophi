@@ -1,4 +1,4 @@
-import type { Predicate, Query } from "@pond/schema/filters/types";
+import type { Predicate, Query } from "@apostrophi/schema/filters/types";
 import { describe, expect, it, vi } from "vitest";
 import { type AskPorts, compileAsk } from "@/features/search/lib/compile-ask";
 import { EMPTY_FACETS, type NlFacets } from "@/features/search/lib/nl-query";

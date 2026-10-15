@@ -1,8 +1,8 @@
-import * as schema from "@pond/schema/db";
+import * as schema from "@apostrophi/schema/db";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
-import { initializePondSchema } from "../../db";
+import { initializeApostrophiSchema } from "../../db";
 import { loadModelTranscript } from "./transcript";
 
 function nativeAvailable() {
@@ -22,7 +22,7 @@ afterEach(() => {
 function setup() {
   const sqlite = new Database(":memory:");
   databases.push(sqlite);
-  initializePondSchema(sqlite, () => false);
+  initializeApostrophiSchema(sqlite, () => false);
   const db = drizzle(sqlite, { schema });
   db.insert(schema.agentChats)
     .values({ id: "chat", title: "Existing chat" })

@@ -1,4 +1,4 @@
-import type { JsonObject } from "@pond/schema/json";
+import type { JsonObject } from "@apostrophi/schema/json";
 import { describe, expect, it } from "vitest";
 import { cosmosIdentityFromToken } from "./cosmos-token";
 

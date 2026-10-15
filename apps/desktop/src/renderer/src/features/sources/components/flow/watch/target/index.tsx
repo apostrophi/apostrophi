@@ -1,6 +1,6 @@
-import { IconCircleCheckFill } from "@pond/icons";
-import type { Source } from "@pond/schema/db";
-import { Button, Dialog } from "@pond/ui";
+import { IconCircleCheckFill } from "@apostrophi/icons";
+import type { Source } from "@apostrophi/schema/db";
+import { Button, Dialog } from "@apostrophi/ui";
 import {
   createContext,
   type ReactNode,
@@ -149,7 +149,7 @@ export function WatchTargetProvider({
 
 async function addWatch(source: Source, handle: string) {
   return AddWatchResultSchema.parse(
-    await window.pond.query("watches.add", { source, handle }),
+    await window.apostrophi.query("watches.add", { source, handle }),
   );
 }
 
@@ -220,7 +220,7 @@ export function WatchTargetSection() {
         <p className={styles.description}>
           Enter a handle or paste a {label} link.
           <br />
-          Pond adds new posts to your library.
+          Apostrophi adds new posts to your library.
         </p>
       </div>
       <div className={styles.field}>

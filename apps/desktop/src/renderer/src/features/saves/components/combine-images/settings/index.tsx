@@ -10,7 +10,7 @@ import {
   IconGridLayoutCols,
   IconGridLayoutRows,
   IconXmark,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import {
   Button,
   ColorField,
@@ -19,7 +19,7 @@ import {
   Switch,
   Toggle,
   ToggleGroup,
-} from "@pond/ui";
+} from "@apostrophi/ui";
 import type { CombineImagesOptions } from "@shared/combine-images-contracts";
 import type { CombineLayout } from "@shared/combine-images-layout";
 import { type ReactNode, useId, useState } from "react";

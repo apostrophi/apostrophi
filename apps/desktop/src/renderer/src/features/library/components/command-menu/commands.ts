@@ -15,7 +15,7 @@ import {
   IconTrashXmark,
   IconVersions,
   IconWindowDownload,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import {
   importClipboard,
   importEagle,

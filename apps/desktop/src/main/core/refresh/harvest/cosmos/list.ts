@@ -2,7 +2,7 @@ import type { BrowserValidators } from "../lib/browser-validation";
 import { browserValidationSource } from "../lib/browser-validation-source";
 /// <reference lib="dom" />
 
-import type { MediaType } from "@pond/schema/db";
+import type { MediaType } from "@apostrophi/schema/db";
 import type { ListHarvestArgs, ListHarvestResult } from "../list-types";
 
 interface JsonRecord {
@@ -20,7 +20,7 @@ export function buildCosmosListExpression(args: ListHarvestArgs): string {
   const enriched = { ...args, scrollDeadlineMs: SCROLL_DEADLINE_MS };
   return `(async () => {
     ${browserValidationSource}
-    const validators = PondHarvestValidation.browserValidators;
+    const validators = ApostrophiHarvestValidation.browserValidators;
     const args = ${JSON.stringify(enriched)};
     try { return await ${fnSrc}(args, validators); }
     catch (e) { return { ok: false, reason: 'timeout', error: String(e) }; }
@@ -404,7 +404,7 @@ async function inPageCosmosList(
     scrolls: 0,
     updatedAt: Date.now(),
   };
-  Object.assign(globalThis, { __pondHarvestStats: stats });
+  Object.assign(globalThis, { __apostrophiHarvestStats: stats });
   const publishStats = (phase: HarvestStats["phase"]): void => {
     stats.phase = phase;
     stats.collected = collected.size;

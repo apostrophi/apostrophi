@@ -1,5 +1,5 @@
-import { IconDotsFill as Dots } from "@pond/icons";
-import { Menu } from "@pond/ui";
+import { IconDotsFill as Dots } from "@apostrophi/icons";
+import { Menu } from "@apostrophi/ui";
 import type { MouseEvent } from "react";
 import { InlineNameEditor } from "@/shared/components/inline-name-editor";
 import { useTagRow } from "../row-context";

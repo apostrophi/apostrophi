@@ -1,5 +1,5 @@
-import { IconXmark } from "@pond/icons";
-import { Menu } from "@pond/ui";
+import { IconXmark } from "@apostrophi/icons";
+import { Menu } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 export function ChoiceIndicator({ excluded }: { excluded?: boolean }) {

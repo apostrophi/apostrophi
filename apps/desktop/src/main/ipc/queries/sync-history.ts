@@ -1,9 +1,9 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import {
   type PipelineEventRow,
   pipelineEvents,
   type SyncRunEvent,
-} from "@pond/schema/events";
+} from "@apostrophi/schema/events";
 import { and, desc, eq, gte } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "../../db";

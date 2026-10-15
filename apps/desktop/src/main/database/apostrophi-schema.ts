@@ -1,5 +1,5 @@
-import { sourceIdentity } from "@pond/schema/domain";
-import { colorNear } from "@pond/schema/filters/color";
+import { sourceIdentity } from "@apostrophi/schema/domain";
+import { colorNear } from "@apostrophi/schema/filters/color";
 import type Database from "better-sqlite3";
 import { z } from "zod";
 import { seededOrderKey } from "../../shared/order-key";
@@ -9,14 +9,14 @@ import {
   loadSqliteVec,
 } from "../core/vec-index";
 import { manualOrderRank } from "../lib/folder-order";
-import { migratePond } from "./migrations";
+import { migrateApostrophi } from "./migrations";
 
-export function initializePondSchema(
+export function initializeApostrophiSchema(
   sqlite: Database.Database,
   loadVectorExtension = loadSqliteVec,
 ): boolean {
   sqlite.function(
-    "pond_source_identity",
+    "apostrophi_source_identity",
     { deterministic: true },
     (siteName, source, url) => {
       const text = z.string().nullable();
@@ -28,7 +28,7 @@ export function initializePondSchema(
     },
   );
   sqlite.function(
-    "pond_color_near",
+    "apostrophi_color_near",
     { deterministic: true },
     (palette, hex, tolerance) => {
       const color = z.string().safeParse(hex);
@@ -43,19 +43,25 @@ export function initializePondSchema(
       }
     },
   );
-  sqlite.function("pond_order_key", { deterministic: true }, (id, seed) =>
-    z.string().safeParse(id).success && z.string().safeParse(seed).success
-      ? seededOrderKey(z.string().parse(id), z.string().parse(seed))
-      : 0,
+  sqlite.function(
+    "apostrophi_order_key",
+    { deterministic: true },
+    (id, seed) =>
+      z.string().safeParse(id).success && z.string().safeParse(seed).success
+        ? seededOrderKey(z.string().parse(id), z.string().parse(seed))
+        : 0,
   );
-  sqlite.function("pond_manual_rank", { deterministic: true }, (key, id) =>
-    z.string().safeParse(key).success && z.string().safeParse(id).success
-      ? manualOrderRank(z.string().parse(key), z.string().parse(id))
-      : null,
+  sqlite.function(
+    "apostrophi_manual_rank",
+    { deterministic: true },
+    (key, id) =>
+      z.string().safeParse(key).success && z.string().safeParse(id).success
+        ? manualOrderRank(z.string().parse(key), z.string().parse(id))
+        : null,
   );
   const vectorEnabled = loadVectorExtension(sqlite);
   if (vectorEnabled) ensureVecTables(sqlite);
-  migratePond(sqlite);
+  migrateApostrophi(sqlite);
   sqlite.exec(
     "CREATE TABLE IF NOT EXISTS mutation_commits (batch_id TEXT PRIMARY KEY)",
   );

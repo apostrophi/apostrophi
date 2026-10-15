@@ -3,8 +3,8 @@ import {
   IconCircleInfo,
   IconCircleWarning,
   IconPowerOff,
-} from "@pond/icons";
-import { Button, Loader, Settings, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, Loader, Settings, Tooltip } from "@apostrophi/ui";
 import { useState } from "react";
 import { useEnrichmentStatus } from "@/features/enrichment/status";
 import { usePrefs } from "@/shared/state/prefs";

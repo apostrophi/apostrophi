@@ -38,14 +38,14 @@ function nameTableFont(family: string): Buffer {
 
 describe("extractFontFamily", () => {
   it("reads the Windows family name", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "pond-font-"));
+    const dir = await mkdtemp(join(tmpdir(), "apostrophi-font-"));
     const path = join(dir, "SourceSerif.ttf");
     await writeFile(path, nameTableFont("Source Serif"));
     expect(await extractFontFamily(path)).toBe("Source Serif");
   });
 
   it("returns null when the name table is missing", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "pond-font-empty-"));
+    const dir = await mkdtemp(join(tmpdir(), "apostrophi-font-empty-"));
     const path = join(dir, "empty.ttf");
     await writeFile(path, Buffer.alloc(32));
     expect(await extractFontFamily(path)).toBeNull();

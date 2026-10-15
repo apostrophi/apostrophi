@@ -1,4 +1,4 @@
-import { inverse, type Transaction } from "@pond/schema/tx";
+import { inverse, type Transaction } from "@apostrophi/schema/tx";
 import log from "electron-log/main.js";
 import { executeBatch } from "./executor";
 
@@ -48,7 +48,7 @@ export function createUndoHistory(
           if (epoch === started) redoStack.push(transactions);
           return true;
         } catch (error) {
-          log.warn("[pond undo] failed", error);
+          log.warn("[apostrophi undo] failed", error);
           if (epoch === started) undoStack.push(transactions);
           return false;
         }
@@ -69,7 +69,7 @@ export function createUndoHistory(
           if (epoch === started) undoStack.push(transactions);
           return true;
         } catch (error) {
-          log.warn("[pond redo] failed", error);
+          log.warn("[apostrophi redo] failed", error);
           if (epoch === started) redoStack.push(transactions);
           return false;
         }

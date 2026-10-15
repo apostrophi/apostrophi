@@ -3,7 +3,7 @@ import {
   IconPinterest,
   IconXTwitter,
   IconYoutube,
-} from "@pond/icons/social-media";
+} from "@apostrophi/icons/social-media";
 import type { CSSProperties, ReactNode } from "react";
 import { Art, type ArtKind } from "../art";
 import styles from "./styles.module.css";

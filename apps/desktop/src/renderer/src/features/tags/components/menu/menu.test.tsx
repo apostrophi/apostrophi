@@ -1,4 +1,4 @@
-import { PickerPanel } from "@pond/ui";
+import { PickerPanel } from "@apostrophi/ui";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
@@ -15,7 +15,7 @@ it("keeps an inline tag draft after a failed create and applies it only after re
   );
   let fail = true;
   const created: string[] = [];
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     onSyncAction: () => () => {},
     query: async (name: string, input: { name?: string }) => {
       if (name === "tags.list") {

@@ -76,22 +76,28 @@ export async function streamAgentTurn(
       const onEvent = (event: AssistantEvent) => {
         if (event.type === "activity") {
           writer.write({
-            type: "data-pond-activity",
+            type: "data-apostrophi-activity",
             id: "current-activity",
             data: { activity: event.activity },
           });
           return;
         }
         if (event.type === "sources") {
-          writer.write({ type: "data-pond-sources", data: event.sources });
+          writer.write({
+            type: "data-apostrophi-sources",
+            data: event.sources,
+          });
           return;
         }
         if (event.type === "results") {
-          writer.write({ type: "data-pond-results", data: event.results });
+          writer.write({
+            type: "data-apostrophi-results",
+            data: event.results,
+          });
           return;
         }
         if (event.type === "steps") {
-          writer.write({ type: "data-pond-steps", data: event.steps });
+          writer.write({ type: "data-apostrophi-steps", data: event.steps });
           return;
         }
         if (!textOpen) {
@@ -123,7 +129,10 @@ export async function streamAgentTurn(
           },
         });
         if (saved.data.steps?.length)
-          writer.write({ type: "data-pond-steps", data: saved.data.steps });
+          writer.write({
+            type: "data-apostrophi-steps",
+            data: saved.data.steps,
+          });
       }
       if (result.error) {
         writer.write({ type: "error", errorText: result.error });
@@ -137,12 +146,12 @@ export async function streamAgentTurn(
         .safeParse(last?.metadata);
       if (metadata.success && metadata.data.question)
         writer.write({
-          type: "data-pond-question",
+          type: "data-apostrophi-question",
           data: metadata.data.question,
         });
       if (metadata.success && metadata.data.changes?.length)
         writer.write({
-          type: "data-pond-review",
+          type: "data-apostrophi-review",
           data: { changes: metadata.data.changes },
         });
       writer.write({

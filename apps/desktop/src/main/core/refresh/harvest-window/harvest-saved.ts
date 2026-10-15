@@ -1,5 +1,5 @@
-import { MEDIA_TYPES } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
+import { MEDIA_TYPES } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
 import type { BrowserWindow } from "electron";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -203,7 +203,7 @@ async function harvestThreadsFeed(
 
     try {
       await lease.win.webContents.executeJavaScript(
-        "globalThis.__pondThreadsSavedRequest=null;globalThis.__pondThreadsSavedCaptures=[];",
+        "globalThis.__apostrophiThreadsSavedRequest=null;globalThis.__apostrophiThreadsSavedCaptures=[];",
         true,
       );
     } catch {
@@ -221,7 +221,7 @@ async function harvestThreadsFeed(
       }
       void lease.win.webContents
         .executeJavaScript(
-          "JSON.stringify(globalThis.__pondHarvestStats ?? null)",
+          "JSON.stringify(globalThis.__apostrophiHarvestStats ?? null)",
           true,
         )
         .then((raw) => {
@@ -246,20 +246,22 @@ async function harvestThreadsFeed(
     const runExpr = (expr: string): Promise<JsonValue> =>
       Promise.race([
         lease.win.webContents.executeJavaScript(expr, true),
-        sleep(6 * 60_000).then(() => "__pond_saved_timeout__"),
+        sleep(6 * 60_000).then(() => "__apostrophi_saved_timeout__"),
       ]);
 
     let result: Extract<SavedHarvestResult, { ok: true }>;
     try {
       const apiRaw = await runExpr(buildSavedApiExpression(args));
-      if (apiRaw === "__pond_saved_timeout__") {
-        log.warn("[pond threads-saved] api harvest timed out; falling back");
+      if (apiRaw === "__apostrophi_saved_timeout__") {
+        log.warn(
+          "[apostrophi threads-saved] api harvest timed out; falling back",
+        );
       }
       const api = SavedApiResultSchema.parse(apiRaw);
 
       if (api?.ok) {
         log.info(
-          `[pond threads-saved] api ok pages=${api.apiDebug?.pages ?? "?"} posts=${api.apiDebug?.posts ?? "?"} reason=${api.apiDebug?.reason ?? "?"}`,
+          `[apostrophi threads-saved] api ok pages=${api.apiDebug?.pages ?? "?"} posts=${api.apiDebug?.posts ?? "?"} reason=${api.apiDebug?.reason ?? "?"}`,
         );
         report("threads", { ok: true });
         result = {
@@ -277,7 +279,7 @@ async function harvestThreadsFeed(
           retryAfterSec: api.retryAfterSec ?? undefined,
         });
         log.warn(
-          `[pond threads-saved] rate limited; backing off ${Math.round(cooldownMs / 1000)}s (no scroll fallback)`,
+          `[apostrophi threads-saved] rate limited; backing off ${Math.round(cooldownMs / 1000)}s (no scroll fallback)`,
         );
         return {
           ok: false,
@@ -286,11 +288,11 @@ async function harvestThreadsFeed(
         };
       } else {
         log.info(
-          `[pond threads-saved] api fallback (${api && "detail" in api ? api.detail : "timeout"}); scrolling`,
+          `[apostrophi threads-saved] api fallback (${api && "detail" in api ? api.detail : "timeout"}); scrolling`,
         );
         const scrollRaw = await runExpr(buildThreadsListExpression(args));
-        if (scrollRaw === "__pond_saved_timeout__") {
-          log.warn("[pond threads-saved] harvest timed out");
+        if (scrollRaw === "__apostrophi_saved_timeout__") {
+          log.warn("[apostrophi threads-saved] harvest timed out");
           return { ok: false, reason: "timeout" };
         }
         const scroll = ScrollResultSchema.parse(scrollRaw);
@@ -341,7 +343,7 @@ async function harvestThreadsFeed(
       merged.push(enrichEntry({ postId, url: r.url }, r));
     }
     log.info(
-      `[pond threads-saved] merged=${merged.length} captures=${result.captures.length}`,
+      `[apostrophi threads-saved] merged=${merged.length} captures=${result.captures.length}`,
     );
     return {
       ok: true,
@@ -350,7 +352,7 @@ async function harvestThreadsFeed(
       reachedEnd: result.reachedEnd,
     };
   } catch (err) {
-    log.warn("[pond threads-saved] unexpected error", err);
+    log.warn("[apostrophi threads-saved] unexpected error", err);
     return { ok: false, reason: "timeout" };
   } finally {
     lease.release();
@@ -379,7 +381,7 @@ async function drainHookCaptures(
 ): Promise<import("../harvest/threads/graphql").SavedCapture[]> {
   try {
     const raw = await win.webContents.executeJavaScript(
-      "JSON.stringify(globalThis.__pondThreadsSavedCaptures ?? [])",
+      "JSON.stringify(globalThis.__apostrophiThreadsSavedCaptures ?? [])",
       true,
     );
     const rows = z

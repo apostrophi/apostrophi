@@ -7,7 +7,7 @@ import {
   type SaveFile,
   type Source,
   saves,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import {
   classifyLibraryFileFromHeader,
   type LibraryFileFormat,
@@ -295,7 +295,7 @@ async function importManualSave(
     id,
     source,
     sourceId,
-    url: input.url?.trim() || `pond:local/${id}`,
+    url: input.url?.trim() || `apostrophi:local/${id}`,
     title,
     description: isTextSave ? textBody : null,
     notes: isTextSave ? null : note,

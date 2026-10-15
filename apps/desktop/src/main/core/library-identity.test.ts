@@ -15,7 +15,7 @@ afterEach(async () => {
 async function createLibrary(name = "Existing") {
   const parent = await mkdtemp(join(tmpdir(), "library-id-"));
   roots.push(parent);
-  const root = join(parent, `${name}.pond`);
+  const root = join(parent, `${name}.apostrophi`);
   await mkdir(root);
   await writeFile(
     join(root, "metadata.json"),
@@ -74,7 +74,11 @@ it("removes optional customization fields", async () => {
 
 it("keeps the logo mark until the icon changes without one", async () => {
   const root = await createLibrary();
-  const mark = { kind: "icon", icon: "pond", color: "red-bright" } as const;
+  const mark = {
+    kind: "icon",
+    icon: "apostrophi",
+    color: "red-bright",
+  } as const;
   updateLibraryIdentity(root, { icon: "data:image/png;base64,aWNvbg==", mark });
   expect(updateLibraryIdentity(root, { name: "Design" }).mark).toEqual(mark);
   expect(

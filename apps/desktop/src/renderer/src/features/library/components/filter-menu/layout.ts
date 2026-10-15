@@ -1,5 +1,5 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
-import type { FieldId } from "@pond/schema/filters/types";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
+import type { FieldId } from "@apostrophi/schema/filters/types";
 
 export type FilterLayout =
   | "compact"

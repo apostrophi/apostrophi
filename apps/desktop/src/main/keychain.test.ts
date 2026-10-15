@@ -37,7 +37,7 @@ class TestKeychainPort implements KeychainPort {
 }
 
 beforeEach(async () => {
-  userData = await mkdtemp(join(tmpdir(), "pond-keychain-"));
+  userData = await mkdtemp(join(tmpdir(), "apostrophi-keychain-"));
   port = new TestKeychainPort(userData);
   keychain = createKeychain(port);
 });

@@ -226,7 +226,7 @@ describe("reviewed library edits", () => {
   });
 });
 
-describe("Pond operation reviews", () => {
+describe("Apostrophi operation reviews", () => {
   function operationChange(): AssistantChange {
     return {
       id: "operation",
@@ -250,15 +250,15 @@ describe("Pond operation reviews", () => {
   it("applies a persisted operation once and retains its result for follow-up", async () => {
     mock.changes = [operationChange()];
     const apply = vi
-      .fn<(typeof reviewDependencies)["applyPondOperation"]>()
+      .fn<(typeof reviewDependencies)["applyApostrophiOperation"]>()
       .mockResolvedValue({ id: "created-folder", name: "Film" });
     const request = {
       messageId: "message",
       changeIds: ["operation"],
       action: "apply" as const,
     };
-    await review(request, { ...deps, applyPondOperation: apply });
-    await review(request, { ...deps, applyPondOperation: apply });
+    await review(request, { ...deps, applyApostrophiOperation: apply });
+    await review(request, { ...deps, applyApostrophiOperation: apply });
     expect(apply).toHaveBeenCalledExactlyOnceWith({
       operation: "folders.create",
       arguments: { name: "Film" },
@@ -273,11 +273,11 @@ describe("Pond operation reviews", () => {
   it("preserves a failed operation as pending and supports dismissal without executing", async () => {
     mock.changes = [operationChange()];
     const apply = vi
-      .fn<(typeof reviewDependencies)["applyPondOperation"]>()
+      .fn<(typeof reviewDependencies)["applyApostrophiOperation"]>()
       .mockRejectedValue(new Error("The Library changed."));
     await review(
       { messageId: "message", changeIds: ["operation"], action: "apply" },
-      { ...deps, applyPondOperation: apply },
+      { ...deps, applyApostrophiOperation: apply },
     );
     expect(mock.changes[0]).toMatchObject({
       status: "pending",
@@ -285,7 +285,7 @@ describe("Pond operation reviews", () => {
     });
     await review(
       { messageId: "message", changeIds: ["operation"], action: "dismiss" },
-      { ...deps, applyPondOperation: apply },
+      { ...deps, applyApostrophiOperation: apply },
     );
     expect(mock.changes[0]).toMatchObject({ status: "dismissed" });
     expect(apply).toHaveBeenCalledOnce();
@@ -296,10 +296,11 @@ describe("Pond operation reviews", () => {
     if (change.field !== "action") throw new Error("Expected action fixture");
     change.payload = { operation: "folders.create", arguments: {} };
     mock.changes = [change];
-    const apply = vi.fn<(typeof reviewDependencies)["applyPondOperation"]>();
+    const apply =
+      vi.fn<(typeof reviewDependencies)["applyApostrophiOperation"]>();
     await review(
       { messageId: "message", changeIds: ["operation"], action: "apply" },
-      { ...deps, applyPondOperation: apply },
+      { ...deps, applyApostrophiOperation: apply },
     );
     expect(apply).not.toHaveBeenCalled();
     expect(mock.changes[0]).toMatchObject({

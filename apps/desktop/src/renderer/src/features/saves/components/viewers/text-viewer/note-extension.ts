@@ -22,7 +22,7 @@ import { markdownEditorExtension } from "@/shared/markdown-editor/extension";
 import { COLLAPSE_NODES } from "./collapsible";
 import { FileNode } from "./file-node";
 import { ImageNode } from "./image-node";
-import { $writeMarkdown, pondMdastExtension } from "./markdown";
+import { $writeMarkdown, apostrophiMdastExtension } from "./markdown";
 import styles from "./styles.module.css";
 import { YouTubeNode } from "./youtube-node";
 
@@ -69,7 +69,7 @@ function registerOpenExternal(editor: LexicalEditor): () => void {
       if (!(anchor instanceof HTMLAnchorElement) || !anchor.href) return false;
       if (editor.isEditable() && !event.metaKey && !event.ctrlKey) return false;
       event.preventDefault();
-      void window.pond.openExternal(anchor.href);
+      void window.apostrophi.openExternal(anchor.href);
       return true;
     },
     COMMAND_PRIORITY_LOW,
@@ -81,7 +81,7 @@ export function createNoteExtension(opts: {
   editable: boolean;
 }) {
   return defineExtension({
-    name: "@pond/note",
+    name: "@apostrophi/note",
     namespace: "note",
     theme: NOTE_THEME,
     editable: opts.editable,
@@ -90,7 +90,7 @@ export function createNoteExtension(opts: {
       $writeMarkdown(opts.markdown);
     },
     onError: (error: Error) => {
-      console.error("[pond note]", error);
+      console.error("[apostrophi note]", error);
     },
     dependencies: [
       markdownEditorExtension,
@@ -110,7 +110,7 @@ export function createNoteExtension(opts: {
         readOnly: "Read only",
       }),
       FocusManagerExtension,
-      pondMdastExtension,
+      apostrophiMdastExtension,
     ],
     register: (editor) => registerOpenExternal(editor),
   });

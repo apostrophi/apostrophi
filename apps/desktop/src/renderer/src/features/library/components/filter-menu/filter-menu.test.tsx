@@ -1,5 +1,5 @@
-import { PrefsSchema } from "@pond/schema";
-import type { SavedView } from "@pond/schema/db";
+import { PrefsSchema } from "@apostrophi/schema";
+import type { SavedView } from "@apostrophi/schema/db";
 import type { QueryInput } from "@shared/query-contracts";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -36,7 +36,7 @@ describe("filter toolbar", () => {
   let host: HTMLDivElement;
 
   beforeEach(() => {
-    vi.stubGlobal("pond", { query: async () => PrefsSchema.parse({}) });
+    vi.stubGlobal("apostrophi", { query: async () => PrefsSchema.parse({}) });
     vi.stubGlobal(
       "ResizeObserver",
       class {
@@ -183,7 +183,7 @@ describe("filter toolbar", () => {
   it("creates an Untitled saved view and starts inline naming", async () => {
     const views: SavedView[] = [];
     const created: QueryInput<"savedViews.create">[] = [];
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string, input: QueryInput<"savedViews.create">) => {
         if (name === "savedViews.create") {
           created.push(input);

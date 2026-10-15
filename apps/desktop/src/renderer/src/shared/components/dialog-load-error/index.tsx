@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@pond/ui";
+import { Button, Dialog } from "@apostrophi/ui";
 
 export function DialogLoadError({
   open,
@@ -23,7 +23,7 @@ export function DialogLoadError({
           </Dialog.Header>
           <Dialog.Content>
             <Dialog.Description role="alert">
-              This window couldn't load. Reload Pond to try again.
+              This window couldn't load. Reload Apostrophi to try again.
             </Dialog.Description>
           </Dialog.Content>
           <Dialog.Footer>

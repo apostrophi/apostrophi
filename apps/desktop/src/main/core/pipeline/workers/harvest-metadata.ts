@@ -1,7 +1,7 @@
-import type { NewSave, Source } from "@pond/schema/db";
-import { domainFromUrl } from "@pond/schema/domain";
-import { majorityMediaType } from "@pond/schema/media-type";
-import { walkCaptureMedia } from "@pond/schema/raw";
+import type { NewSave, Source } from "@apostrophi/schema/db";
+import { domainFromUrl } from "@apostrophi/schema/domain";
+import { majorityMediaType } from "@apostrophi/schema/media-type";
+import { walkCaptureMedia } from "@apostrophi/schema/raw";
 import log from "electron-log/main.js";
 import type { TransferOptions } from "../../../lib/download-transfer";
 import { persistSave } from "../../persist-save";
@@ -25,7 +25,7 @@ export async function runHarvestMetadata(
 
   if (!payload.force && isFreshHarvest(save.rawJson)) {
     log.debug(
-      "[pond pipeline:harvest] fresh capture present, skipping",
+      "[apostrophi pipeline:harvest] fresh capture present, skipping",
       saveId,
     );
     return;
@@ -54,7 +54,7 @@ export async function runHarvestMetadata(
   await persistSave(saveId, patch, {
     actorReason: `harvest:${extractor.id}`,
   });
-  log.info("[pond pipeline:harvest] captured", {
+  log.info("[apostrophi pipeline:harvest] captured", {
     saveId,
     extractor: extractor.id,
     media: walkCaptureMedia(capture).length,

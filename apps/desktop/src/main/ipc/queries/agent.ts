@@ -172,8 +172,8 @@ export const agentQueries = {
   }),
 
   "agent.mcpSnippet": query(Params, async () => {
-    const { pondMcpSnippet } = await import("../../core/agent/mcp-hosts");
-    return { ...pondMcpSnippet(), app: app.getName() };
+    const { apostrophiMcpSnippet } = await import("../../core/agent/mcp-hosts");
+    return { ...apostrophiMcpSnippet(), app: app.getName() };
   }),
 
   "agent.openMcpInstall": query(

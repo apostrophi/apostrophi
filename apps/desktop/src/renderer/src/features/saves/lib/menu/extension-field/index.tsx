@@ -1,4 +1,4 @@
-import { Input } from "@pond/ui";
+import { Input } from "@apostrophi/ui";
 import { useState } from "react";
 import { notify } from "@/shared/lib/toast";
 import styles from "./styles.module.css";
@@ -12,7 +12,7 @@ export function ExtensionField({ ids }: { ids: string[] }) {
     if (!extension || busy) return;
     setBusy(true);
     try {
-      const result = await window.pond.query("saves.batchEditExtension", {
+      const result = await window.apostrophi.query("saves.batchEditExtension", {
         ids,
         extension,
       });

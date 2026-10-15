@@ -81,13 +81,13 @@ export function buildHelpSection(context: AppMenuContext): AppMenuItem {
       {
         label: "Help Center",
         click: context.openExternalUrl(
-          "https://github.com/raphaelsalaja/pond#readme",
+          "https://github.com/apostrophi/apostrophi#readme",
         ),
       },
       {
         label: "Responsible Use",
         click: context.openExternalUrl(
-          "https://github.com/raphaelsalaja/pond/blob/main/RESPONSIBLE-USE.md",
+          "https://github.com/apostrophi/apostrophi/blob/main/RESPONSIBLE-USE.md",
         ),
       },
       {
@@ -102,23 +102,13 @@ export function buildHelpSection(context: AppMenuContext): AppMenuItem {
       {
         label: "Report an Issue",
         click: context.openExternalUrl(
-          "https://github.com/raphaelsalaja/pond/issues",
+          "https://github.com/apostrophi/apostrophi/issues",
         ),
       },
       {
         label: "Release Notes",
         click: context.openExternalUrl(
-          "https://github.com/raphaelsalaja/pond/releases",
-        ),
-      },
-      {
-        label: "Email",
-        click: context.openExternalUrl("mailto:raphaelsalaja@gmail.com"),
-      },
-      {
-        label: "Buy Me a Coffee",
-        click: context.openExternalUrl(
-          "https://buymeacoffee.com/raphaelsalaja",
+          "https://github.com/apostrophi/apostrophi/releases",
         ),
       },
       { type: "separator" },

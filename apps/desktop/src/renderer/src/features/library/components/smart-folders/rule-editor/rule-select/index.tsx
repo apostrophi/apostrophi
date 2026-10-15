@@ -1,4 +1,4 @@
-import { Select } from "@pond/ui";
+import { Select } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 interface SingleProps<T extends string> {

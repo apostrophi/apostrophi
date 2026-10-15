@@ -47,7 +47,7 @@ type CollapseSegment = {
 
 type MarkdownSegment = { kind: "md"; value: string } | CollapseSegment;
 
-function splitPondMarkdown(source: string): MarkdownSegment[] {
+function splitApostrophiMarkdown(source: string): MarkdownSegment[] {
   const lines = source.split("\n");
   const segments: MarkdownSegment[] = [];
   let buf: string[] = [];
@@ -135,7 +135,7 @@ function $appendMarkdown(markdown: string): void {
 export function $writeMarkdown(markdown: string): void {
   const root = $getRoot();
   root.clear();
-  const segments = splitPondMarkdown(markdown);
+  const segments = splitApostrophiMarkdown(markdown);
   if (segments.length === 0) {
     $convertFromMarkdownString("");
     $applyUnderlineMarkers();
@@ -290,7 +290,7 @@ const exportRules: MdastExportRule[] = [
   { type: "youtube", $export: $exportYouTube },
 ];
 
-export const pondMdastExtension = configExtension(MdastImportExtension, {
+export const apostrophiMdastExtension = configExtension(MdastImportExtension, {
   importRules,
   exportRules,
   toMarkdownExtensions: [

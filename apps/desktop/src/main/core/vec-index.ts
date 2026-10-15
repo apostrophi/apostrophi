@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { arch, platform } from "node:process";
-import type { JsonValue } from "@pond/schema/json";
+import type { JsonValue } from "@apostrophi/schema/json";
 import type Database from "better-sqlite3";
 import log from "electron-log/main.js";
 import { load as loadSqliteVecExtension } from "sqlite-vec";
@@ -53,7 +53,7 @@ export function loadSqliteVec(db: Database.Database): boolean {
       db.loadExtension(unpacked);
       return true;
     } catch (error) {
-      log.warn("[pond vec] unpacked extension failed", {
+      log.warn("[apostrophi vec] unpacked extension failed", {
         error: error instanceof Error ? error.message : "unknown error",
       });
     }
@@ -62,7 +62,7 @@ export function loadSqliteVec(db: Database.Database): boolean {
     loadSqliteVecExtension(db);
     return true;
   } catch (error) {
-    log.warn("[pond vec] sqlite-vec unavailable", {
+    log.warn("[apostrophi vec] sqlite-vec unavailable", {
       error: error instanceof Error ? error.message : "unknown error",
     });
     return false;
@@ -178,7 +178,7 @@ export function knnVec(
         .all(toVecBlob(vector), k),
     );
   } catch (error) {
-    log.warn("[pond vec] knn failed", {
+    log.warn("[apostrophi vec] knn failed", {
       kind,
       error: error instanceof Error ? error.message : "unknown error",
     });

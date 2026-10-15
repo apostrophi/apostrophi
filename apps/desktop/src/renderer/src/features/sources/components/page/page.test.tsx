@@ -1,4 +1,4 @@
-import { Tooltip } from "@pond/ui";
+import { Tooltip } from "@apostrophi/ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -80,7 +80,7 @@ describe("Sources page selection", () => {
       if (name === "watches.list") return { watches: [] };
       return { ok: true };
     });
-    vi.stubGlobal("pond", { query });
+    vi.stubGlobal("apostrophi", { query });
     host = document.createElement("div");
     document.body.append(host);
     root = createRoot(host);

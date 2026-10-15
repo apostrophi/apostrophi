@@ -24,7 +24,7 @@ export function Wordmark({
       {...props}
     >
       <Logo className={styles.mark} size={size} aria-hidden />
-      <span className={styles.name}>Pond</span>
+      <span className={styles.name}>Apostrophi</span>
     </span>
   );
 }

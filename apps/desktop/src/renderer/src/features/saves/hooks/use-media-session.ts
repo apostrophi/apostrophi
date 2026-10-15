@@ -38,7 +38,7 @@ interface ArtworkBlob {
   type: string;
 }
 
-/** Chromium only accepts http(s)/blob/data artwork; pond:// must be rehosted as a blob. */
+/** Chromium only accepts http(s)/blob/data artwork; apostrophi:// must be rehosted as a blob. */
 function useArtworkBlob(
   url: string | null | undefined,
 ): ArtworkBlob | undefined {

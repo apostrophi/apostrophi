@@ -1,11 +1,11 @@
-import { AlertDialog as Alert } from "@base-ui/react/alert-dialog";
-import { Dialog as Base } from "@base-ui/react/dialog";
 import {
   IconAlertQuestionFill,
   IconChevronLeft,
   IconCircleInfo,
   IconXmark,
-} from "@pond/icons";
+} from "@apostrophi/icons";
+import { AlertDialog as Alert } from "@base-ui/react/alert-dialog";
+import { Dialog as Base } from "@base-ui/react/dialog";
 import { clsx as cn } from "clsx";
 import {
   AnimatePresence,

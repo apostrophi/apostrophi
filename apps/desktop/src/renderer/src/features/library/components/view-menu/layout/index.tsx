@@ -1,4 +1,4 @@
-import { Select } from "@pond/ui";
+import { Select } from "@apostrophi/ui";
 import { useView } from "@/features/library/hooks/use-view";
 import type { LayoutValue } from "@/features/library/lib/view-prefs";
 import { ViewMenuRow } from "../row";

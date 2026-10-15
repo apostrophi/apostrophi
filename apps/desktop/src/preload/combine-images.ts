@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema";
+import type { Prefs } from "@apostrophi/schema";
 import {
   contextBridge,
   type IpcRendererEvent,
@@ -13,17 +13,17 @@ import type { QueryClient } from "../shared/query-contracts";
 
 /** Sandboxed preloads can't require sibling chunks, so channels are inlined instead of imported from the shared contract. */
 const COMBINE_IMAGES_WINDOW_IPC = {
-  load: "pond:combine-images-window-load",
-  ready: "pond:combine-images-window-ready",
-  close: "pond:combine-images-window-close",
-  resolveDrop: "pond:combine-images-window-resolve-drop",
-  zoom: "pond:combine-images-window-zoom",
+  load: "apostrophi:combine-images-window-load",
+  ready: "apostrophi:combine-images-window-ready",
+  close: "apostrophi:combine-images-window-close",
+  resolveDrop: "apostrophi:combine-images-window-resolve-drop",
+  zoom: "apostrophi:combine-images-window-zoom",
 } as const;
 
 const IPC = {
-  query: "pond:query",
-  libraryId: "pond:library-id",
-  prefsChanged: "pond:prefs-changed",
+  query: "apostrophi:query",
+  libraryId: "apostrophi:library-id",
+  prefsChanged: "apostrophi:prefs-changed",
 } as const;
 
 const query: QueryClient = (name, ...args) =>
@@ -75,6 +75,6 @@ const combineApi = {
   },
 };
 
-contextBridge.exposeInMainWorld("pond", api);
-contextBridge.exposeInMainWorld("pondCombine", combineApi);
-export type PondCombineApi = typeof combineApi;
+contextBridge.exposeInMainWorld("apostrophi", api);
+contextBridge.exposeInMainWorld("apostrophiCombine", combineApi);
+export type ApostrophiCombineApi = typeof combineApi;

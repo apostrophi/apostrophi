@@ -9,7 +9,7 @@ import type { WatchEntry, WatchHarvestResult } from "./types";
 const COLLECT_TIMEOUT_MS = 60_000;
 
 /** Isolated from the shared and per-account jars so a watch can never ride or pollute a signed-in Cosmos session. */
-const PUBLIC_PARTITION = "persist:pond-watch-public";
+const PUBLIC_PARTITION = "persist:apostrophi-watch-public";
 
 function pageUrl(handle: string): string {
   const segs = handle
@@ -40,7 +40,7 @@ const COLLECTOR = `
     };
     const collect = () => {
       /** Element ids live in the GraphQL bodies the preload hook captured; regex keeps this resilient to operation/shape changes. */
-      for (const cap of globalThis.__pondCosmosCaptures ?? []) {
+      for (const cap of globalThis.__apostrophiCosmosCaptures ?? []) {
         for (const m of String(cap.body ?? "").matchAll(
           /cosmos\\.so\\\\?\\/e\\\\?\\/(\\d+)/g,
         )) {
@@ -91,10 +91,13 @@ export async function listCosmosWatch(
     const raw = await Promise.race([
       lease.win.webContents.executeJavaScript(COLLECTOR, true),
       new Promise<string>((resolve) =>
-        setTimeout(() => resolve("__pond_watch_timeout__"), COLLECT_TIMEOUT_MS),
+        setTimeout(
+          () => resolve("__apostrophi_watch_timeout__"),
+          COLLECT_TIMEOUT_MS,
+        ),
       ),
     ]);
-    if (raw === "__pond_watch_timeout__")
+    if (raw === "__apostrophi_watch_timeout__")
       return { ok: false, reason: "timeout" };
     const page = CosmosPageSchema.safeParse(raw);
     if (!page.success) return { ok: false, reason: "unknown" };
@@ -110,7 +113,7 @@ export async function listCosmosWatch(
     }
     return { ok: true, entries };
   } catch (err) {
-    log.warn("[pond watch:cosmos]", handle, "unexpected error", err);
+    log.warn("[apostrophi watch:cosmos]", handle, "unexpected error", err);
     return { ok: false, reason: "unknown" };
   } finally {
     lease.release();

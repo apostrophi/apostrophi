@@ -1,6 +1,6 @@
 /**
  * Union of the macOS and Windows format manifests shipped in Eagle 4.
- * Keep this list stable: it is Pond's lossless Eagle-migration contract.
+ * Keep this list stable: it is Apostrophi's lossless Eagle-migration contract.
  */
 export const EAGLE_CORE_EXTENSIONS = [
   "afx",

@@ -18,12 +18,12 @@ const host = createQueueWorkerHost({
     }
     const ffmpeg = binariesAvailable().ffmpeg;
     const child = utilityProcess.fork(resolveMainOut("queue-worker.js"), [], {
-      serviceName: "Pond Queue Worker",
+      serviceName: "Apostrophi Queue Worker",
       stdio: ["ignore", "ignore", "pipe"],
       env: ffmpeg ? { ...process.env, [FFMPEG_PATH_ENV]: ffmpeg } : process.env,
     });
     child.stderr?.on("data", (chunk: Buffer) => {
-      log.warn("[pond queue workers] stderr", String(chunk).trim());
+      log.warn("[apostrophi queue workers] stderr", String(chunk).trim());
     });
     return {
       onMessage: (listener) => {
@@ -45,7 +45,7 @@ const host = createQueueWorkerHost({
     const info = await stat(path);
     return info.isFile();
   },
-  onStopped: () => log.info("[pond queue workers] stopped"),
+  onStopped: () => log.info("[apostrophi queue workers] stopped"),
 });
 
 export type { QueueWorkerResult } from "./worker-host-core";

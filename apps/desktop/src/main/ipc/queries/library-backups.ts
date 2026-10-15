@@ -14,7 +14,7 @@ import { flushPortableMetadata } from "../../core/portable-metadata";
 import { setPrefs } from "../../core/prefs";
 import { flushTagsDump } from "../../core/tags-bundle";
 import { libraryRoot as libraryRootDir } from "../../paths";
-import { ensurePondSuffix } from "./library-location-paths";
+import { ensureApostrophiSuffix } from "./library-location-paths";
 import {
   relaunchSoon,
   resumeLibraryWork,
@@ -33,12 +33,12 @@ export const libraryBackupQueries = {
 
       const win = BrowserWindow.getFocusedWindow() ?? undefined;
       const stamp = new Date().toISOString().slice(0, 10);
-      const base = basename(src).replace(/\.pond$/i, "") || "Pond";
+      const base = basename(src).replace(/\.apostrophi$/i, "") || "Apostrophi";
       const dialogOpts = {
         title: "Backup Library",
         nameFieldLabel: "Backup Name:",
         buttonLabel: "Backup",
-        defaultPath: join(dirname(src), `${base} Backup ${stamp}.pond`),
+        defaultPath: join(dirname(src), `${base} Backup ${stamp}.apostrophi`),
         properties: ["createDirectory" as const],
       };
       const picked = params.path?.trim()
@@ -50,7 +50,7 @@ export const libraryBackupQueries = {
         return { ok: false as const, reason: "cancelled" as const };
       }
 
-      const dest = ensurePondSuffix(picked.filePath).replace(/\/+$/, "");
+      const dest = ensureApostrophiSuffix(picked.filePath).replace(/\/+$/, "");
       const srcResolved = resolve(src);
       const destResolved = resolve(dest);
 
@@ -105,7 +105,7 @@ export const libraryBackupQueries = {
     async (params): Promise<QueryResult<"library.restoreBackup">> => {
       const win = BrowserWindow.getFocusedWindow() ?? undefined;
       const options = {
-        title: "Choose a Pond Backup",
+        title: "Choose an Apostrophi Backup",
         buttonLabel: "Choose Backup",
         properties: ["openFile" as const, "openDirectory" as const],
       };
@@ -125,7 +125,7 @@ export const libraryBackupQueries = {
           buttonLabel: "Restore",
           defaultPath: join(
             dirname(source),
-            `${basename(source).replace(/\.pond$/i, "")} Restored.pond`,
+            `${basename(source).replace(/\.apostrophi$/i, "")} Restored.apostrophi`,
           ),
           properties: ["createDirectory" as const],
         };
@@ -141,7 +141,7 @@ export const libraryBackupQueries = {
         await flushTagsDump();
         const restored = await restoreLibraryBackup({
           source,
-          destination: ensurePondSuffix(destination.filePath),
+          destination: ensureApostrophiSuffix(destination.filePath),
         });
         await relocateLibrary(restored.path, "adopt");
         await relaunchSoon();

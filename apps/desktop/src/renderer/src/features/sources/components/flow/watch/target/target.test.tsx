@@ -133,7 +133,7 @@ it("offers Connect up front when the source needs a signed-in account", async ()
   expect(connect?.type).toBe("button");
 });
 
-it("explains a profile Pond couldn't find and clears it on edit", async () => {
+it("explains a profile Apostrophi couldn't find and clears it on edit", async () => {
   addWatch.mockResolvedValueOnce({ ok: false, reason: "invalid" });
   await render();
   await type("missing-account");

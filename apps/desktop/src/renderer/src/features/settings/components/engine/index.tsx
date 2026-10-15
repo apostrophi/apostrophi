@@ -1,5 +1,5 @@
-import type { Prefs } from "@pond/schema/db";
-import { Settings } from "@pond/ui";
+import type { Prefs } from "@apostrophi/schema/db";
+import { Settings } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import { z } from "zod";
 import { ItemView } from "@/features/settings/components/engine/field-control";

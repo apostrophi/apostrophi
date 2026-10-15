@@ -1,5 +1,9 @@
-import { IconImage, IconImageSparkle, IconTextToImage } from "@pond/icons";
-import { Button, Input } from "@pond/ui";
+import {
+  IconImage,
+  IconImageSparkle,
+  IconTextToImage,
+} from "@apostrophi/icons";
+import { Button, Input } from "@apostrophi/ui";
 import { useId, useRef, useState } from "react";
 import {
   loadImage,
@@ -162,7 +166,7 @@ function VisualEditor({ probe }: { probe: VisualProbe | null }) {
       <p className={styles.title}>
         {probe ? probe.label : "Drag or paste image"}
       </p>
-      <p className={styles.hint}>Supports Pond or local images</p>
+      <p className={styles.hint}>Supports Apostrophi or local images</p>
       <input
         id={inputId}
         ref={inputRef}

@@ -73,7 +73,7 @@ export function checkPointerSafety(target: string): PointerSafetyReport {
     } else {
       mkdirSync(abs, { recursive: true });
     }
-    const probe = join(abs, `.pond-probe-${Date.now()}`);
+    const probe = join(abs, `.apostrophi-probe-${Date.now()}`);
     writeFileSync(probe, "ok");
     try {
       readFileSync(probe);

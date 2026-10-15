@@ -1,4 +1,4 @@
-import { Input } from "@pond/ui";
+import { Input } from "@apostrophi/ui";
 import { useId, useState } from "react";
 import { savePrefsSection, usePrefs } from "@/shared/state/prefs";
 import styles from "./styles.module.css";
@@ -18,12 +18,14 @@ export function SystemPreferences() {
           onValueChange={setProxyUrl}
           onBlur={() => {
             void savePrefsSection("system", { proxyUrl }).then(() =>
-              window.pond.query("system.applyPrefs", {}),
+              window.apostrophi.query("system.applyPrefs", {}),
             );
           }}
         />
       </Input.Root>
-      <span>Use an HTTP or SOCKS proxy for Pond's main-process requests.</span>
+      <span>
+        Use an HTTP or SOCKS proxy for Apostrophi's main-process requests.
+      </span>
     </label>
   );
 }

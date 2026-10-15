@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {

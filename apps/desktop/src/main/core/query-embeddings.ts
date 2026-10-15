@@ -1,8 +1,8 @@
+import type { MediaType, Prefs } from "@apostrophi/schema/db";
 import type {
   PreTrainedModel,
   PreTrainedTokenizer,
 } from "@huggingface/transformers";
-import type { MediaType, Prefs } from "@pond/schema/db";
 import {
   embeddingCodeQuery,
   embeddingFactClaim,

@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";

@@ -14,12 +14,12 @@
     },
     "apps/website": {
       "project": ["**/*.{ts,tsx}"],
-      "ignoreDependencies": ["@pond/theme"]
+      "ignoreDependencies": ["@apostrophi/theme"]
     },
     "apps/extension": {
       "entry": ["entrypoints/**/*.{ts,tsx}", "scripts/*.mjs"],
       "project": ["**/*.{ts,tsx}"],
-      "ignoreDependencies": ["@pond/theme"]
+      "ignoreDependencies": ["@apostrophi/theme"]
     },
     "apps/raycast": { "project": ["src/**/*.{ts,tsx}"] },
     "packages/schema": {

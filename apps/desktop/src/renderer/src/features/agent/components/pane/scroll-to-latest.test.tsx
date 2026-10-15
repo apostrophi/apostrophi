@@ -1,4 +1,4 @@
-import { Thread } from "@pond/ui/thread";
+import { Thread } from "@apostrophi/ui/thread";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";

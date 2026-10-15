@@ -29,7 +29,7 @@ afterEach(async () => {
 });
 
 async function temporaryRoot(name: string): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), `pond-eagle-${name}-`));
+  const root = await mkdtemp(join(tmpdir(), `apostrophi-eagle-${name}-`));
   roots.push(root);
   return root;
 }

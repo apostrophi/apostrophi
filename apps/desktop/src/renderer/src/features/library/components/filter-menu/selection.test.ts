@@ -1,5 +1,5 @@
-import { matches } from "@pond/schema/filters/match";
-import type { Predicate, Query } from "@pond/schema/filters/types";
+import { matches } from "@apostrophi/schema/filters/match";
+import type { Predicate, Query } from "@apostrophi/schema/filters/types";
 import { describe, expect, it } from "vitest";
 import { parseSearchInput, serializeQuery } from "@/features/search/lib/syntax";
 import {

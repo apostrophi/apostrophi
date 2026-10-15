@@ -62,7 +62,7 @@ it("rounds the canvas corners into transparency for PNG", async () => {
 });
 
 it("joins images left to right at the tallest height without touching originals", async () => {
-  const dir = await mkdtemp(join(tmpdir(), "pond-combine-"));
+  const dir = await mkdtemp(join(tmpdir(), "apostrophi-combine-"));
   try {
     const left = await sharp({
       create: { width: 10, height: 20, channels: 4, background: "red" },

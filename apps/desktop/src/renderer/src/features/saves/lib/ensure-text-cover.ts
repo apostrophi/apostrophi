@@ -26,7 +26,7 @@ export function ensureTextCover(
   requested.add(save.id);
   const params: TextCoverParams = { id: save.id };
   if (opts.force) params.force = true;
-  void window.pond
+  void window.apostrophi
     .query("saves.ensureTextCover", params)
     .then((result) => {
       const res = TextCoverReplySchema.parse(result);

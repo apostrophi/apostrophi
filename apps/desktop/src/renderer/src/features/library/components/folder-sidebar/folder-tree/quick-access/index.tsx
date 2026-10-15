@@ -1,7 +1,7 @@
-import { IconFolderSearch, IconGrid, IconVersions } from "@pond/icons";
-import type { Prefs } from "@pond/schema";
-import type { Folder } from "@pond/schema/db";
-import { type MenuItemSpec, Sidebar } from "@pond/ui";
+import { IconFolderSearch, IconGrid, IconVersions } from "@apostrophi/icons";
+import type { Prefs } from "@apostrophi/schema";
+import type { Folder } from "@apostrophi/schema/db";
+import { type MenuItemSpec, Sidebar } from "@apostrophi/ui";
 import { enterFolder } from "@/features/library/operations/enter-folder";
 import { SpecContextMenu } from "@/shared/components/spec-context-menu";
 import { FolderIcon, folderColorCss } from "@/shared/lib/folder-icons";

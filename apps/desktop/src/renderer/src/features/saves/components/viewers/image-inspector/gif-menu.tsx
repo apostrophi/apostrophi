@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import type { ReactElement } from "react";
 import { SpecContextMenu } from "@/shared/components/spec-context-menu";
 

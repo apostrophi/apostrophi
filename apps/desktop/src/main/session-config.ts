@@ -9,31 +9,31 @@ export function configureSessionDefaults(): void {
   session.defaultSession.setPermissionCheckHandler(() => false);
   try {
     session
-      .fromPartition("persist:pond-scrapers")
+      .fromPartition("persist:apostrophi-scrapers")
       .setPermissionRequestHandler(denyAll);
   } catch (err) {
-    log.warn("[pond] scrapers session permission handler failed", err);
+    log.warn("[apostrophi] scrapers session permission handler failed", err);
   }
 
   if (app.isPackaged) {
     const PROD_CSP = [
-      "default-src 'self' pond:",
-      "img-src 'self' data: blob: pond: https:",
-      "media-src 'self' data: blob: pond: https:",
+      "default-src 'self' apostrophi:",
+      "img-src 'self' data: blob: apostrophi: https:",
+      "media-src 'self' data: blob: apostrophi: https:",
       "style-src 'self' 'unsafe-inline'",
       /** onnxruntime-web needs wasm-unsafe-eval and blob: for its wasm module/worker. */
       "script-src 'self' 'wasm-unsafe-eval' blob:",
       "worker-src 'self' blob:",
-      "connect-src 'self' blob: http://127.0.0.1:* pond: https:",
-      "font-src 'self' data: pond:",
-      "frame-src pond: https://www.youtube-nocookie.com",
+      "connect-src 'self' blob: http://127.0.0.1:* apostrophi: https:",
+      "font-src 'self' data: apostrophi:",
+      "frame-src apostrophi: https://www.youtube-nocookie.com",
       "object-src 'none'",
       "frame-ancestors 'none'",
       "base-uri 'self'",
     ].join("; ");
     session.defaultSession.webRequest.onHeadersReceived((details, cb) => {
-      /** pond:// serves the archive viewer and wabac's service worker; injecting the app CSP/COEP there breaks replay. The app document itself loads from file://, so its CSP is unaffected. */
-      if (details.url.startsWith("pond://")) {
+      /** apostrophi:// serves the archive viewer and wabac's service worker; injecting the app CSP/COEP there breaks replay. The app document itself loads from file://, so its CSP is unaffected. */
+      if (details.url.startsWith("apostrophi://")) {
         cb({ responseHeaders: details.responseHeaders });
         return;
       }

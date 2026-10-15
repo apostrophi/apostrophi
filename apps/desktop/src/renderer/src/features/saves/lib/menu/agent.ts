@@ -2,8 +2,8 @@ import {
   IconArrowRotateClockwise,
   IconChatBubble,
   IconMediaPlay,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { addSavesToChat } from "@/features/agent";
 import {
   failedIdsIn,

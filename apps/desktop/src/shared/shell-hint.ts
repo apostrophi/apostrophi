@@ -12,4 +12,4 @@ export const ShellHintSchema = z.object({
 
 export type ShellHint = z.infer<typeof ShellHintSchema>;
 
-export const SHELL_HINT_ARG = "--pond-shell=";
+export const SHELL_HINT_ARG = "--apostrophi-shell=";

@@ -1,4 +1,4 @@
-import { Tooltip } from "@pond/ui";
+import { Tooltip } from "@apostrophi/ui";
 import type {
   CombineImagesWindowLoad,
   CombineImagesZoomAction,
@@ -10,32 +10,32 @@ import { CombineImages } from "@/features/saves/components/combine-images";
 import { InterfaceZoom } from "@/features/settings/effects/interface-zoom";
 import { ThemeApplier } from "@/features/settings/effects/theme-applier";
 import { ToastHost } from "@/shared/components/toast-host";
-import type { PondCombineApi } from "../../../../preload/combine-images";
+import type { ApostrophiCombineApi } from "../../../../preload/combine-images";
 
 declare global {
   interface Window {
-    pondCombine?: PondCombineApi;
+    apostrophiCombine?: ApostrophiCombineApi;
   }
 }
 
 function close(): void {
-  void window.pondCombine?.close();
+  void window.apostrophiCombine?.close();
 }
 
 function resolveDrop(files: readonly File[]): Promise<string[]> {
-  return window.pondCombine?.resolveDrop(files) ?? Promise.resolve([]);
+  return window.apostrophiCombine?.resolveDrop(files) ?? Promise.resolve([]);
 }
 
 function subscribeZoom(
   callback: (action: CombineImagesZoomAction) => void,
 ): () => void {
-  return window.pondCombine?.onZoom(callback) ?? (() => {});
+  return window.apostrophiCombine?.onZoom(callback) ?? (() => {});
 }
 
 export function CombineImagesWindow() {
   const [load, setLoad] = useState<CombineImagesWindowLoad | null>(null);
   useEffect(() => {
-    const api = window.pondCombine;
+    const api = window.apostrophiCombine;
     if (!api) return;
     let active = true;
     const apply = (next: CombineImagesWindowLoad) => {

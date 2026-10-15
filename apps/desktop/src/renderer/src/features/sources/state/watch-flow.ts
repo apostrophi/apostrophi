@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
 

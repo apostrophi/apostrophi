@@ -1,26 +1,29 @@
 import { Chat } from "@ai-sdk/react";
 import type { AssistantMessage } from "@shared/assistant";
-import { pondChatTransport } from "./chat-transport";
-import { type PondUIMessage, toUIMessage } from "./pond-messages";
+import { type ApostrophiUIMessage, toUIMessage } from "./apostrophi-messages";
+import { apostrophiChatTransport } from "./chat-transport";
 
-const sessions = new Map<string, Chat<PondUIMessage>>();
+const sessions = new Map<string, Chat<ApostrophiUIMessage>>();
 
-export function pondChatSession(
+export function apostrophiChatSession(
   chatId: string,
-  messages: PondUIMessage[] = [],
+  messages: ApostrophiUIMessage[] = [],
 ) {
   const existing = sessions.get(chatId);
   if (existing) return existing;
-  const chat = new Chat<PondUIMessage>({
+  const chat = new Chat<ApostrophiUIMessage>({
     id: chatId,
-    transport: pondChatTransport(),
+    transport: apostrophiChatTransport(),
     messages,
   });
   sessions.set(chatId, chat);
   return chat;
 }
 
-export function hydratePondChat(chatId: string, messages: AssistantMessage[]) {
+export function hydrateApostrophiChat(
+  chatId: string,
+  messages: AssistantMessage[],
+) {
   const next = messages.map(toUIMessage);
   const existing = sessions.get(chatId);
   if (
@@ -32,5 +35,5 @@ export function hydratePondChat(chatId: string, messages: AssistantMessage[]) {
     existing.messages = next;
     return existing;
   }
-  return pondChatSession(chatId, next);
+  return apostrophiChatSession(chatId, next);
 }

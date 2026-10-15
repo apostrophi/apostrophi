@@ -32,7 +32,7 @@ async function exportSaves(
     return;
   }
   if (mode === "eagle-package") {
-    const result = await window.pond.query("saves.exportEaglePackage", {
+    const result = await window.apostrophi.query("saves.exportEaglePackage", {
       ids,
     });
     if (!result.ok && result.reason !== "cancelled")
@@ -41,10 +41,10 @@ async function exportSaves(
       );
     return;
   }
-  const result = await window.pond.query("saves.exportPackage", { ids });
+  const result = await window.apostrophi.query("saves.exportPackage", { ids });
   if (!result.ok && result.reason !== "cancelled")
     throw new Error(
-      result.error || "Couldn't export the Pond package. Try again.",
+      result.error || "Couldn't export the Apostrophi package. Try again.",
     );
 }
 
@@ -61,7 +61,7 @@ export function useConversionJob() {
     async function poll() {
       if (!job) return;
       try {
-        const next = await window.pond.query("conversion.status", {
+        const next = await window.apostrophi.query("conversion.status", {
           id: job.id,
         });
         if (!stopped && next) setJob(next);
@@ -95,7 +95,7 @@ export function useConversionJob() {
   function start({ mode, ids, fileIndex, preset }: ExportRequest) {
     return run(async () => {
       if (mode === "converted") {
-        const result = await window.pond.query("conversion.start", {
+        const result = await window.apostrophi.query("conversion.start", {
           ids,
           fileIndex,
           preset,
@@ -111,7 +111,9 @@ export function useConversionJob() {
   async function cancel() {
     if (!job) return;
     try {
-      setJob(await window.pond.query("conversion.cancel", { id: job.id }));
+      setJob(
+        await window.apostrophi.query("conversion.cancel", { id: job.id }),
+      );
     } catch (cause) {
       setError(errorCopy(cause, "Couldn't cancel the export. Try again."));
     }

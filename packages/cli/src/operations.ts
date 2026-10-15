@@ -1,5 +1,9 @@
 import { createInterface } from "node:readline/promises";
-import type { JsonObject, JsonValue, PondLocalApi } from "@pond/local-api";
+import type {
+  ApostrophiLocalApi,
+  JsonObject,
+  JsonValue,
+} from "@apostrophi/local-api";
 import { z } from "zod";
 
 export interface OperationOptions {
@@ -22,14 +26,15 @@ async function confirm(message: string): Promise<boolean> {
 }
 
 export async function runOperation(
-  api: PondLocalApi,
+  api: ApostrophiLocalApi,
   name: string,
   args: JsonObject,
   options: OperationOptions,
 ): Promise<JsonValue> {
   const catalog = await api.operations();
   const operation = catalog.find((entry) => entry.name === name);
-  if (!operation) throw new Error(`Pond does not expose operation ${name}.`);
+  if (!operation)
+    throw new Error(`Apostrophi does not expose operation ${name}.`);
   if (operation.access === "read") return api.runOperation(name, args);
   const preview = await api.previewOperation(name, args);
   if (options.dryRun) return { status: "preview", ...preview, arguments: args };

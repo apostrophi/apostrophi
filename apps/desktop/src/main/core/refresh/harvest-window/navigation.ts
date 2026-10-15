@@ -74,7 +74,11 @@ export async function navigateWithTimeout(
       isMainFrame: boolean,
     ) => {
       if (!isMainFrame || code === -3) return;
-      log.info("[pond scrape] nav load failed", { code, desc, failedUrl });
+      log.info("[apostrophi scrape] nav load failed", {
+        code,
+        desc,
+        failedUrl,
+      });
       cleanup();
       resolve(false);
     };
@@ -94,7 +98,7 @@ export async function navigateWithTimeout(
       if (err instanceof Error && err.message.includes("ERR_ABORTED")) {
         return finished;
       }
-      log.info("[pond scrape] loadURL rejected", {
+      log.info("[apostrophi scrape] loadURL rejected", {
         url,
         err: err instanceof Error ? err.message : String(err),
       });

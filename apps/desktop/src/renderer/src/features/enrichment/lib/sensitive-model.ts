@@ -8,7 +8,7 @@ import {
 } from "./sensitive-content-contract";
 
 const MODEL_URL = `https://huggingface.co/Marqo/nsfw-image-detection-384/resolve/${SENSITIVE_CONTENT_MODEL_REVISION}/onnx/model.onnx`;
-const MODEL_CACHE = "pond-models-v1";
+const MODEL_CACHE = "apostrophi-models-v1";
 const INPUT_SIZE = 384;
 const INFERENCE_BATCH_SIZE = 4;
 

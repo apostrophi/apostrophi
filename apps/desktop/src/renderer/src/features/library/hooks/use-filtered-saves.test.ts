@@ -1,5 +1,5 @@
-import { queryIsFullySqlSupported } from "@pond/schema/filters";
-import { matches } from "@pond/schema/filters/match";
+import { queryIsFullySqlSupported } from "@apostrophi/schema/filters";
+import { matches } from "@apostrophi/schema/filters/match";
 import { describe, expect, it } from "vitest";
 import type { Save } from "@/features/saves/types";
 import { parseSearchInput, serializeQuery } from "@/features/search/lib/syntax";

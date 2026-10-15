@@ -1,4 +1,4 @@
-import type { Op } from "@pond/schema/db";
+import type { Op } from "@apostrophi/schema/db";
 
 export const TASK_WATCHDOG_MS = {
   harvest_metadata: 90_000,

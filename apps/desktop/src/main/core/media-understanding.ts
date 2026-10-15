@@ -140,7 +140,7 @@ const defaultDependencies: MediaUnderstandingDependencies = {
   coordinator: localRuntimeCoordinator,
   metrics: {
     record(metric) {
-      log.info("[pond media] local understanding", metric);
+      log.info("[apostrophi media] local understanding", metric);
     },
   },
   now: () => performance.now(),

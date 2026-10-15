@@ -130,8 +130,8 @@ export const UI_SOUNDS = {
 } satisfies SoundSet;
 
 export const SOUND_PATCH = definePatch({
-  name: "pond",
-  author: "pond",
+  name: "apostrophi",
+  author: "apostrophi",
   description: "Warm interface sounds modeled on macOS system cues",
   sounds: UI_SOUNDS,
 });

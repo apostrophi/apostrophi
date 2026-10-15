@@ -22,7 +22,7 @@ function allowedOfflineUrl(value: string): boolean {
   const trimmed = value.trim();
   if (!trimmed) return true;
   if (trimmed.startsWith("#")) return true;
-  if (/^(data|pond):/i.test(trimmed)) return true;
+  if (/^(data|apostrophi):/i.test(trimmed)) return true;
   if (trimmed.startsWith("//")) return false;
   return !/^[a-z][a-z0-9+.-]*:/i.test(trimmed);
 }
@@ -50,7 +50,7 @@ export function sanitizeOfflineHtml(source: string): string {
   policy.setAttribute("http-equiv", "Content-Security-Policy");
   policy.setAttribute(
     "content",
-    "default-src 'none'; img-src data: pond:; style-src 'unsafe-inline'; font-src data: pond:",
+    "default-src 'none'; img-src data: apostrophi:; style-src 'unsafe-inline'; font-src data: apostrophi:",
   );
   document.head.prepend(policy);
   return `<!doctype html>${document.documentElement.outerHTML}`;

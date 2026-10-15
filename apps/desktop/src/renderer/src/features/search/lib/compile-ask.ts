@@ -1,9 +1,9 @@
-import type { QueryPlan } from "@pond/schema";
+import type { QueryPlan } from "@apostrophi/schema";
 import {
   isPredicate,
   type Predicate,
   type Query,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import {
   compileStageA,
   dedupePredicates,

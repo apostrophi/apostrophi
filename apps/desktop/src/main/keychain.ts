@@ -43,7 +43,7 @@ async function readAll(port: KeychainPort): Promise<SecretMap> {
     if (cause instanceof Error && "code" in cause && cause.code === "ENOENT") {
       return {};
     }
-    log.warn("[pond] failed to read secrets file, starting empty", cause);
+    log.warn("[apostrophi] failed to read secrets file, starting empty", cause);
     return {};
   }
 }
@@ -58,7 +58,7 @@ function encrypt(port: KeychainPort, plain: string): string {
   }
   /** No keychain backend (Linux/first-run); tag the value so reads don't decrypt plaintext. */
   log.warn(
-    "[pond] safeStorage encryption unavailable, persisting secret in plaintext",
+    "[apostrophi] safeStorage encryption unavailable, persisting secret in plaintext",
   );
   return `raw:${Buffer.from(plain, "utf8").toString("base64")}`;
 }
@@ -74,7 +74,7 @@ function decrypt(port: KeychainPort, value: string): string | null {
     }
     return null;
   } catch (err) {
-    log.warn("[pond] failed to decrypt secret", err);
+    log.warn("[apostrophi] failed to decrypt secret", err);
     return null;
   }
 }

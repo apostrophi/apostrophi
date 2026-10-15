@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import type { ComponentType, ReactNode } from "react";
 
 type ValueOf<T> = T extends T ? T[keyof T] : never;

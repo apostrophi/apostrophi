@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(cause: unknown, info: ErrorInfo): void {
-    console.error("[pond] render error", cause, info.componentStack);
+    console.error("[apostrophi] render error", cause, info.componentStack);
     this.setState({ componentStack: info.componentStack ?? null });
   }
 

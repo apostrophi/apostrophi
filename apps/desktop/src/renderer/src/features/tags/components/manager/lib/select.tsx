@@ -1,4 +1,4 @@
-import { Checkbox, useDataTable } from "@pond/ui";
+import { Checkbox, useDataTable } from "@apostrophi/ui";
 import { useSelector } from "@tanstack/react-store";
 import type { ComponentProps, MouseEvent } from "react";
 import type { TagsRowData } from "./types";

@@ -1,5 +1,5 @@
-import { OPS, type Op, type Save, type Source } from "@pond/schema/db";
-import { type RawJson, walkCaptureMedia } from "@pond/schema/raw";
+import { OPS, type Op, type Save, type Source } from "@apostrophi/schema/db";
+import { type RawJson, walkCaptureMedia } from "@apostrophi/schema/raw";
 
 const UNIVERSAL_SPEC: readonly Op[] = OPS;
 

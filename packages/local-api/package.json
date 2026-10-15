@@ -1,9 +1,9 @@
 {
-  "name": "@pond/local-api",
+  "name": "@apostrophi/local-api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Environment-independent client for Pond's authenticated local API.",
+  "description": "Environment-independent client for Apostrophi's authenticated local API.",
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts"
@@ -15,7 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@pond/schema": "workspace:*"
+    "@apostrophi/schema": "workspace:*"
   },
   "devDependencies": {
     "typescript": "catalog:",

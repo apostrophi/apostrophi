@@ -14,15 +14,15 @@
   "excluded": [
     {
       "id": "collect-window",
-      "reason": "Pond uses extension and capture-queue workflows."
+      "reason": "Apostrophi uses extension and capture-queue workflows."
     },
     {
       "id": "community",
-      "reason": "Pond is local-first and does not provide a hosted Community feed."
+      "reason": "Apostrophi is local-first and does not provide a hosted Community feed."
     },
     {
       "id": "licensing",
-      "reason": "Pond does not use Eagle registration or device licensing."
+      "reason": "Apostrophi does not use Eagle registration or device licensing."
     },
     {
       "id": "plugins",
@@ -33,7 +33,7 @@
     {
       "id": "native.application",
       "commands": [
-        "About Pond",
+        "About Apostrophi",
         "Check for Updates",
         "Color Space",
         "Lock Now",
@@ -84,7 +84,7 @@
         "Move to Trash",
         "Remove from Current Folder",
         "Copy Link",
-        "Copy Pond Link",
+        "Copy Apostrophi Link",
         "Copy Name",
         "Copy File Path",
         "Copy Thumbnail",

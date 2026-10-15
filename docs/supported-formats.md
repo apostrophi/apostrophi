@@ -1,12 +1,12 @@
 # Supported file formats
 
-Pond stores every readable, non-empty file you import. Its Eagle compatibility manifest covers all 126 unique extensions shipped in Eagle's current macOS and Windows manifests, plus 17 formats documented by Eagle's official format extensions. Files outside that manifest are stored too.
+Apostrophi stores every readable, non-empty file you import. Its Eagle compatibility manifest covers all 126 unique extensions shipped in Eagle's current macOS and Windows manifests, plus 17 formats documented by Eagle's official format extensions. Files outside that manifest are stored too.
 
 Support has four separate guarantees:
 
-1. **Lossless storage:** Pond copies the original bytes into the library and never replaces them with a preview.
-2. **Card preview:** Pond uses a built-in renderer, a generated preview, Eagle's supplied thumbnail during migration, or the operating system's thumbnail provider.
-3. **In-app viewer:** Browser-safe images, playable video/audio, PDFs, fonts, and text open directly in Pond.
+1. **Lossless storage:** Apostrophi copies the original bytes into the library and never replaces them with a preview.
+2. **Card preview:** Apostrophi uses a built-in renderer, a generated preview, Eagle's supplied thumbnail during migration, or the operating system's thumbnail provider.
+3. **In-app viewer:** Browser-safe images, playable video/audio, PDFs, fonts, and text open directly in Apostrophi.
 4. **Open and export:** Every stored original can be opened in its default app, revealed, copied, dragged, or exported even when no preview provider exists.
 
 A file tile may appear when macOS Quick Look or the Windows thumbnail provider cannot render a proprietary format. That does not affect the stored original.
@@ -29,25 +29,25 @@ A file tile may appear when macOS Quick Look or the Windows thumbnail provider c
 | HTML | Original file | Operating-system preview or file tile | Offline sandboxed rendering plus source view |
 | Other files | Original file | System preview, file tile, or thumbnail | Full-size system preview or explicit open/export fallback |
 
-Audio and video playback depends on the codecs available to Electron and the operating system. Pond still stores and exports a file when its codec cannot play in the app.
+Audio and video playback depends on the codecs available to Electron and the operating system. Apostrophi still stores and exports a file when its codec cannot play in the app.
 
 ## Detail viewer depth
 
-Pond treats viewer depth separately from import support:
+Apostrophi treats viewer depth separately from import support:
 
 | Viewer depth | Meaning | Examples |
 | --- | --- | --- |
-| Interactive | Pond parses or plays the original directly and exposes format-specific controls. | Browser-safe images, video/audio, PDF, fonts, text/Markdown, EPUB, ZIP, HTML, and the supported open 3D formats |
-| Generated full-size preview | Pond asks the operating system's registered preview provider for a rendered image and shows it at viewer resolution. | PSD/PSB, camera RAW, DOC/DOCX, XLS/XLSX, PPT/PPTX, Apple iWork, Affinity, Sketch, C4D, CAD, and mind maps |
-| External fallback | Pond shows the file identity and keeps Open and Export available when neither its built-in renderer nor the operating system can interpret the file. | Proprietary formats without an installed provider, RAR/7z contents, SWF, and unknown binary files |
+| Interactive | Apostrophi parses or plays the original directly and exposes format-specific controls. | Browser-safe images, video/audio, PDF, fonts, text/Markdown, EPUB, ZIP, HTML, and the supported open 3D formats |
+| Generated full-size preview | Apostrophi asks the operating system's registered preview provider for a rendered image and shows it at viewer resolution. | PSD/PSB, camera RAW, DOC/DOCX, XLS/XLSX, PPT/PPTX, Apple iWork, Affinity, Sketch, C4D, CAD, and mind maps |
+| External fallback | Apostrophi shows the file identity and keeps Open and Export available when neither its built-in renderer nor the operating system can interpret the file. | Proprietary formats without an installed provider, RAR/7z contents, SWF, and unknown binary files |
 
 Generated previews never replace the original. They are disposable cache files. Office preview parity intentionally targets the first rendered page because Eagle documents the same first-page limitation for PPT, DOC, and XLS files.
 
 ## Eagle compatibility matrix
 
-Every extension below has an explicit media classification and MIME fallback. Proprietary formats use a safe generic viewer with OS thumbnail, Open, and Export actions; Pond does not execute imported HTML, MHTML, web archives, or SWF content.
+Every extension below has an explicit media classification and MIME fallback. Proprietary formats use a safe generic viewer with OS thumbnail, Open, and Export actions; Apostrophi does not execute imported HTML, MHTML, web archives, or SWF content.
 
-| Category | Extensions | Pond behavior |
+| Category | Extensions | Apostrophi behavior |
 | --- | --- | --- |
 | Raster and rendered images | `avif`, `png`, `jpg`, `jfif`, `jxl`, `jpe`, `insp`, `gif`, `tiff`, `tif`, `jpeg`, `svg`, `bmp`, `icns`, `ico`, `webp`, `hdr`, `exr`, `hif`, `heic`, `heif`, `tga`, `dds`, `livp`, `base64` | Built-in image viewer where safe; otherwise OS thumbnail and external open |
 | Camera RAW | `arw`, `cr2`, `cr3`, `crw`, `dng`, `raf`, `rw2`, `orf`, `nef`, `nrw`, `raw`, `3fr`, `erf`, `srw`, `sr2`, `pef`, `x3f`, `mrw` | Full-size OS-generated preview with external open fallback |
@@ -66,21 +66,21 @@ The nonstandard `base64` and `blender` identifiers are included because Eagle's 
 
 ## Original-file guarantee
 
-Import copies the source bytes into the Pond library. Pond may sanitize the stored filename or add a numeric suffix to prevent a collision. It does not replace the original with a converted preview.
+Import copies the source bytes into the Apostrophi library. Apostrophi may sanitize the stored filename or add a numeric suffix to prevent a collision. It does not replace the original with a converted preview.
 
-Generated WebP previews live in Pond's thumbnail cache. Deleting the cache does not affect the original. Pond rebuilds previews when they are needed.
+Generated WebP previews live in Apostrophi's thumbnail cache. Deleting the cache does not affect the original. Apostrophi rebuilds previews when they are needed.
 
 Open, reveal, copy, drag, and export actions target the original file. A thumbnail sidecar affects the card only.
 
 ## Thumbnails
 
-Right-click one save and choose **Set Thumbnail from File**. Choose an image in any supported image format. Pond writes `{filename}_thumbnail.png` beside the original, the same suffix Eagle uses. Use **Reset Thumbnail** to restore Pond's generated preview or file tile.
+Right-click one save and choose **Set Thumbnail from File**. Choose an image in any supported image format. Apostrophi writes `{filename}_thumbnail.png` beside the original, the same suffix Eagle uses. Use **Reset Thumbnail** to restore Apostrophi's generated preview or file tile.
 
 **Folder Cover** is separate: it is the save chosen to represent a folder in the sidebar.
 
 ## Eagle library migration
 
-Import an unpacked Eagle `.library` folder to migrate its items. Pond preserves:
+Import an unpacked Eagle `.library` folder to migrate its items. Apostrophi preserves:
 
 - every visible original and multi-file attachment, under Eagle's original names;
 - Eagle's `{filename}_thumbnail.png` sidecar independently from the originals;

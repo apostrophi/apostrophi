@@ -1,4 +1,4 @@
-import { Button, Dialog, Field, Input } from "@pond/ui";
+import { Button, Dialog, Field, Input } from "@apostrophi/ui";
 import type { SavesReadQueryResults } from "@shared/saves-read-contracts";
 import { useSelector } from "@tanstack/react-store";
 import { useEffect, useMemo, useState } from "react";
@@ -70,7 +70,7 @@ export function SmartCollectionReview({
   useEffect(() => {
     let active = true;
     const limit = Math.max(3, Math.min(2_000, scopeIds?.length ?? 2_000));
-    void window.pond
+    void window.apostrophi
       .query("saves.semanticClusters", {
         saveIds: scopeIds ?? undefined,
         distance: 0.18,
@@ -90,7 +90,7 @@ export function SmartCollectionReview({
           item.memberIds.slice(0, 3),
         );
         if (representativeIds.length > 0) {
-          const saves = await window.pond.query("saves.getMany", {
+          const saves = await window.apostrophi.query("saves.getMany", {
             ids: representativeIds,
           });
           if (!active) return;
@@ -155,7 +155,7 @@ export function SmartCollectionReview({
     setBusy(true);
     setError(null);
     try {
-      await window.pond.query("folders.createWithSaves", {
+      await window.apostrophi.query("folders.createWithSaves", {
         name: name.trim(),
         parentId: null,
         saveIds: cluster.memberIds,
@@ -192,7 +192,10 @@ export function SmartCollectionReview({
     setError(null);
     try {
       setClassification(
-        await window.pond.query("saves.classifyLabels", { saveIds, labels }),
+        await window.apostrophi.query("saves.classifyLabels", {
+          saveIds,
+          labels,
+        }),
       );
     } catch (reason) {
       setError(errorCopy(reason, "Couldn't preview labels. Try again."));
@@ -215,7 +218,7 @@ export function SmartCollectionReview({
     setError(null);
     try {
       for (const [label, ids] of assignments) {
-        await window.pond.query("saves.bulkEdit", {
+        await window.apostrophi.query("saves.bulkEdit", {
           ids,
           actorReason: "semantic-label-preview",
           operation: { kind: "tags", tags: [label], mode: "add" },
@@ -244,7 +247,7 @@ export function SmartCollectionReview({
             <Dialog.Title>Review Organization</Dialog.Title>
           </Dialog.Header>
           <Dialog.Description>
-            Preview suggestions before Pond creates folders or adds tags.
+            Preview suggestions before Apostrophi creates folders or adds tags.
           </Dialog.Description>
           <Dialog.Content className={styles.content}>
             {error ? (

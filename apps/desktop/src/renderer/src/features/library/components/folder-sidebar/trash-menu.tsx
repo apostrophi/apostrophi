@@ -1,5 +1,5 @@
-import { IconArrowRotateClockwise, IconTrashXmark } from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconArrowRotateClockwise, IconTrashXmark } from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { confirmEmptyTrash } from "@/features/saves";
 
 export function buildTrashMenuItems(hasItems: boolean): MenuItemSpec[] {
@@ -16,7 +16,7 @@ export function buildTrashMenuItems(hasItems: boolean): MenuItemSpec[] {
       icon: <IconArrowRotateClockwise />,
       disabled: !hasItems,
       onClick: () => {
-        void window.pond.query("saves.restoreAll", {});
+        void window.apostrophi.query("saves.restoreAll", {});
       },
     },
   ];

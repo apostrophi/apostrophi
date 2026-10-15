@@ -1,7 +1,7 @@
 import { mkdir, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { environment } from "@raycast/api";
-import { fetchThumbnail } from "./pond-api";
+import { fetchThumbnail } from "./apostrophi-api";
 
 const FILE_EXTENSIONS = new Map([
   ["image/jpeg", "jpg"],

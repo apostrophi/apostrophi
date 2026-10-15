@@ -8,7 +8,7 @@ export function cssComposesHmr(watchDirs: string[] = []): Plugin {
   const composers = new Map<string, Set<string>>();
 
   return {
-    name: "pond:css-composes-hmr",
+    name: "apostrophi:css-composes-hmr",
     enforce: "pre",
     configureServer(server) {
       for (const dir of watchDirs) server.watcher.add(dir);

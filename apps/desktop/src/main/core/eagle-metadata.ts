@@ -2,7 +2,7 @@ import type {
   ComparatorId,
   Predicate,
   Query,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import { z } from "zod";
 
 const EagleRuleSchema = z.object({

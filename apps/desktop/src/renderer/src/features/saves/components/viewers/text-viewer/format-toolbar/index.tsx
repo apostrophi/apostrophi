@@ -1,7 +1,3 @@
-import { TOGGLE_LINK_COMMAND } from "@lexical/link";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useLexicalFocusManagerRef } from "@lexical/react/useLexicalFocusManagerRef";
-import { mergeRegister } from "@lexical/utils";
 import {
   IconArrowUpRight,
   IconBlockquote,
@@ -23,8 +19,19 @@ import {
   IconTextStrikethrough,
   IconTextUnderline,
   IconTrash,
-} from "@pond/icons";
-import { Button, Keyboard, Menu, Popover, Toolbar, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import {
+  Button,
+  Keyboard,
+  Menu,
+  Popover,
+  Toolbar,
+  Tooltip,
+} from "@apostrophi/ui";
+import { TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { useLexicalFocusManagerRef } from "@lexical/react/useLexicalFocusManagerRef";
+import { mergeRegister } from "@lexical/utils";
 import {
   $getSelection,
   $isRangeSelection,
@@ -346,7 +353,8 @@ export function FormatToolbar() {
                     label="Open"
                     onClick={() => {
                       skipBlur.current = true;
-                      if (openHref) void window.pond.openExternal(openHref);
+                      if (openHref)
+                        void window.apostrophi.openExternal(openHref);
                     }}
                   >
                     <IconArrowUpRight />

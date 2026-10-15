@@ -17,12 +17,12 @@ const bootstrap = createSaveBootstrap({
   readSnapshot,
   scheduleSnapshotWrite,
   applyActionCoalesced,
-  rendererReady: () => window.pond.rendererReady(),
-  onSyncAction: (callback) => window.pond.onSyncAction(callback),
+  rendererReady: () => window.apostrophi.rendererReady(),
+  onSyncAction: (callback) => window.apostrophi.onSyncAction(callback),
   loadAll: async () =>
-    SavePatchesSchema.parse(await window.pond.query("saves.list", {})),
+    SavePatchesSchema.parse(await window.apostrophi.query("saves.list", {})),
   loadPage: async (params) =>
-    Page.parse(await window.pond.query("saves.listPage", params)),
+    Page.parse(await window.apostrophi.query("saves.listPage", params)),
 });
 
 export const { bootPool, pagingStore, loadNextPage, hydrateFullPool } =

@@ -25,7 +25,7 @@ function createContext({
 
   return {
     accelerator: (id) => id,
-    appName: "Pond",
+    appName: "Apostrophi",
     edit: {
       copy: noOp,
       cut: noOp,
@@ -56,9 +56,9 @@ describe("app menu sections", () => {
 
     expect(buildApplicationSections(mac, settingsItem)).toEqual([
       expect.objectContaining({
-        label: "Pond",
+        label: "Apostrophi",
         submenu: expect.arrayContaining([
-          expect.objectContaining({ role: "about", label: "About Pond" }),
+          expect.objectContaining({ role: "about", label: "About Apostrophi" }),
           expect.objectContaining({ label: "Check for Updates" }),
         ]),
       }),
@@ -115,7 +115,7 @@ describe("app menu sections", () => {
     const context = createContext({ isMac: true, isPackaged: true });
     const template = buildAppMenuTemplate(context, []);
     expect(template.map((item) => item.label)).toEqual([
-      "Pond",
+      "Apostrophi",
       "File",
       "Edit",
       "Find",
@@ -165,14 +165,14 @@ describe("app menu sections", () => {
         "save.export-files",
         "save.export-converted",
         "save.export-eagle-package",
-        "save.export-pond-package",
+        "save.export-apostrophi-package",
         "save.export-csv",
         "selection.select-all",
         "selection.clear",
         "selection.invert",
         "save.copy-name",
         "save.copy-file-path",
-        "save.copy-pond-link",
+        "save.copy-apostrophi-link",
         "save.remove-current-folder",
         "find.search",
         "find.search-all",
@@ -239,7 +239,7 @@ describe("app menu sections", () => {
         { label: "Import Page Assets" },
         { type: "separator" },
         { label: "Import Eagle Library" },
-        { label: "Import Pond Package" },
+        { label: "Import Apostrophi Package" },
       ],
     });
     expect(sourcesMenu).toMatchObject({

@@ -8,7 +8,7 @@ import {
   type SaveFile,
   saves,
   syncActions,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { ulid } from "ulid";
@@ -67,7 +67,7 @@ export async function applySavePatch(
     const db = await getDb();
     const current = await readSave(saveId);
     if (!current) {
-      log.warn("[pond pipeline] applySavePatch: save vanished", saveId);
+      log.warn("[apostrophi pipeline] applySavePatch: save vanished", saveId);
       return null;
     }
 
@@ -92,7 +92,7 @@ export async function applySavePatch(
         const details = await persistWriteFile(file, targetPath);
         if (!details) {
           log.warn(
-            "[pond pipeline] applySavePatch: empty file skipped",
+            "[apostrophi pipeline] applySavePatch: empty file skipped",
             saveId,
             file.filename,
           );
@@ -159,7 +159,11 @@ export async function applySavePatch(
         const path = resolve(join(dir, file.path));
         if (path === dir || !path.startsWith(`${dir}${sep}`)) continue;
         await rm(path, { force: true }).catch((err) => {
-          log.warn("[pond pipeline] failed to remove replaced file", path, err);
+          log.warn(
+            "[apostrophi pipeline] failed to remove replaced file",
+            path,
+            err,
+          );
         });
       }
     }

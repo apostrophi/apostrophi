@@ -22,6 +22,6 @@ describe("sanitizeOfflineHtml", () => {
   it("adds a restrictive content security policy", () => {
     const result = sanitizeOfflineHtml("<main>Offline</main>");
     expect(result).toContain("default-src 'none'");
-    expect(result).toContain("img-src data: pond:");
+    expect(result).toContain("img-src data: apostrophi:");
   });
 });

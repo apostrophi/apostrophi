@@ -16,7 +16,7 @@ import {
   textModel,
   toolCallChunks,
 } from "./mock-model";
-import { type OperationCatalog, pondOperationTools } from "./operations";
+import { apostrophiOperationTools, type OperationCatalog } from "./operations";
 
 const dump =
   '{"saves":[{"id":"film","title":"Film","url":"https://example.com","description":"Transcript\\nShow transcript"}]}';
@@ -521,18 +521,18 @@ it("does not search when the edit target is a pronoun", async () => {
 
 it("discovers app capabilities through the SDK loop and prepares one exact action for review", async () => {
   const model = scriptedModel(
-    toolCallChunks("discover", "discoverPondOperations", {
+    toolCallChunks("discover", "discoverApostrophiOperations", {
       query: "conversion",
     }),
-    toolCallChunks("describe", "describePondOperation", {
+    toolCallChunks("describe", "describeApostrophiOperation", {
       operation: "conversion.start",
     }),
-    toolCallChunks("run", "runPondOperation", {
+    toolCallChunks("run", "runApostrophiOperation", {
       operation: "conversion.start",
       arguments: { presetId: "web", ids: ["image"] },
       reason: "Export the image for the web",
     }),
-    toolCallChunks("repeat", "runPondOperation", {
+    toolCallChunks("repeat", "runApostrophiOperation", {
       operation: "conversion.start",
       arguments: { presetId: "web", ids: ["image"] },
       reason: "Export the image for the web",
@@ -565,7 +565,8 @@ it("discovers app capabilities through the SDK loop and prepares one exact actio
     },
     {
       ...contextDependencies,
-      pondOperationTools: (options) => pondOperationTools(options, catalog),
+      apostrophiOperationTools: (options) =>
+        apostrophiOperationTools(options, catalog),
     },
   );
   expect(

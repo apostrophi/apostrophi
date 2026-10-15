@@ -1,7 +1,7 @@
-import { IconMinus, IconPlus } from "@pond/icons";
-import { FIELD_DESCRIPTORS } from "@pond/schema/filters/fields";
-import type { Predicate as PredicateClause } from "@pond/schema/filters/types";
-import { Button } from "@pond/ui";
+import { IconMinus, IconPlus } from "@apostrophi/icons";
+import { FIELD_DESCRIPTORS } from "@apostrophi/schema/filters/fields";
+import type { Predicate as PredicateClause } from "@apostrophi/schema/filters/types";
+import { Button } from "@apostrophi/ui";
 import { OPERATOR_LABELS } from "../predicate-helpers";
 import { defaultRuleValue, newRule } from "../query";
 import { RuleSelect } from "../rule-select";

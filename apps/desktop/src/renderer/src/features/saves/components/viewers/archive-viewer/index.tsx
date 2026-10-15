@@ -1,4 +1,4 @@
-import { IconArrowLeft, IconArrowRight } from "@pond/icons";
+import { IconArrowLeft, IconArrowRight } from "@apostrophi/icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import {
@@ -13,7 +13,7 @@ import {
   loadArchiveManifest,
 } from "@/features/saves/lib/media/archive";
 import type { Save } from "@/features/saves/types";
-import type { PondWebviewElement } from "@/shared/types/electron-webview";
+import type { ApostrophiWebviewElement } from "@/shared/types/electron-webview";
 import styles from "./styles.module.css";
 
 export function SaveArchiveViewer({ save }: { save: Save }) {
@@ -45,7 +45,7 @@ function ArchiveFrame({
 }) {
   const [pageIndex, setPageIndex] = useState(0);
   const guestIdRef = useRef<number | null>(null);
-  const webviewRef = useRef<PondWebviewElement | null>(null);
+  const webviewRef = useRef<ApostrophiWebviewElement | null>(null);
 
   const pageIndexByKey = useMemo(() => {
     const map = new Map<string, number>();
@@ -59,7 +59,7 @@ function ArchiveFrame({
   const page = manifest.pages[pageIndex] ?? manifest.pages[0];
   const src = page ? buildArchiveViewerUrl(save, page.url, manifest) : null;
 
-  const attachWebview = useCallback((el: PondWebviewElement | null) => {
+  const attachWebview = useCallback((el: ApostrophiWebviewElement | null) => {
     webviewRef.current = el;
     if (!el) {
       guestIdRef.current = null;
@@ -75,13 +75,13 @@ function ArchiveFrame({
   }, []);
 
   useEffect(() => {
-    return window.pond.onArchiveNavigate(({ guestId, url }) => {
+    return window.apostrophi.onArchiveNavigate(({ guestId, url }) => {
       if (guestId == null || guestId !== guestIdRef.current) return;
       const index = pageIndexByKey.get(archiveUrlKey(url));
       if (index != null) {
         setPageIndex(index);
       } else {
-        void window.pond.openExternal(url);
+        void window.apostrophi.openExternal(url);
       }
     });
   }, [pageIndexByKey]);

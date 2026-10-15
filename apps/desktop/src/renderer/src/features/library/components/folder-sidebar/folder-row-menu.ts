@@ -9,8 +9,8 @@ import {
   IconQuickAccess,
   IconSortAlphaAscending,
   IconSortArrows,
-} from "@pond/icons";
-import type { Folder } from "@pond/schema/db";
+} from "@apostrophi/icons";
+import type { Folder } from "@apostrophi/schema/db";
 import { libraryFolderLink } from "@shared/library-links";
 import { createElement } from "react";
 import {
@@ -155,9 +155,9 @@ export function buildFolderRowMenuItems(input: FolderRowMenuInput) {
     onExportPackage: () => void exportFolderPackage(input.exportIds),
     onCopyToLibrary: () => void copyFolderToLibrary(input.exportIds),
     onCopyLink: () => {
-      void window.pond
+      void window.apostrophi
         .query("clipboard.writeText", {
-          text: libraryFolderLink(window.pond.libraryId(), folder.id),
+          text: libraryFolderLink(window.apostrophi.libraryId(), folder.id),
         })
         .then(() => notify({ id: "folder-link", title: "Folder link copied" }));
     },
@@ -230,7 +230,7 @@ export function buildFolderRowMenuItems(input: FolderRowMenuInput) {
         }),
         checked: folder.color === option.id,
         onCheckedChange: () => {
-          void window.pond
+          void window.apostrophi
             .query("folders.setColor", { id: folder.id, color: option.id })
             .then(() => folders.refresh())
             .catch(() =>

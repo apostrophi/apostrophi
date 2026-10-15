@@ -1,11 +1,11 @@
-import { Slider as SliderBase } from "@base-ui/react/slider";
 import {
   IconFullScreen as FullscreenIcon,
   IconMediaPause as PauseIcon,
   IconMediaPlay as PlayIcon,
   IconVolume as VolumeIcon,
   IconVolumeOff as VolumeOffIcon,
-} from "@pond/icons";
+} from "@apostrophi/icons";
+import { Slider as SliderBase } from "@base-ui/react/slider";
 import { clsx as cn } from "clsx";
 import { useMemo, useState } from "react";
 import {

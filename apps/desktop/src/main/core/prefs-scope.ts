@@ -6,13 +6,13 @@ import {
   type PrefsPatchDeep,
   PrefsSchema,
   type StoredPrefsEnvelope,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { z } from "zod";
 import { readBundleJson, writeBundleJson } from "../lib/library-config";
 import { UNBOUND_LIBRARY_ID } from "../lib/library-id";
 import { libraryId, resolvePaths } from "../paths";
 
-const POND_PREF_KEYS = [
+const APOSTROPHI_PREF_KEYS = [
   "folderRules",
   "folderViews",
   "savedViewViews",
@@ -27,16 +27,16 @@ const POND_PREF_KEYS = [
   "saveRecents",
 ] as const satisfies readonly (keyof Prefs)[];
 
-type PondPrefKey = (typeof POND_PREF_KEYS)[number];
-type AppPrefKey = Exclude<keyof Prefs, PondPrefKey>;
+type ApostrophiPrefKey = (typeof APOSTROPHI_PREF_KEYS)[number];
+type AppPrefKey = Exclude<keyof Prefs, ApostrophiPrefKey>;
 
-export type PondPrefs = Pick<Prefs, PondPrefKey>;
+export type ApostrophiPrefs = Pick<Prefs, ApostrophiPrefKey>;
 export type AppPrefs = Pick<Prefs, AppPrefKey>;
 
 export interface StoredPrefs {
   version: 3;
   app: DeepPartial<AppPrefs>;
-  pending: DeepPartial<PondPrefs> | null;
+  pending: DeepPartial<ApostrophiPrefs> | null;
 }
 
 const APP_PREF_KEYS = [
@@ -55,7 +55,10 @@ const APP_PREF_KEYS = [
 ] as const satisfies readonly AppPrefKey[];
 
 const _DEFAULT_APP_PREFS: AppPrefs = pickPrefs(DEFAULT_PREFS, APP_PREF_KEYS);
-const _DEFAULT_POND_PREFS: PondPrefs = pickPrefs(DEFAULT_PREFS, POND_PREF_KEYS);
+const _DEFAULT_APOSTROPHI_PREFS: ApostrophiPrefs = pickPrefs(
+  DEFAULT_PREFS,
+  APOSTROPHI_PREF_KEYS,
+);
 
 export function currentLibraryId(): string {
   return libraryId();
@@ -149,18 +152,18 @@ function mergeAll(base: Prefs, patch: DeepPartial<Prefs>): Prefs {
 
 export function mergePrefs(
   app: DeepPartial<AppPrefs>,
-  pond: DeepPartial<PondPrefs>,
+  apostrophi: DeepPartial<ApostrophiPrefs>,
 ): Prefs {
-  return mergeAll(mergeAll(DEFAULT_PREFS, app), pond);
+  return mergeAll(mergeAll(DEFAULT_PREFS, app), apostrophi);
 }
 
-export function mergePondSlice(
-  base: DeepPartial<PondPrefs>,
-  patch: DeepPartial<PondPrefs> = {},
-): PondPrefs {
+export function mergeApostrophiSlice(
+  base: DeepPartial<ApostrophiPrefs>,
+  patch: DeepPartial<ApostrophiPrefs> = {},
+): ApostrophiPrefs {
   return pickPrefs(
     mergeAll(mergeAll(DEFAULT_PREFS, base), patch),
-    POND_PREF_KEYS,
+    APOSTROPHI_PREF_KEYS,
   );
 }
 
@@ -174,10 +177,10 @@ export function mergeAppSlice(
   );
 }
 
-export function readBundlePondPrefs(): DeepPartial<PondPrefs> | null {
+export function readBundleApostrophiPrefs(): DeepPartial<ApostrophiPrefs> | null {
   const paths = resolvePaths();
   if (!existsSync(paths.settingsFile)) return null;
-  const read = readBundleJson<Partial<PondPrefs>>(
+  const read = readBundleJson<Partial<ApostrophiPrefs>>(
     paths.settingsFile,
     paths.backupDir,
   );
@@ -185,25 +188,27 @@ export function readBundlePondPrefs(): DeepPartial<PondPrefs> | null {
   return slice.success ? storedSlice(slice.data) : null;
 }
 
-export function writeBundlePondPrefs(slice: DeepPartial<PondPrefs>): void {
+export function writeBundleApostrophiPrefs(
+  slice: DeepPartial<ApostrophiPrefs>,
+): void {
   writeBundleJson(resolvePaths().settingsFile, slice);
 }
 
 export interface SplitPrefsPatch {
   app: DeepPartial<AppPrefs>;
-  pond: DeepPartial<PondPrefs>;
+  apostrophi: DeepPartial<ApostrophiPrefs>;
 }
 
 export function splitPrefsPatch(patch: DeepPartial<Prefs>): SplitPrefsPatch {
-  const pond: DeepPartial<PondPrefs> = {};
+  const apostrophi: DeepPartial<ApostrophiPrefs> = {};
   const app: DeepPartial<AppPrefs> = {};
-  for (const key of POND_PREF_KEYS) {
-    if (patch[key] !== undefined) assignSlice(pond, key, patch[key]);
+  for (const key of APOSTROPHI_PREF_KEYS) {
+    if (patch[key] !== undefined) assignSlice(apostrophi, key, patch[key]);
   }
   for (const key of APP_PREF_KEYS) {
     if (patch[key] !== undefined) assignSlice(app, key, patch[key]);
   }
-  return { app, pond };
+  return { app, apostrophi };
 }
 
 function assignSlice<T extends object, K extends keyof Prefs>(

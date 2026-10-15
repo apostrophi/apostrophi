@@ -4,9 +4,9 @@ const { tmpdir } = require("node:os");
 const { join, resolve } = require("node:path");
 const { pathToFileURL } = require("node:url");
 
-const sandbox = mkdtempSync(join(tmpdir(), "pond-agent-operations-"));
+const sandbox = mkdtempSync(join(tmpdir(), "apostrophi-agent-operations-"));
 const userData = join(sandbox, "app");
-const library = join(sandbox, "Test.pond");
+const library = join(sandbox, "Test.apostrophi");
 mkdirSync(userData);
 mkdirSync(library);
 app.setPath("userData", userData);
@@ -17,7 +17,9 @@ writeFileSync(
 );
 const cache = resolve(__dirname, "../node_modules/.cache");
 mkdirSync(cache, { recursive: true });
-const bundleDirectory = mkdtempSync(join(cache, "pond-agent-operations-"));
+const bundleDirectory = mkdtempSync(
+  join(cache, "apostrophi-agent-operations-"),
+);
 app.on("quit", () => {
   rmSync(sandbox, { recursive: true, force: true });
   rmSync(bundleDirectory, { recursive: true, force: true });
@@ -36,8 +38,8 @@ app.whenReady().then(async () => {
       entry,
       `
           import assert from "node:assert/strict";
-          import { pondOperations } from ${JSON.stringify(`${main}/ipc/queries/index.ts`)};
-          import { registerPondOperations, applyPondOperation } from ${JSON.stringify(`${main}/core/agent/operations.ts`)};
+          import { apostrophiOperations } from ${JSON.stringify(`${main}/ipc/queries/index.ts`)};
+          import { registerApostrophiOperations, applyApostrophiOperation } from ${JSON.stringify(`${main}/core/agent/operations.ts`)};
           import { libraryContext } from ${JSON.stringify(`${main}/core/agent/context.ts`)};
           import { createChat, appendMessage } from ${JSON.stringify(`${main}/core/agent/persist.ts`)};
           import { reviewChanges } from ${JSON.stringify(`${main}/core/agent/review.ts`)};
@@ -47,10 +49,10 @@ app.whenReady().then(async () => {
           import { libraryRoot } from ${JSON.stringify(`${main}/paths.ts`)};
           export async function run(expectedLibrary) {
             assert.equal(libraryRoot(), expectedLibrary);
-            const operations = pondOperations();
-            registerPondOperations({ operations, libraryId: currentLibraryId });
+            const operations = apostrophiOperations();
+            registerApostrophiOperations({ operations, libraryId: currentLibraryId });
             const context = libraryContext({ scope: {}, signal: new AbortController().signal, onActivity() {}, onSources() {} });
-            const run = context.tools.find((entry) => entry.name === "runPondOperation");
+            const run = context.tools.find((entry) => entry.name === "runApostrophiOperation");
             assert.ok(run);
             const prepared = await run.execute({ operation: "folders.create", arguments: { name: "Agent Smoke Folder" }, reason: "Create the test Folder" });
             assert.equal(prepared.status, "pending-review");
@@ -64,7 +66,7 @@ app.whenReady().then(async () => {
             assert.equal((await listFolders())[0].name, "Agent Smoke Folder");
             await reviewChanges(review);
             assert.equal((await listFolders()).length, 1);
-            const undone = await applyPondOperation({ operation: "history.undo", arguments: {}, libraryId: currentLibraryId() });
+            const undone = await applyApostrophiOperation({ operation: "history.undo", arguments: {}, libraryId: currentLibraryId() });
             assert.equal(undone.ok, true);
             assert.equal((await listFolders()).length, 0);
             await closeDb();
@@ -75,7 +77,7 @@ app.whenReady().then(async () => {
     await build({
       configFile: false,
       logLevel: "error",
-      ssr: { noExternal: ["@pond/schema"] },
+      ssr: { noExternal: ["@apostrophi/schema"] },
       build: {
         ssr: entry,
         outDir: bundleDirectory,

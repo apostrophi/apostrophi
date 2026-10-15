@@ -1,4 +1,4 @@
-import type { JsonObject } from "@pond/schema/json";
+import type { JsonObject } from "@apostrophi/schema/json";
 import type { BrowserWindow } from "electron";
 import log from "electron-log/main.js";
 import { sleep } from "./util";
@@ -42,7 +42,7 @@ export async function emulateColorScheme(
     );
   } catch (err) {
     log.warn(
-      "[pond screenshot:tweet] emulated media setup failed",
+      "[apostrophi screenshot:tweet] emulated media setup failed",
       scheme,
       err,
     );

@@ -3,7 +3,7 @@ import type {
   AgentModelOptions,
   AgentReasoning,
   AgentRunControls,
-} from "@pond/schema";
+} from "@apostrophi/schema";
 import type { ProviderModel } from "./provider-models";
 
 const DEFAULT_AGENT_MODEL_OPTIONS: AgentModelOptions = {

@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
@@ -18,7 +18,7 @@ it("shows the source filter once with one clear action", async () => {
       disconnect() {}
     },
   );
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) =>
       name === "settings.getPrefs" ? PrefsSchema.parse({}) : [],
     onSyncAction: () => () => {},

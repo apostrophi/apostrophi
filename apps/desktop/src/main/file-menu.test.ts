@@ -20,7 +20,7 @@ it("exposes Eagle File new and import rows", () => {
     "Import Folders",
     "Import from Links",
     "Import Eagle Library",
-    "Import Pond Package",
+    "Import Apostrophi Package",
   ]);
   expect(FILE_MENU_AUTO_IMPORT_LABELS).toEqual(["Watched Folder"]);
   expect(FILE_MENU_DUPLICATES_LABELS).toEqual([
@@ -32,7 +32,7 @@ it("exposes Eagle File new and import rows", () => {
     "Export Files",
     "Export Converted Files",
     "Export Eagle Package",
-    "Export Pond Package",
+    "Export Apostrophi Package",
     "Export to CSV",
   ]);
 });

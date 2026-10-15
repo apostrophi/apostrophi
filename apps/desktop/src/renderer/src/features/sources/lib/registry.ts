@@ -10,14 +10,14 @@ import {
   IconTikTok,
   IconXTwitter,
   IconYoutube,
-} from "@pond/icons/social-media";
-import type { IconComponent } from "@pond/icons/types";
-import type { Source } from "@pond/schema/db";
+} from "@apostrophi/icons/social-media";
+import type { IconComponent } from "@apostrophi/icons/types";
+import type { Source } from "@apostrophi/schema/db";
 import {
   hostToSource,
   resolveSourceId,
   sourceLabel,
-} from "@pond/schema/sources";
+} from "@apostrophi/schema/sources";
 
 interface SourceDef {
   source: Source;

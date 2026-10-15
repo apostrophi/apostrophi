@@ -31,21 +31,29 @@ describe("viewer continuity", () => {
     expect(zoomImageAt(FIT_POSE, 100, point).zoom).toBe(32);
   });
   it("retains independent image poses and playback positions", () => {
-    viewerMemory.setImage("pond://memory-a/a.jpg", { zoom: 3, x: 10, y: 20 });
-    viewerMemory.setPlayback("pond://memory-a/a.jpg", 42);
-    viewerMemory.setLoop("pond://memory-a/a.jpg", [10, 20]);
-    viewerMemory.setImage("pond://memory-b/b.jpg", { zoom: 2, x: 0, y: 0 });
-    expect(viewerMemory.image("pond://memory-a/a.jpg")).toEqual({
+    viewerMemory.setImage("apostrophi://memory-a/a.jpg", {
       zoom: 3,
       x: 10,
       y: 20,
     });
-    expect(viewerMemory.playback("pond://memory-a/a.jpg")).toBe(42);
-    expect(viewerMemory.loop("pond://memory-a/a.jpg")).toEqual([10, 20]);
-    viewerMemory.setLoop("pond://memory-a/a.jpg", null);
-    expect(viewerMemory.loop("pond://memory-a/a.jpg")).toBeNull();
+    viewerMemory.setPlayback("apostrophi://memory-a/a.jpg", 42);
+    viewerMemory.setLoop("apostrophi://memory-a/a.jpg", [10, 20]);
+    viewerMemory.setImage("apostrophi://memory-b/b.jpg", {
+      zoom: 2,
+      x: 0,
+      y: 0,
+    });
+    expect(viewerMemory.image("apostrophi://memory-a/a.jpg")).toEqual({
+      zoom: 3,
+      x: 10,
+      y: 20,
+    });
+    expect(viewerMemory.playback("apostrophi://memory-a/a.jpg")).toBe(42);
+    expect(viewerMemory.loop("apostrophi://memory-a/a.jpg")).toEqual([10, 20]);
+    viewerMemory.setLoop("apostrophi://memory-a/a.jpg", null);
+    expect(viewerMemory.loop("apostrophi://memory-a/a.jpg")).toBeNull();
     expect(viewerMemory.image("missing")).toEqual(FIT_POSE);
-    expect(window.localStorage.getItem("pond:viewer-memory")).toContain(
+    expect(window.localStorage.getItem("apostrophi:viewer-memory")).toContain(
       "memory-a",
     );
   });
@@ -55,13 +63,15 @@ describe("viewer continuity", () => {
     expect(viewerMemory.playback("bounded-1")).toBe(0);
     expect(viewerMemory.playback("bounded-204")).toBe(204);
     expect(
-      JSON.parse(window.localStorage.getItem("pond:viewer-memory") ?? "[]"),
+      JSON.parse(
+        window.localStorage.getItem("apostrophi:viewer-memory") ?? "[]",
+      ),
     ).toHaveLength(200);
   });
 
   it("stores a single-frame GIF loop at frame zero", () => {
-    viewerMemory.setLoop("pond://gif/loop.gif", [0, 0]);
-    expect(viewerMemory.loop("pond://gif/loop.gif")).toEqual([0, 0]);
+    viewerMemory.setLoop("apostrophi://gif/loop.gif", [0, 0]);
+    expect(viewerMemory.loop("apostrophi://gif/loop.gif")).toEqual([0, 0]);
   });
 });
 

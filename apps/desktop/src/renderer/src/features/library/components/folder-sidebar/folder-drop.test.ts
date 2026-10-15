@@ -15,7 +15,7 @@ const folders = [travel, tickets, receipts, shots];
 describe("folder sidebar drop", () => {
   it("recognizes a folder drag type case-insensitively", () => {
     expect(isFolderDrag([FOLDER_DRAG_TYPE])).toBe(true);
-    expect(isFolderDrag(["APPLICATION/X-POND-FOLDER"])).toBe(true);
+    expect(isFolderDrag(["APPLICATION/X-APOSTROPHI-FOLDER"])).toBe(true);
     expect(isFolderDrag(["text/plain"])).toBe(false);
   });
 

@@ -1,4 +1,4 @@
-import { Button, Settings } from "@pond/ui";
+import { Button, Settings } from "@apostrophi/ui";
 import { useQuery } from "@tanstack/react-query";
 
 const bytes = (value: number) =>
@@ -7,7 +7,7 @@ const bytes = (value: number) =>
 export function StorageSummary() {
   const query = useQuery({
     queryKey: ["storage-snapshot"],
-    queryFn: () => window.pond.query("storage.snapshot", {}),
+    queryFn: () => window.apostrophi.query("storage.snapshot", {}),
     refetchInterval: 60_000,
   });
   return (
@@ -17,7 +17,7 @@ export function StorageSummary() {
           <Settings.ItemTitle>Library size</Settings.ItemTitle>
           <Settings.ItemDescription>
             {query.data
-              ? `${bytes(query.data.pondBytes)} used · ${bytes(query.data.deviceFreeBytes)} available on disk`
+              ? `${bytes(query.data.apostrophiBytes)} used · ${bytes(query.data.deviceFreeBytes)} available on disk`
               : query.isError
                 ? "Couldn't measure storage."
                 : "Measuring storage"}

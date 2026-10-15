@@ -1,21 +1,21 @@
 {
-  "name": "@pond/ui",
+  "name": "@apostrophi/ui",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "React primitives for Pond: Base UI behavior with shared controls, CSS Modules, and motion. App-agnostic; zero coupling to desktop state.",
+  "description": "React primitives for Apostrophi: Base UI behavior with shared controls, CSS Modules, and motion. App-agnostic; zero coupling to desktop state.",
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
-  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "homepage": "https://github.com/apostrophi/apostrophi#readme",
   "bugs": {
-    "url": "https://github.com/raphaelsalaja/pond/issues"
+    "url": "https://github.com/apostrophi/apostrophi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "packages/ui"
   },
   "main": "./src/index.ts",
@@ -61,7 +61,7 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "@pond/icons": "workspace:*",
+    "@apostrophi/icons": "workspace:*",
     "@tanstack/react-store": "catalog:",
     "@tanstack/react-table": "^9.2.4",
     "@tanstack/react-virtual": "catalog:",

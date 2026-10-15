@@ -2,7 +2,7 @@ import {
   DEFAULT_DARK_THEME,
   DEFAULT_LIGHT_THEME,
   THEME_PRESETS,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_THEMES } from "./ramps";
 import { buildThemeTokens, type Gamut, type ThemeTokens } from "./tokens";

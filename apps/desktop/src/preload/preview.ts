@@ -8,11 +8,11 @@ import type {
 } from "../shared/preview-window-contracts";
 
 const IPC = {
-  previewConfigure: "pond:preview-configure",
-  previewNeighborRequest: "pond:preview-neighbor-request",
-  previewFileAction: "pond:preview-file-action",
-  previewClose: "pond:preview-close",
-  previewState: "pond:preview-state",
+  previewConfigure: "apostrophi:preview-configure",
+  previewNeighborRequest: "apostrophi:preview-neighbor-request",
+  previewFileAction: "apostrophi:preview-file-action",
+  previewClose: "apostrophi:preview-close",
+  previewState: "apostrophi:preview-state",
 } as const;
 
 const api = {
@@ -36,6 +36,6 @@ const api = {
   },
 };
 
-contextBridge.exposeInMainWorld("pondPreview", api);
+contextBridge.exposeInMainWorld("apostrophiPreview", api);
 
-export type PondPreviewApi = typeof api;
+export type ApostrophiPreviewApi = typeof api;

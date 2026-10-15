@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import { saves } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { and, asc, eq, isNull, or } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -115,7 +115,7 @@ async function runWorker(
         try {
           return await refreshSave(id, { overwrite: opts.overwrite });
         } catch (err) {
-          log.warn("[pond refresh-backfill] refreshSave threw", id, err);
+          log.warn("[apostrophi refresh-backfill] refreshSave threw", id, err);
           return { ok: false, reason: "internal_error" };
         }
       }),

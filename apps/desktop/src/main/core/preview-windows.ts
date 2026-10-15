@@ -1,5 +1,5 @@
 import { basename, dirname, extname } from "node:path";
-import { type SaveFile, saves } from "@pond/schema/db";
+import { type SaveFile, saves } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import {
   BrowserWindow,
@@ -167,7 +167,7 @@ export function previewTargetForFile(input: {
   }
   return {
     title: input.title || input.file.path,
-    url: `pond://${input.saveId}/${encodeURIComponent(input.file.path).replace(/%2F/gi, "/")}`,
+    url: `apostrophi://${input.saveId}/${encodeURIComponent(input.file.path).replace(/%2F/gi, "/")}`,
     originalPath: input.file.path,
     ...profile,
   };

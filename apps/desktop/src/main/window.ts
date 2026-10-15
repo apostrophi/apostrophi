@@ -168,7 +168,7 @@ async function buildLibraryWindow(): Promise<BrowserWindow> {
       const b = usableWindowBounds(win.getBounds());
       if (!b) return;
       void setPrefs({ window: { bounds: b } }).catch((err) =>
-        log.warn("[pond] persist window bounds failed", err),
+        log.warn("[apostrophi] persist window bounds failed", err),
       );
     }, 400);
   };
@@ -198,18 +198,18 @@ async function buildLibraryWindow(): Promise<BrowserWindow> {
     "did-fail-load",
     (_event, code, desc, url, isMainFrame) => {
       if (!isMainFrame) return;
-      log.error("[pond] renderer did-fail-load", { code, desc, url });
+      log.error("[apostrophi] renderer did-fail-load", { code, desc, url });
     },
   );
 
   win.webContents.on("render-process-gone", (_event, details) => {
-    log.error("[pond] renderer gone", details);
+    log.error("[apostrophi] renderer gone", details);
   });
 
   win.webContents.on("console-message", (event) => {
     const level = event.level;
     if (level !== "warning" && level !== "error") return;
-    log.warn("[pond renderer]", event.message);
+    log.warn("[apostrophi renderer]", event.message);
   });
 
   win.webContents.setWindowOpenHandler(({ url }) => {
@@ -223,7 +223,7 @@ async function buildLibraryWindow(): Promise<BrowserWindow> {
       }
     })();
     if (isHttp) void shell.openExternal(url);
-    else log.warn("[pond] blocked window.open for non-http(s) URL", url);
+    else log.warn("[apostrophi] blocked window.open for non-http(s) URL", url);
     return { action: "deny" };
   });
 
@@ -233,13 +233,13 @@ async function buildLibraryWindow(): Promise<BrowserWindow> {
     const allowed = (() => {
       if (devUrl && url.startsWith(devUrl)) return true;
       if (url.startsWith("file://")) return true;
-      if (url.startsWith("pond://")) return true;
+      if (url.startsWith("apostrophi://")) return true;
       if (url === "about:blank") return true;
       return false;
     })();
     if (!allowed) {
       event.preventDefault();
-      log.warn("[pond] blocked navigation away from trusted origin", url);
+      log.warn("[apostrophi] blocked navigation away from trusted origin", url);
       const u = (() => {
         try {
           return new URL(url);
@@ -255,8 +255,8 @@ async function buildLibraryWindow(): Promise<BrowserWindow> {
   if (devUrl) {
     await win.loadURL(devUrl);
     if (
-      process.env.POND_OPEN_DEVTOOLS === "1" ||
-      process.env.POND_DEVTOOLS === "1"
+      process.env.APOSTROPHI_OPEN_DEVTOOLS === "1" ||
+      process.env.APOSTROPHI_DEVTOOLS === "1"
     ) {
       win.webContents.openDevTools({ mode: "detach" });
     }
@@ -334,7 +334,7 @@ export async function initTray(): Promise<void> {
     });
   } catch (err) {
     log.error(
-      "[pond] failed to create tray; menu-bar icon will be unavailable",
+      "[apostrophi] failed to create tray; menu-bar icon will be unavailable",
       err,
     );
   }

@@ -1,9 +1,9 @@
-import { parseCaptureTags } from "@pond/schema/capture";
+import { parseCaptureTags } from "@apostrophi/schema/capture";
 import {
   type ExtensionCookie,
   sessionImportResponseSchema,
-} from "@pond/schema/session";
-import { SOURCES, type Source } from "@pond/schema/source-ids";
+} from "@apostrophi/schema/session";
+import { SOURCES, type Source } from "@apostrophi/schema/source-ids";
 import { z } from "zod";
 import {
   captureFullPage,
@@ -16,15 +16,18 @@ import { nativeCall } from "@/utils/native";
 import { pickPageAssets } from "@/utils/page-assets";
 import { probe } from "@/utils/probe";
 import { ensureSettings } from "@/utils/settings";
-import type { PondCapturePayload, PushSessionResult } from "@/utils/types";
+import type {
+  ApostrophiCapturePayload,
+  PushSessionResult,
+} from "@/utils/types";
 import { cookieDomainsForSource, isCookieSourceUrl } from "@/utils/url";
 
 const AUTO_PUSH_COOLDOWN_MS = 60_000;
 const ACTIVE_PROBE_MS = 30_000;
 const IDLE_PROBE_MS = 5 * 60_000;
-const SESSION_ALARM = "pond-session";
+const SESSION_ALARM = "apostrophi-session";
 const SCHEDULER_STORAGE_KEY = "sessionPushScheduler";
-const SAVE_MENU_ID = "pond-save";
+const SAVE_MENU_ID = "apostrophi-save";
 
 const capturePayloadSchema = z.object({
   url: z.string(),
@@ -63,15 +66,15 @@ export default defineBackground(() => {
     chrome.contextMenus.removeAll(() => {
       chrome.contextMenus.create({
         id: SAVE_MENU_ID,
-        title: "Save to Pond",
+        title: "Save to Apostrophi",
         contexts: ["page", "link", "image", "video", "audio"],
       });
       for (const [id, title] of [
-        ["pond-assets", "Collect images from this page"],
-        ["pond-visible", "Save visible page screenshot"],
-        ["pond-region", "Save page region screenshot"],
-        ["pond-element", "Save Page Element Screenshot"],
-        ["pond-full-page", "Save full page screenshot"],
+        ["apostrophi-assets", "Collect images from this page"],
+        ["apostrophi-visible", "Save visible page screenshot"],
+        ["apostrophi-region", "Save page region screenshot"],
+        ["apostrophi-element", "Save Page Element Screenshot"],
+        ["apostrophi-full-page", "Save full page screenshot"],
       ]) {
         if (id && title)
           chrome.contextMenus.create({
@@ -104,26 +107,26 @@ export default defineBackground(() => {
   }
 
   chrome.contextMenus.onClicked.addListener((info, tab) => {
-    if (info.menuItemId === "pond-assets" && tab?.id != null) {
+    if (info.menuItemId === "apostrophi-assets" && tab?.id != null) {
       void capturePageAssets(tab.id).catch(() =>
         flashBadge(tab.id, "x", "#cc3333"),
       );
       return;
     }
     if (
-      (info.menuItemId === "pond-visible" ||
-        info.menuItemId === "pond-region" ||
-        info.menuItemId === "pond-element" ||
-        info.menuItemId === "pond-full-page") &&
+      (info.menuItemId === "apostrophi-visible" ||
+        info.menuItemId === "apostrophi-region" ||
+        info.menuItemId === "apostrophi-element" ||
+        info.menuItemId === "apostrophi-full-page") &&
       tab?.id != null
     ) {
       void captureBrowserScreenshot(
         tab,
-        info.menuItemId === "pond-region"
+        info.menuItemId === "apostrophi-region"
           ? "region"
-          : info.menuItemId === "pond-element"
+          : info.menuItemId === "apostrophi-element"
             ? "element"
-            : info.menuItemId === "pond-full-page"
+            : info.menuItemId === "apostrophi-full-page"
               ? "full"
               : "visible",
       ).catch((error) =>
@@ -152,19 +155,19 @@ export default defineBackground(() => {
         : data.level === "warn"
           ? console.warn
           : console.info;
-    fn("[pond]", data.message, data.data);
+    fn("[apostrophi]", data.message, data.data);
   });
 
   onMessage("capture", ({ data, sender }) => {
     const payload = capturePayloadSchema.safeParse(data);
     if (!payload.success) return false;
     return handleCapture(payload.data, sender.tab?.id).catch((err) => {
-      console.error("[pond] capture failed", err);
+      console.error("[apostrophi] capture failed", err);
       return false;
     });
   });
 
-  onMessage("openPond", ({ data }) => openPondTab(data));
+  onMessage("openApostrophi", ({ data }) => openApostrophiTab(data));
 
   onMessage("pushSession", async ({ data }) => {
     try {
@@ -172,7 +175,7 @@ export default defineBackground(() => {
       if (result.ok && result.data.connected) await markSchedulerIdle();
       return result;
     } catch (err) {
-      console.error("[pond] pushSession threw", err);
+      console.error("[apostrophi] pushSession threw", err);
       return {
         ok: false,
         reason: "network",
@@ -185,7 +188,7 @@ export default defineBackground(() => {
     try {
       return await probe();
     } catch (err) {
-      console.warn("[pond] probe failed", err);
+      console.warn("[apostrophi] probe failed", err);
       return { state: "offline" as const };
     }
   });
@@ -217,13 +220,13 @@ export default defineBackground(() => {
     .catch(() => scheduleSessionAlarm(false))
     .finally(() => maybeAutoPush({ force: true }));
 
-  async function openPondTab(path: string | undefined): Promise<boolean> {
-    const target = path ? `pond://${path}` : "pond://";
+  async function openApostrophiTab(path: string | undefined): Promise<boolean> {
+    const target = path ? `apostrophi://${path}` : "apostrophi://";
     try {
       await chrome.tabs.create({ url: target, active: true });
       return true;
     } catch (err) {
-      console.error("[pond] openPond failed", err);
+      console.error("[apostrophi] openApostrophi failed", err);
       return false;
     }
   }
@@ -322,7 +325,7 @@ export default defineBackground(() => {
       }
       if (result.ok) return;
       if (result.reason === "network") {
-        console.warn("[pond] auto-push failed", result.detail);
+        console.warn("[apostrophi] auto-push failed", result.detail);
       }
     } finally {
       autoPushInFlight = false;
@@ -416,7 +419,7 @@ export default defineBackground(() => {
       }
       return out;
     } catch (err) {
-      console.warn("[pond] cookiesForUrl failed", err);
+      console.warn("[apostrophi] cookiesForUrl failed", err);
       return [];
     }
   }
@@ -426,7 +429,7 @@ export default defineBackground(() => {
   }
 
   async function handleCapture(
-    payload: PondCapturePayload,
+    payload: ApostrophiCapturePayload,
     tabId?: number,
   ): Promise<boolean> {
     const cookies = wantsPageCookies(payload.trigger)
@@ -445,7 +448,7 @@ export default defineBackground(() => {
     });
 
     if (!result.ok) {
-      console.warn("[pond] enqueue rejected", result.error);
+      console.warn("[apostrophi] enqueue rejected", result.error);
       flashBadge(tabId, "x", "#cc3333");
       return false;
     }

@@ -1,6 +1,6 @@
-import { IconMinus, IconPlus } from "@pond/icons";
-import { isGroup, type Query } from "@pond/schema/filters/types";
-import { Button } from "@pond/ui";
+import { IconMinus, IconPlus } from "@apostrophi/icons";
+import { isGroup, type Query } from "@apostrophi/schema/filters/types";
+import { Button } from "@apostrophi/ui";
 import { useId } from "react";
 import { Predicate } from "../predicate";
 import { RuleSelect } from "../rule-select";

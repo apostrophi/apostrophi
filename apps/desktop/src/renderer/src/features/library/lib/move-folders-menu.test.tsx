@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { afterEach, expect, it, vi } from "vitest";
 import { folders } from "@/features/library/state/folders";
 import { buildMoveFolderItems } from "./move-folders-menu";
@@ -32,7 +32,7 @@ it("disables the moving folder, its subfolders and its current parent", async ()
       ? [row("Work", null), row("Shots", "Work"), row("Raw", "Shots")]
       : [],
   );
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   await folders.refresh();
 
   const items = buildMoveFolderItems(["Shots"]);

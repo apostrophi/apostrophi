@@ -15,7 +15,9 @@ function startHydration(): () => void {
     name: "downloads.ingestingOrFailed" | "pipeline.inflight",
   ) => {
     try {
-      const ids = InflightIdsSchema.parse(await window.pond.query(name, {}));
+      const ids = InflightIdsSchema.parse(
+        await window.apostrophi.query(name, {}),
+      );
       if (stopped) return;
       if (name === "downloads.ingestingOrFailed") {
         await hydrateLiveDownloadSaves(ids, () => stopped);
@@ -23,7 +25,7 @@ function startHydration(): () => void {
       }
       await reloadSaves(ids);
     } catch (err) {
-      console.warn(`[pond downloads] ${name} refresh failed`, err);
+      console.warn(`[apostrophi downloads] ${name} refresh failed`, err);
     }
   };
   void hydrate("downloads.ingestingOrFailed");

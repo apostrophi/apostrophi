@@ -3,7 +3,7 @@ import { CaptureWebDraftSchema } from "./capture";
 import { enqueueRequestSchema } from "./ingest";
 import { extensionCookieSchema, sessionImportPayloadSchema } from "./session";
 
-export const NATIVE_HOST_NAME = "so.pond.host";
+export const NATIVE_HOST_NAME = "so.apostrophi.host";
 
 /** Pinned by `manifest.key` in the extension; native-host `allowed_origins` must match. */
 export const EXTENSION_ID = "ihciihlcdkopghlpabpmnodncfdboplb";

@@ -12,7 +12,7 @@ export function buildItemExpression<Norm, Result>(
   const fnSrc = `(${harvestFn.toString()})`;
   return `(async () => {
     ${browserValidationSource}
-    const validators = PondHarvestValidation.browserValidators;
+    const validators = ApostrophiHarvestValidation.browserValidators;
     const norm = ${normSrc};
     const id = ${JSON.stringify(id)};
     try { return await ${fnSrc}(id, norm); } catch (e) { return null; }
@@ -33,7 +33,7 @@ export function buildScrollListExpression<Norm, Result>(
   const fnSrc = `(${listFn.toString()})`;
   return `(async () => {
     ${browserValidationSource}
-    const validators = PondHarvestValidation.browserValidators;
+    const validators = ApostrophiHarvestValidation.browserValidators;
     const scroll = ${scrollSrc};
     const norm = ${normSrc};
     const args = ${JSON.stringify(args)};

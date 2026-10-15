@@ -13,7 +13,7 @@ import {
 
 declare global {
   interface Window {
-    __pondRedditInjected?: boolean;
+    __apostrophiRedditInjected?: boolean;
   }
 }
 
@@ -241,8 +241,8 @@ function postIdFromGraphql(body: string | null): string | null {
 }
 
 export function inject(): void {
-  if (window.__pondRedditInjected) return;
-  window.__pondRedditInjected = true;
+  if (window.__apostrophiRedditInjected) return;
+  window.__apostrophiRedditInjected = true;
 
   const recent = new Map<string, number>();
 

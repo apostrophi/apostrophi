@@ -1,4 +1,4 @@
-import type { Capture, RawJson } from "@pond/schema/raw";
+import type { Capture, RawJson } from "@apostrophi/schema/raw";
 import { describe, expect, it } from "vitest";
 import { countCaptureVideos, expectedVideoDownloads, planOps } from "./specs";
 

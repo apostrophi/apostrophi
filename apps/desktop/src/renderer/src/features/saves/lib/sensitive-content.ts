@@ -1,4 +1,4 @@
-import { sensitiveContentBand } from "@pond/schema/content-safety";
+import { sensitiveContentBand } from "@apostrophi/schema/content-safety";
 
 export function shouldBlurSensitiveThumbnail(
   enabled: boolean,

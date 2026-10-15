@@ -1,5 +1,5 @@
-import { SOURCES, sourceLabel } from "@pond/schema/source-ids";
-import type { PondSave } from "./pond-api";
+import { SOURCES, sourceLabel } from "@apostrophi/schema/source-ids";
+import type { ApostrophiSave } from "./apostrophi-api";
 
 const LINKS = /https?:\/\/\S+/g;
 const TRAILING_HASHTAGS = /(?:\s*#[\p{L}\p{N}_]+)+\s*$/u;
@@ -10,17 +10,17 @@ export function hostname(url: string): string {
   return new URL(url).hostname.replace(/^www\./, "");
 }
 
-export function savedDate(save: PondSave): Date {
+export function savedDate(save: ApostrophiSave): Date {
   return new Date(save.savedAt);
 }
 
-export function saveSourceLabel(save: PondSave): string {
+export function saveSourceLabel(save: ApostrophiSave): string {
   const source = SOURCES.find((id) => id === save.source);
   return source ? sourceLabel(source) : save.source;
 }
 
 /** Captions often end in link shorteners and hashtag runs that crowd out the words you search by. */
-export function saveTitle(save: PondSave): string {
+export function saveTitle(save: ApostrophiSave): string {
   const caption = (save.title || save.description || "")
     .replace(LINKS, "")
     .replace(/\s+/g, " ")
@@ -29,7 +29,7 @@ export function saveTitle(save: PondSave): string {
   return words || caption || save.author || hostname(save.url);
 }
 
-export function saveCaption(save: PondSave): string {
+export function saveCaption(save: ApostrophiSave): string {
   const caption = save.description || save.title || save.url;
   return caption.replace(MARKDOWN_SYNTAX, "\\$&");
 }

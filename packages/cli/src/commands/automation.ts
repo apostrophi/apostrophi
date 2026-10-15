@@ -1,4 +1,4 @@
-import type { JsonObject } from "@pond/local-api";
+import type { JsonObject } from "@apostrophi/local-api";
 import type { Command } from "commander";
 import { z } from "zod";
 import { runOperation } from "../operations";

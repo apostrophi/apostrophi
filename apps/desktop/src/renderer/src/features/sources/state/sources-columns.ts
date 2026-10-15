@@ -16,7 +16,7 @@ export const LOCKED_SOURCE_COLUMN: SourceColumnId = "name";
 const DEFAULT_SORT = { id: "name" as const, desc: false };
 
 const layout = createTableColumnLayout({
-  storageKey: "pond:sources-columns",
+  storageKey: "apostrophi:sources-columns",
   columns: SOURCE_COLUMN_CATALOG,
   lockedId: LOCKED_SOURCE_COLUMN,
   defaultSort: DEFAULT_SORT,

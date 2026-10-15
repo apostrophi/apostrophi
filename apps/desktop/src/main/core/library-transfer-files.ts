@@ -9,8 +9,11 @@ import {
 } from "node:fs/promises";
 import { hostname } from "node:os";
 import { join, resolve } from "node:path";
-import { MEDIA_TYPES, SOURCES } from "@pond/schema/db";
-import { StoredRawJsonSchema, storedAsRawJson } from "@pond/schema/raw-schema";
+import { MEDIA_TYPES, SOURCES } from "@apostrophi/schema/db";
+import {
+  StoredRawJsonSchema,
+  storedAsRawJson,
+} from "@apostrophi/schema/raw-schema";
 import { ulid } from "ulid";
 import { z } from "zod";
 import { writeBundleJson } from "../lib/library-config";
@@ -19,6 +22,7 @@ import {
   type InfoDoc,
   StoredInfoDocSchema,
 } from "../lib/library-format";
+import { importApostrophiPackage } from "./apostrophi-package";
 import { type ExportItem, exportFiles } from "./export-files";
 import { verifyLibraryBackup } from "./library-backup";
 import { runLibraryTransfer } from "./library-transfers";
@@ -27,7 +31,6 @@ import {
   mergePackageOrganization,
   readPackageOrganization,
 } from "./package-organization";
-import { importPondPackage } from "./pond-package";
 
 const OrganizationEnvelope = z.object({ data: OrganizationBundleSchema });
 const EnrichmentEnvelope = z.object({
@@ -52,7 +55,9 @@ async function readOrganization(root: string) {
     .then((value) => value.toString("utf8"))
     .catch(() => null);
   if (!text)
-    throw new Error("Open this library in Pond once before transferring it.");
+    throw new Error(
+      "Open this library in Apostrophi once before transferring it.",
+    );
   return { text, data: OrganizationEnvelope.parse(JSON.parse(text)).data };
 }
 async function readSaves(root: string, includeTrash = false) {
@@ -73,7 +78,7 @@ async function readSaves(root: string, includeTrash = false) {
   return items;
 }
 async function acquireLock(root: string) {
-  const path = join(root, ".pond-transfer.lock");
+  const path = join(root, ".apostrophi-transfer.lock");
   try {
     const handle = await open(path, "wx");
     await handle.writeFile(
@@ -128,12 +133,12 @@ export function copyPackageToLibrary(packagePath: string, libraryPath: string) {
       const existing = new Map(
         items.map(({ info }) => [`${info.source}\0${info.sourceId}`, info.id]),
       );
-      const result = await importPondPackage(packagePath, {
+      const result = await importApostrophiPackage(packagePath, {
         directory: (id) => join(root, "items", `${id}.info`),
         async existing(save) {
           return (
             existing.get(
-              `${save.source ?? "local"}\0${save.sourceId || `pondpack:${save.id}`}`,
+              `${save.source ?? "local"}\0${save.sourceId || `apostrophipack:${save.id}`}`,
             ) ?? null
           );
         },
@@ -242,7 +247,7 @@ export function copyPackageToLibrary(packagePath: string, libraryPath: string) {
             schema: INFO_SCHEMA,
             id,
             source: save.source ?? "local",
-            sourceId: save.sourceId || `pondpack:${save.id}`,
+            sourceId: save.sourceId || `apostrophipack:${save.id}`,
             url: save.url,
             title: save.title,
             description: save.description ?? null,

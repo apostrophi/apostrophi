@@ -1,4 +1,4 @@
-import { Settings } from "@pond/ui";
+import { Settings } from "@apostrophi/ui";
 import { useReducedMotion } from "motion/react";
 import { Suspense, useEffect } from "react";
 import { SettingsSectionView } from "@/features/settings/components/engine";

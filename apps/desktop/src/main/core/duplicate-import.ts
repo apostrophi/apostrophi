@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { isAuxiliaryKind } from "@shared/save-file-names";
 import { isNull } from "drizzle-orm";
 import { getDb } from "../db";

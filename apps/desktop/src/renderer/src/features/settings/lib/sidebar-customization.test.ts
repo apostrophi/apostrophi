@@ -1,4 +1,4 @@
-import { normalizeSidebarDestinationOrder } from "@pond/schema";
+import { normalizeSidebarDestinationOrder } from "@apostrophi/schema";
 import { expect, it } from "vitest";
 import { moveVisibleSidebarDestination } from "./sidebar-customization";
 

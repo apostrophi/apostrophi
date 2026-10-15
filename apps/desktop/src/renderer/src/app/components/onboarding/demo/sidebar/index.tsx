@@ -11,7 +11,7 @@ import {
   IconTrashXmark,
   IconUser,
   IconWindowDownload,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import type { ReactNode } from "react";
 import styles from "./styles.module.css";
 

@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { afterEach, describe, expect, it } from "vitest";
 import type { CardModel } from "@/features/sources/components/sync-monitor/lib/helpers";
 import type { AccountRow } from "@/features/sources/hooks/use-accounts";

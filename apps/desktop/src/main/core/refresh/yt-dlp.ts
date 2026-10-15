@@ -1,8 +1,8 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Source } from "@pond/schema/db";
-import type { RawYtdlp } from "@pond/schema/raw";
+import type { Source } from "@apostrophi/schema/db";
+import type { RawYtdlp } from "@apostrophi/schema/raw";
 import type { ReportDownloadActivity } from "@shared/download-activity";
 import log from "electron-log/main.js";
 import { TASK_WATCHDOG_MS } from "../pipeline/task-timeouts";
@@ -62,11 +62,11 @@ export async function downloadVideo(
 ): Promise<DownloadedVideos | null> {
   const { ytdlp, ffmpeg } = binariesAvailable();
   if (!ytdlp) {
-    log.debug("[pond yt-dlp] binary unavailable, skipping", args.url);
+    log.debug("[apostrophi yt-dlp] binary unavailable, skipping", args.url);
     return null;
   }
   if (args.signal?.aborted) {
-    log.info("[pond yt-dlp] aborted before start", args.url);
+    log.info("[apostrophi yt-dlp] aborted before start", args.url);
     return null;
   }
 
@@ -81,7 +81,7 @@ export async function downloadVideo(
       try {
         await rm(outputDir, { recursive: true, force: true });
       } catch (err) {
-        log.warn("[pond yt-dlp] tmpdir cleanup failed", outputDir, err);
+        log.warn("[apostrophi yt-dlp] tmpdir cleanup failed", outputDir, err);
       }
     }
   };
@@ -92,7 +92,7 @@ export async function downloadVideo(
       ? await partitionForIngest(args.source, args.accountId)
       : undefined;
     cookies = await writeNetscapeCookies(partition);
-    outputDir = await mkdtemp(join(tmpdir(), "pond-ytdlp-out-"));
+    outputDir = await mkdtemp(join(tmpdir(), "apostrophi-ytdlp-out-"));
 
     const argv = [
       args.allowPlaylist ? "--yes-playlist" : "--no-playlist",
@@ -153,7 +153,7 @@ export async function downloadVideo(
     argv.push(args.url);
 
     log.info(
-      "[pond yt-dlp] downloading",
+      "[apostrophi yt-dlp] downloading",
       args.url,
       `(cookies=${cookies.count})`,
     );
@@ -176,7 +176,7 @@ export async function downloadVideo(
     );
     if (code !== 0) {
       log.warn(
-        "[pond yt-dlp] non-zero exit",
+        "[apostrophi yt-dlp] non-zero exit",
         code,
         args.url,
         stderr.slice(-400),
@@ -188,7 +188,7 @@ export async function downloadVideo(
     args.reportActivity?.({ phase: "processing" });
     const produced = await pickProducedFiles(outputDir);
     if (produced.length === 0) {
-      log.warn("[pond yt-dlp] no output file produced", args.url);
+      log.warn("[apostrophi yt-dlp] no output file produced", args.url);
       await cleanup();
       return null;
     }
@@ -213,7 +213,7 @@ export async function downloadVideo(
         posterMimeType: poster?.mimeType ?? null,
         subtitles: i === 0 ? subtitles : [],
       });
-      log.info("[pond yt-dlp] wrote", file.path, `(${file.size} bytes)`);
+      log.info("[apostrophi yt-dlp] wrote", file.path, `(${file.size} bytes)`);
     }
     if (items.length === 0) {
       await cleanup();
@@ -221,7 +221,7 @@ export async function downloadVideo(
     }
     return { items, cleanup };
   } catch (err) {
-    log.warn("[pond yt-dlp] unexpected error", args.url, err);
+    log.warn("[apostrophi yt-dlp] unexpected error", args.url, err);
     await cleanup();
     return null;
   }

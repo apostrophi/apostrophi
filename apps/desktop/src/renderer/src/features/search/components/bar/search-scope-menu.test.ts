@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { describe, expect, it, vi } from "vitest";
 import {
   buildSearchScopeItems,

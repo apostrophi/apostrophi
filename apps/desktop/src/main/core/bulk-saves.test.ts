@@ -1,10 +1,10 @@
-import * as schema from "@pond/schema/db";
-import * as events from "@pond/schema/events";
-import type { Transaction } from "@pond/schema/tx";
+import * as schema from "@apostrophi/schema/db";
+import * as events from "@apostrophi/schema/events";
+import type { Transaction } from "@apostrophi/schema/tx";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
-import { initializePondSchema } from "../db";
+import { initializeApostrophiSchema } from "../db";
 import { bulkEditSaves } from "./bulk-saves";
 
 function nativeAvailable() {
@@ -23,7 +23,7 @@ afterEach(() => {
 function fixture() {
   const raw = new Database(":memory:");
   opened.push(raw);
-  initializePondSchema(raw, () => false);
+  initializeApostrophiSchema(raw, () => false);
   const db = Object.assign(drizzle(raw, { schema: { ...schema, ...events } }), {
     $raw: raw,
   });

@@ -1,10 +1,10 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
 import type {
   ComparatorId,
   FieldId,
   Predicate,
   PredicateValue,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import { describePredicate } from "@/features/search/query";
 import type { FilterOption } from "./options";
 import { isFilterSelected } from "./selection";

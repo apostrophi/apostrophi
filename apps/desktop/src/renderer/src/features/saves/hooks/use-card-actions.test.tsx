@@ -23,7 +23,10 @@ it.each(["native file", "file URI"])(
         ? { candidates: [] }
         : { ok: true, ids: ["new-save"] },
     );
-    vi.stubGlobal("pond", { query, pathForFile: () => "/tmp/drop image.png" });
+    vi.stubGlobal("apostrophi", {
+      query,
+      pathForFile: () => "/tmp/drop image.png",
+    });
     const host = document.createElement("div");
     const root = createRoot(host);
     function Harness() {
@@ -60,7 +63,7 @@ it.each(["native file", "file URI"])(
       expect(query).toHaveBeenCalledWith("saves.importFiles", {
         paths: ["/tmp/drop image.png"],
       });
-      expect(toastText()).toContain("Saved to Pond");
+      expect(toastText()).toContain("Saved to Apostrophi");
     } finally {
       await act(async () => root.unmount());
     }
@@ -69,7 +72,7 @@ it.each(["native file", "file URI"])(
 
 it("starts a dropped link immediately and does not claim it is saved", async () => {
   const query = vi.fn().mockResolvedValue({ ok: true, id: "pasted-save" });
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   const host = document.createElement("div");
   const root = createRoot(host);
   function Harness() {
@@ -104,7 +107,7 @@ it("starts a dropped link immediately and does not claim it is saved", async () 
       url: "https://example.com/clip",
     });
     expect(toastText()).toContain("Downloading");
-    expect(toastText()).not.toContain("Saved to Pond");
+    expect(toastText()).not.toContain("Saved to Apostrophi");
   } finally {
     await act(async () => root.unmount());
   }

@@ -1,4 +1,4 @@
-import { agentChats, agentMessages } from "@pond/schema/db";
+import { agentChats, agentMessages } from "@apostrophi/schema/db";
 import type { ModelMessage } from "ai";
 import { asc, eq } from "drizzle-orm";
 import { z } from "zod";

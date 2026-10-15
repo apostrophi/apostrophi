@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import type { BlankDocumentKind } from "@shared/blank-documents";
 import type { EagleImportProgress } from "@shared/saves-import-contracts";
 import { z } from "zod";
@@ -58,7 +58,10 @@ export function createNewActions({
   function reportSaved(count: number): void {
     notify({
       id: "new-import",
-      title: count === 1 ? "Saved to Pond" : `Saved ${count} items to Pond`,
+      title:
+        count === 1
+          ? "Saved to Apostrophi"
+          : `Saved ${count} items to Apostrophi`,
     });
   }
 
@@ -87,7 +90,7 @@ export function createNewActions({
       const input = parentId
         ? { name: "Untitled", parentId }
         : { name: "Untitled" };
-      const folder = await window.pond.query("folders.create", input);
+      const folder = await window.apostrophi.query("folders.create", input);
       await refreshFolders();
       startEditingFolder(folder.id);
     });
@@ -102,7 +105,7 @@ export function createNewActions({
   }
 
   async function importPaths(kind: "files" | "folders"): Promise<void> {
-    const picked = await window.pond.query("saves.pickImportPaths", {
+    const picked = await window.apostrophi.query("saves.pickImportPaths", {
       kind,
     });
     if (picked.paths.length === 0) return;
@@ -124,7 +127,7 @@ export function createNewActions({
   async function importLegacyLibrary(
     source: "ArtStation" | "Huaban" | "Pixave" | "Inboard",
   ): Promise<void> {
-    const picked = await window.pond.query("saves.pickImportPaths", {
+    const picked = await window.apostrophi.query("saves.pickImportPaths", {
       kind: "folders",
     });
     if (picked.paths.length === 0) return;
@@ -142,7 +145,7 @@ export function createNewActions({
 
   async function importClipboard(): Promise<void> {
     const result = SaveResultSchema.parse(
-      await window.pond.query("saves.importClipboard", {}),
+      await window.apostrophi.query("saves.importClipboard", {}),
     );
     if (!result.ok || !result.ids?.length) {
       throw new Error(
@@ -156,7 +159,7 @@ export function createNewActions({
   }
 
   async function importBookmarks(): Promise<void> {
-    const result = await window.pond.query("saves.importBookmarks", {});
+    const result = await window.apostrophi.query("saves.importBookmarks", {});
     if (!result.ok) {
       if (result.reason === "cancelled") return;
       throw new Error(result.error);
@@ -179,7 +182,7 @@ export function createNewActions({
       title: "Extracting page assets",
       timeout: 0,
     });
-    const result = await window.pond.query("saves.extractPageAssets", {
+    const result = await window.apostrophi.query("saves.extractPageAssets", {
       url: href,
     });
     if (!result.ok && !result.queued && !result.imported) {
@@ -201,7 +204,7 @@ export function createNewActions({
   }
 
   async function importEagle(): Promise<void> {
-    const picked = await window.pond.query("saves.pickEagleLibrary", {});
+    const picked = await window.apostrophi.query("saves.pickEagleLibrary", {});
     if (!picked.ok || !picked.path) return;
     const progressId = crypto.randomUUID();
     const notificationId = notify({
@@ -229,7 +232,7 @@ export function createNewActions({
         timeout: 0,
       });
     });
-    const result = await window.pond
+    const result = await window.apostrophi
       .query("saves.importEagleLibrary", {
         path: picked.path,
         progressId,
@@ -259,8 +262,8 @@ export function createNewActions({
     });
   }
 
-  async function importPondPackage(): Promise<void> {
-    const result = await window.pond.query("saves.importPackage", {});
+  async function importApostrophiPackage(): Promise<void> {
+    const result = await window.apostrophi.query("saves.importPackage", {});
     if (!result.ok) {
       if (result.reason === "cancelled") return;
       throw new Error(
@@ -279,7 +282,10 @@ export function createNewActions({
   }
 
   async function importEaglePackage(): Promise<void> {
-    const result = await window.pond.query("saves.importEaglePackage", {});
+    const result = await window.apostrophi.query(
+      "saves.importEaglePackage",
+      {},
+    );
     if (!result.ok) {
       if (result.reason === "cancelled") return;
       throw new Error(
@@ -299,7 +305,7 @@ export function createNewActions({
 
   async function createNote(): Promise<void> {
     const result = SaveResultSchema.parse(
-      await window.pond.query("saves.createManual", {
+      await window.apostrophi.query("saves.createManual", {
         title: null,
         note: null,
         mediaType: "text",
@@ -312,7 +318,7 @@ export function createNewActions({
 
   async function createBlankDocument(kind: BlankDocumentKind): Promise<void> {
     const result = SaveResultSchema.parse(
-      await window.pond.query("saves.createBlankDocument", {
+      await window.apostrophi.query("saves.createBlankDocument", {
         kind,
         folderId: currentFolderId(),
       }),
@@ -325,7 +331,7 @@ export function createNewActions({
   async function placeCreatedSave(id: string): Promise<void> {
     const folderId = currentFolderId();
     if (folderId) {
-      await window.pond.query("folders.addSaves", {
+      await window.apostrophi.query("folders.addSaves", {
         folderId,
         saveIds: [id],
       });
@@ -384,7 +390,7 @@ export function createNewActions({
       title: "Rescanning library",
       timeout: 0,
     });
-    const result = await window.pond.query("library.rescan", {});
+    const result = await window.apostrophi.query("library.rescan", {});
     updateNotification({
       id: notificationId,
       title:
@@ -400,7 +406,7 @@ export function createNewActions({
       title: "Verifying library",
       timeout: 0,
     });
-    const result = await window.pond.query("library.verifyIntegrity", {});
+    const result = await window.apostrophi.query("library.verifyIntegrity", {});
     if (!result.ok) {
       updateNotification({
         id: notificationId,
@@ -443,7 +449,10 @@ export function createNewActions({
   }
 
   async function exportDebugReport(): Promise<void> {
-    const result = await window.pond.query("library.exportDebugReport", {});
+    const result = await window.apostrophi.query(
+      "library.exportDebugReport",
+      {},
+    );
     if (!result.ok && result.reason !== "cancelled")
       throw new Error("Couldn't export the debug report.");
     if (result.ok)
@@ -474,7 +483,7 @@ export function createNewActions({
     for (const url of urls) {
       try {
         const result = SaveResultSchema.parse(
-          await window.pond.query("saves.quickAdd", { url }),
+          await window.apostrophi.query("saves.quickAdd", { url }),
         );
         if (!result.ok) failed.push(url);
         else added.push(result.id ?? null);
@@ -501,7 +510,7 @@ export function createNewActions({
     importPageAssets,
     importEagle,
     importEaglePackage,
-    importPondPackage,
+    importApostrophiPackage,
     createNote,
     createBlankDocument,
     newSmartFolder,
@@ -527,7 +536,7 @@ export const {
   importPageAssets,
   importEagle,
   importEaglePackage,
-  importPondPackage,
+  importApostrophiPackage,
   createNote,
   createBlankDocument,
   newSmartFolder,
@@ -555,5 +564,5 @@ export const {
     return nav.kind === "folder" ? nav.id : null;
   },
   onEagleImportProgress: (callback) =>
-    window.pond.onEagleImportProgress(callback),
+    window.apostrophi.onEagleImportProgress(callback),
 });

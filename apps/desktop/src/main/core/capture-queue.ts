@@ -14,7 +14,7 @@ import {
   CaptureItemSchema,
   type CaptureMetadata,
   type CaptureReceipt,
-} from "@pond/schema/capture";
+} from "@apostrophi/schema/capture";
 import log from "electron-log/main.js";
 import { z } from "zod";
 
@@ -148,7 +148,7 @@ export function createCaptureQueue(ports: CaptureQueuePorts) {
               await ports.onComplete(receipt(job));
             } catch (error) {
               log.warn(
-                "[pond capture] onComplete failed",
+                "[apostrophi capture] onComplete failed",
                 job.draft.id,
                 job.saveIds,
                 error,

@@ -1,3 +1,4 @@
+import { Chip } from "@apostrophi/ui";
 import {
   type MdastExportRule,
   MdastImportExtension,
@@ -6,7 +7,6 @@ import {
   type MdastParent,
 } from "@lexical/mdast";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { Chip } from "@pond/ui";
 import type { AssistantSource } from "@shared/assistant";
 import {
   $applyNodeReplacement,
@@ -136,13 +136,13 @@ function $saveMentionIds(): string[] {
 }
 
 function saveMentionHref(id: string): string {
-  return `pond-save:${encodeURIComponent(id)}`;
+  return `apostrophi-save:${encodeURIComponent(id)}`;
 }
 
 export function parseSaveMentionHref(href: string): string | null {
-  if (!href.startsWith("pond-save:")) return null;
+  if (!href.startsWith("apostrophi-save:")) return null;
   try {
-    return decodeURIComponent(href.slice("pond-save:".length)) || null;
+    return decodeURIComponent(href.slice("apostrophi-save:".length)) || null;
   } catch {
     return null;
   }

@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import { hostToSource } from "@pond/schema/sources";
+import type { Source } from "@apostrophi/schema/db";
+import { hostToSource } from "@apostrophi/schema/sources";
 import { WATCHABLE } from "@/features/sources/hooks/use-watches";
 
 export function watchInputSource(

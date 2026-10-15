@@ -73,16 +73,18 @@ export async function relaunchSoon(): Promise<void> {
   }
   relaunchPending = true;
   setTimeout(() => {
-    log.info("[pond library-ops] relaunching into new library");
+    log.info("[apostrophi library-ops] relaunching into new library");
     app.relaunch();
     app.exit(0);
   }, 150);
 }
 
 async function softRepointInDev(): Promise<void> {
-  log.info("[pond library-ops] dev re-point into new library (no relaunch)");
+  log.info(
+    "[apostrophi library-ops] dev re-point into new library (no relaunch)",
+  );
   await flushTagsDump().catch((err) =>
-    log.warn("[pond library-ops] tags.json flush failed", err),
+    log.warn("[apostrophi library-ops] tags.json flush failed", err),
   );
   downloadActivity.reset();
   closeDb();
@@ -98,17 +100,17 @@ async function softRepointInDev(): Promise<void> {
       paths.tagsFile,
     ]);
   } catch (err) {
-    log.warn("[pond library-ops] bundle backup rotation failed", err);
+    log.warn("[apostrophi library-ops] bundle backup rotation failed", err);
   }
   try {
     await hydrateTagsFromBundle();
   } catch (err) {
-    log.warn("[pond library-ops] tags.json hydrate failed", err);
+    log.warn("[apostrophi library-ops] tags.json hydrate failed", err);
   }
   try {
     await reconcileLibrary();
   } catch (err) {
-    log.warn("[pond library-ops] dev re-point reconcile failed", err);
+    log.warn("[apostrophi library-ops] dev re-point reconcile failed", err);
   }
   await resumeLibraryWork();
   closePreviewWindows();

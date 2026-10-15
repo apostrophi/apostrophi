@@ -1,5 +1,5 @@
-import type { IconComponent } from "@pond/icons/types";
-import { Button, Tooltip } from "@pond/ui";
+import type { IconComponent } from "@apostrophi/icons/types";
+import { Button, Tooltip } from "@apostrophi/ui";
 import { type ReactNode, useState } from "react";
 import { ColorSwatch } from "@/features/saves/components/detail/color-swatch";
 import { useSaveDetail } from "@/features/saves/hooks/use-save-detail";
@@ -301,7 +301,7 @@ function PropertyRow({
               className={styles["row-author"]}
               onClick={() => {
                 const href = row.href;
-                if (href) void window.pond.openExternal(href);
+                if (href) void window.apostrophi.openExternal(href);
               }}
             >
               <AuthorAvatar name={row.value} avatarUrl={avatarUrl} />

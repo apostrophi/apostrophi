@@ -24,7 +24,7 @@ import { TableExtension } from "@lexical/table";
 import { configExtension, defineExtension } from "lexical";
 
 export const markdownEditorExtension = defineExtension({
-  name: "@pond/markdown-editor",
+  name: "@apostrophi/markdown-editor",
   dependencies: [
     RichTextExtension,
     configExtension(HistoryExtension, { delay: 400 }),

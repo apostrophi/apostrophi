@@ -1,4 +1,4 @@
-import { FIELD_IDS } from "@pond/schema/filters/meta";
+import { FIELD_IDS } from "@apostrophi/schema/filters/meta";
 import { describe, expect, it } from "vitest";
 import { fieldIcon } from "./fields";
 

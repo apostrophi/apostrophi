@@ -1,6 +1,6 @@
 "use client";
 
-import { SOUND_PATCH, type UiSoundName } from "@pond/ui/sounds";
+import { SOUND_PATCH, type UiSoundName } from "@apostrophi/ui/sounds";
 import { ensureReady } from "@web-kits/audio";
 import { useEffect } from "react";
 

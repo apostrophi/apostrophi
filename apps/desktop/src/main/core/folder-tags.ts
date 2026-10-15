@@ -1,5 +1,5 @@
-import type { Folder, Prefs, Save } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import type { Folder, Prefs, Save } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { normalizeTagList } from "./tags";
 
 export function inheritedFolderTags(

@@ -1,4 +1,4 @@
-import { type Save, type Task, tasks } from "@pond/schema/db";
+import { type Save, type Task, tasks } from "@apostrophi/schema/db";
 import { pickCardFile } from "@shared/save-file-names";
 import { and, eq } from "drizzle-orm";
 import log from "electron-log/main.js";
@@ -41,7 +41,7 @@ export async function runFinalize(saveId: string): Promise<void> {
         .where(and(eq(tasks.saveId, saveId), eq(tasks.op, "harvest_metadata")))
         .run();
       log.warn(
-        "[pond pipeline:finalize] incomplete capture, retrying harvest",
+        "[apostrophi pipeline:finalize] incomplete capture, retrying harvest",
         {
           saveId,
           source: save.source,
@@ -51,18 +51,24 @@ export async function runFinalize(saveId: string): Promise<void> {
       throw new FinalizeIncompleteError(report.required.missing);
     }
 
-    log.warn("[pond pipeline:finalize] incomplete capture, accepting as-is", {
-      saveId,
-      source: save.source,
-      missing: report.required.missing,
-    });
+    log.warn(
+      "[apostrophi pipeline:finalize] incomplete capture, accepting as-is",
+      {
+        saveId,
+        source: save.source,
+        missing: report.required.missing,
+      },
+    );
   }
 
   if (report.recommended.missing.length > 0) {
-    log.info("[pond pipeline:finalize] capture missing recommended fields", {
-      saveId,
-      missing: report.recommended.missing,
-    });
+    log.info(
+      "[apostrophi pipeline:finalize] capture missing recommended fields",
+      {
+        saveId,
+        missing: report.recommended.missing,
+      },
+    );
   }
 
   if (save.mediaType === "image" && (save.dominantColors ?? []).length === 0) {

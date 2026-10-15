@@ -1,4 +1,4 @@
-import type { SaveStatus } from "@pond/schema/db";
+import type { SaveStatus } from "@apostrophi/schema/db";
 
 export function harvestShouldIgnoreSave(save: {
   status: SaveStatus;

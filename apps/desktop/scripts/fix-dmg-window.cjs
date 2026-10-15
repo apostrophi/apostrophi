@@ -17,7 +17,7 @@ exports.default = async function fixDmgWindows(buildResult) {
 
 async function bakeFinderLayout(dmgPath) {
   waitUntilUnmounted();
-  const work = await mkdtemp(join(tmpdir(), "pond-dmg-"));
+  const work = await mkdtemp(join(tmpdir(), "apostrophi-dmg-"));
   const rw = join(work, "rw.dmg");
   const out = join(work, basename(dmgPath));
   try {
@@ -36,7 +36,9 @@ async function bakeFinderLayout(dmgPath) {
       stdio: "pipe",
     });
     execFileSync("cp", [out, dmgPath]);
-    console.log(`[pond dmg] baked Finder layout into ${basename(dmgPath)}`);
+    console.log(
+      `[apostrophi dmg] baked Finder layout into ${basename(dmgPath)}`,
+    );
   } finally {
     await rm(work, { recursive: true, force: true });
   }
@@ -64,13 +66,17 @@ function growScratchSpace(image) {
 }
 
 function waitUntilUnmounted() {
-  for (const mount of ["/Volumes/Pond", "/Volumes/Pond 1"]) {
+  for (const mount of ["/Volumes/Apostrophi", "/Volumes/Apostrophi 1"]) {
     try {
       execFileSync("hdiutil", ["detach", mount, "-quiet"], { stdio: "pipe" });
     } catch {}
   }
   for (let i = 0; i < 20; i++) {
-    if (!existsSync("/Volumes/Pond") && !existsSync("/Volumes/Pond 1")) return;
+    if (
+      !existsSync("/Volumes/Apostrophi") &&
+      !existsSync("/Volumes/Apostrophi 1")
+    )
+      return;
     execFileSync("sleep", ["0.25"]);
   }
 }
@@ -90,10 +96,10 @@ function attachRw(image) {
 
 function waitForVolume() {
   for (let i = 0; i < 20; i++) {
-    if (existsSync("/Volumes/Pond")) return "/Volumes/Pond";
+    if (existsSync("/Volumes/Apostrophi")) return "/Volumes/Apostrophi";
     execFileSync("sleep", ["0.25"]);
   }
-  throw new Error("Pond volume did not appear after attach");
+  throw new Error("Apostrophi volume did not appear after attach");
 }
 
 function layoutVolume(volume) {
@@ -101,7 +107,7 @@ function layoutVolume(volume) {
   const bottom = WINDOW.y + WINDOW.height;
   const script = `
 tell application "Finder"
-  tell disk "Pond"
+  tell disk "Apostrophi"
     open
     set current view of container window to icon view
     set toolbar visible of container window to false

@@ -1,4 +1,19 @@
 import {
+  IconAlbum2,
+  IconBookmark,
+  IconBookmarkSlash,
+  IconChatBubble,
+  IconClockPlus,
+  IconFolderBan,
+  IconHistory,
+  IconNodes3,
+  IconShuffle,
+  IconTrashXmark,
+  IconWindowDownload,
+} from "@apostrophi/icons";
+import type { SidebarDestination } from "@apostrophi/schema";
+import { Sidebar } from "@apostrophi/ui";
+import {
   closestCenter,
   DndContext,
   type DragEndEvent,
@@ -17,21 +32,6 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  IconAlbum2,
-  IconBookmark,
-  IconBookmarkSlash,
-  IconChatBubble,
-  IconClockPlus,
-  IconFolderBan,
-  IconHistory,
-  IconNodes3,
-  IconShuffle,
-  IconTrashXmark,
-  IconWindowDownload,
-} from "@pond/icons";
-import type { SidebarDestination } from "@pond/schema";
-import { Sidebar } from "@pond/ui";
 import { QueueSummarySchema } from "@shared/queue-contracts";
 import { useQuery } from "@tanstack/react-query";
 import { useReducedMotionConfig } from "motion/react";
@@ -163,7 +163,9 @@ export function LibraryDestinations({
   const queueSummary = useQuery({
     queryKey: ["queue.summary"],
     queryFn: async () =>
-      QueueSummarySchema.parse(await window.pond.query("queue.summary", {})),
+      QueueSummarySchema.parse(
+        await window.apostrophi.query("queue.summary", {}),
+      ),
     refetchInterval: 2_000,
   });
   const counts = useSidebarCounts();

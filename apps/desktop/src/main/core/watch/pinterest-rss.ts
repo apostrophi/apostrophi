@@ -1,4 +1,4 @@
-import type { WatchKind } from "@pond/schema/db";
+import type { WatchKind } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { sourceIdFromUrl } from "../pipeline/url";
 import type { WatchEntry, WatchHarvestResult } from "./types";
@@ -6,7 +6,7 @@ import type { WatchEntry, WatchHarvestResult } from "./types";
 const REQUEST_TIMEOUT_MS = 15_000;
 const USER_AGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 " +
-  "(KHTML, like Gecko) Version/17.0 Safari/605.1.15 PondBot/0.1";
+  "(KHTML, like Gecko) Version/17.0 Safari/605.1.15 ApostrophiBot/0.1";
 
 function feedUrl(handle: string, kind?: WatchKind): string | null {
   if (kind === "board" || handle.includes("/")) {
@@ -50,7 +50,7 @@ export async function listPinterestWatch(
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
   } catch (err) {
-    log.warn("[pond watch:pinterest] fetch failed", url, err);
+    log.warn("[apostrophi watch:pinterest] fetch failed", url, err);
     return { ok: false, reason: "unavailable" };
   }
   if (res.status === 404) return { ok: false, reason: "not_found" };

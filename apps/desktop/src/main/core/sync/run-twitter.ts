@@ -1,5 +1,9 @@
-import { type ConnectedAccount, type Source, saves } from "@pond/schema/db";
-import type { SyncRunEvent } from "@pond/schema/events";
+import {
+  type ConnectedAccount,
+  type Source,
+  saves,
+} from "@apostrophi/schema/db";
+import type { SyncRunEvent } from "@apostrophi/schema/events";
 import { and, eq } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -39,7 +43,7 @@ export async function syncTwitter(
     .where(and(eq(saves.source, source), eq(saves.status, "failed")));
   const failedSourceIds = new Set<string>(failedRows.map((r) => r.sourceId));
   log.info(
-    `[pond sync:twitter] starting for @${account.handle ?? accountId}; ${baseline.total} tweets already in library (${failedSourceIds.size} failed, ${baseline.full ? "full" : `incremental ${knownIds.size}-id window`})`,
+    `[apostrophi sync:twitter] starting for @${account.handle ?? accountId}; ${baseline.total} tweets already in library (${failedSourceIds.size} failed, ${baseline.full ? "full" : `incremental ${knownIds.size}-id window`})`,
   );
   emit({
     accountId,
@@ -126,7 +130,7 @@ export async function syncTwitter(
       : { ok: false as const, reason: "no_match" as const };
   const gaps: string[] = [];
   if (!likes.ok) {
-    log.warn(`[pond sync:twitter] likes harvest failed: ${likes.reason}`);
+    log.warn(`[apostrophi sync:twitter] likes harvest failed: ${likes.reason}`);
     gaps.push(listGapNote("Likes", likes.reason));
   }
   const entries = likes.ok
@@ -152,7 +156,7 @@ export async function syncTwitter(
     maxItems && maxItems > 0 ? allFresh.slice(0, maxItems) : allFresh;
   if (maxItems && allFresh.length > fresh.length) {
     log.info(
-      `[pond sync:twitter] test cap active. Enqueueing ${fresh.length} of ${allFresh.length} fresh bookmarks`,
+      `[apostrophi sync:twitter] test cap active. Enqueueing ${fresh.length} of ${allFresh.length} fresh bookmarks`,
     );
   }
   const total = fresh.length + recovery.length;
@@ -181,7 +185,7 @@ export async function syncTwitter(
   }
 
   log.info(
-    `[pond sync:twitter] enqueueing ${fresh.length} new + ${recovery.length} recover`,
+    `[apostrophi sync:twitter] enqueueing ${fresh.length} new + ${recovery.length} recover`,
   );
   emit({
     accountId,

@@ -31,7 +31,7 @@ describe("shortcut registry", () => {
 describe("shortcut binding access", () => {
   it("returns configured key bindings", () => {
     const bindings = resolveShortcuts({
-      profile: "pond",
+      profile: "apostrophi",
       overrides: { "save.add-tag": "Control+Shift+T" },
     });
 
@@ -39,7 +39,7 @@ describe("shortcut binding access", () => {
   });
 
   it("returns configured shortcut sequences", () => {
-    const bindings = resolveShortcuts({ profile: "pond", overrides: {} });
+    const bindings = resolveShortcuts({ profile: "apostrophi", overrides: {} });
 
     expect(bindingSequence(bindings, "nav.library")).toEqual(["G", "L"]);
   });
@@ -86,7 +86,7 @@ describe("shortcutGlyphs", () => {
 
 describe("shortcut profiles", () => {
   it("exposes the global summon command with a stable default in both profiles", () => {
-    for (const profile of ["pond", "eagle"] as const) {
+    for (const profile of ["apostrophi", "eagle"] as const) {
       const bindings = resolveShortcuts({
         profile,
         overrides: { "app.summon": "Control+Alt+F12" },
@@ -95,22 +95,25 @@ describe("shortcut profiles", () => {
     }
   });
 
-  it("moves layouts out of rating keys without changing Pond defaults", () => {
+  it("moves layouts out of rating keys without changing Apostrophi defaults", () => {
     const eagle = resolveShortcuts({ profile: "eagle", overrides: {} });
     expect(eagle["save.rate-4"].keys).toBe("4");
     expect(eagle["save.rate-next-4"].keys).toBe("Shift+4");
     expect(eagle["view.layout-grid"].keys).toBe("Alt+2");
     expect(eagle["save.add-tag"].keys).toBe("T");
     expect(eagle["save.copy-image"].keys).toBe("Mod+C");
-    const pond = resolveShortcuts({ profile: "pond", overrides: {} });
-    expect(pond["view.layout-grid"].keys).toBe("2");
-    expect(pond["save.add-tag"].keys).toBe("A");
-    expect(pond["save.rate-4"].keys).toBe("Alt+4");
+    const apostrophi = resolveShortcuts({
+      profile: "apostrophi",
+      overrides: {},
+    });
+    expect(apostrophi["view.layout-grid"].keys).toBe("2");
+    expect(apostrophi["save.add-tag"].keys).toBe("A");
+    expect(apostrophi["save.rate-4"].keys).toBe("Alt+4");
   });
 
   it("applies valid persisted overrides and ignores invalid old bindings", () => {
     const bindings = resolveShortcuts({
-      profile: "pond",
+      profile: "apostrophi",
       overrides: {
         "save.add-tag": "Control+Shift+T",
         "save.rate-4": "DefinitelyNotAKey",
@@ -122,7 +125,7 @@ describe("shortcut profiles", () => {
   });
 
   it("keeps library create and import chords unique", () => {
-    const preferences = { profile: "pond" as const, overrides: {} };
+    const preferences = { profile: "apostrophi" as const, overrides: {} };
     for (const id of [
       "library.new-folder",
       "library.new-tag",

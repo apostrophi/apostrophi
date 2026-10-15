@@ -8,7 +8,7 @@ import { WorkspaceMenu } from ".";
 const query = vi.fn(async (name: string) => {
   if (name === "library.info") {
     return {
-      path: "/Users/rafa/Memes.pond",
+      path: "/Users/rafa/Memes.apostrophi",
       name: "Memes",
       icon: null,
       accent: null,
@@ -17,7 +17,7 @@ const query = vi.fn(async (name: string) => {
   if (name === "library.recent") {
     return [
       {
-        path: "/Users/rafa/Memes.pond",
+        path: "/Users/rafa/Memes.apostrophi",
         name: "Memes",
         available: true,
         active: true,
@@ -26,7 +26,7 @@ const query = vi.fn(async (name: string) => {
         accent: null,
       },
       {
-        path: "/Users/rafa/Work.pond",
+        path: "/Users/rafa/Work.apostrophi",
         name: "Work",
         available: true,
         active: false,
@@ -40,7 +40,7 @@ const query = vi.fn(async (name: string) => {
     return { ok: true, path: "/Users/rafa/Libraries" };
   }
   if (name === "library.createAt") {
-    return { ok: true, path: "/Users/rafa/Libraries/My Pond.pond" };
+    return { ok: true, path: "/Users/rafa/Libraries/My Apostrophi.apostrophi" };
   }
   return { ok: true };
 });
@@ -58,7 +58,7 @@ describe("workspace menu", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query,
       openExternal: vi.fn(async () => {}),
     });
@@ -130,9 +130,8 @@ describe("workspace menu", () => {
     expect(text).toContain("Settings");
     expect(text).toContain("Check for Updates");
     expect(text).toContain("Browser Extension");
-    expect(text).toContain("Twitter");
     expect(text).toContain("GitHub");
-    expect(text).toContain("Email");
+    expect(text).not.toContain("Email");
     expect(text).not.toContain("Hotkeys");
     for (const label of ["Create Library", "Open Library", "Merge Library"]) {
       const item = [...document.querySelectorAll('[role="menuitem"]')].find(
@@ -152,7 +151,7 @@ describe("workspace menu", () => {
     await act(async () => work.click());
     await vi.waitFor(() =>
       expect(query).toHaveBeenCalledWith("library.switchTo", {
-        path: "/Users/rafa/Work.pond",
+        path: "/Users/rafa/Work.apostrophi",
       }),
     );
   });
@@ -171,7 +170,7 @@ describe("workspace menu", () => {
     await vi.waitFor(() =>
       expect(query).toHaveBeenCalledWith("library.createAt", {
         path: "/Users/rafa/Libraries",
-        name: "My Pond",
+        name: "My Apostrophi",
       }),
     );
   });
@@ -215,7 +214,7 @@ describe("workspace menu", () => {
     );
     await vi.waitFor(() =>
       expect(dialog?.textContent).toContain(
-        "Pond Extension is in your Downloads folder.",
+        "Apostrophi Extension is in your Downloads folder.",
       ),
     );
   });

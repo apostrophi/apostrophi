@@ -7,7 +7,7 @@ function coverSave(): Save {
     id: "cover-save",
     source: "local",
     sourceId: "cover-save",
-    url: "pond:local/cover-save",
+    url: "apostrophi:local/cover-save",
     title: "Cover",
     description: null,
     author: null,
@@ -33,7 +33,7 @@ function coverSave(): Save {
 describe("folder cover url", () => {
   it("points at the cover file", () => {
     expect(folderCoverUrl(coverSave())).toMatch(
-      /^pond:\/\/cover-save\/photo\.png/,
+      /^apostrophi:\/\/cover-save\/photo\.png/,
     );
   });
 
@@ -51,7 +51,7 @@ describe("folder cover url", () => {
       },
     ];
     const url = folderCoverUrl(save, 360);
-    expect(url).toMatch(/^pond:\/\/style-save\/metadata\.plist/);
+    expect(url).toMatch(/^apostrophi:\/\/style-save\/metadata\.plist/);
     expect(url).toContain("preview=");
     expect(url).not.toContain("tw=");
   });
@@ -85,11 +85,11 @@ describe("folder cover url", () => {
       },
     ];
     expect(folderCoverUrl(save, 360)).toMatch(
-      /^pond:\/\/code-save\/thumbnail\.png/,
+      /^apostrophi:\/\/code-save\/thumbnail\.png/,
     );
     document.documentElement.dataset.theme = "dark";
     expect(folderCoverUrl(save, 360)).toMatch(
-      /^pond:\/\/code-save\/thumbnail-dark\.png/,
+      /^apostrophi:\/\/code-save\/thumbnail-dark\.png/,
     );
     delete document.documentElement.dataset.theme;
   });

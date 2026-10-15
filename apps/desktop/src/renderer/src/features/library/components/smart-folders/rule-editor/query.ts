@@ -1,4 +1,4 @@
-import { FIELD_DESCRIPTORS } from "@pond/schema/filters/fields";
+import { FIELD_DESCRIPTORS } from "@apostrophi/schema/filters/fields";
 import {
   type ComparatorId,
   type FieldId,
@@ -6,7 +6,7 @@ import {
   type Predicate,
   type PredicateValue,
   type Query,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import { z } from "zod";
 import {
   colorValueSchema,

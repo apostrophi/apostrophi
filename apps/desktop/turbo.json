@@ -15,7 +15,7 @@
       "outputs": ["out/**", "src/renderer/src/generated/**"]
     },
     "dist": {
-      "dependsOn": ["build", "@pond/extension#build"],
+      "dependsOn": ["build", "@apostrophi/extension#build"],
       "inputs": [
         "$TURBO_EXTENDS$",
         "electron-builder.yml",
@@ -25,7 +25,7 @@
         "scripts/prepare-dmg-background.mjs",
         "out/**"
       ],
-      "outputs": ["dist/**", "resources/bin/pond-native-host"]
+      "outputs": ["dist/**", "resources/bin/apostrophi-native-host"]
     }
   }
 }

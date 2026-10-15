@@ -5,7 +5,7 @@ import {
 } from "@tanstack/hotkeys";
 import { GLOBAL_SHORTCUTS, LAYOUT_CYCLE_SHORTCUT } from "./global-shortcuts";
 
-/** Pond ships only on macOS; pinning it keeps `Control` distinct from `Mod` when tests run on Linux. */
+/** Apostrophi ships only on macOS; pinning it keeps `Control` distinct from `Mod` when tests run on Linux. */
 export const SHORTCUT_PLATFORM = "mac";
 
 type ShortcutGroup =
@@ -65,7 +65,11 @@ export const SHORTCUTS = {
     label: "Scroll to Bottom",
     group: "Navigate",
   },
-  "library.search": { keys: "Mod+K", label: "Search Pond", group: "Navigate" },
+  "library.search": {
+    keys: "Mod+K",
+    label: "Search Apostrophi",
+    group: "Navigate",
+  },
   "app.settings": {
     keys: "Mod+,",
     label: "Settings",
@@ -419,7 +423,7 @@ export function isShortcutId(id: string): id is ShortcutId {
 }
 
 export interface ShortcutPreferences {
-  profile: "pond" | "eagle";
+  profile: "apostrophi" | "eagle";
   overrides: Record<string, string>;
 }
 

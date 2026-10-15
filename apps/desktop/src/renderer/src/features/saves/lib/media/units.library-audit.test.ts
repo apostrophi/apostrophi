@@ -6,7 +6,7 @@ import { normalise, SavePatchSchema } from "@/features/saves/lib/reconcile";
 import type { Save } from "@/features/saves/types";
 import { buildMediaUnits } from "./units";
 
-const LIBRARY_PATH = process.env.POND_LIBRARY_PATH;
+const LIBRARY_PATH = process.env.APOSTROPHI_LIBRARY_PATH;
 const describeLibrary = LIBRARY_PATH ? describe : describe.skip;
 
 describeLibrary("live library media units", () => {

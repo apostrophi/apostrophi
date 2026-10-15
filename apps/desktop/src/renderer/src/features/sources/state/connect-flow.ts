@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
 import { playUiSuccess } from "@/shared/lib/sounds";
@@ -56,7 +56,7 @@ export const connectFlow = {
   clear(): void {
     const waiting = store.state.waiting;
     store.setState((s) => (s.waiting === null ? s : { ...s, waiting: null }));
-    if (waiting) void window.pond.clearPendingSession(waiting);
+    if (waiting) void window.apostrophi.clearPendingSession(waiting);
   },
 };
 
@@ -82,7 +82,7 @@ export function useConnectedAccount(): ConnectedAccount | null {
 
 async function requestConnection(source: Source): Promise<void> {
   try {
-    const result = await window.pond.connectSource(source);
+    const result = await window.apostrophi.connectSource(source);
     if (!result.ok) markFailed(source);
   } catch {
     markFailed(source);

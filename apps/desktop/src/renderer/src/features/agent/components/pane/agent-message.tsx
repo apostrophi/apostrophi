@@ -1,18 +1,18 @@
-import { useTextReveal } from "@pond/ui";
-import { Message } from "@pond/ui/message";
-import { RunStatus } from "@pond/ui/run-status";
+import { useTextReveal } from "@apostrophi/ui";
+import { Message } from "@apostrophi/ui/message";
+import { RunStatus } from "@apostrophi/ui/run-status";
 import type { AssistantProvider, AssistantSource } from "@shared/assistant";
 import { useRef } from "react";
+import {
+  type ApostrophiUIMessage,
+  fromUIMessage,
+  messageText,
+  partData,
+} from "@/features/agent/state/apostrophi-messages";
 import {
   type AssistantState,
   assistant,
 } from "@/features/agent/state/assistant";
-import {
-  fromUIMessage,
-  messageText,
-  type PondUIMessage,
-  partData,
-} from "@/features/agent/state/pond-messages";
 import { openSave } from "@/features/saves/navigation";
 import { currentActivityLabel } from "./activity-label";
 import { AssistantResponse } from "./assistant-response";
@@ -30,7 +30,7 @@ export function AgentMessage({
   latest,
   onAnswer,
 }: {
-  message: PondUIMessage;
+  message: ApostrophiUIMessage;
   state: AssistantState;
   provider: AssistantProvider;
   attachedIds: string[];
@@ -52,9 +52,9 @@ export function AgentMessage({
   const animatedResponse = useRef(false);
   if (message.role === "assistant" && (streaming || reveal.pending))
     animatedResponse.current = true;
-  const steps = partData(message, "pond-steps") ?? state.steps;
+  const steps = partData(message, "apostrophi-steps") ?? state.steps;
   const activity =
-    partData(message, "pond-activity")?.activity ?? state.activity;
+    partData(message, "apostrophi-activity")?.activity ?? state.activity;
   const showActivity =
     message.role === "assistant" &&
     streaming &&

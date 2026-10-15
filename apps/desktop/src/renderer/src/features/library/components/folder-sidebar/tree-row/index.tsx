@@ -1,9 +1,9 @@
+import { IconChevronRight } from "@apostrophi/icons";
+import type { Folder, SidebarBadgeStyle } from "@apostrophi/schema/db";
+import { Button, cssVars, type MenuItemSpec } from "@apostrophi/ui";
 import { useDndContext } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { IconChevronRight } from "@pond/icons";
-import type { Folder, SidebarBadgeStyle } from "@pond/schema/db";
-import { Button, cssVars, type MenuItemSpec } from "@pond/ui";
 import { useReducedMotionConfig } from "motion/react";
 import { FolderContextMenu } from "@/features/library/components/folder-context-menu";
 import type { FolderTool } from "@/features/library/components/folder-tools";
@@ -152,7 +152,7 @@ export function FolderTreeRow(props: FolderTreeRowProps) {
           <FolderNameEditor
             name={folder.name}
             onSave={async (name) => {
-              const result = await window.pond.query("folders.rename", {
+              const result = await window.apostrophi.query("folders.rename", {
                 id: folder.id,
                 name,
               });

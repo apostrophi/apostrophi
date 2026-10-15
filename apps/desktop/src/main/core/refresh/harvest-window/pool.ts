@@ -1,4 +1,4 @@
-import { SOURCES, type Source } from "@pond/schema/db";
+import { SOURCES, type Source } from "@apostrophi/schema/db";
 import type { ReportDownloadActivity } from "@shared/download-activity";
 import { BrowserWindow, session } from "electron";
 import { resolvePreload } from "../../../lib/resolve-preload";

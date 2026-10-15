@@ -1,4 +1,4 @@
-import { IconTriangleWarning } from "@pond/icons";
+import { IconTriangleWarning } from "@apostrophi/icons";
 import type { ReactNode } from "react";
 import { Button } from "../button";
 import { Reveal } from "../reveal";

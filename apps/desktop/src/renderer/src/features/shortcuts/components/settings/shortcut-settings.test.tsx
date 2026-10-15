@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
@@ -14,14 +14,14 @@ it("shows editable shortcuts without profile controls or explanatory copy", asyn
       disconnect() {}
     },
   );
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     async query(name: string) {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "settings.globalShortcutStatus")
-        return { enabled: true, errors: ["Show Pond is unavailable."] };
+        return { enabled: true, errors: ["Show Apostrophi is unavailable."] };
       writes.push(name);
       throw new Error(
-        "Show Pond is unavailable. Your shortcuts were not changed.",
+        "Show Apostrophi is unavailable. Your shortcuts were not changed.",
       );
     },
   });
@@ -33,14 +33,16 @@ it("shows editable shortcuts without profile controls or explanatory copy", asyn
     expect(host.textContent).not.toContain("Eagle uses");
     expect(host.textContent).not.toContain("Global shortcuts work");
     expect(host.querySelector('[aria-label="Shortcut Profile"]')).toBeNull();
-    expect(host.textContent).toContain("Show Pond is unavailable.");
+    expect(host.textContent).toContain("Show Apostrophi is unavailable.");
     const globalHeading = [...host.querySelectorAll("h2")].find((heading) =>
       heading.textContent?.includes("Global (1)"),
     );
-    expect(globalHeading?.parentElement?.textContent).toContain("Show Pond");
+    expect(globalHeading?.parentElement?.textContent).toContain(
+      "Show Apostrophi",
+    );
     expect(host.textContent).toContain("Navigate (");
     const control = host.querySelector<HTMLInputElement>(
-      'input[aria-label="Change Show Pond shortcut"]',
+      'input[aria-label="Change Show Apostrophi shortcut"]',
     );
     if (!control) throw Error("Missing summon shortcut control");
     await act(async () => control.click());

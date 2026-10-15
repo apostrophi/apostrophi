@@ -5,7 +5,7 @@ import {
   type Query,
   queryIsFullySqlSupported,
   type SaveLike,
-} from "@pond/schema/filters";
+} from "@apostrophi/schema/filters";
 import Database from "better-sqlite3";
 import { SQLiteSyncDialect } from "drizzle-orm/sqlite-core";
 import { describe, expect, it } from "vitest";
@@ -65,7 +65,7 @@ function fixture() {
     CREATE TABLE folder_metadata (folder_id TEXT PRIMARY KEY, description TEXT);
     CREATE TABLE save_folders (save_id TEXT, folder_id TEXT);
     CREATE VIRTUAL TABLE saves_fts USING fts5(id UNINDEXED, title);`);
-  db.function("pond_color_near", (palette, hex, tolerance) =>
+  db.function("apostrophi_color_near", (palette, hex, tolerance) =>
     Number(
       colorNear(
         z.string().parse(hex),

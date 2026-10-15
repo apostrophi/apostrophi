@@ -70,7 +70,7 @@ apps/desktop/resources/replay/ui.js
 apps/desktop/resources/replay/sw.js
 
 # compiled Chrome native-messaging host
-apps/desktop/resources/bin/pond-native-host
+apps/desktop/resources/bin/apostrophi-native-host
 
 # generated icon previews
 apps/desktop/src/renderer/src/generated/

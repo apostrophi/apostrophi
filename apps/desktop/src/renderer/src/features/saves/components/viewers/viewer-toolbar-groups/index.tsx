@@ -1,5 +1,5 @@
-import { IconArrowLeft, IconArrowRight } from "@pond/icons";
-import { Tray } from "@pond/ui";
+import { IconArrowLeft, IconArrowRight } from "@apostrophi/icons";
+import { Tray } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { ShortcutKeys } from "@/shared/components/shortcut-keys";

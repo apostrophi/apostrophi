@@ -4,7 +4,7 @@ const { mkdtempSync, rmSync } = require("node:fs");
 const { tmpdir } = require("node:os");
 const { join, resolve } = require("node:path");
 
-const sandbox = mkdtempSync(join(tmpdir(), "pond-agent-stream-"));
+const sandbox = mkdtempSync(join(tmpdir(), "apostrophi-agent-stream-"));
 app.setPath("userData", sandbox);
 app.on("quit", () => rmSync(sandbox, { recursive: true, force: true }));
 const timeout = setTimeout(() => {
@@ -26,7 +26,7 @@ app.whenReady().then(async () => {
             __dirname,
             "../src/renderer/src/features/agent/state/chat-transport.ts",
           ),
-          name: "PondChatTransport",
+          name: "ApostrophiChatTransport",
           formats: ["iife"],
         },
       },
@@ -39,7 +39,7 @@ app.whenReady().then(async () => {
     const cancelled = new Promise((resolve) => {
       cancelPortClosed = resolve;
     });
-    ipcMain.on("pond:agent-stream", (event, body) => {
+    ipcMain.on("apostrophi:agent-stream", (event, body) => {
       const port = event.ports[0];
       port.start();
       if (body.mode === "cancel") {
@@ -74,7 +74,7 @@ app.whenReady().then(async () => {
     await window.webContents.executeJavaScript(output.code);
     const result = await window.webContents.executeJavaScript(`(async () => {
       try {
-        const transport = PondChatTransport.pondChatTransport();
+        const transport = ApostrophiChatTransport.apostrophiChatTransport();
         const stream = await transport.sendMessages({
           trigger: 'submit-message', chatId: 'fixture', body: { requestId: 'fixture-request' },
           messages: [{ id: 'user', role: 'user', parts: [{ type: 'text', text: 'Hello' }] }],
@@ -85,7 +85,7 @@ app.whenReady().then(async () => {
           if (chunk.type === 'text-delta') text += chunk.delta;
         }
         const abort = new AbortController();
-        const response = await PondChatTransport.ipcChatFetch('pond://agent', {
+        const response = await ApostrophiChatTransport.ipcChatFetch('apostrophi://agent', {
           body: JSON.stringify({ mode: 'cancel' }), signal: abort.signal,
         });
         const read = response.body.getReader().read().catch((error) => error.name);

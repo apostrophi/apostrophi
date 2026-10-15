@@ -1,6 +1,6 @@
-import { IconEye, IconFolderOpen, IconUserPlus } from "@pond/icons";
-import type { Source } from "@pond/schema/db";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconEye, IconFolderOpen, IconUserPlus } from "@apostrophi/icons";
+import type { Source } from "@apostrophi/schema/db";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import type { ReactNode } from "react";
 import { BrandTile } from "@/features/sources/components/sync-monitor-source-tile";
 import { getSourceDef } from "@/features/sources/lib/registry";

@@ -115,11 +115,14 @@ export async function runArchivePage(
     const archived = await readArchivedMeta(saveId);
     const upgrade = scope === "site" && archived.scope === "page";
     if (!upgrade && !hasCookies && archived.version >= ARCHIVE_VERSION) {
-      log.debug("[pond pipeline:archive-page] already archived, skipping", {
-        saveId,
-        scope,
-        archived,
-      });
+      log.debug(
+        "[apostrophi pipeline:archive-page] already archived, skipping",
+        {
+          saveId,
+          scope,
+          archived,
+        },
+      );
       dropPageCookies(saveId);
       return;
     }
@@ -154,7 +157,7 @@ export async function runArchivePage(
     pages: result.pages,
   };
 
-  log.info("[pond pipeline:archive-page] persisting archive", {
+  log.info("[apostrophi pipeline:archive-page] persisting archive", {
     saveId,
     pages: result.pages.length,
     bytes: result.warcBytes.byteLength,
@@ -184,7 +187,7 @@ export async function runArchivePage(
       replaceFilesWithKind: [ARCHIVE_KIND, ARCHIVE_MANIFEST_KIND],
     },
   );
-  log.info("[pond pipeline:archive-page] archived site", {
+  log.info("[apostrophi pipeline:archive-page] archived site", {
     saveId,
     pages: result.pages.length,
     bytes: result.warcBytes.byteLength,
@@ -212,7 +215,7 @@ async function crawlSite(
   const started = Date.now();
   const deadline = started + CRAWL_BUDGET_MS;
   const elapsed = () => Date.now() - started;
-  log.info("[pond pipeline:archive-page] crawl start", {
+  log.info("[apostrophi pipeline:archive-page] crawl start", {
     url: rootUrl.href,
     scope,
     cookies: opts.cookies?.length ?? 0,
@@ -223,8 +226,10 @@ async function crawlSite(
   };
   if (opts.partition) leaseOptions.partition = opts.partition;
   const lease = await leaseWindow("web", leaseOptions);
-  log.info("[pond pipeline:archive-page] window leased", { ms: elapsed() });
-  const tmpDir = await mkdtemp(join(tmpdir(), "pond-archive-"));
+  log.info("[apostrophi pipeline:archive-page] window leased", {
+    ms: elapsed(),
+  });
+  const tmpDir = await mkdtemp(join(tmpdir(), "apostrophi-archive-"));
   const warcPath = join(tmpDir, ARCHIVE_WARC_FILENAME);
   const pages: ArchiveManifestPage[] = [];
   const capturedKeys = new Set<string>();
@@ -256,13 +261,13 @@ async function crawlSite(
         cookies: opts.cookies,
         partition: opts.partition,
       });
-      log.info("[pond pipeline:archive-page] page cookies written", {
+      log.info("[apostrophi pipeline:archive-page] page cookies written", {
         written: written.written,
         skipped: written.skipped,
       });
     }
     recorder = await WarcRecorder.start(lease.win.webContents, warcPath);
-    log.info("[pond pipeline:archive-page] recorder started", {
+    log.info("[apostrophi pipeline:archive-page] recorder started", {
       ms: elapsed(),
     });
 
@@ -281,7 +286,7 @@ async function crawlSite(
         NAV_TIMEOUT_MS,
       );
       if (!navOk) {
-        log.info("[pond pipeline:archive-page] nav failed", {
+        log.info("[apostrophi pipeline:archive-page] nav failed", {
           url: next.url,
           ms: elapsed(),
         });
@@ -304,7 +309,7 @@ async function crawlSite(
 
       const harvest = await harvestPage(wc);
       if (!harvest) {
-        log.info("[pond pipeline:archive-page] harvest failed", {
+        log.info("[apostrophi pipeline:archive-page] harvest failed", {
           url: finalUrl,
           ms: elapsed(),
         });
@@ -313,7 +318,7 @@ async function crawlSite(
 
       pages.push({ url: finalUrl, title: harvest.title });
       capturedKeys.add(finalKey);
-      log.info("[pond pipeline:archive-page] page captured", {
+      log.info("[apostrophi pipeline:archive-page] page captured", {
         url: finalUrl,
         pages: pages.length,
         ms: elapsed(),
@@ -334,11 +339,14 @@ async function crawlSite(
       try {
         await recorder.stop();
       } catch (err) {
-        log.warn("[pond pipeline:archive-page] recorder stop failed", err);
+        log.warn(
+          "[apostrophi pipeline:archive-page] recorder stop failed",
+          err,
+        );
       }
     }
     lease.release();
-    log.info("[pond pipeline:archive-page] crawl done", {
+    log.info("[apostrophi pipeline:archive-page] crawl done", {
       pages: pages.length,
       navAttempts,
       ms: elapsed(),

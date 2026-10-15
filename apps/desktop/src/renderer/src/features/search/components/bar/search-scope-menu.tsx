@@ -1,6 +1,6 @@
-import type { Prefs } from "@pond/schema";
-import type { KeywordSearchScope } from "@pond/schema/local-api";
-import type { MenuItemSpec } from "@pond/ui";
+import type { Prefs } from "@apostrophi/schema";
+import type { KeywordSearchScope } from "@apostrophi/schema/local-api";
+import type { MenuItemSpec } from "@apostrophi/ui";
 
 export type SearchScopes = Prefs["search"]["scopes"];
 

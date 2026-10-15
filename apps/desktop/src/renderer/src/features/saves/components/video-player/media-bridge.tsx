@@ -1,4 +1,4 @@
-import { stepPlaybackRate, stepVolume, useVideo } from "@pond/ui";
+import { stepPlaybackRate, stepVolume, useVideo } from "@apostrophi/ui";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useEffect, useRef } from "react";
 import { useMediaSession } from "@/features/saves/hooks/use-media-session";

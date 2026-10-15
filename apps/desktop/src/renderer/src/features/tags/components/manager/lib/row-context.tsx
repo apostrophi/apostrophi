@@ -1,5 +1,5 @@
-import type { MenuItemSpec } from "@pond/ui";
-import { Dialog } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
+import { Dialog } from "@apostrophi/ui";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import {
   createContext,
@@ -78,14 +78,14 @@ export function TagRowProvider({
 
   function confirmDelete() {
     if (isGroup) {
-      void window.pond.query("tagGroups.delete", { name });
+      void window.apostrophi.query("tagGroups.delete", { name });
       return;
     }
     Dialog.confirm({
       title: "Remove Tag",
       description: `"${name}" will be removed from every save. This cannot be undone.`,
       confirmLabel: "Remove",
-      onConfirm: () => void window.pond.query("tags.delete", { name }),
+      onConfirm: () => void window.apostrophi.query("tags.delete", { name }),
     });
   }
 
@@ -107,7 +107,7 @@ export function TagRowProvider({
         },
         onRename: startRename,
         onChangeColor: (color) =>
-          void window.pond.query("tagGroups.update", {
+          void window.apostrophi.query("tagGroups.update", {
             name,
             patch: { color },
           }),
@@ -129,19 +129,22 @@ export function TagRowProvider({
         getAppRouter()?.history.push("/");
       },
       onSetStarred: (starred) =>
-        void window.pond.query("tags.update", {
+        void window.apostrophi.query("tags.update", {
           name,
           patch: { starred },
         }),
       onAddToGroup: (g) =>
-        void window.pond.query("tagGroups.addTags", { tags: [name], group: g }),
+        void window.apostrophi.query("tagGroups.addTags", {
+          tags: [name],
+          group: g,
+        }),
       onMoveToGroup: (g) => {
         if (!inGroup || inGroup === g) return;
         void tagOperations.moveToGroup(name, inGroup, g);
       },
       onRemoveFromGroup: () => {
         if (!inGroup) return;
-        void window.pond.query("tagGroups.removeTag", {
+        void window.apostrophi.query("tagGroups.removeTag", {
           tag: name,
           group: inGroup,
         });

@@ -15,8 +15,8 @@ import {
   type Prefs,
   type ThemeAppearance,
   type ThemeDef,
-} from "@pond/schema/db";
-import { ColorField, Input, Select, Settings, Slider } from "@pond/ui";
+} from "@apostrophi/schema/db";
+import { ColorField, Input, Select, Settings, Slider } from "@apostrophi/ui";
 import { z } from "zod";
 import type { Binding } from "@/features/settings/components/engine";
 import { PresetSelect } from "@/features/settings/components/sections/theme";

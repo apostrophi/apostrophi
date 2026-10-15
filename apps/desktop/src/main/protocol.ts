@@ -5,7 +5,7 @@ import { Readable } from "node:stream";
 import { app, net, protocol } from "electron";
 import log from "electron-log/main.js";
 import mime from "mime-types";
-import { POND_PROTOCOL } from "../shared/constants";
+import { APOSTROPHI_PROTOCOL } from "../shared/constants";
 import {
   libraryMediaMetadata,
   readLibraryMediaRange,
@@ -46,14 +46,14 @@ function replayAssetsDir(): string | null {
 export function registerScheme() {
   protocol.registerSchemesAsPrivileged([
     {
-      scheme: POND_PROTOCOL,
+      scheme: APOSTROPHI_PROTOCOL,
       privileges: {
         standard: true,
         secure: true,
         supportFetchAPI: true,
         stream: true,
         corsEnabled: true,
-        /** wabac.js replays archives through a service worker registered from pond://_replay. */
+        /** wabac.js replays archives through a service worker registered from apostrophi://_replay. */
         allowServiceWorkers: true,
       },
     },
@@ -61,7 +61,7 @@ export function registerScheme() {
 }
 
 export function registerProtocol() {
-  protocol.handle(POND_PROTOCOL, async (request) => {
+  protocol.handle(APOSTROPHI_PROTOCOL, async (request) => {
     try {
       const url = new URL(request.url);
       const host = url.hostname;
@@ -173,9 +173,9 @@ export function registerProtocol() {
       const isMissing =
         err instanceof Error && /ENOENT/.test(err.message ?? "");
       if (isMissing) {
-        log.debug("[pond://] not found", request.url);
+        log.debug("[apostrophi://] not found", request.url);
       } else {
-        log.warn("[pond://] resolve failed", request.url, err);
+        log.warn("[apostrophi://] resolve failed", request.url, err);
       }
       return new Response("not found", { status: 404 });
     }

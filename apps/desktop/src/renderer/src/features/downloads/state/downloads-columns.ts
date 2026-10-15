@@ -12,7 +12,7 @@ import {
 export type DownloadsColumnLayout = TableColumnLayout<DownloadColumnId>;
 
 const layout = createTableColumnLayout({
-  storageKey: "pond:downloads-columns",
+  storageKey: "apostrophi:downloads-columns",
   columns: DOWNLOAD_COLUMN_CATALOG,
   lockedId: LOCKED_DOWNLOAD_COLUMN,
 });

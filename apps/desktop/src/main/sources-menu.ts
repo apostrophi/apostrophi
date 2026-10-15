@@ -1,4 +1,4 @@
-import { SOURCES, sourceLabel } from "@pond/schema";
+import { SOURCES, sourceLabel } from "@apostrophi/schema";
 import log from "electron-log/main.js";
 import type { MenuActionId } from "../shared/constants";
 import type { ShortcutId } from "../shared/shortcuts";
@@ -21,7 +21,7 @@ export function sourcesSubmenu({
     label: `Sync ${sourceLabel(source)}`,
     click: () => {
       void syncSource(source, { trigger: "manual" }).catch((error) =>
-        log.warn(`[pond menu] sync ${source} failed`, error),
+        log.warn(`[apostrophi menu] sync ${source} failed`, error),
       );
     },
   }));

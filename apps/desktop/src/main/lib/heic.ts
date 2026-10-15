@@ -11,7 +11,7 @@ export async function decodeHeicOnMac(
   sourcePath: string,
   width: number,
 ): Promise<Buffer> {
-  const directory = await mkdtemp(join(tmpdir(), "pond-heic-"));
+  const directory = await mkdtemp(join(tmpdir(), "apostrophi-heic-"));
   const output = join(directory, "preview.png");
   try {
     await execFileAsync(

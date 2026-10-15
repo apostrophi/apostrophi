@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
@@ -33,7 +33,7 @@ beforeEach(() => {
       disconnect() {}
     },
   );
-  vi.stubGlobal("pond", { query, onSyncAction: () => () => {} });
+  vi.stubGlobal("apostrophi", { query, onSyncAction: () => () => {} });
   host = document.createElement("div");
   document.body.append(host);
   root = createRoot(host);

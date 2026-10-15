@@ -17,7 +17,7 @@ export function agentStreamBridge(
 ) {
   return vi.fn(
     (
-      body: Parameters<typeof window.pond.agentStream>[0],
+      body: Parameters<typeof window.apostrophi.agentStream>[0],
       receive: (event: AgentStreamEvent) => void,
     ) => {
       const request = agentStreamRequest.parse(body);

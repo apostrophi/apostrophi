@@ -1,4 +1,4 @@
-import type { MediaType, Source } from "@pond/schema/db";
+import type { MediaType, Source } from "@apostrophi/schema/db";
 import type { BlankDocumentIcons, BlankDocumentKind } from "./blank-documents";
 import type { CombineImagesOptions } from "./combine-images-contracts";
 import type {

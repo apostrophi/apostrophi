@@ -18,7 +18,7 @@ afterEach(async () => {
 async function tempLibrary(): Promise<string> {
   const parent = await mkdtemp(join(tmpdir(), "library-id-"));
   roots.push(parent);
-  const root = join(parent, "Studio.pond");
+  const root = join(parent, "Studio.apostrophi");
   await mkdir(root);
   return root;
 }

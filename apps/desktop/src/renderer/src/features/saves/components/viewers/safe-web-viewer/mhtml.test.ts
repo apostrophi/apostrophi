@@ -3,20 +3,20 @@ import { parseMhtml } from "./mhtml";
 
 describe("parseMhtml", () => {
   it("extracts archived pages and embeds referenced resources", () => {
-    const source = `Content-Type: multipart/related; boundary="pond"
+    const source = `Content-Type: multipart/related; boundary="apostrophi"
 
---pond
+--apostrophi
 Content-Type: text/html; charset=utf-8
 Content-Location: https://example.com/
 
 <html><img src="cid:image"></html>
---pond
+--apostrophi
 Content-Type: image/png
 Content-Transfer-Encoding: base64
 Content-ID: <image>
 
 aGVsbG8=
---pond--`;
+--apostrophi--`;
     expect(parseMhtml(source)).toEqual([
       {
         label: "https://example.com/",

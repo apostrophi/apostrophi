@@ -1,5 +1,5 @@
-import { IconPlus } from "@pond/icons";
-import { Menu, Tooltip } from "@pond/ui";
+import { IconPlus } from "@apostrophi/icons";
+import { Menu, Tooltip } from "@apostrophi/ui";
 import { useEffect, useState } from "react";
 import {
   blankDocuments,

@@ -51,7 +51,7 @@ static void reply_offline(void) {
 int main(void) {
   const char *home = getenv("HOME");
   if (!home || !home[0]) {
-    fprintf(stderr, "pond-native-host: HOME is unset\n");
+    fprintf(stderr, "apostrophi-native-host: HOME is unset\n");
     reply_offline();
     return 0;
   }
@@ -60,7 +60,7 @@ int main(void) {
   int n = snprintf(
       sock_path,
       sizeof sock_path,
-      "%s/Library/Application Support/Pond/native.sock",
+      "%s/Library/Application Support/Apostrophi/native.sock",
       home);
   if (n < 0 || (size_t)n >= sizeof sock_path) {
     reply_offline();
@@ -72,7 +72,7 @@ int main(void) {
     return 0;
   }
   if (req_len == 0 || req_len > MAX_MSG) {
-    fprintf(stderr, "pond-native-host: request too large (%u)\n", req_len);
+    fprintf(stderr, "apostrophi-native-host: request too large (%u)\n", req_len);
     reply_offline();
     return 0;
   }

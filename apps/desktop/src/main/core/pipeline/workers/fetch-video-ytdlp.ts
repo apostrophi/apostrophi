@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { extname } from "node:path";
-import type { NewSave, Source } from "@pond/schema/db";
-import type { CaptureMedia, RawJson, RawYtdlp } from "@pond/schema/raw";
-import { storedAsRawJson } from "@pond/schema/raw-schema";
+import type { NewSave, Source } from "@apostrophi/schema/db";
+import type { CaptureMedia, RawJson, RawYtdlp } from "@apostrophi/schema/raw";
+import { storedAsRawJson } from "@apostrophi/schema/raw-schema";
 import { isVideoFile } from "@shared/media-index";
 import log from "electron-log/main.js";
 import type { TransferOptions } from "../../../lib/download-transfer";
@@ -33,7 +33,7 @@ export async function runFetchVideoYtdlp(
   const existingVideos = (save.files ?? []).filter(isVideoFile);
   if (expected > 0 && existingVideos.length >= expected) {
     log.debug(
-      "[pond pipeline:fetch-video-ytdlp] video files already present, skipping",
+      "[apostrophi pipeline:fetch-video-ytdlp] video files already present, skipping",
       { saveId, existing: existingVideos.length, expected },
     );
     return;
@@ -45,7 +45,7 @@ export async function runFetchVideoYtdlp(
   const captureMedia = readCaptureMedia(save.rawJson);
   if (!captureMedia?.some((m) => m.type === "video")) {
     log.debug(
-      "[pond pipeline:fetch-video-ytdlp] no video media in capture, skipping",
+      "[apostrophi pipeline:fetch-video-ytdlp] no video media in capture, skipping",
       { saveId, kinds: captureMedia?.map((m) => m.type) ?? null },
     );
     return;
@@ -61,7 +61,7 @@ export async function runFetchVideoYtdlp(
   const allowPlaylist =
     expected > 1 && save.source !== "youtube" && save.source !== "pinterest";
 
-  log.info("[pond pipeline:fetch-video-ytdlp] downloading", {
+  log.info("[apostrophi pipeline:fetch-video-ytdlp] downloading", {
     saveId,
     target,
     source: save.source,
@@ -118,7 +118,7 @@ export async function runFetchVideoYtdlp(
       replaceFilesWithKind: ["video", "poster"],
       newFiles,
     });
-    log.info("[pond pipeline:fetch-video-ytdlp] wrote", {
+    log.info("[apostrophi pipeline:fetch-video-ytdlp] wrote", {
       saveId,
       count: dl.items.length,
       bytes: dl.items.reduce((sum, item) => sum + item.size, 0),

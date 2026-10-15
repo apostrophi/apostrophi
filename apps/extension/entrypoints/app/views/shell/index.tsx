@@ -13,7 +13,7 @@ export function PopupShell({ children }: { children: ReactNode }) {
             width={22}
             height={22}
           />
-          <span>Pond</span>
+          <span>Apostrophi</span>
         </div>
       </header>
       <main className={styles.main}>{children}</main>

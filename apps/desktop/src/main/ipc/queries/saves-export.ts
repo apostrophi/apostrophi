@@ -1,17 +1,17 @@
 import { basename, dirname, extname } from "node:path";
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { desc, eq, inArray, isNull } from "drizzle-orm";
 import { BrowserWindow, dialog } from "electron";
 import log from "electron-log/main.js";
 import sharp from "sharp";
 import { z } from "zod";
 import type { QueryResult } from "../../../shared/query-contracts";
+import { exportApostrophiPackage } from "../../core/apostrophi-package";
 import { copyExportFile, writeExportFile } from "../../core/export-files";
 import {
   exportSavesToDirectory,
   exportSavesToEaglePackage,
 } from "../../core/export-saves";
-import { exportPondPackage } from "../../core/pond-package";
 import { runTransferJob } from "../../core/transfer-jobs";
 import { getDb } from "../../db";
 import { toCsv } from "../../lib/csv";
@@ -71,21 +71,21 @@ export const savesExportQueries = {
     IdListParams,
     async ({ ids }): Promise<QueryResult<"saves.exportPackage">> => {
       const picked = await dialog.showSaveDialog({
-        title: "Export Pond Package",
-        defaultPath: "Saves.pondpack",
+        title: "Export Apostrophi Package",
+        defaultPath: "Saves.apostrophipack",
         buttonLabel: "Export",
       });
       if (picked.canceled || !picked.filePath)
         return { ok: false, reason: "cancelled" };
       try {
-        const destination = picked.filePath.endsWith(".pondpack")
+        const destination = picked.filePath.endsWith(".apostrophipack")
           ? picked.filePath
-          : `${picked.filePath}.pondpack`;
+          : `${picked.filePath}.apostrophipack`;
         return {
           ok: true,
           ...(await runTransferJob(
             { kind: "export_package", origin: libraryRoot(), destination, ids },
-            () => exportPondPackage(ids, destination),
+            () => exportApostrophiPackage(ids, destination),
           )),
         };
       } catch (error) {
@@ -131,7 +131,7 @@ export const savesExportQueries = {
         );
         return { ok: true, path };
       } catch (err) {
-        log.warn("[pond ipc] saves.exportFile failed", err);
+        log.warn("[apostrophi ipc] saves.exportFile failed", err);
         return { ok: false, reason: "internal_error" };
       }
     },
@@ -154,7 +154,7 @@ export const savesExportQueries = {
         showNativeShareMenu(target.path, parentWindow ?? undefined);
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] saves.share failed", error);
+        log.warn("[apostrophi ipc] saves.share failed", error);
         return { ok: false, error: "Couldn't share this file." };
       }
     },
@@ -207,7 +207,7 @@ export const savesExportQueries = {
           await writeExportFile(dir, `${id}.webp`, bytes);
           exported += 1;
         } catch (err) {
-          log.warn("[pond ipc] exportWebp failed", id, err);
+          log.warn("[apostrophi ipc] exportWebp failed", id, err);
         }
       }
       return { ok: true, exported, dir };
@@ -264,7 +264,7 @@ export const savesExportQueries = {
       const csv = toCsv(records, columns);
 
       const picked = await dialog.showSaveDialog({
-        defaultPath: "pond-export.csv",
+        defaultPath: "apostrophi-export.csv",
         filters: [{ name: "CSV", extensions: ["csv"] }],
       });
       if (picked.canceled || !picked.filePath) {

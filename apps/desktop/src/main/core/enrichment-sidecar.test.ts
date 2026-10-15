@@ -14,7 +14,7 @@ afterEach(async () => {
 
 describe("enrichment sidecar", () => {
   it("round-trips portable sensitive-content metadata", async () => {
-    const root = await mkdtemp(join(tmpdir(), "pond-enrichment-test-"));
+    const root = await mkdtemp(join(tmpdir(), "apostrophi-enrichment-test-"));
     roots.push(root);
     const dir = join(root, "items", "save-1.info");
     await mkdir(dir, { recursive: true });

@@ -1,5 +1,5 @@
-import { IconCopyId, IconFile, IconImage } from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconCopyId, IconFile, IconImage } from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { clipEmbeddingVersion, embeddingDimensions } from "@shared/embeddings";
 import { createElement } from "react";
 import bingLogo from "@/assets/logos/reverse-search/bing.png";
@@ -148,7 +148,7 @@ export function buildSupplementalItems(
         hidden: combinableImageCount(saves) < 2,
         onClick: () => {
           const nav = saveLibraryBridge.getNav();
-          void window.pond.openCombineImagesWindow({
+          void window.apostrophi.openCombineImagesWindow({
             ids,
             folderId: nav.kind === "folder" ? nav.id : null,
           });
@@ -162,7 +162,7 @@ export function buildSupplementalItems(
         icon: glyph(IconFile),
         hidden: batch || save.mediaType !== "font",
         onClick: () => {
-          void window.pond.query(
+          void window.apostrophi.query(
             fontActivated ? "saves.deactivateFont" : "saves.activateFont",
             { id: save.id },
           );

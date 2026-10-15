@@ -11,7 +11,7 @@ export type ExportMode =
   | "files"
   | "converted"
   | "eagle-package"
-  | "pond-package"
+  | "apostrophi-package"
   | "csv";
 export const conversionDialogStore = new Store<ConversionDialogState | null>(
   null,

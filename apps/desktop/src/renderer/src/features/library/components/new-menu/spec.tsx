@@ -28,8 +28,8 @@ import {
   IconTags,
   IconUserPlus,
   IconVersions,
-} from "@pond/icons";
-import { Dialog, type MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Dialog, type MenuItemSpec } from "@apostrophi/ui";
 import {
   BLANK_DOCUMENTS,
   type BlankDocumentIcons,
@@ -47,6 +47,7 @@ import {
   createNote,
   exportDebugReport,
   findDuplicates,
+  importApostrophiPackage,
   importBookmarks,
   importClipboard,
   importEagle,
@@ -54,7 +55,6 @@ import {
   importLegacyLibrary,
   importPageAssets,
   importPaths,
-  importPondPackage,
   newFolder,
   newSmartFolder,
   newSource,
@@ -203,7 +203,7 @@ export function buildNewMenuItems(
             Dialog.prompt({
               title: "Import Page Assets",
               description:
-                "Pond saves the images and files from the page you enter.",
+                "Apostrophi saves the images and files from the page you enter.",
               confirmLabel: "Import",
               placeholder: "https://",
               onConfirm: (url) =>
@@ -219,11 +219,11 @@ export function buildNewMenuItems(
           onClick: () => void runNewAction(importEaglePackage),
         },
         {
-          id: "pond-package",
-          label: "Import Pond Package",
+          id: "apostrophi-package",
+          label: "Import Apostrophi Package",
           icon: <IconArchiveDownload />,
           keywords: "archive package migrate",
-          onClick: () => void runNewAction(importPondPackage),
+          onClick: () => void runNewAction(importApostrophiPackage),
         },
         {
           id: "eagle",

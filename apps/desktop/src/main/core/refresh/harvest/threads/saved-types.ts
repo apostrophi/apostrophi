@@ -1,4 +1,4 @@
-import type { ListKind, MediaType } from "@pond/schema/db";
+import type { ListKind, MediaType } from "@apostrophi/schema/db";
 import type { RichThread, SavedCapture } from "./graphql";
 
 export interface SavedHarvestArgs {

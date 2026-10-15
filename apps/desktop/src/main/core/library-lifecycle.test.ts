@@ -19,9 +19,9 @@ afterEach(async () => {
 });
 
 async function createLibrary(name: string) {
-  const parent = await mkdtemp(join(tmpdir(), "pond-lifecycle-"));
+  const parent = await mkdtemp(join(tmpdir(), "apostrophi-lifecycle-"));
   roots.push(parent);
-  const root = join(parent, `${name}.pond`);
+  const root = join(parent, `${name}.apostrophi`);
   await mkdir(root);
   await writeFile(
     join(root, "metadata.json"),
@@ -30,10 +30,10 @@ async function createLibrary(name: string) {
   return root;
 }
 
-it("builds a sibling pond path from a safe name", async () => {
+it("builds a sibling apostrophi path from a safe name", async () => {
   const source = await createLibrary("Before");
-  expect(libraryPathForName(source, "After.pond")).toBe(
-    join(dirname(source), "After.pond"),
+  expect(libraryPathForName(source, "After.apostrophi")).toBe(
+    join(dirname(source), "After.apostrophi"),
   );
   expect(() => libraryPathForName(source, "../After")).toThrow(
     "without slashes or colons",
@@ -44,7 +44,7 @@ it("renames the bundle and portable identity together", async () => {
   const source = await createLibrary("Before");
   const result = await renameLibraryBundle(source, "After");
   expect(result).toEqual({
-    path: join(dirname(source), "After.pond"),
+    path: join(dirname(source), "After.apostrophi"),
     previousName: "Before",
   });
   expect(existsSync(source)).toBe(false);
@@ -56,7 +56,7 @@ it("renames the bundle and portable identity together", async () => {
 it("supports case-only folder renames", async () => {
   const source = await createLibrary("Before");
   const result = await renameLibraryBundle(source, "before");
-  expect(result.path).toBe(join(dirname(source), "before.pond"));
+  expect(result.path).toBe(join(dirname(source), "before.apostrophi"));
   expect(
     JSON.parse(await readFile(join(result.path, "metadata.json"), "utf8")),
   ).toMatchObject({ name: "before" });
@@ -74,7 +74,7 @@ it("can roll back a renamed bundle", async () => {
 
 it("removes a source only after a distinct destination exists", async () => {
   const source = await createLibrary("Before");
-  const destination = join(dirname(source), "After.pond");
+  const destination = join(dirname(source), "After.apostrophi");
   await mkdir(destination);
   await writeFile(join(destination, "metadata.json"), "{}");
   expect(await removeMovedLibrarySource(source, destination)).toBe(true);

@@ -79,7 +79,7 @@ export function createAppMenuContext(deps: AppMenuRuntimeDeps): AppMenuContext {
     },
     rescanLibrary: () => {
       void reconcileLibrary().catch((error) =>
-        log.warn("[pond menu] rescan failed", error),
+        log.warn("[apostrophi menu] rescan failed", error),
       );
     },
     reloadLibrary: () => {
@@ -97,7 +97,7 @@ export function createAppMenuContext(deps: AppMenuRuntimeDeps): AppMenuContext {
         const { verifyLibraryIntegrity } = await import("../core/library-ops");
         await verifyLibraryIntegrity();
       } catch (error) {
-        log.warn("[pond menu] verify failed", error);
+        log.warn("[apostrophi menu] verify failed", error);
       }
     },
   };

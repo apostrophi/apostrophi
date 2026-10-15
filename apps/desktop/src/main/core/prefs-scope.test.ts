@@ -1,8 +1,8 @@
-import { PrefsSchema, type SyncAccounts } from "@pond/schema/db";
+import { PrefsSchema, type SyncAccounts } from "@apostrophi/schema/db";
 import { describe, expect, it } from "vitest";
 import {
+  mergeApostrophiSlice,
   mergeAppSlice,
-  mergePondSlice,
   normalizeStoredPrefs,
   splitPrefsPatch,
 } from "./prefs-scope";
@@ -48,16 +48,16 @@ it("completes saved destination order", () => {
 
 describe("splitPrefsPatch", () => {
   it("routes appearance (preferences) to the library slice", () => {
-    const { app, pond } = splitPrefsPatch({
+    const { app, apostrophi } = splitPrefsPatch({
       preferences: { lightPresetId: "mint" },
       window: { restorePosition: false },
     });
-    expect(pond).toEqual({ preferences: { lightPresetId: "mint" } });
+    expect(apostrophi).toEqual({ preferences: { lightPresetId: "mint" } });
     expect(app).toEqual({ window: { restorePosition: false } });
   });
 
   it("keeps feedback and sidebar behavior in the app slice", () => {
-    const { app, pond } = splitPrefsPatch({
+    const { app, apostrophi } = splitPrefsPatch({
       window: { interfaceZoom: 150 },
       sidebar: { badgeStyle: "none" },
       feedback: {
@@ -73,7 +73,7 @@ describe("splitPrefsPatch", () => {
         notifications: { autoImport: false },
       },
     });
-    expect(pond).toEqual({});
+    expect(apostrophi).toEqual({});
   });
 });
 
@@ -89,7 +89,7 @@ describe("normalizeStoredPrefs", () => {
   });
 });
 
-describe("mergePondSlice (sync account registry)", () => {
+describe("mergeApostrophiSlice (sync account registry)", () => {
   const account: SyncAccounts[string] = {
     id: "01ACCOUNT",
     source: "twitter",
@@ -111,7 +111,7 @@ describe("mergePondSlice (sync account registry)", () => {
     const base = {
       sync: { accounts: { [account.id]: account } },
     };
-    const next = mergePondSlice(base, {
+    const next = mergeApostrophiSlice(base, {
       sync: { cron: { enabled: false, intervalHours: 12 } },
     });
     expect(next.sync.accounts).toEqual({ [account.id]: account });
@@ -139,7 +139,7 @@ it("persists shortcut and viewer patches while allowing overrides to be reset", 
 });
 
 it("keeps independent folder presentations in the portable library slice", () => {
-  const first = mergePondSlice(
+  const first = mergeApostrophiSlice(
     {},
     {
       folderViews: {
@@ -147,7 +147,7 @@ it("keeps independent folder presentations in the portable library slice", () =>
       },
     },
   );
-  const next = mergePondSlice(first, {
+  const next = mergeApostrophiSlice(first, {
     folderViews: { b: { layout: "list", randomSeed: "seed-b" } },
   });
   expect(next.folderViews.a).toMatchObject({
@@ -160,12 +160,12 @@ it("keeps independent folder presentations in the portable library slice", () =>
     randomSeed: "seed-b",
   });
   const split = splitPrefsPatch({ folderViews: next.folderViews });
-  expect(split.pond.folderViews).toEqual(next.folderViews);
+  expect(split.apostrophi.folderViews).toEqual(next.folderViews);
   expect(split.app).not.toHaveProperty("folderViews");
 });
 
 it("keeps Saved View presentations in the portable library slice", () => {
-  const next = mergePondSlice(
+  const next = mergeApostrophiSlice(
     {},
     {
       savedViewViews: {
@@ -185,16 +185,16 @@ it("keeps Saved View presentations in the portable library slice", () => {
     quickAccessOrder: 0,
   });
   const split = splitPrefsPatch({ savedViewViews: next.savedViewViews });
-  expect(split.pond.savedViewViews).toEqual(next.savedViewViews);
+  expect(split.apostrophi.savedViewViews).toEqual(next.savedViewViews);
   expect(split.app).not.toHaveProperty("savedViewViews");
 });
 
 it("keeps automatic folder rules portable and isolated to their library", () => {
-  const first = mergePondSlice(
+  const first = mergeApostrophiSlice(
     {},
     { folderRules: { a: { automaticTags: ["Work"] } } },
   );
-  const next = mergePondSlice(first, {
+  const next = mergeApostrophiSlice(first, {
     folderRules: { b: { automaticTags: ["Print"] } },
   });
   expect(next.folderRules).toEqual({
@@ -202,7 +202,7 @@ it("keeps automatic folder rules portable and isolated to their library", () => 
     b: { automaticTags: ["Print"] },
   });
   const split = splitPrefsPatch({ folderRules: next.folderRules });
-  expect(split.pond.folderRules).toEqual(next.folderRules);
+  expect(split.apostrophi.folderRules).toEqual(next.folderRules);
   expect(split.app).not.toHaveProperty("folderRules");
 });
 

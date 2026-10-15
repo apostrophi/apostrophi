@@ -1,4 +1,4 @@
-import { Select, Switch } from "@pond/ui";
+import { Select, Switch } from "@apostrophi/ui";
 import { useId } from "react";
 import {
   GAP_STEPS,

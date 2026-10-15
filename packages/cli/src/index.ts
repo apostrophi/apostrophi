@@ -1,7 +1,7 @@
 import { readFileSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { PondLocalApiError } from "@pond/local-api";
+import { ApostrophiLocalApiError } from "@apostrophi/local-api";
 import { Command, CommanderError } from "commander";
 import { z } from "zod";
 import { registerCommands } from "./commands";
@@ -16,8 +16,8 @@ const manifest = z
 
 export function createProgram(): Command {
   const program = new Command()
-    .name("pond")
-    .description("Work with your local Pond Library")
+    .name("apostrophi")
+    .description("Work with your local Apostrophi Library")
     .version(manifest.version)
     .showHelpAfterError()
     .allowExcessArguments(false)
@@ -40,7 +40,7 @@ export function createProgram(): Command {
 
 function exitCode(error: Error): number {
   if (error instanceof CommanderError) return error.exitCode;
-  if (error instanceof PondLocalApiError) {
+  if (error instanceof ApostrophiLocalApiError) {
     if (error.kind === "connection") return 2;
     if (error.kind === "authentication") return 3;
     if (error.kind === "not-found") return 4;

@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import type {
   MediaUnderstandInput,
   MediaUnderstandOperationalMetric,
@@ -57,11 +57,11 @@ const defaultDependencies: MediaUnderstandingRouterDependencies = {
     return runFlorence(image, FLORENCE_TASK[task]);
   },
   understandMedia(saveId, task) {
-    return window.pond.query("saves.understandMedia", { saveId, task });
+    return window.apostrophi.query("saves.understandMedia", { saveId, task });
   },
   operationalSink: {
     record(metric) {
-      console.info("[pond media] local understanding fallback", metric);
+      console.info("[apostrophi media] local understanding fallback", metric);
     },
   },
 };

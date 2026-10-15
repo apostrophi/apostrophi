@@ -10,5 +10,5 @@ export const source = defineField({
   group: "content",
   project: (s) => sourceIdentity(s),
   sqlProjection: () =>
-    sql`pond_source_identity(${saves.siteName}, ${saves.source}, ${saves.url})`,
+    sql`apostrophi_source_identity(${saves.siteName}, ${saves.source}, ${saves.url})`,
 });

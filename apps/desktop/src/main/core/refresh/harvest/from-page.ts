@@ -1,5 +1,5 @@
-import { MEDIA_TYPES, type Source } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
+import { MEDIA_TYPES, type Source } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
 import type {
   Capture,
   CaptureAuthor,
@@ -7,7 +7,7 @@ import type {
   CaptureMedia,
   CaptureMetrics,
   CaptureUpstream,
-} from "@pond/schema/raw";
+} from "@apostrophi/schema/raw";
 import { z } from "zod";
 
 export interface HarvestAdaptCtx {

@@ -1,10 +1,10 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
 import type {
   FieldId,
   Predicate,
   PredicateValue,
-} from "@pond/schema/filters/types";
-import { Input } from "@pond/ui";
+} from "@apostrophi/schema/filters/types";
+import { Input } from "@apostrophi/ui";
 import { useId, useState } from "react";
 import { z } from "zod";
 import { stopMenuKeys } from "../menu-keys";

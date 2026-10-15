@@ -58,8 +58,8 @@ export function hardenArchiveWebviews(win: BrowserWindow): void {
     webPreferences.nodeIntegration = false;
     webPreferences.contextIsolation = true;
     webPreferences.sandbox = true;
-    if (params.src && !params.src.startsWith("pond://")) {
-      log.warn("[pond archive] blocked webview attach", params.src);
+    if (params.src && !params.src.startsWith("apostrophi://")) {
+      log.warn("[apostrophi archive] blocked webview attach", params.src);
       event.preventDefault();
     }
   });
@@ -71,7 +71,7 @@ export function hardenArchiveWebviews(win: BrowserWindow): void {
       return { action: "deny" };
     });
     guest.on("will-navigate", (event, url) => {
-      if (url.startsWith("pond://")) return;
+      if (url.startsWith("apostrophi://")) return;
       event.preventDefault();
       forwardNavigation(win, guest.id, url);
     });

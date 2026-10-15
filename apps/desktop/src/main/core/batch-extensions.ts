@@ -1,7 +1,7 @@
 import { extname } from "node:path";
-import type { SaveFile } from "@pond/schema/db";
-import { saves } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import type { SaveFile } from "@apostrophi/schema/db";
+import { saves } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { isAuxiliaryKind } from "@shared/save-file-names";
 import { inArray } from "drizzle-orm";
 import mime from "mime-types";

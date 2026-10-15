@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { HotkeysProvider } from "@tanstack/react-hotkeys";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -49,7 +49,7 @@ describe("app hotkeys in text fields", () => {
   let shortcutAction: ((id: ShortcutId) => void) | undefined;
 
   beforeEach(() => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string) =>
         name === "settings.getPrefs" ? PrefsSchema.parse({}) : [],
       onShortcutAction: (callback: (id: ShortcutId) => void) => {

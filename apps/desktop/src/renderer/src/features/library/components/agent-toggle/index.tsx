@@ -1,5 +1,5 @@
-import { IconChatBubble } from "@pond/icons";
-import { Button, Tooltip } from "@pond/ui";
+import { IconChatBubble } from "@apostrophi/icons";
+import { Button, Tooltip } from "@apostrophi/ui";
 import {
   libraryChrome,
   useRightPane,

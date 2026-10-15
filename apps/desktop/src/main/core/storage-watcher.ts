@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import { BrowserWindow } from "electron";
 import log from "electron-log/main.js";
 import { IPC } from "../../shared/constants";
@@ -11,7 +11,7 @@ type StorageGuardState = "ok" | "warn" | "exceeded";
 
 interface StorageGuardStatus {
   state: StorageGuardState;
-  pondBytes: number;
+  apostrophiBytes: number;
   capBytes: number | null;
   warnBytes: number | null;
   action: StorageGuardAction;
@@ -22,7 +22,7 @@ let timer: NodeJS.Timeout | null = null;
 let intervalMs: number | null = null;
 let lastStatus: StorageGuardStatus = {
   state: "ok",
-  pondBytes: 0,
+  apostrophiBytes: 0,
   capBytes: null,
   warnBytes: null,
   action: "warn",
@@ -66,7 +66,7 @@ export async function applyStorageWatcherPrefs(): Promise<void> {
   try {
     prefs = await getPrefs();
   } catch (err) {
-    log.warn("[pond storage-watcher] prefs read failed", err);
+    log.warn("[apostrophi storage-watcher] prefs read failed", err);
     return;
   }
   const cfg = prefs.storage;
@@ -77,13 +77,13 @@ export async function applyStorageWatcherPrefs(): Promise<void> {
     }
     intervalMs = null;
     if (syncBlocked || videoBlocked) {
-      log.info("[pond storage-watcher] guards disabled, clearing flags");
+      log.info("[apostrophi storage-watcher] guards disabled, clearing flags");
       syncBlocked = false;
       videoBlocked = false;
     }
     lastStatus = {
       state: "ok",
-      pondBytes: lastStatus.pondBytes,
+      apostrophiBytes: lastStatus.apostrophiBytes,
       capBytes: null,
       warnBytes: null,
       action: cfg.action,
@@ -115,7 +115,7 @@ async function runTick(): Promise<void> {
   try {
     prefs = await getPrefs();
   } catch (err) {
-    log.warn("[pond storage-watcher] tick prefs read failed", err);
+    log.warn("[apostrophi storage-watcher] tick prefs read failed", err);
     return;
   }
   const cfg = prefs.storage;
@@ -129,7 +129,7 @@ async function runTick(): Promise<void> {
   try {
     snapshot = await getStorageSnapshot();
   } catch (err) {
-    log.warn("[pond storage-watcher] snapshot failed", err);
+    log.warn("[apostrophi storage-watcher] snapshot failed", err);
     return;
   }
 
@@ -142,8 +142,8 @@ async function runTick(): Promise<void> {
 
   let next: StorageGuardState = "ok";
   if (cap !== null) {
-    if (snapshot.pondBytes >= cap) next = "exceeded";
-    else if (warnBytes !== null && snapshot.pondBytes >= warnBytes)
+    if (snapshot.apostrophiBytes >= cap) next = "exceeded";
+    else if (warnBytes !== null && snapshot.apostrophiBytes >= warnBytes)
       next = "warn";
   }
 
@@ -151,7 +151,7 @@ async function runTick(): Promise<void> {
 
   lastStatus = {
     state: next,
-    pondBytes: snapshot.pondBytes,
+    apostrophiBytes: snapshot.apostrophiBytes,
     capBytes: cap,
     warnBytes,
     action: cfg.action,
@@ -167,7 +167,7 @@ function applyAction(state: StorageGuardState, action: StorageGuardAction) {
   if (state !== "exceeded") {
     if (syncBlocked || videoBlocked) {
       log.info(
-        `[pond storage-watcher] dropped below cap, clearing guard flags (state=${state})`,
+        `[apostrophi storage-watcher] dropped below cap, clearing guard flags (state=${state})`,
       );
     }
     syncBlocked = false;
@@ -181,11 +181,13 @@ function applyAction(state: StorageGuardState, action: StorageGuardAction) {
   }
   if (action === "pauseSync") {
     if (!syncBlocked) {
-      log.info("[pond storage-watcher] cap exceeded, pausing source syncs");
+      log.info(
+        "[apostrophi storage-watcher] cap exceeded, pausing source syncs",
+      );
       try {
         cancelAllSyncs();
       } catch (err) {
-        log.warn("[pond storage-watcher] cancelAllSyncs threw", err);
+        log.warn("[apostrophi storage-watcher] cancelAllSyncs threw", err);
       }
     }
     syncBlocked = true;
@@ -195,7 +197,7 @@ function applyAction(state: StorageGuardState, action: StorageGuardAction) {
   if (action === "pauseVideo") {
     if (!videoBlocked) {
       log.info(
-        "[pond storage-watcher] cap exceeded, pausing auto video downloads",
+        "[apostrophi storage-watcher] cap exceeded, pausing auto video downloads",
       );
     }
     syncBlocked = false;

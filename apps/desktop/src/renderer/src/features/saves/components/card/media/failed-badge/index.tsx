@@ -1,4 +1,4 @@
-import { Badge } from "@pond/ui";
+import { Badge } from "@apostrophi/ui";
 import type { Save } from "@/features/saves/types";
 import styles from "./styles.module.css";
 

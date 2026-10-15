@@ -1,4 +1,4 @@
-import { normalizeLabelName } from "@pond/schema/label-name";
+import { normalizeLabelName } from "@apostrophi/schema/label-name";
 
 export type TagEntity = "tag" | "group";
 

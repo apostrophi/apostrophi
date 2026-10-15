@@ -12,7 +12,7 @@ function save(partial: Partial<Save> = {}): Save {
     id: "note",
     source: "local",
     sourceId: "note",
-    url: "pond:local/note",
+    url: "apostrophi:local/note",
     title: null,
     description: null,
     author: null,

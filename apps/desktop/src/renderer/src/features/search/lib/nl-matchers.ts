@@ -1,6 +1,6 @@
-import { MEDIA_TYPES } from "@pond/schema/db";
-import { COLOR_PRESETS } from "@pond/schema/filters/color";
-import type { FieldId, Predicate } from "@pond/schema/filters/types";
+import { MEDIA_TYPES } from "@apostrophi/schema/db";
+import { COLOR_PRESETS } from "@apostrophi/schema/filters/color";
+import type { FieldId, Predicate } from "@apostrophi/schema/filters/types";
 import { predicateIsActive } from "@/features/search/lib/filter-helpers";
 import type { AskSort, NlFacets } from "@/features/search/lib/nl-query";
 import {

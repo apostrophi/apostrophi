@@ -5,8 +5,8 @@ import {
   IconMediaPlay,
   IconVolume,
   IconVolumeOff,
-} from "@pond/icons";
-import { Select, Slider } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Select, Slider } from "@apostrophi/ui";
 import { useEffect, useRef, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { ChromePortal } from "@/features/saves/components/viewers/media-viewer/chrome";
@@ -66,7 +66,7 @@ export function AudioViewer(props: ViewerProps & { url: string }) {
         const tempo = estimateBpm(samples, audio.sampleRate);
         if (tempo) {
           setBpm(tempo);
-          void window.pond.query("saves.setAudioAnalysis", {
+          void window.apostrophi.query("saves.setAudioAnalysis", {
             id: props.save.id,
             bpm: tempo,
           });

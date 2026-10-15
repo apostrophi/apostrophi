@@ -23,11 +23,13 @@ describe("loadModel", () => {
       const model = loadedModel.safeParse(
         await loadModel({
           provider,
-          model: "pond-custom-model",
+          model: "apostrophi-custom-model",
           apiKey: "offline-test-key",
         }),
       );
-      expect(model.success && model.data.modelId).toBe("pond-custom-model");
+      expect(model.success && model.data.modelId).toBe(
+        "apostrophi-custom-model",
+      );
     },
   );
 

@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 
-import type { MediaType } from "@pond/schema/db";
+import type { MediaType } from "@apostrophi/schema/db";
 import type { BrowserValidators } from "../lib/browser-validation";
 
 interface YoutubePlayerResponse {

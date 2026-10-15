@@ -1,13 +1,13 @@
 import { expect, it } from "vitest";
 import {
+  type ApostrophiUIMessage,
   fromUIMessage,
-  type PondUIMessage,
   partData,
   toUIMessage,
-} from "./pond-messages";
+} from "./apostrophi-messages";
 
 it("preserves work timing for streamed and reopened replies without tools", () => {
-  const live: PondUIMessage = {
+  const live: ApostrophiUIMessage = {
     id: "reply",
     role: "assistant",
     parts: [{ type: "text", text: "Hello" }],
@@ -21,26 +21,28 @@ it("preserves work timing for streamed and reopened replies without tools", () =
 });
 
 it("uses the latest streamed tool snapshot instead of the first running state", () => {
-  const message: PondUIMessage = {
+  const message: ApostrophiUIMessage = {
     id: "reply",
     role: "assistant",
     parts: [
       {
-        type: "data-pond-steps",
+        type: "data-apostrophi-steps",
         data: [{ id: "1", label: "Search library", status: "running" }],
       },
       {
-        type: "data-pond-steps",
+        type: "data-apostrophi-steps",
         data: [
           { id: "1", label: "Search library", status: "complete" },
           { id: "2", label: "Read Save", status: "running" },
         ],
       },
-      { type: "data-pond-activity", data: { activity: "searching" } },
-      { type: "data-pond-activity", data: { activity: "reading" } },
+      { type: "data-apostrophi-activity", data: { activity: "searching" } },
+      { type: "data-apostrophi-activity", data: { activity: "reading" } },
     ],
   };
-  expect(partData(message, "pond-activity")).toEqual({ activity: "reading" });
+  expect(partData(message, "apostrophi-activity")).toEqual({
+    activity: "reading",
+  });
   expect(fromUIMessage(message, "chat").metadata?.steps).toEqual([
     { id: "1", label: "Search library", status: "complete" },
     { id: "2", label: "Read Save", status: "running" },

@@ -6,7 +6,7 @@ import {
   saveFolders,
   saves,
   syncActions,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { isAuxiliaryKind } from "@shared/save-file-names";
 import { eq } from "drizzle-orm";
 import log from "electron-log/main.js";
@@ -67,7 +67,7 @@ export async function reconcileLibraryIndex(
       const { metadata } = read;
 
       if (!metadata.source || !metadata.sourceId || !metadata.url) {
-        log.warn("[pond scan] skipping item with incomplete metadata", {
+        log.warn("[apostrophi scan] skipping item with incomplete metadata", {
           id,
           hasSource: Boolean(metadata.source),
           hasSourceId: Boolean(metadata.sourceId),
@@ -84,7 +84,7 @@ export async function reconcileLibraryIndex(
         const enrichment = readEnrichmentSidecar(id, root) ?? {};
         const insertValues: typeof saves.$inferInsert = {
           ...enrichment,
-          ...metadata.pond.userData,
+          ...metadata.apostrophi.userData,
           id,
           status: (await originalsPresent(root, id, files))
             ? "complete"
@@ -93,15 +93,15 @@ export async function reconcileLibraryIndex(
           sourceId: metadata.sourceId,
           url: metadata.url,
           title: metadata.name,
-          description: metadata.pond.description ?? null,
-          author: metadata.pond.author ?? null,
+          description: metadata.apostrophi.description ?? null,
+          author: metadata.apostrophi.author ?? null,
           notes: metadata.annotation || null,
           mediaUrl: null,
-          mediaType: metadata.pond.mediaType ?? null,
-          rawJson: metadata.pond.rawSource ?? null,
+          mediaType: metadata.apostrophi.mediaType ?? null,
+          rawJson: metadata.apostrophi.rawSource ?? null,
           tags,
           files,
-          coverIndex: metadata.pond.coverIndex ?? 0,
+          coverIndex: metadata.apostrophi.coverIndex ?? 0,
           width: metadata.width,
           height: metadata.height,
           fileSize: metadata.size,
@@ -110,16 +110,16 @@ export async function reconcileLibraryIndex(
           savedAt: new Date(metadata.importedAt),
           createdAt: new Date(metadata.btime),
           publishedAt:
-            metadata.pond.publishedAt != null
-              ? new Date(metadata.pond.publishedAt)
+            metadata.apostrophi.publishedAt != null
+              ? new Date(metadata.apostrophi.publishedAt)
               : null,
         };
         const updateSet = {
           ...enrichment,
-          ...metadata.pond.userData,
+          ...metadata.apostrophi.userData,
           title: metadata.name,
-          description: metadata.pond.description ?? null,
-          author: metadata.pond.author ?? null,
+          description: metadata.apostrophi.description ?? null,
+          author: metadata.apostrophi.author ?? null,
           notes: metadata.annotation || null,
           tags,
           files,
@@ -175,12 +175,12 @@ export async function reconcileLibraryIndex(
         if (action) runtime.changed(action);
         updated++;
       } catch (err) {
-        log.warn("[pond scan] upsert failed", { id, err });
+        log.warn("[apostrophi scan] upsert failed", { id, err });
       }
     });
   }
 
-  log.info(`[pond scan] updated=${updated} total=${total}`);
+  log.info(`[apostrophi scan] updated=${updated} total=${total}`);
   return { updated, total };
 }
 

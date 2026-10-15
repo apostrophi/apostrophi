@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -49,7 +49,7 @@ describe("folder browser", () => {
   const query = vi.fn<(name: string) => Promise<object | null>>(queryImpl);
 
   beforeEach(async () => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query,
       onSyncAction: vi.fn(() => () => {}),
     });
@@ -110,7 +110,7 @@ describe("folder browser", () => {
             id: "preview-a",
             source: "local",
             sourceId: "preview-a",
-            url: "pond:local/preview-a",
+            url: "apostrophi:local/preview-a",
             title: "contents",
             mediaType: "text",
             files: [
@@ -130,7 +130,7 @@ describe("folder browser", () => {
             id: "preview-b",
             source: "local",
             sourceId: "preview-b",
-            url: "pond:local/preview-b",
+            url: "apostrophi:local/preview-b",
             title: "metadata",
             mediaType: "file",
             files: [

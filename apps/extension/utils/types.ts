@@ -1,25 +1,25 @@
-import type { Source } from "@pond/schema/db";
-import type { SessionImportResponse } from "@pond/schema/session";
+import type { Source } from "@apostrophi/schema/db";
+import type { SessionImportResponse } from "@apostrophi/schema/session";
 import { at, isRecord, type JsonValue } from "./json";
 
-export const POND_EVENT = "pond:capture";
+export const APOSTROPHI_EVENT = "apostrophi:capture";
 
-export interface PondCapturePayload {
+export interface ApostrophiCapturePayload {
   url: string;
   trigger?: string;
 }
 
-export interface PondLogEntry {
+export interface ApostrophiLogEntry {
   level: "info" | "warn" | "error";
   message: string;
   data?: unknown;
 }
 
 /** Shape posted by injected MAIN-world scripts over `window.postMessage` before the content-script bridge relays it to the background. */
-export type PondMessage =
-  | { kind: "capture"; payload: PondCapturePayload }
+export type ApostrophiMessage =
+  | { kind: "capture"; payload: ApostrophiCapturePayload }
   | { kind: "pushSession"; source: Source }
-  | { kind: "openPond"; path?: string }
+  | { kind: "openApostrophi"; path?: string }
   | {
       kind: "log";
       level: "info" | "warn" | "error";
@@ -35,11 +35,11 @@ export type PushSessionResult =
       detail?: string;
     };
 
-export type PondSettings = {
+export type ApostrophiSettings = {
   enabled: Record<Source, boolean>;
 };
 
-export const DEFAULT_SETTINGS: PondSettings = {
+export const DEFAULT_SETTINGS: ApostrophiSettings = {
   enabled: {
     twitter: true,
     instagram: true,
@@ -55,7 +55,7 @@ export const DEFAULT_SETTINGS: PondSettings = {
   },
 };
 
-export function normalizeStoredSettings(stored: JsonValue): PondSettings {
+export function normalizeStoredSettings(stored: JsonValue): ApostrophiSettings {
   const storedEnabled = at(stored, "enabled");
   if (!isRecord(storedEnabled)) {
     return { enabled: { ...DEFAULT_SETTINGS.enabled } };

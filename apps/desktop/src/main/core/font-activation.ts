@@ -11,11 +11,11 @@ export async function activateFont(input: {
   saveId: string;
   fontsDir: string;
 }): Promise<OkResult<{ path: string }>> {
-  const pondDir = join(input.fontsDir, "Pond");
+  const apostrophiDir = join(input.fontsDir, "Apostrophi");
   const extension = extname(input.sourcePath) || ".ttf";
-  const dest = join(pondDir, `${input.saveId}${extension}`);
+  const dest = join(apostrophiDir, `${input.saveId}${extension}`);
   try {
-    await mkdir(pondDir, { recursive: true });
+    await mkdir(apostrophiDir, { recursive: true });
     await copyFile(input.sourcePath, dest);
     return { ok: true, path: dest };
   } catch (error) {
@@ -30,10 +30,10 @@ export async function deactivateFont(input: {
   installedPath: string;
   fontsDir: string;
 }): Promise<OkResult> {
-  const pondDir = resolve(join(input.fontsDir, "Pond"));
+  const apostrophiDir = resolve(join(input.fontsDir, "Apostrophi"));
   const target = resolve(input.installedPath);
-  if (target === pondDir || !target.startsWith(`${pondDir}${sep}`))
-    return { ok: false, error: "outside_pond_fonts" };
+  if (target === apostrophiDir || !target.startsWith(`${apostrophiDir}${sep}`))
+    return { ok: false, error: "outside_apostrophi_fonts" };
   try {
     await rm(target, { force: true });
     return { ok: true };
@@ -45,7 +45,7 @@ export async function deactivateFont(input: {
   }
 }
 
-export function pondFontsDir(
+export function apostrophiFontsDir(
   home: string,
   platform = process.platform,
 ): string {

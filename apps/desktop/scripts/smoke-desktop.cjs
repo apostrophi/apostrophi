@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const { mkdtempSync, rmSync, writeFileSync } = require("node:fs");
 const { tmpdir } = require("node:os");
 const { join } = require("node:path");
-const sandbox = mkdtempSync(join(tmpdir(), "pond-cleanup-smoke-"));
+const sandbox = mkdtempSync(join(tmpdir(), "apostrophi-cleanup-smoke-"));
 const imagePath = join(sandbox, "preview.png");
 writeFileSync(
   imagePath,
@@ -12,7 +12,7 @@ writeFileSync(
     "base64",
   ),
 );
-process.env.POND_SANDBOX = sandbox;
+process.env.APOSTROPHI_SANDBOX = sandbox;
 process.once("exit", () => rmSync(sandbox, { recursive: true, force: true }));
 let complete = false;
 let resolvePreview;
@@ -60,15 +60,15 @@ app.on("web-contents-created", (_, contents) => {
           };
           poll();
         });
-        const info = await window.pond.query("library.info");
-        const page = await window.pond.query("saves.listPage", { limit: 1 });
-        const tags = await window.pond.query("tags.list");
-        const created = await window.pond.query("saves.createManual", {
+        const info = await window.apostrophi.query("library.info");
+        const page = await window.apostrophi.query("saves.listPage", { limit: 1 });
+        const tags = await window.apostrophi.query("tags.list");
+        const created = await window.apostrophi.query("saves.createManual", {
           title: "Preview smoke",
           filePaths: [${JSON.stringify(imagePath)}],
         });
         if (!created.ok || !created.id) throw new Error("Preview fixture was not created");
-        const preview = await window.pond.openPreviewWindow({
+        const preview = await window.apostrophi.openPreviewWindow({
           saveId: created.id,
           fileIndex: 0,
           kind: "detached",
@@ -91,7 +91,7 @@ app.on("web-contents-created", (_, contents) => {
         ),
       ]);
       await contents.executeJavaScript(
-        `window.pond.closePreviewWindow(${state.preview.windowId})`,
+        `window.apostrophi.closePreviewWindow(${state.preview.windowId})`,
       );
       complete = true;
       clearTimeout(timer);

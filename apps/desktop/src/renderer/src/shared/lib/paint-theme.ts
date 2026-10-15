@@ -3,7 +3,7 @@ import {
   type Gamut,
   type ThemeInput,
   type ThemeMode,
-} from "@pond/theme/tokens";
+} from "@apostrophi/theme/tokens";
 
 export function displayGamut(): Gamut {
   return window.matchMedia("(color-gamut: p3)").matches ? "p3" : "srgb";

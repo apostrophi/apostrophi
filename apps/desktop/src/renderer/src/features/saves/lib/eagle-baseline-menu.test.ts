@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { describe, expect, it } from "vitest";
 import "@/app/effects/save-library-bridge";
 import { clipEmbeddingVersion, embeddingDimensions } from "@shared/embeddings";

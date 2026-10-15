@@ -82,7 +82,7 @@ function useDownloadBinding<K extends DownloadField>(
     queryKey: ["settings", "get"],
     queryFn: async () => {
       const row = SettingsRowSchema.parse(
-        await window.pond.query("settings.get", {}),
+        await window.apostrophi.query("settings.get", {}),
       );
       return {
         ...row,
@@ -99,7 +99,7 @@ function useDownloadBinding<K extends DownloadField>(
     const params: Partial<VideoDownloadPrefs> | Partial<ImageDownloadPrefs> =
       delta;
     const operation = downloadSaveQueue.then(async () => {
-      const saved = await window.pond.query(channel, params);
+      const saved = await window.apostrophi.query(channel, params);
       const next = SavedSectionSchema.parse(saved)[field];
       if (!next) throw new Error("Missing saved download settings");
       qc.setQueryData<SettingsRow | undefined>(

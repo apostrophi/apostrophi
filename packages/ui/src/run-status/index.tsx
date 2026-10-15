@@ -1,4 +1,4 @@
-import { IconCheck, IconCircleDashedClock } from "@pond/icons";
+import { IconCheck, IconCircleDashedClock } from "@apostrophi/icons";
 import { useReducedMotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 import { Reveal } from "../reveal";

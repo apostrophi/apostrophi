@@ -1,7 +1,7 @@
-import type { AgentModelOptions } from "@pond/schema";
-import { Button } from "@pond/ui";
-import { ComposerView } from "@pond/ui/composer";
-import { ErrorNotice } from "@pond/ui/error-notice";
+import type { AgentModelOptions } from "@apostrophi/schema";
+import { Button } from "@apostrophi/ui";
+import { ComposerView } from "@apostrophi/ui/composer";
+import { ErrorNotice } from "@apostrophi/ui/error-notice";
 import type { AssistantProvider, AssistantSource } from "@shared/assistant";
 import { type RefObject, useRef, useState } from "react";
 import {

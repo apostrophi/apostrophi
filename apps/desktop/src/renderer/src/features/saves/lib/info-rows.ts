@@ -1,4 +1,4 @@
-import { formatListKinds } from "@pond/schema/list-kinds";
+import { formatListKinds } from "@apostrophi/schema/list-kinds";
 import {
   deriveTypeLabel,
   pickPrimaryFile,

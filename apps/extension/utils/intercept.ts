@@ -4,13 +4,13 @@
  */
 
 import { safeParse } from "zod/v4/core";
-import type { PondMessage } from "@/utils/types";
+import type { ApostrophiMessage } from "@/utils/types";
 import { TextValue } from "./json";
 
-const POND_EVENT = "pond:capture";
+const APOSTROPHI_EVENT = "apostrophi:capture";
 
-function emit(message: PondMessage): void {
-  window.postMessage({ type: POND_EVENT, message }, "*");
+function emit(message: ApostrophiMessage): void {
+  window.postMessage({ type: APOSTROPHI_EVENT, message }, "*");
 }
 
 export function capture(url: string, trigger: string): void {
@@ -55,12 +55,12 @@ interface Registry {
 
 declare global {
   interface Window {
-    __pondInterceptors?: Registry;
+    __apostrophiInterceptors?: Registry;
   }
 }
 
 function registry(): Registry {
-  const existing = window.__pondInterceptors;
+  const existing = window.__apostrophiInterceptors;
   if (existing) return existing;
   const created: Registry = {
     handlers: [],
@@ -69,7 +69,7 @@ function registry(): Registry {
     patchedXhr: false,
     patchedBeacon: false,
   };
-  window.__pondInterceptors = created;
+  window.__apostrophiInterceptors = created;
   return created;
 }
 

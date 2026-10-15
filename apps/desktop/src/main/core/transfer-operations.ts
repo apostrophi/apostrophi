@@ -5,6 +5,10 @@ import log from "electron-log/main.js";
 import type { OkResult } from "../../shared/query-contracts-shared";
 import type { TransferRequest } from "../../shared/transfer-contracts";
 import { libraryRoot } from "../paths";
+import {
+  exportApostrophiPackage,
+  importApostrophiPackage,
+} from "./apostrophi-package";
 import { importEaglePackage } from "./eagle-package";
 import {
   exportSavesToDirectory,
@@ -12,7 +16,6 @@ import {
 } from "./export-saves";
 import { copyPackageToLibrary, packageLibrary } from "./library-transfer-files";
 import { runLibraryTransfer } from "./library-transfers";
-import { exportPondPackage, importPondPackage } from "./pond-package";
 import { transferJobStore } from "./transfer-jobs";
 
 export function copySaveSelectionToLibrary(
@@ -22,10 +25,10 @@ export function copySaveSelectionToLibrary(
   return runLibraryTransfer(async () => {
     if ((await realpath(target)) === (await realpath(libraryRoot())))
       throw new Error("Choose a different library.");
-    const temporary = await mkdtemp(join(tmpdir(), "pond-library-copy-"));
+    const temporary = await mkdtemp(join(tmpdir(), "apostrophi-library-copy-"));
     try {
-      const packagePath = join(temporary, "Selection.pondpack");
-      await exportPondPackage(ids, packagePath);
+      const packagePath = join(temporary, "Selection.apostrophipack");
+      await exportApostrophiPackage(ids, packagePath);
       return await copyPackageToLibrary(packagePath, target);
     } finally {
       await rm(temporary, { recursive: true, force: true });
@@ -36,10 +39,15 @@ export function mergeLibraryFrom(source: string) {
   return runLibraryTransfer(async () => {
     if ((await realpath(source)) === (await realpath(libraryRoot())))
       throw new Error("Choose a different library.");
-    const temporary = await mkdtemp(join(tmpdir(), "pond-library-merge-"));
+    const temporary = await mkdtemp(
+      join(tmpdir(), "apostrophi-library-merge-"),
+    );
     try {
       await packageLibrary(source, temporary);
-      return { path: libraryRoot(), ...(await importPondPackage(temporary)) };
+      return {
+        path: libraryRoot(),
+        ...(await importApostrophiPackage(temporary)),
+      };
     } finally {
       await rm(temporary, { recursive: true, force: true });
     }
@@ -54,13 +62,13 @@ async function executeRequest(request: TransferRequest) {
     case "export_files":
       return exportSavesToDirectory(request.ids ?? [], request.destination);
     case "export_package":
-      return exportPondPackage(request.ids ?? [], request.destination);
+      return exportApostrophiPackage(request.ids ?? [], request.destination);
     case "copy_library":
       return copySaveSelectionToLibrary(request.ids ?? [], request.destination);
     case "import_eagle_package":
       return importEaglePackage(request.source || request.destination);
     case "import_package":
-      return importPondPackage(request.source || request.destination);
+      return importApostrophiPackage(request.source || request.destination);
     case "merge_library":
       return mergeLibraryFrom(request.source || request.destination);
   }

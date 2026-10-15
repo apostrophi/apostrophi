@@ -1,5 +1,5 @@
-import { IconPaperclip } from "@pond/icons";
-import { Chip } from "@pond/ui";
+import { IconPaperclip } from "@apostrophi/icons";
+import { Chip } from "@apostrophi/ui";
 import type { AssistantFileAttachment } from "@shared/assistant";
 import styles from "./styles.module.css";
 

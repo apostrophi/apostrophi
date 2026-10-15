@@ -85,7 +85,7 @@ it("uses catalog names and metadata while preserving native inference IDs", () =
   ).toBe("claude-test-5-20260101");
 });
 
-it("maps Google to Pond providers and makes previews unselectable", () => {
+it("maps Google to Apostrophi providers and makes previews unselectable", () => {
   expect(catalogModelsForProvider("openai", entries)[0]).toMatchObject({
     id: "openai/test",
     modelCapabilities: {

@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { extname, join } from "node:path";
-import { type Save, type SaveFile, saves } from "@pond/schema/db";
-import type { Transaction, TxSaveFile } from "@pond/schema/tx";
+import { type Save, type SaveFile, saves } from "@apostrophi/schema/db";
+import type { Transaction, TxSaveFile } from "@apostrophi/schema/tx";
 import { THUMBNAIL_KIND } from "@shared/save-file-names";
 import { inArray } from "drizzle-orm";
 import sharp from "sharp";

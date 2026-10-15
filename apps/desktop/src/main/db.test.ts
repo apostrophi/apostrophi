@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 import { describe, expect, it } from "vitest";
-import { initializePondSchema } from "./db";
+import { initializeApostrophiSchema } from "./db";
 
 function nativeSqliteAvailable(): boolean {
   try {
@@ -14,12 +14,12 @@ function nativeSqliteAvailable(): boolean {
 }
 
 describe.skipIf(!nativeSqliteAvailable())(
-  "Pond database initialization",
+  "Apostrophi database initialization",
   () => {
     it("initializes a fresh library before installing the vector delete trigger", () => {
       const db = new Database(":memory:");
       try {
-        expect(initializePondSchema(db)).toBe(true);
+        expect(initializeApostrophiSchema(db)).toBe(true);
         expect(
           db
             .prepare(
@@ -41,11 +41,11 @@ describe.skipIf(!nativeSqliteAvailable())(
     it("preserves saved rows when initialized again", () => {
       const db = new Database(":memory:");
       try {
-        initializePondSchema(db);
+        initializeApostrophiSchema(db);
         db.prepare(
           "INSERT INTO saves (id, source, source_id, url) VALUES (?, ?, ?, ?)",
         ).run("kept", "web", "kept", "https://example.com");
-        expect(initializePondSchema(db)).toBe(true);
+        expect(initializeApostrophiSchema(db)).toBe(true);
         expect(db.prepare("SELECT id FROM saves").all()).toEqual([
           { id: "kept" },
         ]);
@@ -57,7 +57,7 @@ describe.skipIf(!nativeSqliteAvailable())(
     it("opens a usable library without vector tables when the extension is unavailable", () => {
       const db = new Database(":memory:");
       try {
-        expect(initializePondSchema(db, () => false)).toBe(false);
+        expect(initializeApostrophiSchema(db, () => false)).toBe(false);
         expect(
           db
             .prepare(

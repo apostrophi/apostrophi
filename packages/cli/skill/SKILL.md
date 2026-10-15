@@ -1,18 +1,18 @@
-# Pond CLI
+# Apostrophi CLI
 
-Use the `pond` executable to work with the active local Pond Library. Pond must
+Use the `apostrophi` executable to work with the active local Apostrophi Library. Apostrophi must
 be installed. Commands launch the app when its authenticated loopback service
 is unavailable.
 
 ## Setup
 
 ```bash
-npm install --global @pond/cli
-pond auth authorize --token <token>
-pond doctor
+npm install --global @apostrophi/cli
+apostrophi auth authorize --token <token>
+apostrophi doctor
 ```
 
-Copy the Local API token from Pond Settings. The CLI stores it with owner-only
+Copy the Local API token from Apostrophi Settings. The CLI stores it with owner-only
 file permissions.
 
 ## Agent output
@@ -20,9 +20,9 @@ file permissions.
 Prefer compact JSON for structured work and Markdown for reading:
 
 ```bash
-pond saves search design systems --json --compact
-pond saves get <id> --md
-pond schema --json
+apostrophi saves search design systems --json --compact
+apostrophi saves get <id> --md
+apostrophi schema --json
 ```
 
 Stdout contains data. Progress and diagnostics use stderr. Destructive
@@ -32,28 +32,28 @@ automation.
 ## Common commands
 
 ```bash
-pond libraries current
-pond libraries list
-pond saves list
-pond saves search <terms...>
-pond saves get <id...>
-pond download <url...>
-pond download --stdin --ndjson
-pond folders list
-pond tags list
-pond sources accounts
-pond sync history
-pond downloads list
-pond duplicates list
-pond views list
-pond stats
-pond schema
+apostrophi libraries current
+apostrophi libraries list
+apostrophi saves list
+apostrophi saves search <terms...>
+apostrophi saves get <id...>
+apostrophi download <url...>
+apostrophi download --stdin --ndjson
+apostrophi folders list
+apostrophi tags list
+apostrophi sources accounts
+apostrophi sync history
+apostrophi downloads list
+apostrophi duplicates list
+apostrophi views list
+apostrophi stats
+apostrophi schema
 ```
 
-Use `pond operations list` and `pond operations get <name>` to discover exact
+Use `apostrophi operations list` and `apostrophi operations get <name>` to discover exact
 operation schemas. Run a discovered operation with:
 
 ```bash
-pond operations run <name> --args '{"field":"value"}' --dry-run
-pond operations run <name> --args '{"field":"value"}' --yes
+apostrophi operations run <name> --args '{"field":"value"}' --dry-run
+apostrophi operations run <name> --args '{"field":"value"}' --yes
 ```

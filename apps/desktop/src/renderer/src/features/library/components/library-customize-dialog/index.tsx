@@ -4,7 +4,7 @@ import {
   IconFaceSmile,
   IconImage,
   IconStar,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import {
   Button,
   Chip,
@@ -14,7 +14,7 @@ import {
   Input,
   Menu,
   Popover,
-} from "@pond/ui";
+} from "@apostrophi/ui";
 import type { LibraryMarkSource } from "@shared/library-mark";
 import { useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -95,7 +95,7 @@ function libraryFolderName(path: string): string {
     path
       .split(/[\\/]/)
       .at(-1)
-      ?.replace(/\.pond$/i, "") ?? ""
+      ?.replace(/\.apostrophi$/i, "") ?? ""
   );
 }
 
@@ -116,7 +116,7 @@ export function LibraryCustomizeDialog({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
-  const nextName = name.trim().replace(/\.pond$/i, "");
+  const nextName = name.trim().replace(/\.apostrophi$/i, "");
   const nameChanged = nextName !== library.name;
   const changed = nameChanged || markChanged;
   const tinted = mark.kind !== "image";
@@ -131,14 +131,17 @@ export function LibraryCustomizeDialog({
     setPicker(next);
     setPickerOpen(true);
     if (next === "icon" && mark.kind !== "icon") {
-      changeMark({ kind: "icon", icon: "pond" });
+      changeMark({ kind: "icon", icon: "apostrophi" });
     }
   }
 
   async function uploadImage(): Promise<void> {
     setError(null);
     try {
-      const result = await window.pond.query("library.identity.pickIcon", {});
+      const result = await window.apostrophi.query(
+        "library.identity.pickIcon",
+        {},
+      );
       if (result.ok) changeMark({ kind: "image", src: result.icon });
       else if (result.reason !== "cancelled") {
         setError("Choose a supported image.");
@@ -161,11 +164,11 @@ export function LibraryCustomizeDialog({
         : {};
       const result =
         nameChanged && nextName !== libraryFolderName(library.path)
-          ? await window.pond.query("library.rename", {
+          ? await window.apostrophi.query("library.rename", {
               name: nextName,
               ...logo,
             })
-          : await window.pond.query("library.identity.update", {
+          : await window.apostrophi.query("library.identity.update", {
               name: nameChanged ? nextName : undefined,
               ...logo,
             });

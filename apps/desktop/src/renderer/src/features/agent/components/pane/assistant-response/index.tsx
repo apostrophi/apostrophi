@@ -1,4 +1,4 @@
-import { CodeBlock } from "@pond/ui/code-block";
+import { CodeBlock } from "@apostrophi/ui/code-block";
 import type { AssistantSource } from "@shared/assistant";
 import {
   Children,

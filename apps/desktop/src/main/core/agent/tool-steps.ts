@@ -20,10 +20,10 @@ const labels = new Map<string, string>(
     findDuplicates: "Find duplicates",
     describeSaves: "Describe images",
     proposeChanges: "Prepare changes for review",
-    discoverPondOperations: "Find Pond capabilities",
-    describePondOperation: "Read operation details",
-    runPondOperation: "Use Pond",
-    readPondOperationResult: "Read operation result",
+    discoverApostrophiOperations: "Find Apostrophi capabilities",
+    describeApostrophiOperation: "Read operation details",
+    runApostrophiOperation: "Use Apostrophi",
+    readApostrophiOperationResult: "Read operation result",
   }),
 );
 

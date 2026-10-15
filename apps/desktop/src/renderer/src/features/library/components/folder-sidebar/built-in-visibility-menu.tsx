@@ -3,13 +3,13 @@ import {
   IconEye2,
   IconHistory,
   IconSidebarEdit,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import {
   isLockedSidebarDestination,
   type SidebarBadgeStyle,
   type SidebarDestination,
-} from "@pond/schema";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/schema";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { type ReactElement, useState } from "react";
 import { clearRecents, useRecents } from "@/features/saves";
 import { SidebarCustomizationDialog } from "@/features/settings";

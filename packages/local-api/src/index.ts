@@ -1,5 +1,5 @@
-import type { EnqueueRequest } from "@pond/schema/ingest";
-import type { JsonObject, JsonValue } from "@pond/schema/json";
+import type { EnqueueRequest } from "@apostrophi/schema/ingest";
+import type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 import {
   LocalApiAppInfoSchema,
   LocalApiEnqueueResultSchema,
@@ -12,21 +12,21 @@ import {
   LocalApiSaveSchema,
   LocalApiSwitchResultSchema,
   localApiSuccessSchema,
-} from "@pond/schema/local-api";
+} from "@apostrophi/schema/local-api";
 
-export type { JsonObject, JsonValue } from "@pond/schema/json";
+export type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 export type {
   LocalApiCursor,
   LocalApiLibrary,
   LocalApiLibraryQueryRequest,
   LocalApiSave,
   LocalApiSavesGetParams,
-} from "@pond/schema/local-api";
+} from "@apostrophi/schema/local-api";
 
 import type {
   LocalApiLibraryQueryRequest,
   LocalApiSavesGetParams,
-} from "@pond/schema/local-api";
+} from "@apostrophi/schema/local-api";
 
 interface Schema<Output> {
   safeParse(
@@ -52,19 +52,19 @@ export type LocalApiFailure =
   | "not-found"
   | "response";
 
-export class PondLocalApiError extends Error {
+export class ApostrophiLocalApiError extends Error {
   readonly kind: LocalApiFailure;
   readonly status?: number;
 
   constructor(message: string, kind: LocalApiFailure, status?: number) {
     super(message);
-    this.name = "PondLocalApiError";
+    this.name = "ApostrophiLocalApiError";
     this.kind = kind;
     this.status = status;
   }
 }
 
-export interface PondLocalApiOptions {
+export interface ApostrophiLocalApiOptions {
   baseUrl?: string;
   token?: string | (() => string | Promise<string>);
   fetch?: typeof fetch;
@@ -77,11 +77,14 @@ function endpoint(value: string, allowRemote: boolean): string {
   try {
     url = new URL(value);
   } catch {
-    throw new PondLocalApiError("Enter a valid Local API URL.", "connection");
+    throw new ApostrophiLocalApiError(
+      "Enter a valid Local API URL.",
+      "connection",
+    );
   }
   const loopback = ["127.0.0.1", "localhost", "[::1]"].includes(url.hostname);
   if (url.protocol !== "http:" || (!loopback && !allowRemote)) {
-    throw new PondLocalApiError(
+    throw new ApostrophiLocalApiError(
       "The Local API URL must use loopback HTTP.",
       "connection",
     );
@@ -96,13 +99,13 @@ function failureKind(status: number): LocalApiFailure {
   return status >= 500 ? "internal" : "response";
 }
 
-export class PondLocalApi {
+export class ApostrophiLocalApi {
   readonly baseUrl: string;
   private readonly token: () => string | Promise<string> | undefined;
   private readonly fetcher: typeof fetch;
   private readonly ensureAvailable?: () => void | Promise<void>;
 
-  constructor(options: PondLocalApiOptions = {}) {
+  constructor(options: ApostrophiLocalApiOptions = {}) {
     this.baseUrl = endpoint(
       options.baseUrl ?? "http://127.0.0.1:41610/api/v2",
       options.allowRemote ?? false,
@@ -136,14 +139,14 @@ export class PondLocalApi {
         headers,
       });
     } catch (error) {
-      throw new PondLocalApiError(
-        error instanceof Error ? error.message : "Pond is unavailable.",
+      throw new ApostrophiLocalApiError(
+        error instanceof Error ? error.message : "Apostrophi is unavailable.",
         "connection",
       );
     }
   }
 
-  private async failure(response: Response): Promise<PondLocalApiError> {
+  private async failure(response: Response): Promise<ApostrophiLocalApiError> {
     const decoded = LocalApiJsonSchema.safeParse(
       await response.json().catch(() => null),
     );
@@ -154,8 +157,8 @@ export class PondLocalApi {
       ? Object(parsed.data.error) === parsed.data.error
         ? (JSON.stringify(parsed.data.error) ?? String(parsed.data.error))
         : String(parsed.data.error)
-      : `Pond returned ${response.status}.`;
-    return new PondLocalApiError(
+      : `Apostrophi returned ${response.status}.`;
+    return new ApostrophiLocalApiError(
       message,
       failureKind(response.status),
       response.status,
@@ -176,15 +179,15 @@ export class PondLocalApi {
     const envelope =
       localApiSuccessSchema(LocalApiJsonSchema).safeParse(payload);
     if (!envelope.success)
-      throw new PondLocalApiError(
-        "Pond returned an unexpected response.",
+      throw new ApostrophiLocalApiError(
+        "Apostrophi returned an unexpected response.",
         "response",
         response.status,
       );
     const parsed = schema.safeParse(envelope.data.data);
     if (!parsed.success)
-      throw new PondLocalApiError(
-        "Pond returned an unexpected response.",
+      throw new ApostrophiLocalApiError(
+        "Apostrophi returned an unexpected response.",
         "response",
         response.status,
       );
@@ -218,8 +221,8 @@ export class PondLocalApi {
     if (!response.ok) throw await this.failure(response);
     const type = response.headers.get("content-type") ?? "";
     if (!type.startsWith("image/"))
-      throw new PondLocalApiError(
-        "Pond returned an unexpected response.",
+      throw new ApostrophiLocalApiError(
+        "Apostrophi returned an unexpected response.",
         "response",
         response.status,
       );

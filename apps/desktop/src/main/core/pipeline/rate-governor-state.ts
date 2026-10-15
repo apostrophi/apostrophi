@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { SOURCES, type Source } from "@pond/schema/db";
-import { type RateProfile, syncConfigFor } from "@pond/schema/sources";
+import { SOURCES, type Source } from "@apostrophi/schema/db";
+import { type RateProfile, syncConfigFor } from "@apostrophi/schema/sources";
 import { app } from "electron";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -126,7 +126,7 @@ export function loadState(): void {
   }
   if (parsed.allPausedUntil > t) allPaused = true;
 
-  log.info("[pond governor] loaded persisted state", {
+  log.info("[apostrophi governor] loaded persisted state", {
     cooldowns: cooldownUntil.size,
     atRisk: atRisk.size,
   });
@@ -163,7 +163,7 @@ function writeState(): void {
       mkdirSync(dirname(file), { recursive: true });
     writeFileSync(file, JSON.stringify(body));
   } catch (err) {
-    log.warn("[pond governor] failed to persist state", err);
+    log.warn("[apostrophi governor] failed to persist state", err);
   }
 }
 

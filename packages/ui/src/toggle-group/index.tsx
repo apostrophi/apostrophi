@@ -68,7 +68,7 @@ export function ToggleGroup({
 
   return (
     <Base
-      data-pond-toggle-group=""
+      data-apostrophi-toggle-group=""
       className={cn(styles.root, className)}
       multiple={multiple}
       {...props}

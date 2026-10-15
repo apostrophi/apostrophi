@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { type ComponentType, createElement, type ReactElement } from "react";
 import { notify } from "@/shared/lib/toast";
 

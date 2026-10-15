@@ -35,15 +35,18 @@ import {
   IconGlobe as UrlIcon,
   IconUser as User,
   IconImage as WidthIcon,
-} from "@pond/icons";
-import type { IconComponent } from "@pond/icons/types";
-import { COLOR_PRESETS, readColorMatch } from "@pond/schema/filters/color";
-import { FIELD_META } from "@pond/schema/filters/meta";
+} from "@apostrophi/icons";
+import type { IconComponent } from "@apostrophi/icons/types";
+import {
+  COLOR_PRESETS,
+  readColorMatch,
+} from "@apostrophi/schema/filters/color";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
 import type {
   ComparatorId,
   FieldId,
   Predicate,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 import { accountChipLabel } from "@/features/search/lib/account-aliases";
 import { DATE_PRESETS, serializePredicate } from "@/features/search/lib/syntax";
 

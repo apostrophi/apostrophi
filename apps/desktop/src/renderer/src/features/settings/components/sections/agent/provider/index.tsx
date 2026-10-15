@@ -5,8 +5,8 @@ import {
   IconEye as Eye,
   IconEye2 as EyeOff,
   IconTrash as Trash,
-} from "@pond/icons";
-import { Button, Input, Settings, Switch } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, Input, Settings, Switch } from "@apostrophi/ui";
 import type { AssistantProvider } from "@shared/assistant";
 import { useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence } from "motion/react";
@@ -110,13 +110,13 @@ export function ProviderConnection({
         endpointSaved = true;
       }
       if (connected && !keyDraft.trim()) {
-        const result = await window.pond.query("agent.listModels", {
+        const result = await window.apostrophi.query("agent.listModels", {
           provider: catalog.id,
         });
         if (!result.ok) throw new Error(result.error);
         if (result.warning) throw new Error(result.warning);
       } else {
-        const result = await window.pond.query("agent.saveKey", {
+        const result = await window.apostrophi.query("agent.saveKey", {
           provider: catalog.id,
           key: keyDraft.trim(),
         });
@@ -149,7 +149,7 @@ export function ProviderConnection({
     setSaving(true);
     setError("");
     try {
-      const result = await window.pond.query("agent.removeKey", {
+      const result = await window.apostrophi.query("agent.removeKey", {
         provider: catalog.id,
       });
       if (!result.ok) throw new Error("Could not remove provider. Try again.");
@@ -178,7 +178,7 @@ export function ProviderConnection({
     void remove();
   };
   const toggleEnabled = async (enabled: boolean) => {
-    const result = await window.pond.query("agent.setKeyEnabled", {
+    const result = await window.apostrophi.query("agent.setKeyEnabled", {
       provider: catalog.id,
       enabled,
     });
@@ -230,7 +230,7 @@ export function ProviderConnection({
             variant="ghost"
             aria-label={`Open ${catalog.provider}`}
             onClick={() => {
-              void window.pond.openExternal(setupUrl);
+              void window.apostrophi.openExternal(setupUrl);
             }}
           >
             <ExternalLink size={12} />

@@ -1,4 +1,4 @@
-import { Button, type MenuItemSpec } from "@pond/ui";
+import { Button, type MenuItemSpec } from "@apostrophi/ui";
 import { type SortKey, useView } from "@/features/library/hooks/use-view";
 import {
   LIST_COLUMN_OPTIONS,

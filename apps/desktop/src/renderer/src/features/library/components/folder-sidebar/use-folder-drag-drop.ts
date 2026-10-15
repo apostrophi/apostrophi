@@ -1,4 +1,4 @@
-import type { Folder } from "@pond/schema/db";
+import type { Folder } from "@apostrophi/schema/db";
 import { useRef, useState } from "react";
 import { rememberFolderDestinations } from "@/features/library/lib/recent-folders";
 import { folders } from "@/features/library/state/folders";
@@ -38,7 +38,7 @@ export function useFolderDragDrop({
   ): Promise<void> {
     const count = ids.length;
     try {
-      await window.pond.query("folders.addSaves", {
+      await window.apostrophi.query("folders.addSaves", {
         folderId: folder.id,
         saveIds: ids,
       });
@@ -50,7 +50,7 @@ export function useFolderDragDrop({
         action: {
           label: "Undo",
           onClick: () => {
-            void window.pond.undo().then((result) => {
+            void window.apostrophi.undo().then((result) => {
               if (result.ok) void folders.refresh();
               else
                 notify({
@@ -103,12 +103,12 @@ export function useFolderDragDrop({
     try {
       const ids = selectedIds.includes(draggedId) ? selectedIds : [draggedId];
       if (ids.length > 1)
-        await window.pond.query("folders.moveBatch", {
+        await window.apostrophi.query("folders.moveBatch", {
           ids,
           parentId: move.parentId,
           beforeId: move.beforeId,
         });
-      else await window.pond.query("folders.move", move);
+      else await window.apostrophi.query("folders.move", move);
       await folders.refresh();
       if (move.parentId) revealFolder(move.parentId);
     } catch (error) {

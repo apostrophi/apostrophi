@@ -10,7 +10,7 @@ const testDirectories = [];
 async function createTestLockDirectory(name) {
   const directory = join(
     tmpdir(),
-    `pond-dev-runtime-${name}-${process.pid}-${Date.now()}`,
+    `apostrophi-dev-runtime-${name}-${process.pid}-${Date.now()}`,
   );
   testDirectories.push(directory);
   return directory;

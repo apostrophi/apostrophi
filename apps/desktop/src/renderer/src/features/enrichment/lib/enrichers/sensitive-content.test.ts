@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { describe, expect, it } from "vitest";
 import type { Save } from "@/features/saves/types";
 import { SENSITIVE_CONTENT_MODEL_VERSION } from "../sensitive-content";

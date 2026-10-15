@@ -1,21 +1,21 @@
 {
-  "name": "@pond/icons",
+  "name": "@apostrophi/icons",
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "description": "Pond icons: one scalable outline and fill drawing per glyph, plus social and brand marks.",
+  "description": "Apostrophi icons: one scalable outline and fill drawing per glyph, plus social and brand marks.",
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
-  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "homepage": "https://github.com/apostrophi/apostrophi#readme",
   "bugs": {
-    "url": "https://github.com/raphaelsalaja/pond/issues"
+    "url": "https://github.com/apostrophi/apostrophi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "packages/icons"
   },
   "exports": {

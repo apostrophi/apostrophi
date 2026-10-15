@@ -1,4 +1,4 @@
-import { IconDots } from "@pond/icons";
+import { IconDots } from "@apostrophi/icons";
 import {
   Button,
   Chip,
@@ -8,7 +8,7 @@ import {
   Input,
   Popover,
   Tooltip,
-} from "@pond/ui";
+} from "@apostrophi/ui";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { saveFolderPresentation } from "@/features/library/state/folder-presentation";
@@ -57,7 +57,7 @@ export function FolderCustomizeDialog({
 
   useEffect(() => {
     let current = true;
-    void window.pond
+    void window.apostrophi
       .query("folders.metadata.get", { folderId: folder.id })
       .then((metadata) => {
         if (!current) return;
@@ -78,7 +78,7 @@ export function FolderCustomizeDialog({
     try {
       const results = await Promise.all([
         trimmedName !== folder.name
-          ? window.pond.query("folders.rename", {
+          ? window.apostrophi.query("folders.rename", {
               id: folder.id,
               name: trimmedName,
             })
@@ -89,12 +89,12 @@ export function FolderCustomizeDialog({
             }))
           : Promise.resolve({ ok: true }),
         color !== folder.color
-          ? window.pond
+          ? window.apostrophi
               .query("folders.setColor", { id: folder.id, color })
               .then(() => ({ ok: true }))
           : Promise.resolve({ ok: true }),
         description !== initialDescription
-          ? window.pond.query("folders.metadata.set", {
+          ? window.apostrophi.query("folders.metadata.set", {
               folderId: folder.id,
               description: description.trim() || null,
               externalLink,

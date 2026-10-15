@@ -1,6 +1,6 @@
-appId: so.pond.desktop
-productName: Pond
-copyright: "Copyright © 2026 Raphael Salaja"
+appId: so.apostrophi.desktop
+productName: Apostrophi
+copyright: "Copyright © 2026 Apostrophi contributors"
 asar: true
 # Native .node binaries (better-sqlite3) can't live inside the asar
 # archive or dlopen() can't find them.
@@ -27,7 +27,7 @@ files:
   - "!**/*.tsbuildinfo"
   # These dependencies are already bundled into `out`; keeping their source
   # packages duplicates tens of megabytes in app.asar.
-  - "!node_modules/@pond/icons/brand/tints/**"
+  - "!node_modules/@apostrophi/icons/brand/tints/**"
   - "!node_modules/ffmpeg-static/**"
   - "!node_modules/gpt-tokenizer/**"
   - "!node_modules/onnxruntime-web/**"
@@ -71,8 +71,8 @@ npmRebuild: true
 
 publish:
   provider: github
-  owner: raphaelsalaja
-  repo: pond
+  owner: apostrophi
+  repo: apostrophi
   releaseType: release
 
 mac:
@@ -97,30 +97,30 @@ mac:
   hardenedRuntime: true
   gatekeeperAssess: false
   # The inherit entitlements are applied to the bundled ffmpeg binary (and
-  # any child process Pond spawns, e.g. the runtime yt-dlp) so they survive
+  # any child process Apostrophi spawns, e.g. the runtime yt-dlp) so they survive
   # the hardened runtime after notarization.
   entitlements: packaging/entitlements.mac.plist
   entitlementsInherit: packaging/entitlements.mac.inherit.plist
-  # Register `.pond` as a macOS package so Finder shows a library as a
+  # Register `.apostrophi` as a macOS package so Finder shows a library as a
   # single bundle instead of a folder full of items/, trash/, metadata.
   # LaunchServices only honors this in packaged builds, not `dev`.
   extendInfo:
     UTExportedTypeDeclarations:
-      - UTTypeIdentifier: so.pond.library
-        UTTypeDescription: Pond Library
+      - UTTypeIdentifier: so.apostrophi.library
+        UTTypeDescription: Apostrophi Library
         UTTypeConformsTo:
           - com.apple.package
         UTTypeTagSpecification:
           public.filename-extension:
-            - pond
+            - apostrophi
     CFBundleDocumentTypes:
-      - CFBundleTypeName: Pond Library
+      - CFBundleTypeName: Apostrophi Library
         CFBundleTypeRole: Editor
         LSTypeIsPackage: true
         LSItemContentTypes:
-          - so.pond.library
+          - so.apostrophi.library
         CFBundleTypeExtensions:
-          - pond
+          - apostrophi
 
 dmg:
   title: "${productName}"

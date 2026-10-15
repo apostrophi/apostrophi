@@ -18,7 +18,7 @@ export function handleDeepLink(
 ): "library" | undefined {
   try {
     const parsed = new URL(url);
-    if (parsed.protocol !== "pond:") return;
+    if (parsed.protocol !== "apostrophi:") return;
     if (parsed.searchParams.has("library")) {
       if (!app.isReady()) {
         void app.whenReady().then(() => handleDeepLink(url, mainWindow));
@@ -28,7 +28,7 @@ export function handleDeepLink(
         void dialog.showMessageBox({
           type: "info",
           title: "Open the linked library",
-          message: "This link belongs to another Pond library.",
+          message: "This link belongs to another Apostrophi library.",
           detail:
             "Open its library from Recent Libraries, then open this link again. The current library has not changed.",
           buttons: ["OK"],
@@ -59,10 +59,10 @@ export function handleDeepLink(
       route = `/settings${sub ? `/${encodeURIComponent(sub)}` : ""}${parsed.hash}`;
     }
     if (!route) {
-      log.info("[pond deep-link] ignored", url);
+      log.info("[apostrophi deep-link] ignored", url);
       return;
     }
-    log.info("[pond deep-link] route", route);
+    log.info("[apostrophi deep-link] route", route);
     const target = mainWindow && !mainWindow.isDestroyed() ? mainWindow : null;
     if (!target) {
       pendingDeepLink = route;
@@ -74,6 +74,6 @@ export function handleDeepLink(
     target.webContents.send(IPC.nav, route);
     return "library";
   } catch (err) {
-    log.warn("[pond deep-link] parse failed", url, err);
+    log.warn("[apostrophi deep-link] parse failed", url, err);
   }
 }

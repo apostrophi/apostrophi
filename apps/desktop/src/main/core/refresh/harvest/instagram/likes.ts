@@ -16,9 +16,9 @@ interface LikesRequest {
 }
 
 declare global {
-  var __pondIgBloksCaptures: string[] | undefined;
-  var __pondIgLikesRequest: LikesRequest | undefined;
-  var __pondHarvestPartial:
+  var __apostrophiIgBloksCaptures: string[] | undefined;
+  var __apostrophiIgLikesRequest: LikesRequest | undefined;
+  var __apostrophiHarvestPartial:
     | Array<{ sourceId: string; url: string }>
     | undefined;
 }
@@ -114,7 +114,7 @@ async function inPageInstagramLikes(
   }
 
   function drain(): NextPage | null {
-    const buf = globalThis.__pondIgBloksCaptures;
+    const buf = globalThis.__apostrophiIgBloksCaptures;
     if (!Array.isArray(buf)) return null;
     let next: NextPage | null = null;
     for (const text of buf.splice(0)) next = collect(text).next ?? next;
@@ -122,7 +122,7 @@ async function inPageInstagramLikes(
   }
 
   function publish(): void {
-    globalThis.__pondHarvestPartial = entries.map((e) => ({
+    globalThis.__apostrophiHarvestPartial = entries.map((e) => ({
       sourceId: e.sourceId,
       url: e.url,
     }));
@@ -168,7 +168,7 @@ async function inPageInstagramLikes(
   const hydrateDeadline = Date.now() + 30_000;
   while (Date.now() < hydrateDeadline) {
     next = drain() ?? next;
-    if (globalThis.__pondIgLikesRequest && next) break;
+    if (globalThis.__apostrophiIgLikesRequest && next) break;
     pane ??= findPane();
     if (pane) pane.scrollTop = pane.scrollHeight;
     await sleep(600);
@@ -182,12 +182,12 @@ async function inPageInstagramLikes(
     seen: entries.length,
   });
 
-  const template = globalThis.__pondIgLikesRequest;
+  const template = globalThis.__apostrophiIgLikesRequest;
   if (!template || !next) return done(entries.length === 0);
 
   const deadline = Date.now() + args.deadlineMs;
   for (let attempt = 0; attempt < args.maxPages; attempt++) {
-    if (Date.now() > deadline || globalThis.__pondHarvestAbort)
+    if (Date.now() > deadline || globalThis.__apostrophiHarvestAbort)
       return done(false);
     const init = pageRequest(template, next);
     if (!init) break;
@@ -201,7 +201,7 @@ async function inPageInstagramLikes(
       };
     }
     const page = collect(await res.text());
-    globalThis.__pondIgBloksCaptures?.splice(0);
+    globalThis.__apostrophiIgBloksCaptures?.splice(0);
     publish();
     if (page.added === 0 || !page.next || page.next.cursor === next.cursor) {
       break;

@@ -14,8 +14,8 @@ interface BookmarksRequestTemplate {
 }
 
 declare global {
-  var __pondBookmarksRequest: BookmarksRequestTemplate | null | undefined;
-  var __pondLikesRequest: BookmarksRequestTemplate | null | undefined;
+  var __apostrophiBookmarksRequest: BookmarksRequestTemplate | null | undefined;
+  var __apostrophiLikesRequest: BookmarksRequestTemplate | null | undefined;
 }
 
 interface BookmarksVariables {
@@ -141,8 +141,8 @@ async function inPageBookmarksApi(
   const getRequest = (): BookmarksRequestTemplate | null => {
     const req =
       args.kind === "likes"
-        ? globalThis.__pondLikesRequest
-        : globalThis.__pondBookmarksRequest;
+        ? globalThis.__apostrophiLikesRequest
+        : globalThis.__apostrophiBookmarksRequest;
     return req?.url ? req : null;
   };
 
@@ -233,7 +233,7 @@ async function inPageBookmarksApi(
     phase: "scroll",
     updatedAt: Date.now(),
   };
-  globalThis.__pondHarvestStats = stats;
+  globalThis.__apostrophiHarvestStats = stats;
 
   const captures: BookmarksCapture[] = [];
   const deadline = Date.now() + args.deadlineMs;

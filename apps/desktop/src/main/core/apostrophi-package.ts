@@ -16,8 +16,16 @@ import {
   resolve,
   sep,
 } from "node:path";
-import { MEDIA_TYPES, type NewSave, SOURCES, saves } from "@pond/schema/db";
-import { StoredRawJsonSchema, storedAsRawJson } from "@pond/schema/raw-schema";
+import {
+  MEDIA_TYPES,
+  type NewSave,
+  SOURCES,
+  saves,
+} from "@apostrophi/schema/db";
+import {
+  StoredRawJsonSchema,
+  storedAsRawJson,
+} from "@apostrophi/schema/raw-schema";
 import { and, eq } from "drizzle-orm";
 import { ulid } from "ulid";
 import { z } from "zod";
@@ -141,7 +149,7 @@ const runtime: PackageImportRuntime = {
       .where(
         and(
           eq(saves.source, save.source ?? "local"),
-          eq(saves.sourceId, save.sourceId || `pondpack:${save.id}`),
+          eq(saves.sourceId, save.sourceId || `apostrophipack:${save.id}`),
         ),
       );
     return existing?.id ?? null;
@@ -151,7 +159,7 @@ const runtime: PackageImportRuntime = {
       const data: NewSave = {
         id,
         source: save.source ?? "local",
-        sourceId: save.sourceId || `pondpack:${save.id}`,
+        sourceId: save.sourceId || `apostrophipack:${save.id}`,
         url: save.url,
         title: save.title,
         notes: save.notes,
@@ -208,7 +216,7 @@ const runtime: PackageImportRuntime = {
 
 async function exportPackage(ids: readonly string[], destination: string) {
   const parent = await realpath(dirname(resolve(destination)));
-  const staging = await mkdtemp(join(parent, ".pond-package-"));
+  const staging = await mkdtemp(join(parent, ".apostrophi-package-"));
   try {
     const result = await exportSavesToDirectory(ids, staging, {
       includeDerived: true,
@@ -243,7 +251,7 @@ async function hashFile(path: string) {
 async function readPackage(directory: string) {
   const root = await realpath(directory);
   const manifest = PackageSchema.parse(
-    JSON.parse(await readFile(join(root, "pond-export.json"), "utf8")),
+    JSON.parse(await readFile(join(root, "apostrophi-export.json"), "utf8")),
   );
   const folders = new Map(
     manifest.folders.map((folder) => [folder.id, folder]),
@@ -410,10 +418,13 @@ async function importPackage(
   }
 }
 
-export function exportPondPackage(ids: readonly string[], destination: string) {
+export function exportApostrophiPackage(
+  ids: readonly string[],
+  destination: string,
+) {
   return runLibraryTransfer(() => exportPackage(ids, destination));
 }
-export function importPondPackage(
+export function importApostrophiPackage(
   directory: string,
   dependencies: PackageImportRuntime = runtime,
 ) {

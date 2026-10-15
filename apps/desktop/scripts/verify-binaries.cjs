@@ -8,18 +8,18 @@ exports.default = async function verifyBinaries(context) {
   const resourcesDir = resolveResourcesDir(context, platform);
   pruneOnnxRuntime(resourcesDir, platform, normalizeArch(context.arch));
   const ffmpegPath = join(resourcesDir, "bin", "ffmpeg");
-  const nativeHostPath = join(resourcesDir, "bin", "pond-native-host");
+  const nativeHostPath = join(resourcesDir, "bin", "apostrophi-native-host");
 
   assertPresent(ffmpegPath, "ffmpeg");
   if (platform === "darwin") {
-    assertPresent(nativeHostPath, "pond-native-host");
+    assertPresent(nativeHostPath, "apostrophi-native-host");
     assertPresent(
       join(resourcesDir, "extension", "manifest.json"),
       "browser extension",
     );
   }
 
-  console.log(`[pond verify] bundled ffmpeg OK (${platform})`);
+  console.log(`[apostrophi verify] bundled ffmpeg OK (${platform})`);
 };
 
 const ARCH_NAMES = ["ia32", "x64", "armv7l", "arm64", "universal"];
@@ -85,12 +85,14 @@ function resolveResourcesDir(context, platform) {
 function assertPresent(path, label) {
   if (!existsSync(path)) {
     throw new Error(
-      `[pond verify] missing bundled ${label} at ${path}. ` +
+      `[apostrophi verify] missing bundled ${label} at ${path}. ` +
         "Release builds must ship it. Confirm electron-builder " +
         "extraResources copied it.",
     );
   }
   if (statSync(path).size === 0) {
-    throw new Error(`[pond verify] bundled ${label} at ${path} is empty.`);
+    throw new Error(
+      `[apostrophi verify] bundled ${label} at ${path} is empty.`,
+    );
   }
 }

@@ -1,5 +1,5 @@
-import { IconImages } from "@pond/icons";
-import { Empty } from "@pond/ui";
+import { IconImages } from "@apostrophi/icons";
+import { Empty } from "@apostrophi/ui";
 import type {
   CombineImagesOptions,
   CombineImagesZoomAction,
@@ -7,7 +7,10 @@ import type {
 import type { CombineLayout } from "@shared/combine-images-layout";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { buildPondUrl, thumbUrlFor } from "@/features/saves/lib/media/url";
+import {
+  buildApostrophiUrl,
+  thumbUrlFor,
+} from "@/features/saves/lib/media/url";
 import type { Save, SaveFile } from "@/features/saves/types";
 import { type Highlight, supportsTransparency } from "../options";
 import { clampZoom, stepZoom, ZoomBar } from "../zoom";
@@ -159,7 +162,7 @@ function Canvas({
             className={styles.image}
             alt=""
             draggable={false}
-            src={thumbUrlFor(buildPondUrl(save.id, file), width)}
+            src={thumbUrlFor(buildApostrophiUrl(save.id, file), width)}
             style={{
               left: item.left * scale,
               top: item.top * scale,

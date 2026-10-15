@@ -29,7 +29,7 @@ it("adds tags and retries using all selected IDs without hydrating the renderer 
       ? { changed: 301 }
       : { ok: true, requeued: 301 },
   );
-  vi.stubGlobal("window", { pond: { query } });
+  vi.stubGlobal("window", { apostrophi: { query } });
   await addTagsToSelection(ids, ["Reviewed"]);
   await retryFailedSelection(ids);
   expect(query.mock.calls).toEqual([
@@ -46,7 +46,7 @@ it("hydrates cold metadata before copying every selected URL", async () => {
   let copied = "";
   const requested: string[][] = [];
   vi.stubGlobal("window", {
-    pond: {
+    apostrophi: {
       query: async (
         method: string,
         input: { ids?: string[]; text?: string },
@@ -75,7 +75,7 @@ it("keeps the full selection available when a bulk mutation fails", async () => 
   seed();
   selection.set(ids);
   vi.stubGlobal("window", {
-    pond: {
+    apostrophi: {
       query: async () => {
         throw new Error("Disk unavailable");
       },

@@ -1,4 +1,4 @@
-import type { FieldId, Predicate } from "@pond/schema/filters/types";
+import type { FieldId, Predicate } from "@apostrophi/schema/filters/types";
 import * as chrono from "chrono-node";
 import { ROLLING_WINDOWS } from "@/features/search/lib/nl-vocabulary";
 

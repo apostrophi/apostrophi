@@ -1,5 +1,5 @@
-import type { ListKind, Source } from "@pond/schema/db";
-import { mergeListKinds } from "@pond/schema/list-kinds";
+import type { ListKind, Source } from "@apostrophi/schema/db";
+import { mergeListKinds } from "@apostrophi/schema/list-kinds";
 import type { ImportableCookie } from "../refresh/harvest-window/session";
 import { classifyUrlToSource } from "./extractors";
 import { listKindsFromTrigger } from "./list-kinds";

@@ -9,8 +9,8 @@ import {
   IconResizeX,
   IconRotateImageClockwise,
   IconSidebarLeft,
-} from "@pond/icons";
-import { Input } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Input } from "@apostrophi/ui";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import { useEffect, useState } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";

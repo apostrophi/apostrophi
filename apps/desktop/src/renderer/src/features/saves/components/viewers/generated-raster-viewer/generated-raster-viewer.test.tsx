@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -49,7 +49,7 @@ describe("generated raster viewer", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async () => PrefsSchema.parse({}),
       tx: async () => ({ ok: true }),
       openSaveFile: async () => ({ ok: true }),
@@ -70,7 +70,7 @@ describe("generated raster viewer", () => {
     async (extension) => {
       const save = generatedSave(extension);
       pool.upsert(save);
-      const originalUrl = `pond://${save.id}/reference.${extension}`;
+      const originalUrl = `apostrophi://${save.id}/reference.${extension}`;
 
       await act(async () => {
         root.render(

@@ -1,5 +1,5 @@
 import { userInfo } from "node:os";
-import type { Transaction } from "@pond/schema/tx";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { app, ipcMain, shell } from "electron";
 import log from "electron-log/main.js";
 import { IPC } from "../../../shared/constants";
@@ -25,7 +25,7 @@ export function registerAppHandlers(): void {
     }
   });
   safeHandle(IPC.appInfo, () => {
-    let username = "Pond";
+    let username = "Apostrophi";
     try {
       const raw = userInfo().username;
       if (raw) {
@@ -37,7 +37,7 @@ export function registerAppHandlers(): void {
       }
     } catch {}
     return {
-      name: "pond",
+      name: "apostrophi",
       version: app.getVersion(),
       platform: process.platform,
       arch: process.arch,
@@ -97,7 +97,7 @@ export function registerAppHandlers(): void {
       await shell.openExternal(parsed.toString());
       return { ok: true };
     } catch (err) {
-      log.warn("[pond ipc] openExternal failed", err);
+      log.warn("[apostrophi ipc] openExternal failed", err);
       return { ok: false };
     }
   });
@@ -114,7 +114,7 @@ export function registerAppHandlers(): void {
     if (!target.ok) return target;
     const err = await shell.openPath(target.path);
     if (err) {
-      log.warn("[pond ipc] openSaveFile failed", err);
+      log.warn("[apostrophi ipc] openSaveFile failed", err);
       return { ok: false as const, reason: err };
     }
     return { ok: true as const };

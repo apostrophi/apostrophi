@@ -2,7 +2,7 @@ import {
   IconMinus as Minus,
   IconPlus as Plus,
   IconArrowRotateAnticlockwise as RotateCcw,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import {
   Button,
   ColorField,
@@ -11,7 +11,7 @@ import {
   Slider,
   Stepper,
   Switch,
-} from "@pond/ui";
+} from "@apostrophi/ui";
 import { type ReactNode, useId } from "react";
 import { z } from "zod";
 import type {

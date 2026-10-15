@@ -1,6 +1,6 @@
-import { PrefsSchema } from "@pond/schema";
-import type { Folder, SavedView } from "@pond/schema/db";
-import { Dialog } from "@pond/ui";
+import { PrefsSchema } from "@apostrophi/schema";
+import type { Folder, SavedView } from "@apostrophi/schema/db";
+import { Dialog } from "@apostrophi/ui";
 import type { QueueSummary } from "@shared/queue-contracts";
 import type { LibrarySidebarCounts } from "@shared/sidebar-counts";
 import type { WirePrefsPatch } from "@shared/wire";
@@ -71,39 +71,41 @@ export const queueSummary: QueueSummaryFixtures = {
 };
 
 let storedPrefs = PrefsSchema.parse({});
-export const pondQuery = vi.fn(async (name: string, patch?: WirePrefsPatch) => {
-  if (name === "saves.sidebarCounts") return sidebarCounts.current;
-  if (name === "queue.summary") return queueSummary.current;
-  if (name === "savedViews.list") return savedViewList.current;
-  if (name === "accounts.list") return { accounts: [] };
-  if (name === "watches.list") return { watches: [] };
-  if (name === "tags.list") return [];
-  if (name === "folders.list") return folderList.current;
-  if (name === "folders.memberships") return [];
-  if (name === "folders.metadata.get")
-    return {
-      folderId: "folder",
-      description: null,
-      externalLink: "https://example.com/project",
-    };
-  if (name === "library.info")
-    return { path: "/tmp/My Pond.pond", name: "My Pond" };
-  if (name === "library.recent") return [];
-  if (name === "settings.getPrefs") return storedPrefs;
-  if (name === "settings.setPrefs") {
-    const updates = new Map(Object.entries(patch ?? {}));
-    storedPrefs = PrefsSchema.parse(
-      Object.fromEntries(
-        Object.entries(storedPrefs).map(([section, value]) => [
-          section,
-          { ...value, ...updates.get(section) },
-        ]),
-      ),
-    );
-    return { ok: true, prefs: storedPrefs };
-  }
-  return { ok: true };
-});
+export const apostrophiQuery = vi.fn(
+  async (name: string, patch?: WirePrefsPatch) => {
+    if (name === "saves.sidebarCounts") return sidebarCounts.current;
+    if (name === "queue.summary") return queueSummary.current;
+    if (name === "savedViews.list") return savedViewList.current;
+    if (name === "accounts.list") return { accounts: [] };
+    if (name === "watches.list") return { watches: [] };
+    if (name === "tags.list") return [];
+    if (name === "folders.list") return folderList.current;
+    if (name === "folders.memberships") return [];
+    if (name === "folders.metadata.get")
+      return {
+        folderId: "folder",
+        description: null,
+        externalLink: "https://example.com/project",
+      };
+    if (name === "library.info")
+      return { path: "/tmp/My Apostrophi.apostrophi", name: "My Apostrophi" };
+    if (name === "library.recent") return [];
+    if (name === "settings.getPrefs") return storedPrefs;
+    if (name === "settings.setPrefs") {
+      const updates = new Map(Object.entries(patch ?? {}));
+      storedPrefs = PrefsSchema.parse(
+        Object.fromEntries(
+          Object.entries(storedPrefs).map(([section, value]) => [
+            section,
+            { ...value, ...updates.get(section) },
+          ]),
+        ),
+      );
+      return { ok: true, prefs: storedPrefs };
+    }
+    return { ok: true };
+  },
+);
 
 export function folder(name: string, parentId: string | null = null): Folder {
   return {
@@ -145,8 +147,8 @@ export function folderTransfer(id = ""): FolderTransfer {
   const data = new Map<string, string>();
   const types: string[] = [];
   if (id) {
-    data.set("application/x-pond-folder", id);
-    types.push("application/x-pond-folder");
+    data.set("application/x-apostrophi-folder", id);
+    types.push("application/x-apostrophi-folder");
   }
   return {
     types,
@@ -193,9 +195,9 @@ export function createFolderSidebarHarness() {
       folderList.current = [];
       sidebarCounts.current = emptySidebarCounts();
       queueSummary.current = emptyQueueSummary();
-      localStorage.removeItem("pond:collapsed-folders");
-      localStorage.removeItem("pond:folder-list-sort");
-      pondQuery.mockClear();
+      localStorage.removeItem("apostrophi:collapsed-folders");
+      localStorage.removeItem("apostrophi:folder-list-sort");
+      apostrophiQuery.mockClear();
       vi.stubGlobal(
         "ResizeObserver",
         class {
@@ -204,8 +206,8 @@ export function createFolderSidebarHarness() {
           disconnect() {}
         },
       );
-      vi.stubGlobal("pond", {
-        query: pondQuery,
+      vi.stubGlobal("apostrophi", {
+        query: apostrophiQuery,
         onSyncAction: () => () => {},
         onSaveUpdated: () => () => {},
         onSyncStatus: () => () => {},

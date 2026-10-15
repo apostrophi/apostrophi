@@ -1,5 +1,5 @@
-import type { Save } from "@pond/schema/db";
-import { saves } from "@pond/schema/db";
+import type { Save } from "@apostrophi/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { desc, eq, sql } from "drizzle-orm";
 import { powerMonitor } from "electron";
 import log from "electron-log/main.js";
@@ -197,7 +197,11 @@ async function processOne(candidate: MediaWarmCandidate): Promise<void> {
   } catch (err) {
     failures += 1;
     const message = err instanceof Error ? err.message : String(err);
-    log.warn("[pond media-index] candidate failed", candidate.saveId, err);
+    log.warn(
+      "[apostrophi media-index] candidate failed",
+      candidate.saveId,
+      err,
+    );
     publish({
       lastError: message,
       remaining: Math.max(0, status.remaining - 1),
@@ -296,6 +300,6 @@ async function readCandidateSave(
 
 function fail(cause: unknown): void {
   const message = cause instanceof Error ? cause.message : String(cause);
-  log.warn("[pond media-index] failed to start", cause);
+  log.warn("[apostrophi media-index] failed to start", cause);
   publish({ state: "error", lastError: message, currentTitle: null });
 }

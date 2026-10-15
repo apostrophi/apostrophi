@@ -1,9 +1,9 @@
 import type { AgentStreamEvent } from "@shared/agent-stream";
 import { afterEach, expect, it, vi } from "vitest";
+import { fromUIMessage, toUIMessage } from "./apostrophi-messages";
 import { ipcChatFetch, parseBody } from "./chat-transport";
-import { fromUIMessage, toUIMessage } from "./pond-messages";
 
-it("parses a JSON body for the Pond ChatTransport", () => {
+it("parses a JSON body for the Apostrophi ChatTransport", () => {
   expect(
     parseBody({
       body: JSON.stringify({
@@ -36,9 +36,9 @@ it("reads reply bytes through a bridge that only accepts data and callbacks", as
       return close;
     },
   );
-  vi.stubGlobal("pond", { agentStream });
+  vi.stubGlobal("apostrophi", { agentStream });
   const abort = new AbortController();
-  const response = await ipcChatFetch("pond://agent", {
+  const response = await ipcChatFetch("apostrophi://agent", {
     body: JSON.stringify({ chatId: "chat" }),
     signal: abort.signal,
   });
@@ -53,7 +53,7 @@ it("reads reply bytes through a bridge that only accepts data and callbacks", as
   expect(close).toHaveBeenCalledOnce();
 });
 
-it("round-trips Pond data parts on UIMessages", () => {
+it("round-trips Apostrophi data parts on UIMessages", () => {
   const saved = toUIMessage({
     id: "assistant-1",
     chatId: "chat",
@@ -80,9 +80,11 @@ it("round-trips Pond data parts on UIMessages", () => {
 it("cancels the port and rejects a pending read when stopped", async () => {
   const close = vi.fn();
   const agentStream = vi.fn(() => close);
-  vi.stubGlobal("pond", { agentStream });
+  vi.stubGlobal("apostrophi", { agentStream });
   const abort = new AbortController();
-  const response = await ipcChatFetch("pond://agent", { signal: abort.signal });
+  const response = await ipcChatFetch("apostrophi://agent", {
+    signal: abort.signal,
+  });
   const read = response.text();
   abort.abort();
   await expect(read).rejects.toMatchObject({ name: "AbortError" });
@@ -91,26 +93,26 @@ it("cancels the port and rejects a pending read when stopped", async () => {
 
 it("does not open a port for an already stopped request", async () => {
   const agentStream = vi.fn();
-  vi.stubGlobal("pond", { agentStream });
+  vi.stubGlobal("apostrophi", { agentStream });
   const abort = new AbortController();
   abort.abort();
   await expect(
-    ipcChatFetch("pond://agent", { signal: abort.signal }),
+    ipcChatFetch("apostrophi://agent", { signal: abort.signal }),
   ).rejects.toMatchObject({ name: "AbortError" });
   expect(agentStream).not.toHaveBeenCalled();
 });
 
 it("closes the port when the response reader cancels", async () => {
   const close = vi.fn();
-  vi.stubGlobal("pond", { agentStream: () => close });
-  const response = await ipcChatFetch("pond://agent");
+  vi.stubGlobal("apostrophi", { agentStream: () => close });
+  const response = await ipcChatFetch("apostrophi://agent");
   await response.body?.cancel();
   expect(close).toHaveBeenCalledOnce();
 });
 
 it("surfaces stream failures and ignores late chunks", async () => {
   const close = vi.fn();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     agentStream: (
       _body: string,
       receive: (event: AgentStreamEvent) => void,
@@ -123,19 +125,21 @@ it("surfaces stream failures and ignores late chunks", async () => {
       return close;
     },
   });
-  const response = await ipcChatFetch("pond://agent");
+  const response = await ipcChatFetch("apostrophi://agent");
   await expect(response.text()).rejects.toThrow("Reply failed");
   expect(close).toHaveBeenCalledOnce();
 });
 
 it("surfaces a bridge setup failure without leaving abort listeners", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     agentStream: () => {
       throw new Error("Bridge unavailable");
     },
   });
   const abort = new AbortController();
-  const response = await ipcChatFetch("pond://agent", { signal: abort.signal });
+  const response = await ipcChatFetch("apostrophi://agent", {
+    signal: abort.signal,
+  });
   await expect(response.text()).rejects.toThrow("Bridge unavailable");
   expect(() => abort.abort()).not.toThrow();
 });

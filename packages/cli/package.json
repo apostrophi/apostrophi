@@ -1,10 +1,10 @@
 {
-  "name": "@pond/cli",
+  "name": "@apostrophi/cli",
   "version": "0.1.0",
-  "description": "Command-line access to your local Pond Library.",
+  "description": "Command-line access to your local Apostrophi Library.",
   "type": "module",
   "bin": {
-    "pond": "./dist/index.js"
+    "apostrophi": "./dist/index.js"
   },
   "files": [
     "dist",
@@ -13,12 +13,12 @@
   ],
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "packages/cli"
   },
   "engines": {
@@ -38,7 +38,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@pond/local-api": "workspace:*",
+    "@apostrophi/local-api": "workspace:*",
     "@types/node": "catalog:",
     "tsup": "^8.5.1",
     "tsx": "^4.23.13",

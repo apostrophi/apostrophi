@@ -22,8 +22,8 @@ const COSMOS_CLIENT_NAME = "cosmos-web";
 const PAGE_SIZE = 50;
 const MAX_PAGES = 200;
 
-const VIEWER_QUERY = `query PondViewer { me { id username avatarUrl } }`;
-const LIBRARY_QUERY = `query PondLibrary($userId: UserId!, $pageSize: Int, $pageCursor: String) {
+const VIEWER_QUERY = `query ApostrophiViewer { me { id username avatarUrl } }`;
+const LIBRARY_QUERY = `query ApostrophiLibrary($userId: UserId!, $pageSize: Int, $pageCursor: String) {
   allElementsV2(userId: $userId, meta: { pageSize: $pageSize, pageCursor: $pageCursor }) {
     items { id shareUrl createdAt }
     meta { nextPageCursor count }
@@ -53,7 +53,7 @@ export async function probeCosmosHandle(
 ): Promise<string | null> {
   const viewer = await fetchCosmosViewer(partition);
   if (!viewer) return null;
-  log.info("[pond cosmos-api] probed handle", viewer.handle);
+  log.info("[apostrophi cosmos-api] probed handle", viewer.handle);
   return viewer.handle;
 }
 
@@ -62,7 +62,7 @@ export async function fetchCosmosViewer(
 ): Promise<CosmosViewer | null> {
   const result = await cosmosGraphql(
     partition,
-    "PondViewer",
+    "ApostrophiViewer",
     VIEWER_QUERY,
     {},
     CosmosMeDataSchema,
@@ -92,7 +92,7 @@ export async function harvestCosmosLibrary(
   for (let page = 0; page < MAX_PAGES; page++) {
     const result = await cosmosGraphql(
       jar,
-      "PondLibrary",
+      "ApostrophiLibrary",
       LIBRARY_QUERY,
       {
         userId,
@@ -117,7 +117,7 @@ export async function harvestCosmosLibrary(
       pageData.entries.length === 0 &&
       !pageData.nextPageCursor
     ) {
-      log.info("[pond cosmos-api] library empty", viewer.handle);
+      log.info("[apostrophi cosmos-api] library empty", viewer.handle);
       return { ok: true, entries: [], reachedEnd: true, seen: 0 };
     }
     let pageFresh = 0;
@@ -135,7 +135,7 @@ export async function harvestCosmosLibrary(
     }
     if (!pageData.nextPageCursor) {
       log.info(
-        `[pond cosmos-api] library handle=${viewer.handle} entries=${entries.length}`,
+        `[apostrophi cosmos-api] library handle=${viewer.handle} entries=${entries.length}`,
       );
       return { ok: true, entries, reachedEnd: true, seen: entries.length };
     }
@@ -143,7 +143,7 @@ export async function harvestCosmosLibrary(
     await sleep(400);
   }
   log.info(
-    `[pond cosmos-api] library handle=${viewer.handle} entries=${entries.length} pages=${MAX_PAGES}`,
+    `[apostrophi cosmos-api] library handle=${viewer.handle} entries=${entries.length} pages=${MAX_PAGES}`,
   );
   return { ok: true, entries, reachedEnd: false, seen: entries.length };
 }
@@ -180,7 +180,7 @@ async function cosmosGraphql<T>(
       body: JSON.stringify({ operationName, query, variables }),
     });
   } catch (err) {
-    log.warn("[pond cosmos-api] fetch threw", operationName, err);
+    log.warn("[apostrophi cosmos-api] fetch threw", operationName, err);
     return { ok: false, status: 0 };
   }
   if (res.status === 429) return { ok: false, status: 429 };
@@ -200,7 +200,7 @@ async function cosmosGraphql<T>(
   }
   if ((envelope.errors?.length ?? 0) > 0) {
     log.warn(
-      "[pond cosmos-api] graphql errors",
+      "[apostrophi cosmos-api] graphql errors",
       operationName,
       envelope.errors,
     );
@@ -220,7 +220,7 @@ async function accessToken(partition: string): Promise<string | null> {
     const hit = cookies.find((cookie) => cookie.name === "csms_accessToken");
     return hit && hit.value.length > 0 ? hit.value : null;
   } catch (err) {
-    log.warn("[pond cosmos-api] cookies.get failed", err);
+    log.warn("[apostrophi cosmos-api] cookies.get failed", err);
     return null;
   }
 }

@@ -1,6 +1,6 @@
+import { Dialog } from "@apostrophi/ui";
+import { ComposerView } from "@apostrophi/ui/composer";
 import { $convertToMarkdownString } from "@lexical/mdast";
-import { Dialog } from "@pond/ui";
-import { ComposerView } from "@pond/ui/composer";
 import type { AssistantSource } from "@shared/assistant";
 import {
   $getRoot,
@@ -115,7 +115,7 @@ async function mount(initial = "", running = false) {
 
 beforeEach(() => {
   vi.stubGlobal("scrollBy", () => {});
-  vi.stubGlobal("pond", { query: search });
+  vi.stubGlobal("apostrophi", { query: search });
   vi.stubGlobal(
     "ResizeObserver",
     class {
@@ -215,14 +215,14 @@ it("inserts a Save mention chip from @ and keeps it in the draft", async () => {
   expect(host.querySelector("aside")?.textContent).toBe("Suspiria");
   expect(editable().textContent).toContain("Compare");
   expect(editable().textContent).toContain("Suspiria");
-  expect(markdown()).toContain("[Suspiria](pond-save:film)");
+  expect(markdown()).toContain("[Suspiria](apostrophi-save:film)");
   expect(send).not.toHaveBeenCalled();
 });
 
 it("restores a Save mention from draft Markdown", async () => {
-  await mount("Compare [Suspiria](pond-save:film)");
+  await mount("Compare [Suspiria](apostrophi-save:film)");
   expect(editable().textContent).toContain("Suspiria");
-  expect(markdown()).toContain("[Suspiria](pond-save:film)");
+  expect(markdown()).toContain("[Suspiria](apostrophi-save:film)");
 });
 
 it("limits slash commands to formatting", async () => {

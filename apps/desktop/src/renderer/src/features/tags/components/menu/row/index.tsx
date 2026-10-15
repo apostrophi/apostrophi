@@ -1,8 +1,8 @@
 import {
   IconChevronRight as ChevronRight,
   IconPlus as Plus,
-} from "@pond/icons";
-import { PickerPanel, type PickerSelectionState } from "@pond/ui";
+} from "@apostrophi/icons";
+import { PickerPanel, type PickerSelectionState } from "@apostrophi/ui";
 import type { ComponentPropsWithoutRef } from "react";
 import type { TagGroupRow } from "@/features/tags/state/tag-groups";
 import type { TagRow } from "@/features/tags/state/tags";

@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 
-import type { JsonObject, JsonValue } from "@pond/schema/json";
+import type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 import type { SavedCapture } from "./graphql";
 import type { SavedHarvestArgs, SavedHarvestResult } from "./saved-types";
 
@@ -12,7 +12,7 @@ interface SavedRequestTemplate {
 }
 
 declare global {
-  var __pondThreadsSavedRequest: SavedRequestTemplate | null | undefined;
+  var __apostrophiThreadsSavedRequest: SavedRequestTemplate | null | undefined;
 }
 
 interface GraphqlRequestBody {
@@ -119,7 +119,7 @@ async function inPageSavedApi(
   };
 
   const getRequest = (): SavedRequestTemplate | null => {
-    const req = globalThis.__pondThreadsSavedRequest;
+    const req = globalThis.__apostrophiThreadsSavedRequest;
     if (!req?.url) return null;
     return req;
   };
@@ -283,7 +283,7 @@ async function inPageSavedApi(
     phase: "scroll",
     updatedAt: Date.now(),
   };
-  Object.assign(globalThis, { __pondHarvestStats: stats });
+  Object.assign(globalThis, { __apostrophiHarvestStats: stats });
 
   const captures: SavedCapture[] = [];
   const deadline = Date.now() + args.deadlineMs;

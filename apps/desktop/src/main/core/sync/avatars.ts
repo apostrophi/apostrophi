@@ -3,7 +3,7 @@ import type {
   Source,
   WatchedAccount,
   WatchKind,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { listAccounts, partitionForAccount, patchAccount } from "./accounts";
@@ -237,7 +237,7 @@ export function fillMissingAvatars(): void {
         await checkWatch(watch);
       }
     } catch (err) {
-      log.warn("[pond avatars] sweep failed", err);
+      log.warn("[apostrophi avatars] sweep failed", err);
     } finally {
       sweeping = false;
     }

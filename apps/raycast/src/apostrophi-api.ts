@@ -1,27 +1,27 @@
 import {
+  ApostrophiLocalApi,
+  ApostrophiLocalApiError,
   type LocalApiCursor,
   type LocalApiLibrary,
   type LocalApiSave,
-  PondLocalApi,
-  PondLocalApiError,
-} from "@pond/local-api";
+} from "@apostrophi/local-api";
 import { getPreferenceValues } from "@raycast/api";
 import { z } from "zod";
 
-interface PondPreferences {
+interface ApostrophiPreferences {
   baseUrl: string;
   token: string;
 }
 
-export type PondSave = LocalApiSave;
-export type PondLibrary = LocalApiLibrary;
-export type PondCursor = LocalApiCursor;
+export type ApostrophiSave = LocalApiSave;
+export type ApostrophiLibrary = LocalApiLibrary;
+export type ApostrophiCursor = LocalApiCursor;
 
-export class PondApiError extends Error {}
+export class ApostrophiApiError extends Error {}
 
-function api(): PondLocalApi {
-  const preferences = getPreferenceValues<PondPreferences>();
-  return new PondLocalApi({
+function api(): ApostrophiLocalApi {
+  const preferences = getPreferenceValues<ApostrophiPreferences>();
+  return new ApostrophiLocalApi({
     baseUrl: preferences.baseUrl,
     token: preferences.token,
   });
@@ -31,28 +31,36 @@ async function request<Result>(operation: () => Promise<Result>) {
   try {
     return await operation();
   } catch (error) {
-    if (error instanceof PondLocalApiError && error.kind === "authentication") {
-      throw new PondApiError(
-        "Copy a fresh Local API Token from Pond Settings.",
+    if (
+      error instanceof ApostrophiLocalApiError &&
+      error.kind === "authentication"
+    ) {
+      throw new ApostrophiApiError(
+        "Copy a fresh Local API Token from Apostrophi Settings.",
       );
     }
-    if (error instanceof PondLocalApiError && error.kind === "connection") {
-      throw new PondApiError("Open Pond and check the Local API URL.");
+    if (
+      error instanceof ApostrophiLocalApiError &&
+      error.kind === "connection"
+    ) {
+      throw new ApostrophiApiError(
+        "Open Apostrophi and check the Local API URL.",
+      );
     }
-    throw new PondApiError(
-      error instanceof Error ? error.message : "Pond returned an error.",
+    throw new ApostrophiApiError(
+      error instanceof Error ? error.message : "Apostrophi returned an error.",
     );
   }
 }
 
 export async function searchLibrary(
   keywords: string,
-  cursor: PondCursor | null,
+  cursor: ApostrophiCursor | null,
   source: string | null,
 ): Promise<{
-  saves: PondSave[];
+  saves: ApostrophiSave[];
   total: number;
-  nextCursor: PondCursor | null;
+  nextCursor: ApostrophiCursor | null;
   libraryId: string;
 }> {
   const page = await request(() =>
@@ -107,9 +115,9 @@ export async function copySaveFile(id: string): Promise<void> {
   });
   const parsed = CopyFileResultSchema.safeParse(result);
   if (!parsed.success)
-    throw new PondApiError("Pond returned an unexpected response.");
+    throw new ApostrophiApiError("Apostrophi returned an unexpected response.");
   if (!parsed.data.ok)
-    throw new PondApiError(
+    throw new ApostrophiApiError(
       COPY_FILE_FAILURES.get(parsed.data.reason ?? "") ??
         "Couldn't copy the file. Try again.",
     );
@@ -132,7 +140,7 @@ export function switchLibrary(path: string) {
 }
 
 export function itemLink(libraryId: string, saveId: string): string {
-  const url = new URL(`pond://item/${encodeURIComponent(saveId)}`);
+  const url = new URL(`apostrophi://item/${encodeURIComponent(saveId)}`);
   url.searchParams.set("library", libraryId);
   return url.toString();
 }
@@ -140,7 +148,7 @@ export function itemLink(libraryId: string, saveId: string): string {
 export function validatedUrl(value: string): string {
   const parsed = z.string().trim().url().safeParse(value);
   if (!parsed.success || !/^https?:/.test(parsed.data)) {
-    throw new PondApiError("Enter an http or https URL.");
+    throw new ApostrophiApiError("Enter an http or https URL.");
   }
   return parsed.data;
 }

@@ -1,4 +1,4 @@
-import type { Source, WatchKind } from "@pond/schema/db";
+import type { Source, WatchKind } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { sourceIdFromUrl } from "../pipeline/url";
@@ -53,7 +53,7 @@ export async function listYtdlpWatch(
 ): Promise<WatchHarvestResult> {
   const { ytdlp } = binariesAvailable();
   if (!ytdlp) {
-    log.warn("[pond watch:ytdlp] binary unavailable");
+    log.warn("[apostrophi watch:ytdlp] binary unavailable");
     return { ok: false, reason: "unavailable" };
   }
   const target = listUrl(source, handle, kind);
@@ -79,7 +79,13 @@ export async function listYtdlpWatch(
   if (code === 125) return { ok: false, reason: "unknown" };
   if (code !== 0 && stdout.trim().length === 0) {
     const tail = stderr.slice(-300);
-    log.warn("[pond watch:ytdlp] listing failed", source, handle, code, tail);
+    log.warn(
+      "[apostrophi watch:ytdlp] listing failed",
+      source,
+      handle,
+      code,
+      tail,
+    );
     if (/404|not found|does not exist|unable to find/i.test(tail)) {
       return { ok: false, reason: "not_found" };
     }

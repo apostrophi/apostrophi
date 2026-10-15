@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import { previewMediaType } from "@shared/preview-window-contracts";
 import { openSave } from "@/features/saves/lib/save-nav";
 import { selectOnlySave } from "@/features/saves/lib/select";
@@ -29,7 +29,7 @@ export function openReferenceWindow(
   fileIndex: number,
   kind: "presentation" | "detached" = "detached",
 ): void {
-  void window.pond
+  void window.apostrophi
     .openPreviewWindow({ saveId, fileIndex, kind })
     .catch((error) =>
       notify({
@@ -52,14 +52,16 @@ export function runViewerAction(saveId: string, action: ViewerAction): void {
     return;
   }
   if (action === "quick-look") {
-    void window.pond.query("saves.quickLook", { id: saveId }).then((result) => {
-      if (!result.ok)
-        notify({
-          id: "quick-look",
-          title: "Couldn't Open Quick Look",
-          description: result.error,
-        });
-    });
+    void window.apostrophi
+      .query("saves.quickLook", { id: saveId })
+      .then((result) => {
+        if (!result.ok)
+          notify({
+            id: "quick-look",
+            title: "Couldn't Open Quick Look",
+            description: result.error,
+          });
+      });
     return;
   }
   const fileIndex = previewFileIndex(saveId, action);

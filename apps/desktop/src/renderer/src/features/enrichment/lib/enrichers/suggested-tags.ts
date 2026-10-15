@@ -33,7 +33,9 @@ async function getVocab(): Promise<VocabEntry[]> {
   if (vocabPromise && vocabKey === key) return vocabPromise;
   vocabKey = key;
   vocabPromise = (async () => {
-    const rows = TagRowsSchema.parse(await window.pond.query("tags.list", {}));
+    const rows = TagRowsSchema.parse(
+      await window.apostrophi.query("tags.list", {}),
+    );
     const names = rows
       .map((r) => r.name)
       .filter((n): n is string => !!n && n.trim().length > 0);

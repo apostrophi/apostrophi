@@ -1,5 +1,5 @@
 import {
-  buildPondUrl,
+  buildApostrophiUrl,
   deriveTypeKind,
   pickPrimaryFile,
 } from "@/features/saves/media";
@@ -33,7 +33,7 @@ export const transcriptEnricher: Enricher = {
   async run(save: Save) {
     const model = whisperModelVersion();
     const file = pickPrimaryFile(save);
-    const url = file ? buildPondUrl(save.id, file) : null;
+    const url = file ? buildApostrophiUrl(save.id, file) : null;
     if (!url) return skipped(model);
     if (file?.size != null && file.size > MAX_TRANSCRIPT_BYTES) {
       return skipped(model);

@@ -1,5 +1,5 @@
-import * as schema from "@pond/schema/db";
-import * as eventsSchema from "@pond/schema/events";
+import * as schema from "@apostrophi/schema/db";
+import * as eventsSchema from "@apostrophi/schema/events";
 import Database from "better-sqlite3";
 import {
   type BetterSQLite3Database,

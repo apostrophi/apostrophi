@@ -1,4 +1,4 @@
-import { useDataTable } from "@pond/ui";
+import { useDataTable } from "@apostrophi/ui";
 import { useSelector } from "@tanstack/react-store";
 import { TagContextMenu } from "@/features/tags/components/context-menu";
 import { ActionsCell, NameCell } from "../lib/cells";

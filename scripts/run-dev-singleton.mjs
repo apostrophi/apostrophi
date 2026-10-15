@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const DEFAULT_LOCK_DIRECTORY = join(tmpdir(), "pond-dev-runtime.lock");
+const DEFAULT_LOCK_DIRECTORY = join(tmpdir(), "apostrophi-dev-runtime.lock");
 const OWNER_FILENAME = "owner.json";
 const INITIALIZING_GRACE_MS = 5_000;
 const SIGNAL_EXIT_CODES = new Map([
@@ -155,11 +155,11 @@ function displayCommand(command) {
 
 function printExistingRuntime(owner) {
   if (!owner) {
-    console.log("Pond development runtime is already starting.");
+    console.log("Apostrophi development runtime is already starting.");
     return;
   }
 
-  console.log("Pond development runtime is already running.");
+  console.log("Apostrophi development runtime is already running.");
   console.log(`PID: ${owner.pid}`);
   console.log(`Command: ${displayCommand(owner.command)}`);
   console.log(`Working directory: ${owner.cwd}`);
@@ -177,7 +177,7 @@ function runCommand(command, token) {
   const [executable, ...args] = command;
   const child = spawn(normalizedExecutable(executable), args, {
     cwd: process.cwd(),
-    env: { ...process.env, POND_DEV_RUNTIME_TOKEN: token },
+    env: { ...process.env, APOSTROPHI_DEV_RUNTIME_TOKEN: token },
     stdio: "inherit",
   });
 
@@ -221,7 +221,7 @@ async function main() {
     return;
   }
 
-  const inheritedToken = process.env.POND_DEV_RUNTIME_TOKEN;
+  const inheritedToken = process.env.APOSTROPHI_DEV_RUNTIME_TOKEN;
   const inheritedOwner = inheritedToken
     ? await readOwner(DEFAULT_LOCK_DIRECTORY)
     : null;

@@ -1,3 +1,5 @@
+import { IconCircleXmarkFill } from "@apostrophi/icons";
+import { Button, Loader, Tooltip } from "@apostrophi/ui";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -5,8 +7,6 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
-import { IconCircleXmarkFill } from "@pond/icons";
-import { Button, Loader, Tooltip } from "@pond/ui";
 import {
   $createTextNode,
   $getRoot,
@@ -68,7 +68,7 @@ export function SearchComposer({
       nodes: [FilterTokenNode],
       theme: { paragraph: styles.paragraph },
       onError: (error: Error) => {
-        console.error("[pond search]", error);
+        console.error("[apostrophi search]", error);
       },
     }),
     [],

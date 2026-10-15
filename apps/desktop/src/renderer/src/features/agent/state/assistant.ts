@@ -14,8 +14,11 @@ import { Store } from "@tanstack/store";
 import { useEffect } from "react";
 import { z } from "zod";
 import { folders, getOverlays } from "@/features/library";
+import {
+  apostrophiChatSession,
+  hydrateApostrophiChat,
+} from "./apostrophi-chat";
 import { stopAssistant } from "./assistant-runtime";
-import { hydratePondChat, pondChatSession } from "./pond-chat";
 
 const ChatsSchema = z.array(
   z.object({
@@ -93,19 +96,19 @@ function setMessages(messages: AssistantMessage[]) {
 
 async function refreshChats() {
   patch({
-    chats: ChatsSchema.parse(await window.pond.query("agent.chats", {})),
+    chats: ChatsSchema.parse(await window.apostrophi.query("agent.chats", {})),
   });
 }
 async function loadMessages(chatId: string) {
   return assistantMessages.parse(
-    await window.pond.query("agent.messages", { chatId }),
+    await window.apostrophi.query("agent.messages", { chatId }),
   );
 }
 async function refreshMessages(chatId: string, version = historyVersion) {
   const messages = await loadMessages(chatId);
   if (store.state.chatId === chatId && version === historyVersion) {
     setMessages(messages);
-    if (!store.state.sending) hydratePondChat(chatId, messages);
+    if (!store.state.sending) hydrateApostrophiChat(chatId, messages);
   }
 }
 
@@ -240,7 +243,7 @@ export const assistant = {
     try {
       assistant.attach(
         assistantSources.parse(
-          await window.pond.query("agent.attachments", {
+          await window.apostrophi.query("agent.attachments", {
             ids: ids.slice(0, 200),
           }),
         ),
@@ -266,7 +269,7 @@ export const assistant = {
   },
   async renameChat(chatId: string, title: string) {
     if (isBusy()) throw new Error("Wait for the reply to finish.");
-    const result = await window.pond.query("agent.renameChat", {
+    const result = await window.apostrophi.query("agent.renameChat", {
       chatId,
       title,
     });
@@ -276,7 +279,9 @@ export const assistant = {
   },
   async deleteChat(chatId: string) {
     if (isBusy()) throw new Error("Wait for the reply to finish.");
-    const result = await window.pond.query("agent.deleteChat", { chatId });
+    const result = await window.apostrophi.query("agent.deleteChat", {
+      chatId,
+    });
     if (!result.ok)
       throw new Error(result.error || "Could not delete this chat.");
     if (store.state.chatId === chatId) assistant.newChat();
@@ -291,7 +296,7 @@ export const assistant = {
     try {
       const messages = await loadMessages(chatId);
       if (version !== historyVersion) return;
-      hydratePondChat(chatId, messages);
+      hydrateApostrophiChat(chatId, messages);
       patch({
         chatId,
         messages,
@@ -353,7 +358,7 @@ export const assistant = {
     try {
       if (!chatId) {
         const chat = ChatSchema.parse(
-          await window.pond.query("agent.newChat", {}),
+          await window.apostrophi.query("agent.newChat", {}),
         );
         chatId = chat.id;
         composers.delete(null);
@@ -375,7 +380,7 @@ export const assistant = {
           replyToQuestion: sent.replyToQuestion,
         },
       };
-      const session = pondChatSession(threadId);
+      const session = apostrophiChatSession(threadId);
       await session.sendMessage(
         {
           text: message.content,
@@ -457,7 +462,7 @@ export const assistant = {
     changeIds: string[],
     action: "apply" | "undo" | "dismiss",
   ) {
-    const result = await window.pond.query("agent.review", {
+    const result = await window.apostrophi.query("agent.review", {
       messageId,
       changeIds,
       action,
@@ -468,7 +473,7 @@ export const assistant = {
         : m,
     );
     setMessages(messages);
-    if (store.state.chatId) hydratePondChat(store.state.chatId, messages);
+    if (store.state.chatId) hydrateApostrophiChat(store.state.chatId, messages);
     await folders.refresh();
   },
   async refresh() {
@@ -485,7 +490,7 @@ export function useAssistant() {
         patch({ error: "Could not load recent chats." }),
       );
     }
-    const unsubscribe = window.pond.onAgentChunk((chunk) => {
+    const unsubscribe = window.apostrophi.onAgentChunk((chunk) => {
       if (chunk.type === "activity") patch({ activity: chunk.activity });
       if (chunk.type === "sources") patch({ sources: chunk.sources });
       if (chunk.type === "results") patch({ results: chunk.results });

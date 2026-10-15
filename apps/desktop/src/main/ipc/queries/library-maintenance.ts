@@ -64,7 +64,7 @@ export const libraryMaintenanceQueries = {
   > {
     const picked = await dialog.showSaveDialog({
       title: "Export Debug Report",
-      defaultPath: `Pond Debug Report ${new Date().toISOString().slice(0, 10)}.zip`,
+      defaultPath: `Apostrophi Debug Report ${new Date().toISOString().slice(0, 10)}.zip`,
       filters: [{ name: "ZIP Archive", extensions: ["zip"] }],
     });
     if (picked.canceled || !picked.filePath)
@@ -81,7 +81,7 @@ export const libraryMaintenanceQueries = {
       const result = await verifyLibraryIntegrity();
       return { ok: true as const, ...result };
     } catch (err) {
-      log.warn("[pond ipc] verifyIntegrity failed", err);
+      log.warn("[apostrophi ipc] verifyIntegrity failed", err);
       return {
         ok: false as const,
         error:
@@ -93,7 +93,7 @@ export const libraryMaintenanceQueries = {
   },
 
   async "reset.preferences"() {
-    const { DEFAULT_PREFS } = await import("@pond/schema/db");
+    const { DEFAULT_PREFS } = await import("@apostrophi/schema/db");
     await setPrefs(DEFAULT_PREFS);
     return { ok: true as const };
   },
@@ -115,7 +115,7 @@ export const libraryMaintenanceQueries = {
       const { rm } = await import("node:fs/promises");
       await rm(dbPath, { force: true });
     } catch (err) {
-      log.warn("[pond reset] db removal failed", err);
+      log.warn("[apostrophi reset] db removal failed", err);
     }
     return { ok: true as const };
   },
@@ -188,7 +188,7 @@ export const libraryMaintenanceQueries = {
       await runtimeControls.applyPrefsAtRuntime();
       return { ok: true as const };
     } catch (err) {
-      log.warn("[pond ipc] applyPrefsAtRuntime failed", err);
+      log.warn("[apostrophi ipc] applyPrefsAtRuntime failed", err);
       return {
         ok: false as const,
         error:
@@ -204,7 +204,7 @@ export const libraryMaintenanceQueries = {
       await runtimeControls.applyWindowPrefsAtRuntime();
       return { ok: true as const };
     } catch (err) {
-      log.warn("[pond ipc] applyWindowPrefsAtRuntime failed", err);
+      log.warn("[apostrophi ipc] applyWindowPrefsAtRuntime failed", err);
       return {
         ok: false as const,
         error:

@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { ASSISTANT_MODELS, type AssistantProvider } from "@shared/assistant";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act } from "react";

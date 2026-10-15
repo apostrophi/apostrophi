@@ -1,4 +1,4 @@
-import type { SaveFile } from "@pond/schema/db";
+import type { SaveFile } from "@apostrophi/schema/db";
 import { isAuxiliaryKind } from "@shared/save-file-names";
 import type { QueryResults } from "../../shared/query-contracts";
 

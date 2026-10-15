@@ -23,7 +23,7 @@ beforeEach(() => {
   pool.clear();
   setSaveViewerFileIndex(null);
   requests.length = 0;
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (
       name: string,
       input: Record<string, string | string[] | number>,
@@ -398,7 +398,7 @@ it("removes only the clicked folder immediately for every selected Save", async 
 it("does not expose a local Save's internal identity as a source link", async () => {
   const current = pool.get("a");
   if (!current) throw new Error("Missing Save fixture");
-  pool.upsert({ ...current, url: "pond:local/a" });
+  pool.upsert({ ...current, url: "apostrophi:local/a" });
   await act(async () => root.render(<SaveInspector saveId="a" />));
   await selectInspectorTab("Properties");
   const sourceTrigger = [...host.querySelectorAll("button")].find(
@@ -544,7 +544,7 @@ it("loads Related Saves only when the section opens and opens a selected Save", 
             id: "related",
             title: "Related Save",
             source: "local",
-            url: "pond:local/related",
+            url: "apostrophi:local/related",
             mediaType: "image",
             files: [
               {
@@ -562,7 +562,7 @@ it("loads Related Saves only when the section opens and opens a selected Save", 
       return [];
     },
   );
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
 
   await act(async () => root.render(<SaveInspector saveId="a" tab="info" />));
   expect(query).not.toHaveBeenCalledWith("saves.related", expect.anything());

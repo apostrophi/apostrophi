@@ -1,4 +1,4 @@
-import { normalizeHex } from "@pond/schema/color";
+import { normalizeHex } from "@apostrophi/schema/color";
 
 interface Rgb {
   r: number;

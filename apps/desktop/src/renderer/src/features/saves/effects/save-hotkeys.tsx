@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { useHotkeys } from "@tanstack/react-hotkeys";
 import { useSelector } from "@tanstack/react-store";
 import { useRef } from "react";
@@ -264,7 +264,7 @@ export function SaveHotkeys() {
         hotkey: bindingKeys(shortcuts, "save.open-url"),
         callback: withSelection((save) => {
           if (!save.url) return;
-          void window.pond.openExternal(save.url);
+          void window.apostrophi.openExternal(save.url);
         }, openInBrowserForSelection),
         options: { enabled: hasPrimary, ignoreInputs: true },
       },
@@ -278,7 +278,7 @@ export function SaveHotkeys() {
           }
           const sid = primarySelectionStore.state.id;
           if (!sid) return;
-          void window.pond.revealSave(sid);
+          void window.apostrophi.revealSave(sid);
         },
         options: { enabled: hasPrimary, ignoreInputs: true },
       },

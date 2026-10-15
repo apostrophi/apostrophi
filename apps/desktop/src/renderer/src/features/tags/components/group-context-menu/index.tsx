@@ -1,5 +1,5 @@
-import { IconBarsFilter, IconPencil, IconTrash } from "@pond/icons";
-import { Button, Chip, type MenuItemSpec } from "@pond/ui";
+import { IconBarsFilter, IconPencil, IconTrash } from "@apostrophi/icons";
+import { Button, Chip, type MenuItemSpec } from "@apostrophi/ui";
 import { FOLDER_SWATCHES } from "@/shared/lib/folder-icons";
 import { shortcutGlyphs } from "@/shared/lib/shortcuts";
 import styles from "./styles.module.css";

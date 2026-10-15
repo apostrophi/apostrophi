@@ -1,4 +1,4 @@
-/** pond:// video taints a renderer canvas, so the frame is decoded in main from the file at currentTime. */
+/** apostrophi:// video taints a renderer canvas, so the frame is decoded in main from the file at currentTime. */
 
 import { z } from "zod";
 import { notify } from "@/shared/lib/toast";
@@ -22,7 +22,7 @@ export async function copyVideoFrame(video: HTMLVideoElement): Promise<void> {
   const params = frameParams(video);
   if (!params) return;
   const result = OkSchema.parse(
-    await window.pond.query("video.copyFrame", params),
+    await window.apostrophi.query("video.copyFrame", params),
   );
   if (!result.ok) return;
   notify({
@@ -35,7 +35,7 @@ export async function saveVideoFrame(video: HTMLVideoElement): Promise<void> {
   const params = frameParams(video);
   if (!params) return;
   const result = OkSchema.parse(
-    await window.pond.query("video.saveFrame", params),
+    await window.apostrophi.query("video.saveFrame", params),
   );
   if (!result.ok) return;
   notify({
@@ -50,5 +50,5 @@ export async function setVideoThumbnail(
 ): Promise<void> {
   const params = frameParams(video);
   if (!params) return;
-  await window.pond.query("video.setThumbnail", { saveId, ...params });
+  await window.apostrophi.query("video.setThumbnail", { saveId, ...params });
 }

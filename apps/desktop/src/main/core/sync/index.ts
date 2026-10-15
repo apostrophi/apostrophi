@@ -1,5 +1,5 @@
-import type { ConnectedAccount, Source } from "@pond/schema/db";
-import type { SyncRunEvent } from "@pond/schema/events";
+import type { ConnectedAccount, Source } from "@apostrophi/schema/db";
+import type { SyncRunEvent } from "@apostrophi/schema/events";
 import log from "electron-log/main.js";
 import { commitEvent, startSyncEvent, toErrorInfo } from "../../lib/wide-event";
 import { isAccountConnected } from "../refresh/harvest-window";
@@ -85,7 +85,7 @@ export async function syncAllSources(opts: SyncOptions = {}): Promise<void> {
       const group = runnable.filter((account) => account.source === source);
       for (const account of group) {
         await syncAccount(account.id, opts).catch((err) =>
-          log.warn("[pond sync] syncAccount threw", account.id, err),
+          log.warn("[apostrophi sync] syncAccount threw", account.id, err),
         );
       }
       await syncWatchesForSource(source, opts);
@@ -100,7 +100,7 @@ export async function syncSource(
   const accounts = await listAccountsForSource(source);
   for (const account of accounts) {
     await syncAccount(account.id, opts).catch((err) =>
-      log.warn("[pond sync] syncAccount threw", account.id, err),
+      log.warn("[apostrophi sync] syncAccount threw", account.id, err),
     );
   }
   await syncWatchesForSource(source, opts);
@@ -115,7 +115,7 @@ async function syncWatchesForSource(
   );
   for (const watch of watches) {
     await watchNow(watch.id, { trigger: opts.trigger ?? "manual" }).catch(
-      (err) => log.warn("[pond watch] watchNow threw", watch.id, err),
+      (err) => log.warn("[apostrophi watch] watchNow threw", watch.id, err),
     );
   }
 }
@@ -126,7 +126,7 @@ export async function syncAccount(
 ): Promise<void> {
   const account = await getAccount(accountId);
   if (!account) {
-    log.warn("[pond sync] unknown account, skipping", accountId);
+    log.warn("[apostrophi sync] unknown account, skipping", accountId);
     return;
   }
   const { source } = account;
@@ -134,13 +134,13 @@ export async function syncAccount(
   if (existing) {
     const ageSec = Math.round((Date.now() - existing.startedAt) / 1000);
     log.info(
-      `[pond sync] already running (${ageSec}s), ignoring ${source}/${accountId} (${opts.trigger ?? "manual"})`,
+      `[apostrophi sync] already running (${ageSec}s), ignoring ${source}/${accountId} (${opts.trigger ?? "manual"})`,
     );
     return;
   }
   if (isSyncBlockedByStorageGuard()) {
     log.info(
-      "[pond sync] blocked by storage guard, skipping",
+      "[apostrophi sync] blocked by storage guard, skipping",
       source,
       opts.trigger ?? "manual",
     );
@@ -148,7 +148,8 @@ export async function syncAccount(
       accountId,
       source,
       state: "error",
-      message: "Paused. Pond storage cap reached. Free space or raise the cap.",
+      message:
+        "Paused. Apostrophi storage cap reached. Free space or raise the cap.",
       lastError: "storage_cap_exceeded",
     });
     return;
@@ -158,7 +159,7 @@ export async function syncAccount(
   const watchdog = setTimeout(() => {
     watchdogTripped = true;
     log.warn(
-      `[pond sync] watchdog tripped for ${source}/${accountId} after ${Math.round(SYNC_WATCHDOG_MS[source] / 60_000)}m; aborting`,
+      `[apostrophi sync] watchdog tripped for ${source}/${accountId} after ${Math.round(SYNC_WATCHDOG_MS[source] / 60_000)}m; aborting`,
     );
     controller.abort();
   }, SYNC_WATCHDOG_MS[source]);
@@ -232,9 +233,13 @@ export async function syncAccount(
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    log.error("[pond sync] fatal error", source, accountId, err);
+    log.error("[apostrophi sync] fatal error", source, accountId, err);
     await patchAccountSync(accountId, { lastError: msg }).catch((patchErr) =>
-      log.warn("[pond sync] failed to record lastError", accountId, patchErr),
+      log.warn(
+        "[apostrophi sync] failed to record lastError",
+        accountId,
+        patchErr,
+      ),
     );
     emit({
       accountId,
@@ -250,7 +255,11 @@ export async function syncAccount(
     if (entry) clearTimeout(entry.watchdog);
     inFlight.delete(accountId);
     await patchAccountSync(accountId, { runningSince: null }).catch((err) =>
-      log.warn("[pond sync] failed to clear runningSince", accountId, err),
+      log.warn(
+        "[apostrophi sync] failed to clear runningSince",
+        accountId,
+        err,
+      ),
     );
     ev.durationMs = Date.now() - startedAt;
     ev.lockHeldMs = ev.durationMs;
@@ -272,7 +281,7 @@ export async function recoverInterruptedSyncs(): Promise<string[]> {
       });
     } catch (err) {
       log.warn(
-        "[pond sync] failed to recover interrupted run",
+        "[apostrophi sync] failed to recover interrupted run",
         account.id,
         err,
       );
@@ -289,7 +298,7 @@ export async function recoverInterruptedSyncs(): Promise<string[]> {
     });
   }
   if (recovered.length > 0) {
-    log.info("[pond sync] recovered interrupted runs", recovered);
+    log.info("[apostrophi sync] recovered interrupted runs", recovered);
   }
   return recovered;
 }

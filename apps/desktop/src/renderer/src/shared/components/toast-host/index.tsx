@@ -1,4 +1,4 @@
-import { Toast } from "@pond/ui";
+import { Toast } from "@apostrophi/ui";
 import {
   TOAST_TIMEOUT_MS,
   type ToastData,

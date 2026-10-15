@@ -1,4 +1,4 @@
-import { type SaveStatus, saveFolders, saves } from "@pond/schema/db";
+import { type SaveStatus, saveFolders, saves } from "@apostrophi/schema/db";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 import {
   mediaEmbeddingVersion,

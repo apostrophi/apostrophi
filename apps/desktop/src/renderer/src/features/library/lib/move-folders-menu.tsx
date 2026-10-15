@@ -1,6 +1,6 @@
-import { IconFolderTree } from "@pond/icons";
-import type { Folder } from "@pond/schema/db";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconFolderTree } from "@apostrophi/icons";
+import type { Folder } from "@apostrophi/schema/db";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { folders } from "@/features/library/state/folders";
 import { notifyUndoableFolderChange } from "@/features/saves";
 import { errorCopy } from "@/shared/lib/error-copy";
@@ -32,7 +32,10 @@ async function moveFolders(
   subject: string,
 ): Promise<void> {
   try {
-    await window.pond.query("folders.moveBatch", { ids: [...ids], parentId });
+    await window.apostrophi.query("folders.moveBatch", {
+      ids: [...ids],
+      parentId,
+    });
     await folders.refresh();
     notifyUndoableFolderChange(
       "move-folders",

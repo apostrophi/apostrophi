@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@pond/ui";
+import { Button, Tooltip } from "@apostrophi/ui";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import {

@@ -1,4 +1,4 @@
-import type { SyncAction, Task } from "@pond/schema/db";
+import type { SyncAction, Task } from "@apostrophi/schema/db";
 import { toMs } from "@shared/to-ms";
 import type {
   WireRow,

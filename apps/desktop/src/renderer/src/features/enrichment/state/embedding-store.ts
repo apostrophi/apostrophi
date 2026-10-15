@@ -26,7 +26,7 @@ export async function embeddingFor(
   const cached = store.state.byId.get(id);
   if (cached) return cached;
   const row = OneRowSchema.parse(
-    await window.pond.query("saves.getEmbedding", { id }),
+    await window.apostrophi.query("saves.getEmbedding", { id }),
   );
   if (!row.embedding || !row.embeddingModel) return undefined;
   const entry = {
@@ -51,7 +51,7 @@ export function setEmbedding(
     byId.set(id, { vec, model });
     return { byId };
   });
-  void window.pond
+  void window.apostrophi
     .query("saves.setEmbedding", {
       id,
       embedding: Array.from(vec),

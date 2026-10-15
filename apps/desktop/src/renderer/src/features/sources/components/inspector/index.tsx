@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import { Dialog, Field, Input, type MenuItemSpec } from "@pond/ui";
+import type { Source } from "@apostrophi/schema/db";
+import { Dialog, Field, Input, type MenuItemSpec } from "@apostrophi/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import type { SourceDetailsKind } from "@/features/library";
@@ -228,7 +228,7 @@ async function saveAccountNickname(
 ): Promise<void> {
   const next = value.trim() || null;
   if (next === account.label) return;
-  await window.pond.query("accounts.setLabel", {
+  await window.apostrophi.query("accounts.setLabel", {
     accountId: account.id,
     label: next,
   });
@@ -240,7 +240,7 @@ async function saveWatchNickname(
 ): Promise<void> {
   const next = value.trim() || null;
   if (next === watch.label) return;
-  await window.pond.query("watches.setLabel", {
+  await window.apostrophi.query("watches.setLabel", {
     watchId: watch.id,
     label: next,
   });

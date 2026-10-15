@@ -8,7 +8,7 @@ import { encodeBlurhash } from "./blurhash";
 
 describe("encodeBlurhash", () => {
   it("encodes a still into a string the renderer can decode", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "pond-blurhash-"));
+    const dir = await mkdtemp(join(tmpdir(), "apostrophi-blurhash-"));
     const path = join(dir, "red.png");
     await writeFile(
       path,

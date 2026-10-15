@@ -24,8 +24,8 @@ import {
   sep,
 } from "node:path";
 import { pipeline } from "node:stream/promises";
-import type { Folder, Save } from "@pond/schema/db";
-import { saves } from "@pond/schema/db";
+import type { Folder, Save } from "@apostrophi/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { isAuxiliaryKind, isThumbnailKind } from "@shared/save-file-names";
 import { and, eq, inArray } from "drizzle-orm";
 import { ulid } from "ulid";
@@ -519,7 +519,7 @@ async function preparePackage(
   limits: EaglePackageLimits,
 ): Promise<PreparedPackage> {
   const metadata = await lstat(source);
-  const staging = await mkdtemp(join(tmpdir(), "pond-eagle-package-"));
+  const staging = await mkdtemp(join(tmpdir(), "apostrophi-eagle-package-"));
   try {
     if (metadata.isSymbolicLink())
       throw new Error("Eagle package sources cannot be symbolic links.");

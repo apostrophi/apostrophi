@@ -4,7 +4,7 @@ import { checkProviderKey, fetchProviderModels } from "./keys";
 const bases = {
   ollamaBaseUrl: "http://127.0.0.1:11434/v1",
   lmstudioBaseUrl: "http://127.0.0.1:1234/v1",
-  azureResourceName: "pond-openai",
+  azureResourceName: "apostrophi-openai",
 };
 
 describe("checkProviderKey", () => {

@@ -8,7 +8,7 @@ import {
   IconMagnifier,
   IconTrashXmark,
   IconUpload,
-} from "@pond/icons";
+} from "@apostrophi/icons";
 import { useSelector } from "@tanstack/react-store";
 import { useMemo } from "react";
 import { addSavesToChat } from "@/features/agent";

@@ -1,7 +1,7 @@
 import type { SavesDerivedPatch } from "@shared/saves-contracts-shared";
 import type { WireSave } from "@shared/wire";
 
-export type { SaveFile } from "@pond/schema/db";
+export type { SaveFile } from "@apostrophi/schema/db";
 
 type SaveIdentity =
   | "id"

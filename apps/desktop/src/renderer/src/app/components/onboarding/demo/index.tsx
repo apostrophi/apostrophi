@@ -1,4 +1,4 @@
-import { IconArrowLeft, IconArrowRight, IconDots } from "@pond/icons";
+import { IconArrowLeft, IconArrowRight, IconDots } from "@apostrophi/icons";
 import { useReducedMotionConfig } from "motion/react";
 import { useEffect, useState } from "react";
 import { Art, type ArtKind } from "./art";

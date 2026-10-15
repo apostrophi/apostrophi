@@ -3,9 +3,9 @@ import {
   IconLink2,
   IconMediaPauseFill,
   IconMediaPlayFill,
-} from "@pond/icons";
-import { sourceLabel } from "@pond/schema/sources";
-import { Button, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import { sourceLabel } from "@apostrophi/schema/sources";
+import { Button, Tooltip } from "@apostrophi/ui";
 import {
   useInfiniteQuery,
   useMutation,
@@ -68,7 +68,7 @@ export function DownloadsPage() {
     initialPageParam: initialHistoryCursor,
     queryFn: async ({ pageParam }) =>
       HistoryPageSchema.parse(
-        await window.pond.query("downloads.history", {
+        await window.apostrophi.query("downloads.history", {
           limit: 50,
           cursor: pageParam,
           q: filters.q,
@@ -136,7 +136,7 @@ export function DownloadsPage() {
     queryKey: ["pipeline.status"],
     queryFn: async () =>
       PipelineStatusSchema.parse(
-        await window.pond.query("pipeline.status", {}),
+        await window.apostrophi.query("pipeline.status", {}),
       ),
   });
   const paused = pipeline.data?.paused === true;
@@ -152,7 +152,7 @@ export function DownloadsPage() {
     !showPlaceEmpty;
 
   const pause = useMutation({
-    mutationFn: () => window.pond.pipelinePause(!paused),
+    mutationFn: () => window.apostrophi.pipelinePause(!paused),
     onSuccess: (result) =>
       qc.setQueryData<PipelineStatus>(["pipeline.status"], {
         paused: result.paused,

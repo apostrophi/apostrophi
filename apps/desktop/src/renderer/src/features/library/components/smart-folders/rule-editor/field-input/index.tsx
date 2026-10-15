@@ -1,4 +1,4 @@
-import { Input } from "@pond/ui";
+import { Input } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 interface FieldInputProps {

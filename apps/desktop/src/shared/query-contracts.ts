@@ -8,8 +8,8 @@ import type {
   Tag,
   TagGroup,
   VideoDownloadSettings,
-} from "@pond/schema/db";
-import type { Query } from "@pond/schema/filters/types";
+} from "@apostrophi/schema/db";
+import type { Query } from "@apostrophi/schema/filters/types";
 import type { z } from "zod";
 import type { assistantSend } from "./assistant";
 import type { BulkQueryInputs, BulkQueryResults } from "./bulk-contracts";

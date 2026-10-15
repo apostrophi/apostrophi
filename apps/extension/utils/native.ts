@@ -3,7 +3,7 @@ import {
   type NativeRequest,
   type NativeResponse,
   nativeResponseSchema,
-} from "@pond/schema/native";
+} from "@apostrophi/schema/native";
 
 export async function nativeCall(
   request: NativeRequest,

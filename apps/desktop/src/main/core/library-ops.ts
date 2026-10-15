@@ -1,8 +1,8 @@
 import { createReadStream, existsSync } from "node:fs";
 import { cp, mkdir, readdir, rm } from "node:fs/promises";
 import { join, relative } from "node:path";
-import { saves, settings as settingsTable } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import { saves, settings as settingsTable } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { eq, isNotNull, isNull } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb, getGlobalDb } from "../db";
@@ -110,7 +110,7 @@ export async function relocateLibrary(
       const from = join(srcResolved, entry);
       const to = join(destResolved, entry);
       if (existsSync(to)) {
-        log.warn("[pond library-ops] destination already has", entry);
+        log.warn("[apostrophi library-ops] destination already has", entry);
         skipped += 1;
         continue;
       }
@@ -134,7 +134,7 @@ export async function relocateLibrary(
   commitLibraryPointer(destResolved);
 
   log.info(
-    `[pond library-ops] library ${mode === "copy" ? "copied" : "adopted"} → ${destResolved} (copied ${copied}, skipped ${skipped})`,
+    `[apostrophi library-ops] library ${mode === "copy" ? "copied" : "adopted"} → ${destResolved} (copied ${copied}, skipped ${skipped})`,
   );
   return { path: destResolved, mode, copied, skipped };
 }
@@ -159,7 +159,7 @@ export async function syncLibraryRootMetadata(): Promise<void> {
       set: { libraryRoot: pointer, updatedAt: new Date() },
     })
     .run();
-  log.info("[pond library-ops] repaired library_root metadata drift", {
+  log.info("[apostrophi library-ops] repaired library_root metadata drift", {
     pointer,
     stored: stored || null,
   });

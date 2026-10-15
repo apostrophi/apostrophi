@@ -1,4 +1,4 @@
-import { SOURCES } from "@pond/schema/db";
+import { SOURCES } from "@apostrophi/schema/db";
 import { z } from "zod";
 import type { EmptyInput, OkResult } from "./query-contracts-shared";
 

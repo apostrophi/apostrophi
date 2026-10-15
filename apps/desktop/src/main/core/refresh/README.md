@@ -28,7 +28,7 @@ URL-first ingest pipeline.
 
 ## Account safety: the rate governor
 
-Pond scrapes through each user's **own logged-in session**, so the highest-risk
+Apostrophi scrapes through each user's **own logged-in session**, so the highest-risk
 outcome is tripping a platform's anti-abuse systems against a real account. Every
 network request that touches a platform — list harvest, item harvest, and
 screenshot navigation — is gated by one shared governor in

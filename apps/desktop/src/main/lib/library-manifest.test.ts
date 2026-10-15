@@ -46,7 +46,7 @@ describe("portable original manifest", () => {
       id: "save",
       source: "local",
       sourceId: "save",
-      url: "pond:save",
+      url: "apostrophi:save",
       files: [original],
     });
     const next = applyPatchToInfo(info, {

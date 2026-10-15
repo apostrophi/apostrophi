@@ -3,10 +3,10 @@ import { encodeFrame, MAX_NATIVE_MSG, tryDecodeFrame } from "./frame";
 
 describe("native frame", () => {
   it("round-trips JSON", () => {
-    const encoded = encodeFrame({ ok: true, data: { app: "pond" } });
+    const encoded = encodeFrame({ ok: true, data: { app: "apostrophi" } });
     expect(tryDecodeFrame(encoded)).toEqual({
       status: "ok",
-      value: { ok: true, data: { app: "pond" } },
+      value: { ok: true, data: { app: "apostrophi" } },
     });
   });
 

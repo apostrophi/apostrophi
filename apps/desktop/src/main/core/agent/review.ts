@@ -1,5 +1,5 @@
-import { agentMessages, type Save, saves } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import { agentMessages, type Save, saves } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { eq, inArray, isNotNull } from "drizzle-orm";
 import { clipboard, shell } from "electron";
 import { z } from "zod";
@@ -39,7 +39,10 @@ import { archiveSiteForSave } from "../refresh/archive-backfill";
 import { createView, listViews, updateView } from "../saved-views";
 import { syncAccount } from "../sync";
 import { createTag, mergeTags, renameTag, setSaveTags } from "../tags";
-import { applyPondOperation, summarizeOperationResult } from "./operations";
+import {
+  applyApostrophiOperation,
+  summarizeOperationResult,
+} from "./operations";
 import { filterGroup } from "./tools";
 
 export const reviewInput = z.object({
@@ -96,7 +99,7 @@ export const reviewDependencies = {
   renameTag,
   mergeDuplicateSaves,
   undoDuplicateMerge,
-  applyPondOperation,
+  applyApostrophiOperation,
 };
 type ReviewDependencies = typeof reviewDependencies;
 
@@ -252,9 +255,9 @@ async function writeAction(
 ) {
   if (change.action === "runOperation") {
     if (action === "undo")
-      throw new Error("Use Pond's Undo for this operation.");
+      throw new Error("Use Apostrophi's Undo for this operation.");
     const request = agentOperationRequest.parse(change.payload);
-    const result = await deps.applyPondOperation(request);
+    const result = await deps.applyApostrophiOperation(request);
     change.payload = { ...request, result: summarizeOperationResult(result) };
     return;
   }
@@ -446,7 +449,7 @@ async function exportToDirectory(
     ] as const;
     await writeExportFile(
       directory,
-      "pond-export.csv",
+      "apostrophi-export.csv",
       toCsv(
         rows.map((row) => columns.map((column) => String(row[column] ?? ""))),
         [...columns],

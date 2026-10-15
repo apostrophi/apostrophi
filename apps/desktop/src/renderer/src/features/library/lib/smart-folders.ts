@@ -1,9 +1,9 @@
-import type { SavedView } from "@pond/schema/db";
+import type { SavedView } from "@apostrophi/schema/db";
 import {
   type Clause,
   EMPTY_QUERY,
   type Query,
-} from "@pond/schema/filters/types";
+} from "@apostrophi/schema/filters/types";
 
 function flattenConjunction(clause: Clause): Clause[] {
   if ("rules" in clause && clause.combinator === "and" && !clause.not) {

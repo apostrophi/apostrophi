@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import type { SavesDerivedPatch } from "@shared/saves-contracts-shared";
 import type { Save } from "@/features/saves/types";
 

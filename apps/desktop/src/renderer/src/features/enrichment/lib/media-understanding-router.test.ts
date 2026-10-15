@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import type {
   MediaUnderstandOperationalMetric,
   MediaUnderstandResult,
@@ -87,14 +87,14 @@ describe("media-understanding router", () => {
     await expect(
       router.run({
         saveId: "save-1",
-        imageUrl: "pond://save-1/image.png",
+        imageUrl: "apostrophi://save-1/image.png",
         task: "caption",
         prefs: ai("florence"),
       }),
     ).resolves.toEqual({ text: "Florence caption", model: "florence:v2" });
     expect(runFlorence).toHaveBeenCalledExactlyOnceWith(
       "caption",
-      "pond://save-1/image.png",
+      "apostrophi://save-1/image.png",
     );
     expect(understandMedia).not.toHaveBeenCalled();
   });
@@ -105,7 +105,7 @@ describe("media-understanding router", () => {
     await expect(
       router.run({
         saveId: "save-1",
-        imageUrl: "pond://save-1/image.png",
+        imageUrl: "apostrophi://save-1/image.png",
         task: "caption",
         prefs: ai("gemma4"),
       }),
@@ -126,7 +126,7 @@ describe("media-understanding router", () => {
     await expect(
       router.run({
         saveId: "save-1",
-        imageUrl: "pond://save-1/image.png",
+        imageUrl: "apostrophi://save-1/image.png",
         task: "caption",
         prefs: ai("gemma4"),
       }),
@@ -151,7 +151,7 @@ describe("media-understanding router", () => {
     await expect(
       router.run({
         saveId: "save-1",
-        imageUrl: "pond://save-1/image.png",
+        imageUrl: "apostrophi://save-1/image.png",
         task: "caption",
         prefs: {
           ...ai("gemma4"),
@@ -179,7 +179,7 @@ describe("media-understanding router", () => {
     await expect(
       router.run({
         saveId: "save-1",
-        imageUrl: "pond://save-1/image.png",
+        imageUrl: "apostrophi://save-1/image.png",
         task: "caption",
         prefs: {
           ...ai("gemma4"),
@@ -218,7 +218,7 @@ describe("media-understanding router", () => {
     await expect(
       router.run({
         saveId: "save-1",
-        imageUrl: "pond://save-1/image.png",
+        imageUrl: "apostrophi://save-1/image.png",
         task: "caption",
         prefs: {
           ...ai("gemma4"),

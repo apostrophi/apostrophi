@@ -2,7 +2,7 @@
 
 # Supported sources
 
-Pond can capture saves from the sources below. To add one, run
+Apostrophi can capture saves from the sources below. To add one, run
 `pnpm new-source <id>` and follow [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 
 The **Sync** column shows how a source's saved list is walked (`cursor` /

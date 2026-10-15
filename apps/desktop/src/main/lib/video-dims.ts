@@ -11,14 +11,14 @@ async function probeVideoMetadata(
 ): Promise<{ width: number; height: number; frameRate: number | null } | null> {
   const { ffmpeg } = binariesAvailable();
   if (!ffmpeg) {
-    log.debug("[pond video-dims] ffmpeg unavailable", videoPath);
+    log.debug("[apostrophi video-dims] ffmpeg unavailable", videoPath);
     return null;
   }
 
   const { code, stderr } = await runFfmpegProbe(ffmpeg, videoPath);
   if (code !== 0 && code !== 1) {
     /** ffmpeg returns 1 when invoked as a probe (no output file). */
-    log.debug("[pond video-dims] probe failed", videoPath, code);
+    log.debug("[apostrophi video-dims] probe failed", videoPath, code);
   }
 
   const size = stderr.match(/Video:.*?\s(\d{2,5})x(\d{2,5})/);

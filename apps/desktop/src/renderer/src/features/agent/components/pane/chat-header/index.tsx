@@ -1,6 +1,6 @@
-import { IconHistory, IconPlus } from "@pond/icons";
-import { Button, Combobox, Tooltip } from "@pond/ui";
-import { AgentHeader } from "@pond/ui/agent-header";
+import { IconHistory, IconPlus } from "@apostrophi/icons";
+import { Button, Combobox, Tooltip } from "@apostrophi/ui";
+import { AgentHeader } from "@apostrophi/ui/agent-header";
 import { type ReactNode, useState } from "react";
 import { assistant } from "@/features/agent/state/assistant";
 import { InlineNameEditor } from "@/shared/components/inline-name-editor";

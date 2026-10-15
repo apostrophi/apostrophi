@@ -10,10 +10,12 @@ const TRAY_SLOT_PX = 22;
 export function loadTrayIcon(): NativeImage {
   const file = resolveTrayIconFile();
   if (file) {
-    log.info("[pond tray] loaded icon", { path: file });
+    log.info("[apostrophi tray] loaded icon", { path: file });
     return templateFromPath(file);
   }
-  log.warn("[pond tray] no packaged icon found, drawing runtime placeholder");
+  log.warn(
+    "[apostrophi tray] no packaged icon found, drawing runtime placeholder",
+  );
   return makePlaceholderIcon();
 }
 
@@ -61,7 +63,7 @@ function placeholderImage(png: Buffer, filename: string): NativeImage {
       return img;
     }
   } catch (err) {
-    log.warn("[pond tray] placeholder draw failed", err);
+    log.warn("[apostrophi tray] placeholder draw failed", err);
   }
   try {
     const fallback = join(appDataRoot(), filename);

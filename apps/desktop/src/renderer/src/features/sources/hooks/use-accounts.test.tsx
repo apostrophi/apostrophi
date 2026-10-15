@@ -35,7 +35,7 @@ function Reload() {
 
 beforeEach(() => {
   payload = { accounts: [] };
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async () => payload,
   });
   host = document.createElement("div");

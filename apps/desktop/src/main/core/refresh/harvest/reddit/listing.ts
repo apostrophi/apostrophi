@@ -1,4 +1,4 @@
-import type { ListKind, MediaType } from "@pond/schema/db";
+import type { ListKind, MediaType } from "@apostrophi/schema/db";
 import { z } from "zod";
 
 export interface ListingMedia {

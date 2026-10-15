@@ -1,8 +1,8 @@
 import { mkdir, mkdtemp, rm, stat, utimes, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import * as schema from "@pond/schema/db";
-import * as events from "@pond/schema/events";
+import * as schema from "@apostrophi/schema/db";
+import * as events from "@apostrophi/schema/events";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
@@ -28,11 +28,11 @@ afterEach(async () => {
   );
 });
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-scan-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-scan-"));
   roots.push(root);
   const raw = new Database(":memory:");
   opened.push(raw);
-  database.initializePondSchema(raw, () => false);
+  database.initializeApostrophiSchema(raw, () => false);
   const db = Object.assign(drizzle(raw, { schema: { ...schema, ...events } }), {
     $raw: raw,
   });
@@ -46,7 +46,7 @@ async function fixture() {
     id: "image",
     source: "local",
     sourceId: "image",
-    url: "pond:image",
+    url: "apostrophi:image",
     title: "Original",
     tags: ["Design"],
     folderIds: ["folder"],

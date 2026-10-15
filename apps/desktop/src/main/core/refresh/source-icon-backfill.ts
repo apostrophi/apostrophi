@@ -1,4 +1,4 @@
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -41,7 +41,7 @@ export async function backfillSourceIcons(): Promise<{
         if (!save) continue;
         if (await fetchSourceIcon(id, save)) written += 1;
       } catch (err) {
-        log.warn("[pond source-icon-backfill] failed", id, err);
+        log.warn("[apostrophi source-icon-backfill] failed", id, err);
       }
     }
   };
@@ -49,7 +49,7 @@ export async function backfillSourceIcons(): Promise<{
     Array.from({ length: Math.min(CONCURRENCY, missing.length) }, runLane),
   );
 
-  log.info("[pond source-icon-backfill] done", {
+  log.info("[apostrophi source-icon-backfill] done", {
     candidates: missing.length,
     written,
   });

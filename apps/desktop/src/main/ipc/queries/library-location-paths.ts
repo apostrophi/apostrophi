@@ -7,7 +7,7 @@ export function recentLibrariesFile(): string {
   return join(app.getPath("userData"), RECENT_LIBRARIES_FILE);
 }
 
-export function ensurePondSuffix(path: string): string {
+export function ensureApostrophiSuffix(path: string): string {
   const trimmed = path.replace(/\/+$/, "");
-  return trimmed.endsWith(".pond") ? trimmed : `${trimmed}.pond`;
+  return trimmed.endsWith(".apostrophi") ? trimmed : `${trimmed}.apostrophi`;
 }

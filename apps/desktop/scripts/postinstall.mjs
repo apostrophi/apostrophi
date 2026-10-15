@@ -73,11 +73,13 @@ export function runSetup({
       run(step);
     } catch (error) {
       if (step.required) {
-        throw new Error(`[pond] required setup failed: ${step.name}`, {
+        throw new Error(`[apostrophi] required setup failed: ${step.name}`, {
           cause: error,
         });
       }
-      warn(`[pond] optional setup skipped: ${step.name}: ${error.message}`);
+      warn(
+        `[apostrophi] optional setup skipped: ${step.name}: ${error.message}`,
+      );
     }
   }
 }

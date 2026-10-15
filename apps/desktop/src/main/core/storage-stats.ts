@@ -21,7 +21,7 @@ interface DeviceDiskInfo {
 }
 
 interface StorageSnapshot {
-  pondBytes: number;
+  apostrophiBytes: number;
   breakdown: Omit<LibraryBreakdown, "total">;
   deviceTotalBytes: number;
   deviceFreeBytes: number;
@@ -54,7 +54,7 @@ async function computeSnapshot(): Promise<StorageSnapshot> {
   const breakdown = await computeLibraryBreakdown();
   const device = await getDeviceDiskInfo(root);
   return {
-    pondBytes: breakdown.total,
+    apostrophiBytes: breakdown.total,
     breakdown: {
       items: breakdown.items,
       videoCache: breakdown.videoCache,
@@ -95,7 +95,7 @@ async function computeLibraryBreakdown(): Promise<LibraryBreakdown> {
       abs: join(root, d.name),
     }));
   } catch (err) {
-    log.warn("[pond storage-stats] failed to read library root", err);
+    log.warn("[apostrophi storage-stats] failed to read library root", err);
     return { ...buckets, total: 0 };
   }
 
@@ -121,7 +121,7 @@ async function computeLibraryBreakdown(): Promise<LibraryBreakdown> {
     buckets.db += await safeFileSize(`${dbPath}-wal`);
     buckets.db += await safeFileSize(`${dbPath}-shm`);
   } catch (err) {
-    log.warn("[pond storage-stats] failed to stat indexDb", err);
+    log.warn("[apostrophi storage-stats] failed to stat indexDb", err);
   }
 
   const total =
@@ -145,7 +145,7 @@ async function getDeviceDiskInfo(path: string): Promise<DeviceDiskInfo> {
       usedByOthers: 0,
     };
   } catch (err) {
-    log.warn("[pond storage-stats] statfs failed", err);
+    log.warn("[apostrophi storage-stats] statfs failed", err);
     return { totalBytes: 0, freeBytes: 0, usedByOthers: 0 };
   }
 }
@@ -156,7 +156,7 @@ async function sumDirSizes(dir: string): Promise<number> {
   try {
     dirents = await readdir(dir, { withFileTypes: true });
   } catch (err) {
-    log.debug("[pond storage-stats] readdir failed", dir, err);
+    log.debug("[apostrophi storage-stats] readdir failed", dir, err);
     return 0;
   }
   for (const entry of dirents) {

@@ -16,10 +16,13 @@ import {
   type Save,
   SOURCES,
   type Source,
-} from "@pond/schema/db";
-import type { RawJson } from "@pond/schema/raw";
-import { StoredRawJsonSchema, storedAsRawJson } from "@pond/schema/raw-schema";
-import type { TxSaveFile } from "@pond/schema/tx";
+} from "@apostrophi/schema/db";
+import type { RawJson } from "@apostrophi/schema/raw";
+import {
+  StoredRawJsonSchema,
+  storedAsRawJson,
+} from "@apostrophi/schema/raw-schema";
+import type { TxSaveFile } from "@apostrophi/schema/tx";
 import { inferKindFromFilename } from "@shared/save-file-names";
 import log from "electron-log/main.js";
 import { writeLibraryMedia } from "../core/storage/library-media-storage";
@@ -56,7 +59,7 @@ interface SaveMetadata {
   isDeleted: boolean;
   deletedAt: number | null;
   files: InfoFile[];
-  pond: {
+  apostrophi: {
     schemaVersion: number;
     userData?: SaveUserData;
     publishedAt?: number | null;
@@ -197,7 +200,7 @@ export async function readSaveMetadata(
       metadata: metadataFromInfo(id, info, await readSourceDoc(id, root)),
     };
   } catch (err) {
-    log.warn("[pond library] corrupt item metadata", id, err);
+    log.warn("[apostrophi library] corrupt item metadata", id, err);
     return {
       status: "corrupt",
       error: err instanceof Error ? err.message : String(err),
@@ -229,7 +232,7 @@ async function readInfoForEdit(
     );
     return { info, rawSource: await readSourceDoc(id) };
   } catch (err) {
-    log.warn("[pond library] corrupt info.json", id, err);
+    log.warn("[apostrophi library] corrupt info.json", id, err);
     return null;
   }
 }
@@ -263,7 +266,7 @@ function metadataFromInfo(
     isDeleted: deletedMs != null,
     deletedAt: deletedMs,
     files,
-    pond: {
+    apostrophi: {
       schemaVersion: info.schema ?? 3,
       userData: info.userData,
       publishedAt: parseTimestamp(info.publishedAt),
@@ -320,7 +323,7 @@ export async function* scanLibrary(root?: string): AsyncGenerator<{
       const info = await stat(join(dir, INFO_FILE));
       yield { id, mtimeMs: info.mtimeMs };
     } catch (err) {
-      log.warn("[pond library] scan stat failed", id, err);
+      log.warn("[apostrophi library] scan stat failed", id, err);
     }
   }
 }

@@ -58,8 +58,16 @@ describe("HoverGallery preview scheduling", () => {
       deletedAt: null,
     };
     const slides: MediaUnit[] = [
-      { key: "first.jpg", url: "pond://gallery/first.jpg", isVideo: false },
-      { key: "second.jpg", url: "pond://gallery/second.jpg", isVideo: false },
+      {
+        key: "first.jpg",
+        url: "apostrophi://gallery/first.jpg",
+        isVideo: false,
+      },
+      {
+        key: "second.jpg",
+        url: "apostrophi://gallery/second.jpg",
+        isVideo: false,
+      },
     ];
     const onReady = vi.fn();
 

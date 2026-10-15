@@ -11,7 +11,7 @@ function save(mediaType: Save["mediaType"], entry: SaveFile): Save {
     id: entry.path,
     source: "local",
     sourceId: entry.path,
-    url: `pond:local/${entry.path}`,
+    url: `apostrophi:local/${entry.path}`,
     title: entry.path,
     description: null,
     author: null,

@@ -9,24 +9,44 @@ describe("sourceTargetUrl", () => {
       undefined,
       "https://www.instagram.com/oluwa.rafa/",
     ],
-    ["twitter", "@pond", undefined, "https://x.com/pond"],
-    ["threads", "pond", undefined, "https://www.threads.com/@pond"],
-    ["reddit", "pond", undefined, "https://www.reddit.com/user/pond/"],
-    ["tiktok", "pond", undefined, "https://www.tiktok.com/@pond"],
+    ["twitter", "@apostrophi", undefined, "https://x.com/apostrophi"],
+    ["threads", "apostrophi", undefined, "https://www.threads.com/@apostrophi"],
+    [
+      "reddit",
+      "apostrophi",
+      undefined,
+      "https://www.reddit.com/user/apostrophi/",
+    ],
+    ["tiktok", "apostrophi", undefined, "https://www.tiktok.com/@apostrophi"],
     [
       "pinterest",
-      "pond/ideas",
+      "apostrophi/ideas",
       "board",
-      "https://www.pinterest.com/pond/ideas/",
+      "https://www.pinterest.com/apostrophi/ideas/",
     ],
-    ["arena", "pond/channel", "channel", "https://www.are.na/pond/channel"],
-    ["cosmos", "pond/ideas", "cluster", "https://www.cosmos.so/pond/ideas"],
-    ["youtube", "pond/shorts", "channel", "https://www.youtube.com/@pond"],
+    [
+      "arena",
+      "apostrophi/channel",
+      "channel",
+      "https://www.are.na/apostrophi/channel",
+    ],
+    [
+      "cosmos",
+      "apostrophi/ideas",
+      "cluster",
+      "https://www.cosmos.so/apostrophi/ideas",
+    ],
     [
       "youtube",
-      "PL pond",
+      "apostrophi/shorts",
+      "channel",
+      "https://www.youtube.com/@apostrophi",
+    ],
+    [
+      "youtube",
+      "PL apostrophi",
       "playlist",
-      "https://www.youtube.com/playlist?list=PL%20pond",
+      "https://www.youtube.com/playlist?list=PL%20apostrophi",
     ],
     ["twitter", "12345", "list", "https://x.com/i/lists/12345"],
   ] as const)("builds a %s target URL", (source, handle, kind, expected) => {
@@ -37,10 +57,10 @@ describe("sourceTargetUrl", () => {
     expect(
       sourceTargetUrl({
         source: "cosmos",
-        handle: "pond user/visual ideas",
+        handle: "apostrophi user/visual ideas",
         kind: "cluster",
       }),
-    ).toBe("https://www.cosmos.so/pond%20user/visual%20ideas");
+    ).toBe("https://www.cosmos.so/apostrophi%20user/visual%20ideas");
   });
 
   it("returns null without a usable handle", () => {

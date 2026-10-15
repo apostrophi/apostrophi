@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Transaction } from "@pond/schema/tx";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { afterEach, describe, expect, it } from "vitest";
 import {
   type DuplicateMergeRuntime,
@@ -18,7 +18,7 @@ afterEach(async () => {
 });
 
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-merge-test-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-merge-test-"));
   roots.push(root);
   const rows = new Map<string, MergeRow>();
   const memberships = new Map<string, string[]>();

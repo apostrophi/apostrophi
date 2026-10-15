@@ -1,4 +1,4 @@
-import type { JsonValue } from "@pond/schema/json";
+import type { JsonValue } from "@apostrophi/schema/json";
 import type { SQL } from "drizzle-orm";
 import { SQLiteSyncDialect } from "drizzle-orm/sqlite-core";
 import { beforeEach, describe, expect, it, vi } from "vitest";

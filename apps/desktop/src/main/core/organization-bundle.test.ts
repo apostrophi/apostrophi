@@ -1,12 +1,12 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import * as schema from "@pond/schema/db";
-import * as events from "@pond/schema/events";
+import * as schema from "@apostrophi/schema/db";
+import * as events from "@apostrophi/schema/events";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
-import { initializePondSchema } from "../db";
+import { initializeApostrophiSchema } from "../db";
 import {
   hydrateOrganizationBundle,
   writeOrganizationBundle,
@@ -32,14 +32,14 @@ afterEach(() => {
 function db() {
   const raw = new Database(":memory:");
   dbs.push(raw);
-  initializePondSchema(raw, () => false);
+  initializeApostrophiSchema(raw, () => false);
   return Object.assign(drizzle(raw, { schema: { ...schema, ...events } }), {
     $raw: raw,
   });
 }
 describe.skipIf(!available())("portable organization", () => {
   it("restores folders, nested smart groups and saved presentation into a fresh index", () => {
-    const root = mkdtempSync(join(tmpdir(), "pond-organization-"));
+    const root = mkdtempSync(join(tmpdir(), "apostrophi-organization-"));
     roots.push(root);
     const source = db();
     source.$raw.exec(
@@ -67,7 +67,7 @@ describe.skipIf(!available())("portable organization", () => {
     );
   });
   it("removes organization deleted in the portable bundle when reopening an existing index", () => {
-    const root = mkdtempSync(join(tmpdir(), "pond-organization-"));
+    const root = mkdtempSync(join(tmpdir(), "apostrophi-organization-"));
     roots.push(root);
     const source = db();
     writeOrganizationBundle(source, root);

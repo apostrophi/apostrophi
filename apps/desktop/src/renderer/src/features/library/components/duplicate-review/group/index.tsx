@@ -1,5 +1,5 @@
-import { IconCheck } from "@pond/icons";
-import { Checkbox } from "@pond/ui";
+import { IconCheck } from "@apostrophi/icons";
+import { Checkbox } from "@apostrophi/ui";
 import type { DuplicateGroupResult } from "@shared/saves-mutation-contracts";
 import { useSelector } from "@tanstack/react-store";
 import { type ReactNode, useEffect, useId } from "react";
@@ -24,7 +24,7 @@ function rank(save: Save | undefined) {
   };
 }
 
-/** Highest resolution wins, then the larger file, then the order Pond returned. */
+/** Highest resolution wins, then the larger file, then the order Apostrophi returned. */
 export function defaultKeeper(
   ids: readonly string[],
   lookup: (id: string) => Save | undefined,

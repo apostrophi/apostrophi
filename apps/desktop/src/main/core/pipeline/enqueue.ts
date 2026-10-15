@@ -1,5 +1,5 @@
-import type { Source } from "@pond/schema/db";
-import { mergeListKinds } from "@pond/schema/list-kinds";
+import type { Source } from "@apostrophi/schema/db";
+import { mergeListKinds } from "@apostrophi/schema/list-kinds";
 import log from "electron-log/main.js";
 import { broadcastSyncAction } from "../executor";
 import type { ImportableCookie } from "../refresh/harvest-window/session";
@@ -127,7 +127,7 @@ async function enqueueOne(
     );
     if (harvestShouldIgnoreSave(current)) {
       stashWebCookiesThenKick(current.id, source, opts.cookies);
-      log.info("[pond pipeline:enqueue] existing save", {
+      log.info("[apostrophi pipeline:enqueue] existing save", {
         id: current.id,
         source,
         trigger: opts.trigger,
@@ -146,7 +146,7 @@ async function enqueueOne(
       );
       await applySeedToExistingSave(current.id, opts.seed);
       stashWebCookiesThenKick(current.id, source, opts.cookies);
-      log.info("[pond pipeline:enqueue] reseeded failed save", {
+      log.info("[apostrophi pipeline:enqueue] reseeded failed save", {
         id: current.id,
         source,
         trigger: opts.trigger,
@@ -166,7 +166,7 @@ async function enqueueOne(
         if (merge.didFillAvatarUrl) {
           await rependFetchAvatar(current.id);
         }
-        log.info("[pond pipeline:enqueue] enriched existing save", {
+        log.info("[apostrophi pipeline:enqueue] enriched existing save", {
           id: current.id,
           source,
           trigger: opts.trigger,
@@ -181,7 +181,7 @@ async function enqueueOne(
       await rependArchiveForCookies(current.id);
     }
     stashWebCookiesThenKick(current.id, source, opts.cookies);
-    log.info("[pond pipeline:enqueue] existing save", {
+    log.info("[apostrophi pipeline:enqueue] existing save", {
       id: current.id,
       source,
       trigger: opts.trigger,
@@ -207,7 +207,7 @@ async function enqueueOne(
   const insertedAction = persistence.insertBundle(bundle);
   if (insertedAction) broadcastSyncAction(insertedAction);
 
-  log.info("[pond pipeline:enqueue] created save", {
+  log.info("[apostrophi pipeline:enqueue] created save", {
     id: bundle.save.id,
     source,
     sourceId,
@@ -256,7 +256,7 @@ async function enqueueMany(
     } catch (err) {
       result.failed += 1;
       log.warn(
-        "[pond pipeline:enqueue] many existing item failed",
+        "[apostrophi pipeline:enqueue] many existing item failed",
         candidate.url,
         err,
       );
@@ -281,7 +281,7 @@ async function enqueueMany(
   result.created = fresh.length;
   for (const action of insertedActions) broadcastSyncAction(action);
   kickReconciler();
-  log.info("[pond pipeline:enqueue] many", {
+  log.info("[apostrophi pipeline:enqueue] many", {
     created: result.created,
     existing: result.existing,
     failed: result.failed,

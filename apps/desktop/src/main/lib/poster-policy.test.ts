@@ -1,5 +1,5 @@
-import type { SaveFile } from "@pond/schema/db";
-import { storedAsRawJson } from "@pond/schema/raw-schema";
+import type { SaveFile } from "@apostrophi/schema/db";
+import { storedAsRawJson } from "@apostrophi/schema/raw-schema";
 import { describe, expect, it } from "vitest";
 import {
   needsPosterRepair,

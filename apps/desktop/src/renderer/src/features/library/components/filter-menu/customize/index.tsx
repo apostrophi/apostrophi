@@ -8,11 +8,11 @@ import {
   IconMediaLibrary,
   IconRefresh,
   IconTextToImage,
-} from "@pond/icons";
-import type { IconComponent } from "@pond/icons/types";
-import { FIELD_META } from "@pond/schema/filters/meta";
-import type { FieldId } from "@pond/schema/filters/types";
-import { Menu, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { IconComponent } from "@apostrophi/icons/types";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
+import type { FieldId } from "@apostrophi/schema/filters/types";
+import { Menu, Tooltip } from "@apostrophi/ui";
 import { libraryHeader } from "@/features/library/state/library-header";
 import { fieldIcon } from "@/features/search/query";
 import { useMenuFilterQuery } from "@/shared/hooks/use-menu-filter-query";

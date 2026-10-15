@@ -1,6 +1,6 @@
-import type { SavedView } from "@pond/schema/db";
-import { matches } from "@pond/schema/filters/match";
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
+import type { SavedView } from "@apostrophi/schema/db";
+import { matches } from "@apostrophi/schema/filters/match";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
 import { describe, expect, it } from "vitest";
 import {
   combineQueries,

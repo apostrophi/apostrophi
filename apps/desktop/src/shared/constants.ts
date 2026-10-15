@@ -1,74 +1,74 @@
-import type { ExternalSource } from "@pond/schema/sources";
+import type { ExternalSource } from "@apostrophi/schema/sources";
 import type { BlankDocumentKind } from "./blank-documents";
 
 export const DEFAULT_INGEST_PORT = 41610;
 
-export const DEFAULT_LIBRARY_NAME = "My Pond";
+export const DEFAULT_LIBRARY_NAME = "My Apostrophi";
 
 export const LIBRARY_SCHEMA_VERSION = 1;
 
-export const KEYCHAIN_SERVICE = "so.pond.desktop";
+export const KEYCHAIN_SERVICE = "so.apostrophi.desktop";
 
 export const KEYCHAIN_INGEST_TOKEN = "ingest-token";
 
 export const KEYCHAIN_AGENT_PREFIX = "agent";
 
-export const POND_PROTOCOL = "pond";
+export const APOSTROPHI_PROTOCOL = "apostrophi";
 
 export const IPC = {
-  tx: "pond:tx",
-  txBatch: "pond:tx-batch",
-  undo: "pond:undo",
-  redo: "pond:redo",
-  query: "pond:query",
-  syncAction: "pond:sync-action",
-  appInfo: "pond:app-info",
-  rendererReady: "pond:renderer-ready",
-  nav: "pond:nav",
-  prefsChanged: "pond:prefs-changed",
-  openExternal: "pond:open-external",
-  revealSave: "pond:reveal-save",
-  openSaveFile: "pond:open-save-file",
-  refreshSave: "pond:refresh-save",
-  refreshBackfillStart: "pond:refresh-backfill-start",
-  refreshBackfillCancel: "pond:refresh-backfill-cancel",
-  pipelinePause: "pond:pipeline-pause",
-  pipelineCancelSave: "pond:pipeline-cancel-save",
-  pipelineCancelAll: "pond:pipeline-cancel-all",
-  sourceConnect: "pond:source-connect",
-  sourceStatus: "pond:source-status",
-  sessionPendingClear: "pond:session-pending-clear",
-  sessionImported: "pond:session-imported",
-  eagleImportProgress: "pond:eagle-import-progress",
-  syncRunNow: "pond:sync-run-now",
-  syncStatus: "pond:sync-status",
-  syncRunAll: "pond:sync-run-all",
-  syncCancel: "pond:sync-cancel",
-  governorSetPaused: "pond:governor-set-paused",
-  governorResumeSource: "pond:governor-resume-source",
-  storageStatus: "pond:storage-status",
-  editUndoRequested: "pond:edit-undo-requested",
-  editRedoRequested: "pond:edit-redo-requested",
-  shortcutAction: "pond:shortcut-action",
-  menuAction: "pond:menu-action",
-  libraryId: "pond:library-id",
-  menuRecents: "pond:menu-recents",
-  menuOpenSave: "pond:menu-open-save",
-  archiveNavigate: "pond:archive-navigate",
-  archiveBackfillStart: "pond:archive-backfill-start",
-  archiveSite: "pond:archive-site",
-  agentChunk: "pond:agent-chunk",
-  agentStream: "pond:agent-stream",
-  agentFilter: "pond:agent-filter",
-  agentCite: "pond:agent-cite",
-  agentOverlay: "pond:agent-overlay",
-  previewOpen: "pond:preview-open",
-  previewConfigure: "pond:preview-configure",
-  previewNavigate: "pond:preview-navigate",
-  previewNeighborRequest: "pond:preview-neighbor-request",
-  previewFileAction: "pond:preview-file-action",
-  previewClose: "pond:preview-close",
-  previewState: "pond:preview-state",
+  tx: "apostrophi:tx",
+  txBatch: "apostrophi:tx-batch",
+  undo: "apostrophi:undo",
+  redo: "apostrophi:redo",
+  query: "apostrophi:query",
+  syncAction: "apostrophi:sync-action",
+  appInfo: "apostrophi:app-info",
+  rendererReady: "apostrophi:renderer-ready",
+  nav: "apostrophi:nav",
+  prefsChanged: "apostrophi:prefs-changed",
+  openExternal: "apostrophi:open-external",
+  revealSave: "apostrophi:reveal-save",
+  openSaveFile: "apostrophi:open-save-file",
+  refreshSave: "apostrophi:refresh-save",
+  refreshBackfillStart: "apostrophi:refresh-backfill-start",
+  refreshBackfillCancel: "apostrophi:refresh-backfill-cancel",
+  pipelinePause: "apostrophi:pipeline-pause",
+  pipelineCancelSave: "apostrophi:pipeline-cancel-save",
+  pipelineCancelAll: "apostrophi:pipeline-cancel-all",
+  sourceConnect: "apostrophi:source-connect",
+  sourceStatus: "apostrophi:source-status",
+  sessionPendingClear: "apostrophi:session-pending-clear",
+  sessionImported: "apostrophi:session-imported",
+  eagleImportProgress: "apostrophi:eagle-import-progress",
+  syncRunNow: "apostrophi:sync-run-now",
+  syncStatus: "apostrophi:sync-status",
+  syncRunAll: "apostrophi:sync-run-all",
+  syncCancel: "apostrophi:sync-cancel",
+  governorSetPaused: "apostrophi:governor-set-paused",
+  governorResumeSource: "apostrophi:governor-resume-source",
+  storageStatus: "apostrophi:storage-status",
+  editUndoRequested: "apostrophi:edit-undo-requested",
+  editRedoRequested: "apostrophi:edit-redo-requested",
+  shortcutAction: "apostrophi:shortcut-action",
+  menuAction: "apostrophi:menu-action",
+  libraryId: "apostrophi:library-id",
+  menuRecents: "apostrophi:menu-recents",
+  menuOpenSave: "apostrophi:menu-open-save",
+  archiveNavigate: "apostrophi:archive-navigate",
+  archiveBackfillStart: "apostrophi:archive-backfill-start",
+  archiveSite: "apostrophi:archive-site",
+  agentChunk: "apostrophi:agent-chunk",
+  agentStream: "apostrophi:agent-stream",
+  agentFilter: "apostrophi:agent-filter",
+  agentCite: "apostrophi:agent-cite",
+  agentOverlay: "apostrophi:agent-overlay",
+  previewOpen: "apostrophi:preview-open",
+  previewConfigure: "apostrophi:preview-configure",
+  previewNavigate: "apostrophi:preview-navigate",
+  previewNeighborRequest: "apostrophi:preview-neighbor-request",
+  previewFileAction: "apostrophi:preview-file-action",
+  previewClose: "apostrophi:preview-close",
+  previewState: "apostrophi:preview-state",
 } as const;
 
 export interface RecentMenuEntry {
@@ -126,7 +126,7 @@ export type MenuActionId =
   | "save.copy-id"
   | "save.copy-name"
   | "save.copy-file-path"
-  | "save.copy-pond-link"
+  | "save.copy-apostrophi-link"
   | "save.copy-tags"
   | "save.paste-tags"
   | "save.rename"
@@ -140,7 +140,7 @@ export type MenuActionId =
   | "save.export-files"
   | "save.export-converted"
   | "save.export-eagle-package"
-  | "save.export-pond-package"
+  | "save.export-apostrophi-package"
   | "save.export-csv"
   | "save.remove-current-folder"
   | "trash.empty"

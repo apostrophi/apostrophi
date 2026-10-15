@@ -7,8 +7,8 @@ import {
   IconPath,
   IconTags,
   IconText,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { isThumbnailKind } from "@shared/save-file-names";
 import {
   copyBase64,
@@ -55,19 +55,25 @@ export function buildCopyItems({
       onClick: () => void copyBase64(save, fileIndex),
     },
     {
-      label: "Copy Pond Link",
+      label: "Copy Apostrophi Link",
       icon: glyph(IconLink2),
       onClick: () => {
-        void window.pond
+        void window.apostrophi
           .query("saves.copyInternalLinks", { ids })
           .then(() =>
             notify({
-              id: "copy-pond-link",
-              title: ids.length > 1 ? "Pond links copied" : "Pond link copied",
+              id: "copy-apostrophi-link",
+              title:
+                ids.length > 1
+                  ? "Apostrophi links copied"
+                  : "Apostrophi link copied",
             }),
           )
           .catch(() =>
-            notify({ id: "copy-pond-link", title: "Couldn't copy Pond link" }),
+            notify({
+              id: "copy-apostrophi-link",
+              title: "Couldn't copy Apostrophi link",
+            }),
           );
       },
     },

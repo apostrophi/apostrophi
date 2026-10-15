@@ -8,7 +8,7 @@ import {
   type StoredFileViewerKind,
   storedFileViewerKind,
 } from "@/features/saves/lib/media/file-viewer";
-import { buildPondUrl } from "@/features/saves/lib/media/url";
+import { buildApostrophiUrl } from "@/features/saves/lib/media/url";
 import type { Save, SaveFile } from "@/features/saves/types";
 import {
   FileActions,
@@ -106,7 +106,7 @@ export function StoredFileContent({
   save,
   file,
   fileIndex,
-  url = buildPondUrl(save.id, file),
+  url = buildApostrophiUrl(save.id, file),
   active = true,
   navigation,
   viewerKind,

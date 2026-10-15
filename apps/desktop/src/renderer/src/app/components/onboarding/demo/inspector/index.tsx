@@ -1,4 +1,4 @@
-import { IconCircleInfo, IconMessage, IconSliders } from "@pond/icons";
+import { IconCircleInfo, IconMessage, IconSliders } from "@apostrophi/icons";
 import { PaneHeader } from "../pane-header";
 import styles from "./styles.module.css";
 

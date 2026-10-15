@@ -11,7 +11,7 @@ export const FILE_MENU_IMPORT_LABELS = [
   "Import Folders",
   "Import from Links",
   "Import Eagle Library",
-  "Import Pond Package",
+  "Import Apostrophi Package",
 ] as const;
 
 export const FILE_MENU_AUTO_IMPORT_LABELS = ["Watched Folder"] as const;
@@ -26,6 +26,6 @@ export const FILE_MENU_EXPORT_LABELS = [
   "Export Files",
   "Export Converted Files",
   "Export Eagle Package",
-  "Export Pond Package",
+  "Export Apostrophi Package",
   "Export to CSV",
 ] as const;

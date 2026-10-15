@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema";
+import type { Prefs } from "@apostrophi/schema";
 import { loadPrefs, savePrefsSection } from "@/shared/state/prefs";
 
 export type SavedViewPresentation = Prefs["savedViewViews"][string];

@@ -1,5 +1,5 @@
-import type { SavedView } from "@pond/schema/db";
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
+import type { SavedView } from "@apostrophi/schema/db";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
 import type { QueryInput } from "@shared/query-contracts";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
@@ -96,7 +96,7 @@ export const savedViews = {
     }));
   },
   async refresh(): Promise<void> {
-    const views = await window.pond.query("savedViews.list", {});
+    const views = await window.apostrophi.query("savedViews.list", {});
     store.setState((state) => ({
       ...state,
       views: views ?? [],
@@ -137,7 +137,7 @@ export const savedViews = {
       payload.sortDir = sortDir;
       payload.layout = layout;
     }
-    const result = await window.pond.query("savedViews.create", payload);
+    const result = await window.apostrophi.query("savedViews.create", payload);
     if (!result.ok || !result.id)
       throw new Error("Could not create this smart folder item.");
     await savedViews.refresh();
@@ -160,14 +160,17 @@ export const savedViews = {
       patch.sortDir = state.sortDir;
       patch.layout = state.layout;
     }
-    const result = await window.pond.query("savedViews.update", { id, patch });
+    const result = await window.apostrophi.query("savedViews.update", {
+      id,
+      patch,
+    });
     if (!result.ok) throw new Error("Could not update this smart folder item.");
     await savedViews.refresh();
   },
   async duplicate(id: string): Promise<SavedView> {
     const view = store.state.views.find((entry) => entry.id === id);
     if (!view) throw new Error("This smart folder item no longer exists.");
-    const result = await window.pond.query("savedViews.create", {
+    const result = await window.apostrophi.query("savedViews.create", {
       name: `${view.name} Copy`,
       kind: view.kind,
       parentId: view.parentId,
@@ -186,7 +189,7 @@ export const savedViews = {
   },
   async edit(id: string, name: string, query: Query): Promise<void> {
     const active = getViewState().activeViewId === id;
-    const result = await window.pond.query("savedViews.update", {
+    const result = await window.apostrophi.query("savedViews.update", {
       id,
       patch: { name, query },
     });
@@ -195,12 +198,15 @@ export const savedViews = {
     if (active) savedViews.select(id);
   },
   async rename(id: string, name: string): Promise<void> {
-    const result = await window.pond.query("savedViews.rename", { id, name });
+    const result = await window.apostrophi.query("savedViews.rename", {
+      id,
+      name,
+    });
     if (!result.ok) throw new Error("Could not rename this smart folder item.");
     await savedViews.refresh();
   },
   async move(id: string, parentId: string | null): Promise<void> {
-    const result = await window.pond.query("savedViews.update", {
+    const result = await window.apostrophi.query("savedViews.update", {
       id,
       patch: { parentId },
     });
@@ -208,7 +214,7 @@ export const savedViews = {
     await savedViews.refresh();
   },
   async remove(id: string): Promise<void> {
-    const result = await window.pond.query("savedViews.delete", { id });
+    const result = await window.apostrophi.query("savedViews.delete", { id });
     if (!result.ok) throw new Error("Could not delete this smart folder item.");
     await savedViews.refresh();
   },

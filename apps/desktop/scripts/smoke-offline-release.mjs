@@ -21,7 +21,7 @@ const result = spawnSync("pnpm", ["exec", "vitest", "run", ...files], {
   cwd: new URL("..", import.meta.url),
   env: {
     ...process.env,
-    POND_OFFLINE: "1",
+    APOSTROPHI_OFFLINE: "1",
     HTTP_PROXY: "http://127.0.0.1:9",
     HTTPS_PROXY: "http://127.0.0.1:9",
     NO_PROXY: "",

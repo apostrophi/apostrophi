@@ -5,7 +5,7 @@ export function useDownloadActivity(enabled = true) {
   return useQuery({
     enabled,
     queryKey: ["downloads.activity"],
-    queryFn: () => window.pond.query("downloads.activity", {}),
+    queryFn: () => window.apostrophi.query("downloads.activity", {}),
     refetchInterval: 1_000,
     staleTime: 500,
   });

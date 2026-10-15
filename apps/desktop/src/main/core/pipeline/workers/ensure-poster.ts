@@ -1,6 +1,6 @@
 import { join } from "node:path";
-import type { NewSave, SaveFile, Source } from "@pond/schema/db";
-import type { RawJson } from "@pond/schema/raw";
+import type { NewSave, SaveFile, Source } from "@apostrophi/schema/db";
+import type { RawJson } from "@apostrophi/schema/raw";
 import { isVideoFile } from "@shared/media-index";
 import log from "electron-log/main.js";
 import { fetchAvatarToTxFile } from "../../../lib/blob";
@@ -85,7 +85,7 @@ async function ensurePoster(
     youtubeThumbnailUrl(save.rawJson) != null;
   if (!opts.force && !forcePlatform && !needsPosterRepair(files)) {
     log.debug(
-      "[pond pipeline:ensure-poster] posters already satisfy policy",
+      "[apostrophi pipeline:ensure-poster] posters already satisfy policy",
       saveId,
     );
     return;
@@ -143,7 +143,7 @@ async function ensurePoster(
   const latest = await readSave(saveId);
   await ensureSaveThumbnail(saveId, latest);
   log.info(
-    "[pond pipeline:ensure-poster] wrote posters",
+    "[apostrophi pipeline:ensure-poster] wrote posters",
     saveId,
     newFiles.length,
   );

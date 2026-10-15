@@ -1,4 +1,4 @@
-import { Input, Settings } from "@pond/ui";
+import { Input, Settings } from "@apostrophi/ui";
 import { useEffect, useRef, useState } from "react";
 import { savePrefsSection, usePrefs } from "@/shared/state/prefs";
 import type { AgentPrefs } from "../types";

@@ -7,7 +7,7 @@ import {
   Toast,
 } from "@raycast/api";
 import { useState } from "react";
-import { enqueueUrl, PondApiError, validatedUrl } from "./pond-api";
+import { ApostrophiApiError, enqueueUrl, validatedUrl } from "./apostrophi-api";
 
 interface SaveUrlArguments {
   url?: string;
@@ -34,14 +34,20 @@ export default function SaveUrl(
       const url = validatedUrl(values.url);
       const result = await enqueueUrl(url);
       toast.style = Toast.Style.Success;
-      toast.title = result.created ? "Saved to Pond" : "Already in Pond";
+      toast.title = result.created
+        ? "Saved to Apostrophi"
+        : "Already in Apostrophi";
       toast.message = new URL(url).hostname;
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Try again with Pond open.";
+        error instanceof Error
+          ? error.message
+          : "Try again with Apostrophi open.";
       toast.style = Toast.Style.Failure;
       toast.title =
-        error instanceof PondApiError ? "Could Not Save URL" : "Invalid URL";
+        error instanceof ApostrophiApiError
+          ? "Could Not Save URL"
+          : "Invalid URL";
       toast.message = message;
       setUrlError(message);
     } finally {
@@ -54,7 +60,7 @@ export default function SaveUrl(
       isLoading={submitting}
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Save to Pond" onSubmit={submit} />
+          <Action.SubmitForm title="Save to Apostrophi" onSubmit={submit} />
         </ActionPanel>
       }
     >

@@ -20,7 +20,7 @@ export function localApiSuccessSchema<Schema extends z.ZodType>(
 }
 
 export const LocalApiAppInfoSchema = z.object({
-  name: z.literal("pond"),
+  name: z.literal("apostrophi"),
   version: z.string(),
   platform: z.string(),
   arch: z.string(),

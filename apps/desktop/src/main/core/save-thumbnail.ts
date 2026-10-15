@@ -1,5 +1,5 @@
-import type { Save } from "@pond/schema/db";
-import { saves } from "@pond/schema/db";
+import type { Save } from "@apostrophi/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import {
   hasMediaThumbnail,
   primaryOriginalPath,
@@ -100,6 +100,6 @@ export async function ensureSaveThumbnail(
       },
     );
   } catch (err) {
-    log.warn("[pond thumbnail] could not write sidecar", saveId, err);
+    log.warn("[apostrophi thumbnail] could not write sidecar", saveId, err);
   }
 }

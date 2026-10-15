@@ -1,4 +1,4 @@
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

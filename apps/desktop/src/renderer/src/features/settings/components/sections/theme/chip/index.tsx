@@ -1,4 +1,4 @@
-import type { ThemeDef } from "@pond/schema/db";
+import type { ThemeDef } from "@apostrophi/schema/db";
 import styles from "./styles.module.css";
 
 export function ThemeChip({ def }: { def: ThemeDef }) {

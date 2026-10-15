@@ -1,6 +1,6 @@
 import { lstat, rename } from "node:fs/promises";
 import { join } from "node:path";
-import type { Save, SyncAction, Tag } from "@pond/schema/db";
+import type { Save, SyncAction, Tag } from "@apostrophi/schema/db";
 import {
   folders as foldersTable,
   savedViews as savedViewsTable,
@@ -10,8 +10,12 @@ import {
   tagGroupMembers as tagGroupMembersTable,
   tagGroups as tagGroupsTable,
   tags as tagsTable,
-} from "@pond/schema/db";
-import type { SyncActionPayload, Transaction, TxMeta } from "@pond/schema/tx";
+} from "@apostrophi/schema/db";
+import type {
+  SyncActionPayload,
+  Transaction,
+  TxMeta,
+} from "@apostrophi/schema/tx";
 import { and, eq } from "drizzle-orm";
 import { BrowserWindow } from "electron";
 import log from "electron-log/main.js";
@@ -146,7 +150,7 @@ async function executeSerializedBatch(
         .run(batchId);
     },
     onCleanupError: (error) =>
-      log.warn("[pond executor] journal cleanup deferred", error),
+      log.warn("[apostrophi executor] journal cleanup deferred", error),
     commitIndex: () =>
       raw.transaction(() => {
         const out: SyncAction[] = [];
@@ -199,7 +203,7 @@ async function executeSerializedBatch(
         )
         .run(SYNC_ACTIONS_RING);
     } catch (err) {
-      log.warn("[pond executor] sync_actions trim failed", err);
+      log.warn("[apostrophi executor] sync_actions trim failed", err);
     }
   }
 
@@ -264,7 +268,7 @@ async function applyToDisk(tx: Transaction): Promise<void> {
         const current = rows[0];
         if (!current) {
           log.warn(
-            "[pond executor] update for unknown item (no DB row either)",
+            "[apostrophi executor] update for unknown item (no DB row either)",
             tx.id,
           );
           throw new Error("The Save no longer exists.");
@@ -272,7 +276,7 @@ async function applyToDisk(tx: Transaction): Promise<void> {
         /** SAFETY: `current` is a full row from the DB; the patch only narrows its columns. */
         const merged = { ...current, ...tx.patch } as Save;
         log.info(
-          "[pond executor] healing orphan: rebuilding items dir",
+          "[apostrophi executor] healing orphan: rebuilding items dir",
           tx.id,
           tx.files.map((f) => f.filename),
         );
@@ -482,7 +486,7 @@ export function broadcastSyncAction(action: SyncAction): void {
     try {
       fn(action);
     } catch (err) {
-      log.warn("[pond executor] sync listener threw", err);
+      log.warn("[apostrophi executor] sync listener threw", err);
     }
   }
 }

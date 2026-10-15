@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { createReadStream, readFileSync, writeFileSync } from "node:fs";
 import { basename } from "node:path";
 
-const [version, armPath, intelPath, caskPath = "Casks/pond.rb"] =
+const [version, armPath, intelPath, caskPath = "Casks/apostrophi.rb"] =
   process.argv.slice(2);
 
 if (!version || !armPath || !intelPath || !/^\d+\.\d+\.\d+$/.test(version)) {
@@ -11,8 +11,8 @@ if (!version || !armPath || !intelPath || !/^\d+\.\d+\.\d+$/.test(version)) {
   );
 }
 
-const expectedArm = `Pond-${version}-arm64.dmg`;
-const expectedIntel = `Pond-${version}-x64.dmg`;
+const expectedArm = `Apostrophi-${version}-arm64.dmg`;
+const expectedIntel = `Apostrophi-${version}-x64.dmg`;
 
 if (
   basename(armPath) !== expectedArm ||

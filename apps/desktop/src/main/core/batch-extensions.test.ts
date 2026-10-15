@@ -1,4 +1,4 @@
-import { inverse, type Transaction } from "@pond/schema/tx";
+import { inverse, type Transaction } from "@apostrophi/schema/tx";
 import { describe, expect, it } from "vitest";
 import {
   type BatchExtensionRuntime,

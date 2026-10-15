@@ -1,5 +1,5 @@
-import type { Folder } from "@pond/schema/db";
-import type { Transaction } from "@pond/schema/tx";
+import type { Folder } from "@apostrophi/schema/db";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { expect, it } from "vitest";
 import {
   type CreateFolderWithSavesRuntime,

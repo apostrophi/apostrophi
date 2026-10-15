@@ -7,7 +7,7 @@ export async function optimistic<T>(
   try {
     return await run();
   } catch (err) {
-    console.warn("[pond pool] tx failed, rolling back", err);
+    console.warn("[apostrophi pool] tx failed, rolling back", err);
     rollback();
     return null;
   }

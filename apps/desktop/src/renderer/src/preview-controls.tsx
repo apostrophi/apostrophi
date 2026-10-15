@@ -12,8 +12,8 @@ import {
   IconRotateImageClockwise,
   IconSizeLg,
   IconWindowShare,
-} from "@pond/icons";
-import { Button, Tooltip } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, Tooltip } from "@apostrophi/ui";
 import type { ReactElement } from "react";
 import type { PreviewWindowState } from "../../shared/preview-window-contracts";
 import { FramelessWindowChrome } from "./shared/components/frameless-window-chrome";

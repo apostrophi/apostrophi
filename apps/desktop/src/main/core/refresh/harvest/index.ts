@@ -1,7 +1,7 @@
-import type { Source } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
-import type { Capture } from "@pond/schema/raw";
-import { sourceIdFromUrl } from "@pond/schema/sources";
+import type { Source } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
+import type { Capture } from "@apostrophi/schema/raw";
+import { sourceIdFromUrl } from "@apostrophi/schema/sources";
 import * as arena from "./arena";
 import * as cosmos from "./cosmos";
 import type { HarvestAdaptCtx } from "./from-page";

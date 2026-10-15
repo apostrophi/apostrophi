@@ -1,4 +1,4 @@
-import { Button, DataTable, Dialog, Input } from "@pond/ui";
+import { Button, DataTable, Dialog, Input } from "@apostrophi/ui";
 import { type MutableRefObject, useState } from "react";
 import { tagOperations } from "@/features/tags/operations/tag-client";
 import { errorCopy } from "@/shared/lib/error-copy";
@@ -39,7 +39,7 @@ export function TagsBulkActionBar({
         await tagOperations.mergeTags(draft.names, value);
       } else {
         await tagOperations.create("group", value);
-        await window.pond.query("tagGroups.addTags", {
+        await window.apostrophi.query("tagGroups.addTags", {
           tags: draft.names,
           group: value,
         });

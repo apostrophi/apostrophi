@@ -1,4 +1,4 @@
-import { type AgentReasoning, AgentReasoningSchema } from "@pond/schema";
+import { type AgentReasoning, AgentReasoningSchema } from "@apostrophi/schema";
 import { z } from "zod";
 import { gatewayCreator } from "../../../shared/assistant";
 import {

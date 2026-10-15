@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui/button";
+import { Button } from "@apostrophi/ui/button";
 import { PopupShell } from "../shell";
 import styles from "./styles.module.css";
 
@@ -12,7 +12,7 @@ export function OfflineView({
       <div className={styles.heading}>
         <h1 className={styles.title}>Not running</h1>
         <p className={styles.subtitle}>
-          Pond isn't running on this Mac. Open the app.
+          Apostrophi isn't running on this Mac. Open the app.
         </p>
       </div>
 

@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui";
+import { Button } from "@apostrophi/ui";
 import type { TransferJob } from "@shared/transfer-contracts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -7,9 +7,9 @@ import styles from "./styles.module.css";
 const labels = {
   export_eagle_package: "Export Eagle Package",
   export_files: "Export Files",
-  export_package: "Export Pond Package",
+  export_package: "Export Apostrophi Package",
   import_eagle_package: "Import Eagle Package",
-  import_package: "Import Pond Package",
+  import_package: "Import Apostrophi Package",
   copy_library: "Copy to Library",
   merge_library: "Merge Library",
 } satisfies Record<TransferJob["request"]["kind"], string>;
@@ -26,7 +26,7 @@ export function TransferJobsPanel({ search = "" }: { search?: string }) {
   const [error, setError] = useState<string | null>(null);
   const jobs = useQuery({
     queryKey: ["transfer-jobs"],
-    queryFn: () => window.pond.query("transferJobs.list", {}),
+    queryFn: () => window.apostrophi.query("transferJobs.list", {}),
     refetchInterval: 1000,
   });
   const action = useMutation({
@@ -37,7 +37,7 @@ export function TransferJobsPanel({ search = "" }: { search?: string }) {
       id: string;
       kind: "cancel" | "retry";
     }) => {
-      const result = await window.pond.query(
+      const result = await window.apostrophi.query(
         kind === "cancel" ? "transferJobs.cancel" : "transferJobs.retry",
         { id },
       );

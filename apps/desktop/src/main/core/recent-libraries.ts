@@ -142,7 +142,9 @@ export async function listRecentLibraries(file: string, activePath: string) {
           lastOpened: entry.lastOpened,
           icon: identity?.icon ?? entry.icon ?? null,
           accent: identity?.accent ?? null,
-          name: identity?.name ?? basename(entry.path).replace(/\.pond$/i, ""),
+          name:
+            identity?.name ??
+            basename(entry.path).replace(/\.apostrophi$/i, ""),
           active: entry.path === active,
           available,
         };

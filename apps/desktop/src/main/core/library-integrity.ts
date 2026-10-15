@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { lstat, readFile } from "node:fs/promises";
 import { basename, extname, join, relative, resolve, sep } from "node:path";
-import { type Save, saves } from "@pond/schema/db";
+import { type Save, saves } from "@apostrophi/schema/db";
 import {
   isAuxiliaryKind,
   isThumbnailKind,
@@ -216,7 +216,7 @@ async function inspectThumbnail(
     row,
     summary:
       thumbnails.length === 0 ? "Thumbnail is missing" : "Thumbnail is damaged",
-    detail: "Pond makes a new thumbnail from the original file.",
+    detail: "Apostrophi makes a new thumbnail from the original file.",
     observed,
     action: { kind: "thumbnail", source: source.path, destination },
   });

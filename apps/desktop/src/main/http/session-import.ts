@@ -1,4 +1,4 @@
-import { sessionImportPayloadSchema } from "@pond/schema/session";
+import { sessionImportPayloadSchema } from "@apostrophi/schema/session";
 import log from "electron-log/main.js";
 import type { Context } from "hono";
 import { sessionImport } from "../ops";
@@ -14,7 +14,7 @@ export async function sessionImportHandler(c: Context): Promise<Response> {
   const parsed = sessionImportPayloadSchema.safeParse(raw);
   if (!parsed.success) {
     log.warn(
-      "[pond http] session/import validation failed",
+      "[apostrophi http] session/import validation failed",
       parsed.error.flatten(),
     );
     return c.json({ status: "error", error: parsed.error.flatten() }, 400);

@@ -49,7 +49,7 @@ describe("library Tags page", () => {
 
   beforeEach(() => {
     vi.stubGlobal("scrollTo", vi.fn());
-    vi.stubGlobal("pond", { query, onSyncAction: () => () => {} });
+    vi.stubGlobal("apostrophi", { query, onSyncAction: () => () => {} });
     vi.stubGlobal(
       "ResizeObserver",
       class {

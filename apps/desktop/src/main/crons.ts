@@ -20,7 +20,7 @@ export function registerTrashCron() {
       const purged = await emptyTrashOlderThan(days);
       if (purged > 0) {
         log.info(
-          `[pond trash-cron] purged ${purged} items older than ${days}d`,
+          `[apostrophi trash-cron] purged ${purged} items older than ${days}d`,
         );
       }
     },
@@ -64,11 +64,11 @@ export function registerSyncCron() {
         calendarRule = rule;
         if (!cron.enabled) return;
         if (isSyncBlockedByStorageGuard()) {
-          log.info("[pond sync-cron] storage guard active, skipping");
+          log.info("[apostrophi sync-cron] storage guard active, skipping");
           return;
         }
         if (!net.isOnline()) {
-          log.info("[pond sync-cron] offline, skipping");
+          log.info("[apostrophi sync-cron] offline, skipping");
           return;
         }
         if (
@@ -84,7 +84,7 @@ export function registerSyncCron() {
         if (!net.isOnline() || isSyncBlockedByStorageGuard()) return;
 
         lastSyncCronRunAt = Date.now();
-        log.info("[pond sync-cron] starting background sync", {
+        log.info("[apostrophi sync-cron] starting background sync", {
           intervalHours: cron.intervalHours,
         });
         await syncAllSources({ trigger: "cron", maxItems: CRON_BATCH_LIMIT });

@@ -74,8 +74,8 @@ export function buildEditSection(
             click: sendMenuAction("save.copy-url"),
           },
           {
-            label: "Copy Pond Link",
-            click: sendMenuAction("save.copy-pond-link"),
+            label: "Copy Apostrophi Link",
+            click: sendMenuAction("save.copy-apostrophi-link"),
           },
           {
             label: "Copy Name",

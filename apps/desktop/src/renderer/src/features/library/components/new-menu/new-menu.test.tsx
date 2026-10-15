@@ -20,7 +20,7 @@ describe("new menu", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: vi.fn(async () => ({ kinds: [] })),
     });
     host = document.createElement("div");

@@ -1,9 +1,9 @@
 import { expect, it } from "vitest";
 import { z } from "zod";
-import { pondOperations } from "./index";
+import { apostrophiOperations } from "./index";
 
 it("describes the production catalog without loading credentials or executing operations", () => {
-  const operations = pondOperations();
+  const operations = apostrophiOperations();
   expect(new Set(operations.map((entry) => entry.name)).size).toBe(
     operations.length,
   );

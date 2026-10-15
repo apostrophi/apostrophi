@@ -9,7 +9,7 @@ import {
 } from "./normalize";
 
 declare global {
-  var __pondHarvestAbort: boolean | undefined;
+  var __apostrophiHarvestAbort: boolean | undefined;
 }
 
 type FeedItem = InstagramMediaNode & {
@@ -54,7 +54,7 @@ export function buildInstagramListExpression(args: ListHarvestArgs): string {
   const fnSrc = `(${inPageInstagramList.toString()})`;
   return `(async () => {
     ${browserValidationSource}
-    const validators = PondHarvestValidation.browserValidators;
+    const validators = ApostrophiHarvestValidation.browserValidators;
     const norm = ${normSrc};
     const args = ${JSON.stringify(args)};
     try { return await ${fnSrc}(args, norm); }
@@ -89,7 +89,7 @@ async function inPageInstagramList(
 
     function checkpoint(): void {
       Object.assign(globalThis, {
-        __pondHarvestPartial: entries.map((e) => ({
+        __apostrophiHarvestPartial: entries.map((e) => ({
           sourceId: e.sourceId,
           url: e.url,
           savedAt: e.savedAt,
@@ -107,13 +107,13 @@ async function inPageInstagramList(
         ...extra,
         path: extra.path ?? location.pathname,
       };
-      Object.assign(globalThis, { __pondHarvestStats: stats });
+      Object.assign(globalThis, { __apostrophiHarvestStats: stats });
     }
 
     reportProgress("connecting", {});
 
     for (let page = 0; page < 200; page++) {
-      if (globalThis.__pondHarvestAbort) {
+      if (globalThis.__apostrophiHarvestAbort) {
         reportProgress("aborted", { page });
         checkpoint();
         return { ok: true, entries, reachedEnd: false };
@@ -233,7 +233,7 @@ async function inPageInstagramList(
       fresh: 0,
       path: location.pathname,
     };
-    Object.assign(globalThis, { __pondHarvestStats: stats });
+    Object.assign(globalThis, { __apostrophiHarvestStats: stats });
     const _known = new Set(args.knownIds.map(String));
 
     type StubEntry = {

@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 
-import type { MediaType } from "@pond/schema/db";
+import type { MediaType } from "@apostrophi/schema/db";
 import { buildScrollListExpression } from "../lib/expression";
 import type { inPageScrollCollect } from "../lib/scroll";
 import type { ListHarvestArgs, ListHarvestResult } from "../list-types";

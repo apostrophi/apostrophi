@@ -77,14 +77,17 @@ async function runUpdate(force: boolean): Promise<void> {
 
     const expectedSha = await fetchExpectedSha(tag, asset);
     if (!expectedSha) {
-      log.warn("[pond yt-dlp-update] no sha for asset in SHA2-256SUMS", asset);
+      log.warn(
+        "[apostrophi yt-dlp-update] no sha for asset in SHA2-256SUMS",
+        asset,
+      );
       return;
     }
 
     const buf = await fetchBinary(assetUrl(tag, asset));
     const actualSha = createHash("sha256").update(buf).digest("hex");
     if (actualSha !== expectedSha) {
-      log.warn("[pond yt-dlp-update] sha256 mismatch, refusing", {
+      log.warn("[apostrophi yt-dlp-update] sha256 mismatch, refusing", {
         asset,
         expected: expectedSha,
         actual: actualSha,
@@ -98,7 +101,7 @@ async function runUpdate(force: boolean): Promise<void> {
     if (process.platform !== "win32") await chmod(tmp, 0o755);
 
     if (!(await smokeTest(tmp))) {
-      log.warn("[pond yt-dlp-update] downloaded binary failed --version");
+      log.warn("[apostrophi yt-dlp-update] downloaded binary failed --version");
       await rm(tmp, { force: true });
       return;
     }
@@ -108,9 +111,9 @@ async function runUpdate(force: boolean): Promise<void> {
     await writeFile(join(dir, VERSION_FILE), tag, "utf8");
     invalidateBinariesCache();
     await markChecked(dir);
-    log.info("[pond yt-dlp-update] updated to", tag);
+    log.info("[apostrophi yt-dlp-update] updated to", tag);
   } catch (err) {
-    log.warn("[pond yt-dlp-update] check failed", err);
+    log.warn("[apostrophi yt-dlp-update] check failed", err);
   }
 }
 
@@ -122,7 +125,9 @@ async function healthCheckAndRollback(
   if (!existsSync(active)) return;
   if (await smokeTest(active)) return;
   if (!existsSync(previous)) {
-    log.warn("[pond yt-dlp-update] active binary failed --version, no backup");
+    log.warn(
+      "[apostrophi yt-dlp-update] active binary failed --version, no backup",
+    );
     return;
   }
 
@@ -138,7 +143,7 @@ async function healthCheckAndRollback(
   await rm(join(dir, VERSION_PREVIOUS_FILE), { force: true });
 
   invalidateBinariesCache();
-  log.warn("[pond yt-dlp-update] active binary broken, rolled back", {
+  log.warn("[apostrophi yt-dlp-update] active binary broken, rolled back", {
     restored: prevVersion,
   });
 }
@@ -161,12 +166,12 @@ async function rotateToPrevious(
 async function fetchLatestTag(): Promise<string | null> {
   const res = await fetch(LATEST_API, {
     headers: {
-      "user-agent": "pond-desktop",
+      "user-agent": "apostrophi-desktop",
       accept: "application/vnd.github+json",
     },
   });
   if (!res.ok) {
-    log.debug("[pond yt-dlp-update] latest release lookup", res.status);
+    log.debug("[apostrophi yt-dlp-update] latest release lookup", res.status);
     return null;
   }
   const json = ReleaseSchema.safeParse(await res.json());
@@ -179,7 +184,7 @@ async function fetchExpectedSha(
 ): Promise<string | null> {
   const res = await fetch(assetUrl(tag, "SHA2-256SUMS"), {
     redirect: "follow",
-    headers: { "user-agent": "pond-desktop" },
+    headers: { "user-agent": "apostrophi-desktop" },
   });
   if (!res.ok) return null;
   const text = await res.text();
@@ -196,7 +201,7 @@ async function fetchBinary(url: string): Promise<Buffer> {
   try {
     const res = await fetch(url, {
       redirect: "follow",
-      headers: { "user-agent": "pond-desktop" },
+      headers: { "user-agent": "apostrophi-desktop" },
       signal: controller.signal,
     });
     if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);

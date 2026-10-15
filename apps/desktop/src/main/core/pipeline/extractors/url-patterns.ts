@@ -1,4 +1,4 @@
-import { descriptorFor } from "@pond/schema/sources";
+import { descriptorFor } from "@apostrophi/schema/sources";
 
 export const TWITTER_PATTERNS = descriptorFor("twitter").urlPatterns;
 export const INSTAGRAM_PATTERNS = descriptorFor("instagram").urlPatterns;

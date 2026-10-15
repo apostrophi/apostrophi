@@ -1,6 +1,6 @@
-import { FIELD_META } from "@pond/schema/filters/meta";
-import type { FieldId, Predicate } from "@pond/schema/filters/types";
-import { Menu } from "@pond/ui";
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
+import type { FieldId, Predicate } from "@apostrophi/schema/filters/types";
+import { Menu } from "@apostrophi/ui";
 import { choiceIsSearchable } from "../layout";
 import type { FilterOption } from "../options";
 import { isChoiceSelected } from "../selection";

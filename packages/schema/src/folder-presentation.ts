@@ -44,7 +44,7 @@ export const FolderPresentationSchema = z.object({
   sortDir: z.enum(["asc", "desc"]).catch("desc"),
   zoom: z.number().finite().catch(130),
   includeSubfolders: z.boolean().catch(true),
-  randomSeed: z.string().catch("pond"),
+  randomSeed: z.string().catch("apostrophi"),
   manualOrder: z.array(z.string()).catch([]),
   pinnedIds: z.array(z.string()).catch([]),
   coverSaveId: z.string().nullable().catch(null),

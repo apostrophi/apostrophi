@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { createElement, type ReactNode } from "react";
 import { getPrefsSnapshot } from "@/shared/state/prefs";
 import { FolderIcon } from "./folder-icons";

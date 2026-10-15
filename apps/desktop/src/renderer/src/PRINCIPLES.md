@@ -1,8 +1,8 @@
 # Design principles
 
-Pond borrows its sensibility from Benji Taylor's [Family Values](https://benji.org/family-values):
+Apostrophi borrows its sensibility from Benji Taylor's [Family Values](https://benji.org/family-values):
 **simplicity**, **fluidity**, and **delight**. It translates them from an iOS wallet
-into a macOS/Electron desktop app. Simplicity keeps Pond accessible, fluidity keeps it
+into a macOS/Electron desktop app. Simplicity keeps Apostrophi accessible, fluidity keeps it
 oriented, and delight makes it feel cared for. Together they are how we respect your
 time, intelligence, and emotional experience.
 
@@ -18,7 +18,7 @@ out of sight and out of mind until you reach for it. Think of walking through a
 doorway: you glimpse a room from afar, and it resolves into detail as you enter.
 
 On the desktop this lives in our overlays. Base UI `Menu`, `ContextMenu`, `Popover`,
-`Drawer`, and `Dialog` are Pond's "trays". Each surfaces a single focused action or
+`Drawer`, and `Dialog` are Apostrophi's "trays". Each surfaces a single focused action or
 piece of content, layered on top of the current context rather than navigating away from
 it.
 
@@ -32,11 +32,11 @@ should clarify what changed and where things went, never decorate.
 
 Delight is deliberate, not sprinkled everywhere. It earns its place by surprise and
 novelty, which is why it belongs most in the corners of the app, not the highways. The
-goal is to make Pond feel human and considered, and to reward your investment.
+goal is to make Apostrophi feel human and considered, and to reward your investment.
 
 ## iOS to desktop translation
 
-| Family (iOS) | Pond (desktop) |
+| Family (iOS) | Apostrophi (desktop) |
 | --- | --- |
 | Dynamic tray system | Base UI `Menu` / `Popover` / `Drawer` / `Dialog` overlays |
 | Tray emerges from a button, preserving context | Popovers/menus anchored to their trigger; detail opens as an overlay, not a route swap |

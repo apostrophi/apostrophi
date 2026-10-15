@@ -1,5 +1,5 @@
-import { ApprovalCard } from "@pond/ui/approval-card";
-import { QuestionCard } from "@pond/ui/question-card";
+import { ApprovalCard } from "@apostrophi/ui/approval-card";
+import { QuestionCard } from "@apostrophi/ui/question-card";
 import type {
   AssistantMessage,
   AssistantProvider,

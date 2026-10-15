@@ -1,4 +1,4 @@
-import { LocalApiSwitchLibraryRequestSchema } from "@pond/schema/local-api";
+import { LocalApiSwitchLibraryRequestSchema } from "@apostrophi/schema/local-api";
 import { Hono } from "hono";
 import type { QueryResult } from "../../shared/query-contracts";
 import { libraryLocationQueries } from "../ipc/queries/library-locations";

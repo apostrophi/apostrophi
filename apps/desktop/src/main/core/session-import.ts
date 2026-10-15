@@ -1,8 +1,8 @@
-import type { ConnectedAccount, Source } from "@pond/schema/db";
+import type { ConnectedAccount, Source } from "@apostrophi/schema/db";
 import type {
   ExtensionCookie,
   SessionImportResponse,
-} from "@pond/schema/session";
+} from "@apostrophi/schema/session";
 import { session } from "electron";
 import log from "electron-log/main.js";
 import { IPC } from "../../shared/constants";
@@ -82,7 +82,7 @@ export async function importSessionCookies(
 
   if (source === "reddit" && !resolution.probedHandle) {
     log.info(
-      `[pond session-import] ${source}: cookies present but /api/me.json did not return a user`,
+      `[apostrophi session-import] ${source}: cookies present but /api/me.json did not return a user`,
     );
     return {
       ok: false,
@@ -97,7 +97,7 @@ export async function importSessionCookies(
     resolution.kind !== "identity_match"
   ) {
     log.info(
-      `[pond session-import] ${source}: cookies present but GraphQL me did not return a user`,
+      `[apostrophi session-import] ${source}: cookies present but GraphQL me did not return a user`,
     );
     return {
       ok: false,
@@ -113,7 +113,7 @@ export async function importSessionCookies(
     partition: partitionForAccount(account.id),
   });
   log.info(
-    `[pond session-import] ${source} → @${account.handle ?? "?"} (${account.id}, ${resolution.kind}): ` +
+    `[apostrophi session-import] ${source} → @${account.handle ?? "?"} (${account.id}, ${resolution.kind}): ` +
       `wrote ${written} (skipped ${skipped}, filtered out ${cookies.length - filtered.length})`,
   );
 
@@ -156,12 +156,12 @@ export async function importSessionCookies(
   }
   if (Object.keys(patch).length > 0) {
     await patchAccount(account.id, patch).catch((err) =>
-      log.warn("[pond session-import] identity patch failed", err),
+      log.warn("[apostrophi session-import] identity patch failed", err),
     );
   }
 
   void syncAccount(account.id, { trigger: "manual" }).catch((err) =>
-    log.warn("[pond session-import] follow-up sync threw", source, err),
+    log.warn("[apostrophi session-import] follow-up sync threw", source, err),
   );
 
   fillMissingAvatars();
@@ -238,7 +238,7 @@ async function resolveTargetAccount(
   if (!first) throw new Error("unreachable: accounts non-empty");
   if (accounts.length > 1) {
     log.warn(
-      `[pond session-import] ${source}: ${accounts.length} accounts but the session carries no identity; assigning to the first`,
+      `[apostrophi session-import] ${source}: ${accounts.length} accounts but the session carries no identity; assigning to the first`,
     );
     return { account: first, kind: "ambiguous", probedHandle };
   }
@@ -249,14 +249,14 @@ async function probeStagedHandle(
   source: Source,
   cookies: ExtensionCookie[],
 ): Promise<string | null> {
-  const staging = `pond-staging-${source}`;
+  const staging = `apostrophi-staging-${source}`;
   try {
     await session.fromPartition(staging).clearStorageData();
     await writePartitionCookies({ cookies, partition: staging });
     const handle = await probeUserHandle(source, staging);
     return normalizeHandle(handle);
   } catch (err) {
-    log.warn("[pond session-import] staged probe failed", source, err);
+    log.warn("[apostrophi session-import] staged probe failed", source, err);
     return null;
   } finally {
     void session

@@ -1,4 +1,4 @@
-import type { Query } from "@pond/schema/filters/types";
+import type { Query } from "@apostrophi/schema/filters/types";
 import { describe, expectTypeOf, it } from "vitest";
 import type {
   QueryArguments,

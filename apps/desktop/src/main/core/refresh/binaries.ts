@@ -8,7 +8,7 @@ import which from "which";
 const app: typeof electron.app | undefined = electron.app;
 
 /** Main resolves ffmpeg and hands the path to queue workers, which can't see `app.isPackaged`. */
-export const FFMPEG_PATH_ENV = "POND_FFMPEG_PATH";
+export const FFMPEG_PATH_ENV = "APOSTROPHI_FFMPEG_PATH";
 
 interface ResolvedBinaries {
   ytdlp: string | null;
@@ -29,7 +29,7 @@ let cached: ResolvedBinaries | null = null;
 export function binariesAvailable(): ResolvedBinaries {
   if (cached) return cached;
   cached = { ytdlp: resolveYtDlp(), ffmpeg: resolveFfmpeg() };
-  log.info("[pond binaries] resolved", {
+  log.info("[apostrophi binaries] resolved", {
     ytdlp: cached.ytdlp,
     ffmpeg: cached.ffmpeg,
   });

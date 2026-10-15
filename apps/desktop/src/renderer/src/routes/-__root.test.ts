@@ -20,6 +20,6 @@ describe("__root route", () => {
     expect(src).toContain("Tray.Library");
     expect(src).toContain("SourceFlowHost");
     expect(src).not.toContain("SettingsModal");
-    expect(src).toContain("window.pond.onNavigate");
+    expect(src).toContain("window.apostrophi.onNavigate");
   });
 });

@@ -5,14 +5,14 @@ import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
 import { libraryChrome } from "../../library/state/library-chrome";
 import { selection } from "../../saves/state/selection";
+import { apostrophiChatSession } from "./apostrophi-chat";
+import { messageText } from "./apostrophi-messages";
 import { assistant, useAssistant } from "./assistant";
 import {
   agentStreamBridge,
   createAssistantHarness,
   type StreamReply,
 } from "./assistant.test-harness";
-import { pondChatSession } from "./pond-chat";
-import { messageText } from "./pond-messages";
 
 it("renders a multi-chunk reply progressively", async () => {
   const chatId = "multi-chunk-render";
@@ -22,7 +22,7 @@ it("renders a multi-chunk reply progressively", async () => {
     status: string;
     text: string;
   }> = [];
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: vi.fn(() => Promise.resolve([])),
     agentStream: agentStreamBridge(() => ({
       text: ["One two three four five ", "six seven eight nine ten."],
@@ -35,7 +35,7 @@ it("renders a multi-chunk reply progressively", async () => {
   const root = createRoot(host);
   function Probe() {
     const state = useAssistant();
-    const chat = pondChatSession(state.chatId ?? "draft");
+    const chat = apostrophiChatSession(state.chatId ?? "draft");
     const { messages, status } = useChat({ chat });
     const last = messages.at(-1);
     snapshots.push({
@@ -99,7 +99,7 @@ it("keeps the singleton run across pane unmount and waits for saved metadata aft
     requestId = request.requestId;
     return response.promise;
   });
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     agentStream,
     onAgentChunk: () => () => {},
@@ -177,7 +177,7 @@ it("cancels before a new chat finishes creating without dispatching a model requ
     name === "agent.newChat" ? created.promise : Promise.resolve([]),
   );
   const agentStream = agentStreamBridge(() => ({}));
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     agentStream,
     onAgentChunk: () => () => {},
@@ -223,7 +223,7 @@ it("streams normal submissions without inferring context from selection pronouns
     requests.push(request);
     return {};
   });
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     agentStream,
     onAgentChunk: () => () => {},
@@ -268,7 +268,7 @@ it("sends attached Saves as context while searching the entire library", async (
     requests.push(request);
     return response.promise;
   });
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     agentStream,
     onAgentChunk: () => () => {},

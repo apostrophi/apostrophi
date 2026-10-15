@@ -1,4 +1,4 @@
-import type { ImageCrop } from "@pond/schema/db";
+import type { ImageCrop } from "@apostrophi/schema/db";
 import { CROP_HANDLES } from "@/features/saves/lib/image-regions";
 import { CROP_HANDLE_LABEL } from "../crop-handles";
 import type { InspectorMode } from "../types";

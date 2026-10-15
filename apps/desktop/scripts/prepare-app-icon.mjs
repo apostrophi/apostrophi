@@ -30,7 +30,7 @@ async function main() {
   } catch (err) {
     if (err?.code === "ENOENT") {
       console.warn(
-        "[pond] skip prepare-app-icon: packages/icons/brand/tints/aqua/default.png missing",
+        "[apostrophi] skip prepare-app-icon: packages/icons/brand/tints/aqua/default.png missing",
       );
       return;
     }
@@ -62,7 +62,7 @@ async function main() {
     .toFile(outPng);
 
   console.log(
-    `[pond] wrote build/icon.png (squircle preserved, scale ${CONTENT_SCALE})`,
+    `[apostrophi] wrote build/icon.png (squircle preserved, scale ${CONTENT_SCALE})`,
   );
 
   if (process.platform === "darwin") {
@@ -71,7 +71,7 @@ async function main() {
 }
 
 async function writeIcns(pngPath, icnsPath) {
-  const parent = await mkdtemp(join(tmpdir(), "pond-app-icon-"));
+  const parent = await mkdtemp(join(tmpdir(), "apostrophi-app-icon-"));
   const iconset = join(parent, "icon.iconset");
   try {
     await mkdir(iconset, { recursive: true });
@@ -91,16 +91,16 @@ async function writeIcns(pngPath, icnsPath) {
       { stdio: "inherit" },
     );
     if (result.status !== 0) {
-      console.warn("[pond] iconutil failed; packager will use PNG only");
+      console.warn("[apostrophi] iconutil failed; packager will use PNG only");
       return;
     }
-    console.log("[pond] wrote build/icon.icns");
+    console.log("[apostrophi] wrote build/icon.icns");
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
 }
 
 main().catch((err) => {
-  console.error("[pond] prepare-app-icon failed:", err);
+  console.error("[apostrophi] prepare-app-icon failed:", err);
   process.exitCode = 1;
 });

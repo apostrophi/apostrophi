@@ -1,11 +1,9 @@
-import { Wordmark } from "@pond/ui/wordmark";
+import { Wordmark } from "@apostrophi/ui/wordmark";
 import { dmgUrl, extensionZipUrl } from "@/lib/release";
 import { Cta } from "../cta";
 import styles from "./styles.module.css";
 
-const GITHUB = "https://github.com/raphaelsalaja/pond";
-const TWITTER = "https://x.com/raphaelsalaja";
-const BUY_ME_A_COFFEE = "https://buymeacoffee.com/raphaelsalaja";
+const GITHUB = "https://github.com/apostrophi/apostrophi";
 const RESPONSIBLE_USE = `${GITHUB}/blob/main/RESPONSIBLE-USE.md`;
 
 export function Intro() {
@@ -36,22 +34,6 @@ export function Intro() {
             rel="noreferrer"
           >
             GitHub
-          </a>
-          <a
-            className={styles.link}
-            href={TWITTER}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Twitter
-          </a>
-          <a
-            className={styles.link}
-            href={BUY_ME_A_COFFEE}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Buy Me a Coffee
           </a>
           <a
             className={styles.link}

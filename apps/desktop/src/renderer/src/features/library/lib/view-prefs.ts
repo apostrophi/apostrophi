@@ -11,16 +11,16 @@ type ViewPrefKey =
   | "subfolders";
 
 const STORAGE_KEYS = {
-  seed: "pond.randomSeed",
-  view: "pond.view",
-  sort: "pond.sort",
-  dir: "pond.dir",
-  inspector: "pond.inspector",
-  sidebar: "pond.sidebar",
-  filters: "pond.filters",
-  filterFields: "pond.filterFields",
-  filterOverlays: "pond.filterOverlays",
-  subfolders: "pond.subfolders",
+  seed: "apostrophi.randomSeed",
+  view: "apostrophi.view",
+  sort: "apostrophi.sort",
+  dir: "apostrophi.dir",
+  inspector: "apostrophi.inspector",
+  sidebar: "apostrophi.sidebar",
+  filters: "apostrophi.filters",
+  filterFields: "apostrophi.filterFields",
+  filterOverlays: "apostrophi.filterOverlays",
+  subfolders: "apostrophi.subfolders",
 } satisfies Record<ViewPrefKey, string>;
 
 export function readViewPref(key: ViewPrefKey): string | null {

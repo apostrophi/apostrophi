@@ -1,5 +1,5 @@
-import { IconDotsFill } from "@pond/icons";
-import { Menu, type MenuItemSpec } from "@pond/ui";
+import { IconDotsFill } from "@apostrophi/icons";
+import { Menu, type MenuItemSpec } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import type { ComponentPropsWithoutRef } from "react";
 import { SpecMenu } from "@/shared/components/spec-context-menu";

@@ -19,9 +19,11 @@ export function FolderCover({
       return;
     }
     let cancelled = false;
-    void window.pond.query("saves.get", { id: coverSaveId }).then((row) => {
-      if (!cancelled) setSave(normalise(row));
-    });
+    void window.apostrophi
+      .query("saves.get", { id: coverSaveId })
+      .then((row) => {
+        if (!cancelled) setSave(normalise(row));
+      });
     return () => {
       cancelled = true;
     };

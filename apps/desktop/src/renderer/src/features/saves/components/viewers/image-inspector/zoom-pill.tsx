@@ -1,5 +1,5 @@
-import { IconMinus, IconPlus } from "@pond/icons";
-import { Menu, type MenuItemSpec } from "@pond/ui";
+import { IconMinus, IconPlus } from "@apostrophi/icons";
+import { Menu, type MenuItemSpec } from "@apostrophi/ui";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 import { SpecMenu } from "@/shared/components/spec-context-menu";
 

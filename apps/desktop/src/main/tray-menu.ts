@@ -1,4 +1,4 @@
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { count, isNull } from "drizzle-orm";
 import { app, Menu } from "electron";
 import { blankDocumentDef } from "../shared/blank-documents";
@@ -31,7 +31,7 @@ export async function buildTooltip(): Promise<string> {
       active: row?.n ?? 0,
     });
   } catch {
-    return "Pond";
+    return "Apostrophi";
   }
 }
 
@@ -80,7 +80,7 @@ async function loadTrayAccelerators(
   shortcuts?: Awaited<ReturnType<typeof getPrefs>>["shortcuts"],
 ): Promise<TrayAccelerators> {
   const bindings = resolveShortcuts(
-    shortcuts ?? { profile: "pond", overrides: {} },
+    shortcuts ?? { profile: "apostrophi", overrides: {} },
   );
   return {
     newFolder: menuAccelerator(bindings["library.new-folder"]),

@@ -1,4 +1,4 @@
-import { Button, Settings } from "@pond/ui";
+import { Button, Settings } from "@apostrophi/ui";
 import { useState } from "react";
 import { z } from "zod";
 import { loadAppInfo } from "@/shared/lib/app-info";
@@ -20,7 +20,7 @@ export function CheckNowRow() {
     try {
       const [info, raw] = await Promise.all([
         loadAppInfo(),
-        window.pond.query("updates.checkNow", {}),
+        window.apostrophi.query("updates.checkNow", {}),
       ]);
       const result = UpdateCheckSchema.parse(raw);
       if (!result.ok) {

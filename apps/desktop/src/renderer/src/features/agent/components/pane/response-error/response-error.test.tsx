@@ -11,7 +11,7 @@ beforeEach(() => {
   host = document.createElement("div");
   document.body.append(host);
   root = createRoot(host);
-  vi.stubGlobal("pond", { openExternal });
+  vi.stubGlobal("apostrophi", { openExternal });
 });
 
 afterEach(async () => {

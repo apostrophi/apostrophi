@@ -12,10 +12,12 @@ import {
 import { conversionCapabilities } from "./conversion-capabilities";
 import { convertMedia } from "./convert-media";
 
-it.skipIf(process.env.POND_BENCH_CONVERSION !== "1")(
+it.skipIf(process.env.APOSTROPHI_BENCH_CONVERSION !== "1")(
   "benchmarks a bounded representative conversion matrix",
   async () => {
-    const directory = await mkdtemp(join(tmpdir(), "pond-conversion-bench-"));
+    const directory = await mkdtemp(
+      join(tmpdir(), "apostrophi-conversion-bench-"),
+    );
     try {
       const width = 1024;
       const height = 1024;

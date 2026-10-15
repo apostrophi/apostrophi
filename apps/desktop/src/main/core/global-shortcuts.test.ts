@@ -29,7 +29,7 @@ function fixture() {
 }
 
 describe("global shortcut registration", () => {
-  it("registers Show Pond", () => {
+  it("registers Show Apostrophi", () => {
     const { callbacks } = fixture();
     expect([...callbacks.keys()]).toEqual(["Command+Shift+L"]);
   });
@@ -94,7 +94,7 @@ describe("global shortcut registration", () => {
     );
     controller.start({});
     expect(controller.status().errors).toHaveLength(1);
-    expect(controller.status().errors[0]).toContain("Show Pond");
+    expect(controller.status().errors[0]).toContain("Show Apostrophi");
     controller.prepare({ "app.summon": "Mod+Shift+A" }).commit();
     expect(callbacks.has("Command+Shift+A")).toBe(true);
     expect(controller.status().errors).toHaveLength(0);

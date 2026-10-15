@@ -1,8 +1,8 @@
 import { THUMBNAIL_CACHE_VERSION } from "@shared/media-index";
 import type { Save, SaveFile } from "@/features/saves/types";
 
-export function buildPondUrl(saveId: string, file: SaveFile): string {
-  const base = `pond://${saveId}/${file.path}`;
+export function buildApostrophiUrl(saveId: string, file: SaveFile): string {
+  const base = `apostrophi://${saveId}/${file.path}`;
   const bust = cacheBuster(file);
   return bust ? `${base}?v=${bust}` : base;
 }
@@ -37,7 +37,7 @@ function thumbnailWidth(cssWidth: number | undefined): number | null {
 
 export function pickAuthorAvatarUrl(save: Save): string | null {
   const local = (save.files ?? []).find((f) => f.kind === "avatar");
-  if (local) return buildPondUrl(save.id, local);
+  if (local) return buildApostrophiUrl(save.id, local);
 
   const url = save.rawJson?.capture?.author?.avatarUrl;
   return url && url.trim().length > 0 ? url : null;
@@ -45,7 +45,7 @@ export function pickAuthorAvatarUrl(save: Save): string | null {
 
 export function pickSourceIconUrl(save: Save): string | null {
   const local = (save.files ?? []).find((f) => f.kind === "source_icon");
-  if (local) return buildPondUrl(save.id, local);
+  if (local) return buildApostrophiUrl(save.id, local);
 
   const url = save.rawJson?.capture?.extras?.faviconUrl;
   return url && url.trim().length > 0 ? url : null;

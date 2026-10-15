@@ -73,7 +73,7 @@ it("shows conversion progress and cancellation while preserving completed output
     error: null,
   };
   const calls: string[] = [];
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       calls.push(name);
       if (name === "conversion.presets") return [];

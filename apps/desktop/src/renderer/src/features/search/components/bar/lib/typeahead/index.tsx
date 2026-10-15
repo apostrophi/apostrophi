@@ -1,9 +1,9 @@
+import { Menu } from "@apostrophi/ui";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   LexicalTypeaheadMenuPlugin,
   MenuOption,
 } from "@lexical/react/LexicalTypeaheadMenuPlugin";
-import { Menu } from "@pond/ui";
 import {
   $createTextNode,
   COMMAND_PRIORITY_NORMAL,

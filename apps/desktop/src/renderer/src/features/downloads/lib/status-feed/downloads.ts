@@ -1,6 +1,6 @@
-import { OPS, type Op, SOURCES, type Source } from "@pond/schema/db";
-import { INGEST_OUTCOMES } from "@pond/schema/events";
-import { hostToSource } from "@pond/schema/sources";
+import { OPS, type Op, SOURCES, type Source } from "@apostrophi/schema/db";
+import { INGEST_OUTCOMES } from "@apostrophi/schema/events";
+import { hostToSource } from "@apostrophi/schema/sources";
 import type { WireTask } from "@shared/wire";
 import { z } from "zod";
 import type { Save } from "@/features/saves/types";

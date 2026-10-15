@@ -3,7 +3,7 @@ import { writeOrganizationBundle } from "./organization-bundle";
 export async function flushPortableMetadata(): Promise<void> {
   const { getDb } = await import("../db");
   const { libraryRoot, saveFile } = await import("../paths");
-  const { saves } = await import("@pond/schema/db");
+  const { saves } = await import("@apostrophi/schema/db");
   const { and, asc, gt, isNull } = await import("drizzle-orm");
   const { readFile } = await import("node:fs/promises");
   const { StoredInfoDocSchema } = await import("../lib/library-format");

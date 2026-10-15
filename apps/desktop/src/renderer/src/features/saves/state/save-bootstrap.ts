@@ -92,7 +92,7 @@ export function createSaveBootstrap(dependencies: SaveBootstrapDependencies) {
       try {
         subscribeToSyncActions();
       } catch (err) {
-        console.warn("[pond pool] sync subscribe failed", err);
+        console.warn("[apostrophi pool] sync subscribe failed", err);
       }
       try {
         await withTimeout(
@@ -101,7 +101,7 @@ export function createSaveBootstrap(dependencies: SaveBootstrapDependencies) {
           "snapshot prime",
         );
       } catch (err) {
-        console.warn("[pond pool] snapshot prime failed", err);
+        console.warn("[apostrophi pool] snapshot prime failed", err);
       }
 
       try {
@@ -111,7 +111,7 @@ export function createSaveBootstrap(dependencies: SaveBootstrapDependencies) {
           "initial page hydrate",
         );
       } catch (err) {
-        console.warn("[pond pool] initial page hydrate failed", err);
+        console.warn("[apostrophi pool] initial page hydrate failed", err);
       }
       dependencies.scheduleSnapshotWrite();
       pagingStore.setState((state) => ({ ...state, ready: true }));
@@ -220,7 +220,7 @@ export function createSaveBootstrap(dependencies: SaveBootstrapDependencies) {
         if (event.success) dependencies.applyActionCoalesced(event.data);
         dependencies.scheduleSnapshotWrite();
       } catch (err) {
-        console.warn("[pond pool] applyAction failed", err, raw);
+        console.warn("[apostrophi pool] applyAction failed", err, raw);
       }
     });
     subscribedToSync = true;

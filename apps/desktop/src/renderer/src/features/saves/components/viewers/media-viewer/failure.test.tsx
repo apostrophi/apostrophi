@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
@@ -58,12 +58,12 @@ beforeEach(() => {
     if (name === "video.preparePreview") {
       return {
         ok: true,
-        url: "pond://_video_cache/compatible-video.mp4",
+        url: "apostrophi://_video_cache/compatible-video.mp4",
       };
     }
     return PrefsSchema.parse({});
   });
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query,
     tx: async () => ({ ok: true }),
     openSaveFile: async () => ({ ok: true }),
@@ -221,7 +221,7 @@ it("retries an undecodable video through one compatible preview before fallback"
   });
   const proxy = host.querySelector<HTMLVideoElement>("video");
   expect(proxy?.getAttribute("src")).toBe(
-    "pond://_video_cache/compatible-video.mp4",
+    "apostrophi://_video_cache/compatible-video.mp4",
   );
   expect(host.querySelector("[data-viewer-fallback]")).toBeNull();
 

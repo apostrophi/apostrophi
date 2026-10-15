@@ -1,21 +1,21 @@
 {
-  "name": "@pond/schema",
+  "name": "@apostrophi/schema",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Drizzle + Zod types shared between the Pond desktop app and the browser extension.",
+  "description": "Drizzle + Zod types shared between the Apostrophi desktop app and the browser extension.",
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
-  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "homepage": "https://github.com/apostrophi/apostrophi#readme",
   "bugs": {
-    "url": "https://github.com/raphaelsalaja/pond/issues"
+    "url": "https://github.com/apostrophi/apostrophi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "packages/schema"
   },
   "main": "./src/index.ts",

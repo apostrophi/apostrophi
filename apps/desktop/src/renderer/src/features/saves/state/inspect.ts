@@ -10,7 +10,9 @@ interface InspectState {
 function readNavigator(): boolean {
   if (!globalThis.window) return false;
   try {
-    return window.localStorage.getItem("pond.viewer.showNavigator") === "1";
+    return (
+      window.localStorage.getItem("apostrophi.viewer.showNavigator") === "1"
+    );
   } catch {
     return false;
   }
@@ -39,7 +41,7 @@ export const inspect = {
     if (globalThis.window) {
       try {
         window.localStorage.setItem(
-          "pond.viewer.showNavigator",
+          "apostrophi.viewer.showNavigator",
           showNavigator ? "1" : "0",
         );
       } catch {}

@@ -1,4 +1,4 @@
-import { Button, Tooltip, Tray } from "@pond/ui";
+import { Button, Tooltip, Tray } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import {
   type ComponentProps,

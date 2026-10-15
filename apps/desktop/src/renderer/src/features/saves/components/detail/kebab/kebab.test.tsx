@@ -9,7 +9,7 @@ const save: Save = {
   id: "open-save",
   source: "local",
   sourceId: "open-save",
-  url: "pond:local/open-save",
+  url: "apostrophi:local/open-save",
   title: "Open Save",
   description: null,
   author: null,
@@ -48,7 +48,7 @@ describe("KebabMenu", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async () => ({ apps: [] }),
     });
     host = document.createElement("div");

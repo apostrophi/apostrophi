@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import { getSourceDef } from "@/features/sources/lib/registry";
 import styles from "./styles.module.css";
 

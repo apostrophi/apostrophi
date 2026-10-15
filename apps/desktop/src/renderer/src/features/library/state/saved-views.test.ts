@@ -1,6 +1,6 @@
-import type { SavedView } from "@pond/schema/db";
-import { matches } from "@pond/schema/filters/match";
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
+import type { SavedView } from "@apostrophi/schema/db";
+import { matches } from "@apostrophi/schema/filters/match";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { combineQueries } from "../lib/smart-folders";
 import { libraryChrome } from "./library-chrome";
@@ -79,7 +79,7 @@ describe("saved smart folder operations", () => {
     ];
     failMutation = false;
     query.mockClear();
-    vi.stubGlobal("pond", { query });
+    vi.stubGlobal("apostrophi", { query });
     await savedViews.refresh();
   });
 

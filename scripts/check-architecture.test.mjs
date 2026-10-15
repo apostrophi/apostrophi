@@ -97,22 +97,22 @@ test("features import other features only through root entries", () => {
 });
 
 test("reports imports from undeclared workspace packages", () => {
-  const root = mkdtempSync(join(tmpdir(), "pond-architecture-"));
+  const root = mkdtempSync(join(tmpdir(), "apostrophi-architecture-"));
   const app = join(root, "app");
   const shared = join(root, "shared");
   mkdirSync(join(app, "src"), { recursive: true });
   mkdirSync(shared, { recursive: true });
-  writeFileSync(join(app, "src/index.ts"), 'import "@pond/shared";\n');
+  writeFileSync(join(app, "src/index.ts"), 'import "@apostrophi/shared";\n');
   const packages = [
-    { path: app, manifest: { name: "@pond/app" } },
-    { path: shared, manifest: { name: "@pond/shared" } },
+    { path: app, manifest: { name: "@apostrophi/app" } },
+    { path: shared, manifest: { name: "@apostrophi/shared" } },
   ];
   try {
     const errors = declaredWorkspaceDependencyErrors(packages);
     assert.equal(errors.length, 1);
     assert.match(
       errors[0],
-      /@pond\/app imports undeclared workspace dependency @pond\/shared/,
+      /@apostrophi\/app imports undeclared workspace dependency @apostrophi\/shared/,
     );
   } finally {
     rmSync(root, { recursive: true, force: true });

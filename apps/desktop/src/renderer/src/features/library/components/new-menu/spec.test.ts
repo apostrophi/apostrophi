@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { isValidElement } from "react";
 import { describe, expect, it } from "vitest";
 import { filterMenuItems } from "@/shared/components/spec-context-menu/filter";
@@ -44,7 +44,7 @@ describe("new menu spec", () => {
       "Import Bookmarks",
       "Import Page Assets",
       "Import Eagle Package",
-      "Import Pond Package",
+      "Import Apostrophi Package",
       "Import Eagle Library",
       "Import Legacy Library",
       "Import ArtStation Export",

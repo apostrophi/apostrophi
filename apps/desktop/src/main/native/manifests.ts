@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { EXTENSION_ID, NATIVE_HOST_NAME } from "@pond/schema/native";
+import { EXTENSION_ID, NATIVE_HOST_NAME } from "@apostrophi/schema/native";
 import { app } from "electron";
 import log from "electron-log/main.js";
 
@@ -20,22 +20,24 @@ const BROWSER_NMH_DIRS = [
 
 function nativeHostBinaryPath(): string {
   if (app.isPackaged) {
-    return join(process.resourcesPath, "bin", "pond-native-host");
+    return join(process.resourcesPath, "bin", "apostrophi-native-host");
   }
   const candidates = [
-    join(app.getAppPath(), "resources", "bin", "pond-native-host"),
-    join(app.getAppPath(), "..", "resources", "bin", "pond-native-host"),
-    join(process.cwd(), "resources", "bin", "pond-native-host"),
+    join(app.getAppPath(), "resources", "bin", "apostrophi-native-host"),
+    join(app.getAppPath(), "..", "resources", "bin", "apostrophi-native-host"),
+    join(process.cwd(), "resources", "bin", "apostrophi-native-host"),
   ];
   const found = candidates.find((p) => existsSync(p));
-  return found ?? join(process.cwd(), "resources", "bin", "pond-native-host");
+  return (
+    found ?? join(process.cwd(), "resources", "bin", "apostrophi-native-host")
+  );
 }
 
 function manifestBody(hostPath: string): string {
   return `${JSON.stringify(
     {
       name: NATIVE_HOST_NAME,
-      description: "Pond",
+      description: "Apostrophi",
       path: hostPath,
       type: "stdio",
       allowed_origins: [`chrome-extension://${EXTENSION_ID}/`],
@@ -50,7 +52,7 @@ export function writeNativeHostManifests(): void {
 
   const hostPath = nativeHostBinaryPath();
   if (!existsSync(hostPath)) {
-    log.warn("[pond native] host binary missing", hostPath);
+    log.warn("[apostrophi native] host binary missing", hostPath);
     return;
   }
 
@@ -64,7 +66,7 @@ export function writeNativeHostManifests(): void {
       mkdirSync(dir, { recursive: true });
       writeFileSync(join(dir, HOST_FILENAME), body, { encoding: "utf8" });
     } catch (err) {
-      log.warn("[pond native] failed to write host manifest", dir, err);
+      log.warn("[apostrophi native] failed to write host manifest", dir, err);
     }
   }
 }

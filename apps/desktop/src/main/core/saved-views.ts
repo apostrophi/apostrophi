@@ -2,9 +2,9 @@ import {
   type NewSavedView,
   type SavedView,
   savedViews as savedViewsTable,
-} from "@pond/schema/db";
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
-import type { Transaction } from "@pond/schema/tx";
+} from "@apostrophi/schema/db";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
+import type { Transaction } from "@apostrophi/schema/tx";
 import type {
   BatchRenameInput,
   OkFailure,

@@ -1,16 +1,16 @@
 import { createInterface } from "node:readline";
 import {
+  ApostrophiLocalApi,
   type JsonObject,
   type JsonValue,
   type LocalApiSave,
-  PondLocalApi,
-} from "@pond/local-api";
+} from "@apostrophi/local-api";
 import type { Command } from "commander";
 import { z } from "zod";
 import { resolvedConfig } from "../config";
 import { parseArguments, runOperation } from "../operations";
 import { type OutputFormat, type OutputOptions, writeOutput } from "../output";
-import { ensurePondAvailable } from "../runtime";
+import { ensureApostrophiAvailable } from "../runtime";
 
 export interface GlobalOptions {
   baseUrl?: string;
@@ -62,10 +62,11 @@ export async function commandContext(program: Command) {
     token: globals.token,
     timeout: globals.timeout ? Number(globals.timeout) : undefined,
   });
-  const api = new PondLocalApi({
+  const api = new ApostrophiLocalApi({
     baseUrl: config.baseUrl,
     token: config.token,
-    ensureAvailable: () => ensurePondAvailable(config.baseUrl, config.timeout),
+    ensureAvailable: () =>
+      ensureApostrophiAvailable(config.baseUrl, config.timeout),
   });
   return { api, config, output: outputOptions(globals) };
 }
@@ -123,7 +124,7 @@ export async function stdinLines(): Promise<string[]> {
 }
 
 export async function waitForSaves(
-  api: PondLocalApi,
+  api: ApostrophiLocalApi,
   ids: string[],
   timeout: number,
 ): Promise<LocalApiSave[]> {

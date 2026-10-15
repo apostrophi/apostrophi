@@ -1,4 +1,4 @@
-import type { RawJson } from "@pond/schema/raw";
+import type { RawJson } from "@apostrophi/schema/raw";
 import { z } from "zod";
 
 export const TextCardDataSchema = z.object({ text: z.string() });

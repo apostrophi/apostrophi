@@ -1,4 +1,4 @@
-import { Menu, Settings } from "@pond/ui";
+import { Menu, Settings } from "@apostrophi/ui";
 import {
   type AssistantCatalog,
   type AssistantProvider,

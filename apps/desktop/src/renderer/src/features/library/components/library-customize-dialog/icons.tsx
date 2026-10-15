@@ -30,23 +30,23 @@ import {
   IconTrophyFill,
   IconTypographyFill,
   IconVideoFill,
-} from "@pond/icons";
-import type { IconComponent, IconProps } from "@pond/icons/types";
-import { LOGO_PATH, LOGO_VIEW_BOX } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { IconComponent, IconProps } from "@apostrophi/icons/types";
+import { LOGO_PATH, LOGO_VIEW_BOX } from "@apostrophi/ui";
 import { FOLDER_ICONS, type FolderIconId } from "@/shared/lib/folder-icons";
 
-export type LibraryIconId = "pond" | Exclude<FolderIconId, "folder">;
+export type LibraryIconId = "apostrophi" | Exclude<FolderIconId, "folder">;
 
 /** Padded so the mark sits at the optical size of the 18px fill icons. */
-const POND_INSET = 24;
+const APOSTROPHI_INSET = 24;
 
-function PondIcon({ size = 18 }: IconProps) {
-  const box = LOGO_VIEW_BOX + POND_INSET * 2;
+function ApostrophiIcon({ size = 18 }: IconProps) {
+  const box = LOGO_VIEW_BOX + APOSTROPHI_INSET * 2;
   return (
     <svg
       width={size}
       height={size}
-      viewBox={`${-POND_INSET} ${-POND_INSET} ${box} ${box}`}
+      viewBox={`${-APOSTROPHI_INSET} ${-APOSTROPHI_INSET} ${box} ${box}`}
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       aria-hidden
@@ -88,14 +88,14 @@ const FILLS = {
   gamepad: IconGamepadFill,
   leaf: IconLeafFill,
   shopping: IconBagShoppingFill,
-} satisfies Record<Exclude<LibraryIconId, "pond">, IconComponent>;
+} satisfies Record<Exclude<LibraryIconId, "apostrophi">, IconComponent>;
 
 export const LIBRARY_ICONS: readonly {
   id: LibraryIconId;
   label: string;
   Icon: IconComponent;
 }[] = [
-  { id: "pond", label: "Pond", Icon: PondIcon },
+  { id: "apostrophi", label: "Apostrophi", Icon: ApostrophiIcon },
   ...FOLDER_ICONS.flatMap(({ id, label }) =>
     id === "folder" ? [] : [{ id, label, Icon: FILLS[id] }],
   ),
@@ -108,7 +108,8 @@ export function LibraryIcon({
   name: LibraryIconId;
   size?: number;
 }) {
-  const Icon = LIBRARY_ICONS.find((item) => item.id === name)?.Icon ?? PondIcon;
+  const Icon =
+    LIBRARY_ICONS.find((item) => item.id === name)?.Icon ?? ApostrophiIcon;
   return <Icon size={size} />;
 }
 

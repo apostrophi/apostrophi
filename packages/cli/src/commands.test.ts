@@ -154,17 +154,19 @@ describe("completionScript", () => {
 
   it("returns fish completions", () => {
     expect(completionScript("fish")).toBe(
-      `complete -c pond -f -a '${commands}'`,
+      `complete -c apostrophi -f -a '${commands}'`,
     );
   });
 
   it("returns bash completions", () => {
-    expect(completionScript("bash")).toBe(`complete -W '${commands}' pond`);
+    expect(completionScript("bash")).toBe(
+      `complete -W '${commands}' apostrophi`,
+    );
   });
 
   it("returns zsh completions for other shells", () => {
     expect(completionScript("zsh")).toBe(
-      `#compdef pond\n_arguments '1:command:(${commands})'`,
+      `#compdef apostrophi\n_arguments '1:command:(${commands})'`,
     );
   });
 });

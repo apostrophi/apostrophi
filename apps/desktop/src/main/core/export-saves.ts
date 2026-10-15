@@ -6,8 +6,8 @@ import {
   tagGroupMembers,
   tagGroups,
   tags as tagsTable,
-} from "@pond/schema/db";
-import { isGroup, type Query } from "@pond/schema/filters/types";
+} from "@apostrophi/schema/db";
+import { isGroup, type Query } from "@apostrophi/schema/filters/types";
 import { inArray } from "drizzle-orm";
 import { getDb } from "../db";
 import { saveDir } from "../paths";

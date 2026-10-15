@@ -1,8 +1,8 @@
 import { useChat } from "@ai-sdk/react";
-import { IconArrowsExpandDiagonal, IconXmark } from "@pond/icons";
-import type { AgentModelOptions } from "@pond/schema";
-import { Button, Tooltip } from "@pond/ui";
-import { Thread } from "@pond/ui/thread";
+import { IconArrowsExpandDiagonal, IconXmark } from "@apostrophi/icons";
+import type { AgentModelOptions } from "@apostrophi/schema";
+import { Button, Tooltip } from "@apostrophi/ui";
+import { Thread } from "@apostrophi/ui/thread";
 import {
   agentModelOptionsFor,
   agentModelOptionsKey,
@@ -16,13 +16,13 @@ import {
 import { chosenModelId } from "@shared/provider-models";
 import { MotionConfig, useReducedMotion } from "motion/react";
 import { useRef, useState } from "react";
+import { apostrophiChatSession } from "@/features/agent/state/apostrophi-chat";
+import { fromUIMessage } from "@/features/agent/state/apostrophi-messages";
 import {
   type AssistantState,
   assistant,
   useAssistant,
 } from "@/features/agent/state/assistant";
-import { pondChatSession } from "@/features/agent/state/pond-chat";
-import { fromUIMessage } from "@/features/agent/state/pond-messages";
 import { libraryChrome } from "@/features/library";
 import { getAppRouter } from "@/shared/lib/app-router";
 import { usePrefs } from "@/shared/state/prefs";
@@ -57,7 +57,7 @@ function AgentPaneContent({
 }) {
   const [renamingChat, setRenamingChat] = useState(false);
   const input = useRef<ComposerEditorHandle>(null);
-  const chat = pondChatSession(state.chatId ?? "draft");
+  const chat = apostrophiChatSession(state.chatId ?? "draft");
   const { messages, status, error: chatError } = useChat({ chat });
   const viewportRef = useRememberedChatScroll(state.chatId ?? "draft");
   const running =

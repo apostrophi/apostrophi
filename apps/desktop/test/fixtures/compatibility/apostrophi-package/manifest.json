@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "pond-package-v1",
-  "kind": "pond-package",
+  "id": "apostrophi-package-v1",
+  "kind": "apostrophi-package",
   "baseline": {
-    "extension": ".pondpack",
+    "extension": ".apostrophipack",
     "container": "directory",
-    "manifestPath": "pond-export.json",
+    "manifestPath": "apostrophi-export.json",
     "packageVersion": 1,
     "requiredSections": ["saves", "folders", "exportedFiles"],
     "optionalSections": ["organization"]

@@ -6,7 +6,7 @@ describe("Wordmark", () => {
   it("names the lockup once, through the text beside the mark", () => {
     const markup = renderToStaticMarkup(<Wordmark />);
 
-    expect(markup).toContain("Pond</span>");
+    expect(markup).toContain("Apostrophi</span>");
     expect(markup).toContain('aria-hidden="true"');
   });
 

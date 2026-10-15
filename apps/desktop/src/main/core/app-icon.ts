@@ -37,7 +37,7 @@ function iconFile(id: string): string | null {
 function availableIds(): string[] {
   const root = tintsRoot();
   if (!existsSync(root)) {
-    log.warn("[pond] app icon tints missing", root);
+    log.warn("[apostrophi] app icon tints missing", root);
     return [];
   }
   const ids: string[] = [];
@@ -99,7 +99,7 @@ function warmDockCache(): void {
       try {
         await dockImage(path);
       } catch (err) {
-        log.warn("[pond] app icon warm failed", id, err);
+        log.warn("[apostrophi] app icon warm failed", id, err);
       }
     }
   })();
@@ -111,7 +111,7 @@ export async function applyAppIcon(id?: string): Promise<void> {
     id ?? prefs?.window.appIcon ?? DEFAULT_APP_ICON,
   );
   if (!path) {
-    log.warn("[pond] app icon file missing", id);
+    log.warn("[apostrophi] app icon file missing", id);
     return;
   }
   if (path === lastAppliedPath) {
@@ -129,6 +129,6 @@ export async function applyAppIcon(id?: string): Promise<void> {
     }
     warmDockCache();
   } catch (err) {
-    log.warn("[pond] apply app icon failed", err);
+    log.warn("[apostrophi] apply app icon failed", err);
   }
 }

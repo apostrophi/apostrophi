@@ -1,5 +1,5 @@
-import { DEFAULT_PREFS } from "@pond/schema";
-import { Tooltip } from "@pond/ui";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
+import { Tooltip } from "@apostrophi/ui";
 import { ASSISTANT_MODELS } from "@shared/assistant";
 import { modelsForChooser } from "@shared/provider-models";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -43,7 +43,7 @@ afterEach(() => {
 });
 
 it("lists local models in the catalog without install suggestions", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") {
@@ -329,7 +329,7 @@ it("tells you to connect a provider when the catalog is empty", async () => {
 
 it("shows a retryable unavailable state when the catalog fails to load", async () => {
   let listCalls = 0;
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") return connectedProviders;
@@ -365,7 +365,7 @@ it("shows a retryable unavailable state when the catalog fails to load", async (
 });
 
 it("keeps loaded models when some providers fail", async () => {
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string, params?: { provider?: string }) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") return connectedProviders;
@@ -407,7 +407,7 @@ it("keeps loaded models when some providers fail", async () => {
 
 it("shows ready providers while another provider is still loading", async () => {
   const slow = Promise.withResolvers<{ ok: true; models: [] }>();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string, params?: { provider?: string }) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") return connectedProviders;
@@ -449,7 +449,7 @@ it("keeps cached models across page visits and refreshes stale data in place", a
     ok: true;
     models: { id: string; name: string }[];
   }>();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string, params?: { provider?: string }) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") return connectedProviders;
@@ -528,7 +528,7 @@ it("keeps cached models across page visits and refreshes stale data in place", a
 
 it("shows an accessible loading placeholder only before the first catalog arrives", async () => {
   const ready = Promise.withResolvers<void>();
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") return connectedProviders;
@@ -572,7 +572,7 @@ it("only requests connected enabled providers and hides disconnected cached mode
     { provider: "gemini", hasKey: true, enabled: false, masked: null },
   ];
   const requested: string[] = [];
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: async (name: string, params?: { provider?: string }) => {
       if (name === "settings.getPrefs") return DEFAULT_PREFS;
       if (name === "agent.keys") return connections;

@@ -1,3 +1,6 @@
+import { IconPlus, IconSortArrows } from "@apostrophi/icons";
+import type { Folder } from "@apostrophi/schema/db";
+import { Button, type MenuItemSpec, Sidebar } from "@apostrophi/ui";
 import {
   closestCenter,
   DndContext,
@@ -15,9 +18,6 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { IconPlus, IconSortArrows } from "@pond/icons";
-import type { Folder } from "@pond/schema/db";
-import { Button, type MenuItemSpec, Sidebar } from "@pond/ui";
 import { useReducedMotionConfig } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";

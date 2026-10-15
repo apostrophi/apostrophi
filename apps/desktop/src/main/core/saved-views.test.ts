@@ -1,12 +1,12 @@
-import * as schema from "@pond/schema/db";
-import * as eventsSchema from "@pond/schema/events";
-import { EMPTY_QUERY } from "@pond/schema/filters/types";
-import type { Transaction } from "@pond/schema/tx";
+import * as schema from "@apostrophi/schema/db";
+import * as eventsSchema from "@apostrophi/schema/events";
+import { EMPTY_QUERY } from "@apostrophi/schema/filters/types";
+import type { Transaction } from "@apostrophi/schema/tx";
 import Database from "better-sqlite3";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { afterEach, describe, expect, it } from "vitest";
-import { initializePondSchema } from "../db";
+import { initializeApostrophiSchema } from "../db";
 import {
   createView,
   deleteView,
@@ -35,7 +35,7 @@ afterEach(() => {
 function setup() {
   const sqlite = new Database(":memory:");
   databases.push(sqlite);
-  initializePondSchema(sqlite, () => false);
+  initializeApostrophiSchema(sqlite, () => false);
   const db = Object.assign(
     drizzle(sqlite, { schema: { ...schema, ...eventsSchema } }),
     { $raw: sqlite },

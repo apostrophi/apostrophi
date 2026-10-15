@@ -1,5 +1,5 @@
-import type { Save } from "@pond/schema/db";
-import type { RawJson } from "@pond/schema/raw";
+import type { Save } from "@apostrophi/schema/db";
+import type { RawJson } from "@apostrophi/schema/raw";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { fetchSourceIconToTxFile } from "../../../lib/blob";
@@ -42,7 +42,7 @@ export async function fetchSourceIcon(
       newFiles: [iconFile],
     },
   );
-  log.info("[pond pipeline:source-icon] wrote", saveId);
+  log.info("[apostrophi pipeline:source-icon] wrote", saveId);
   return true;
 }
 

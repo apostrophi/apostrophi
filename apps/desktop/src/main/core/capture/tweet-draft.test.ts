@@ -1,4 +1,4 @@
-import { QUOTE_DEPTH_CAP, walkCaptureMedia } from "@pond/schema/raw";
+import { QUOTE_DEPTH_CAP, walkCaptureMedia } from "@apostrophi/schema/raw";
 import { describe, expect, it } from "vitest";
 import { captureFromTweetDraft, type TweetDraft } from "./tweet-draft";
 

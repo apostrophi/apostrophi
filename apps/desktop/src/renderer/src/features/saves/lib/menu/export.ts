@@ -12,8 +12,8 @@ import {
   IconImageUpscale,
   IconShieldCheck,
   IconTableDownload,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { saveLibraryBridge } from "@/features/saves/lib/library-bridge";
 import {
   exportSelectionCsv,
@@ -37,7 +37,7 @@ function startWebpConvert(
   fileIndex: number,
   format: "png" | "jpeg",
 ) {
-  return window.pond.query("conversion.start", {
+  return window.apostrophi.query("conversion.start", {
     ids,
     fileIndex,
     preset: {
@@ -98,7 +98,7 @@ function compressImages(
   mode: "lossless" | "quality" | "webp" | "upscale" | "remove-background",
 ): void {
   const copy = compressionCopy(mode);
-  void window.pond
+  void window.apostrophi
     .query("conversion.compress", {
       ids,
       fileIndex,
@@ -121,7 +121,7 @@ async function pollCompression(
   id: string,
   copy: { done: string; failed: string },
 ): Promise<void> {
-  const job = await window.pond.query("conversion.status", { id });
+  const job = await window.apostrophi.query("conversion.status", { id });
   if (!job) return;
   if (job.status === "running") {
     setTimeout(() => void pollCompression(id, copy), 500);
@@ -141,7 +141,7 @@ async function pollCompression(
         ? {
             label: "Undo",
             onClick: () => {
-              void window.pond.undo();
+              void window.apostrophi.undo();
             },
           }
         : undefined,
@@ -216,7 +216,7 @@ export function buildExportItems(context: SaveMenuContext): MenuItemSpec[] {
       icon: glyph(IconImage),
       hidden: !hasFiles,
       onClick: () => {
-        void window.pond.query("saves.exportWebp", { ids });
+        void window.apostrophi.query("saves.exportWebp", { ids });
       },
     },
     {
@@ -241,7 +241,7 @@ export function buildExportItems(context: SaveMenuContext): MenuItemSpec[] {
       icon: glyph(IconArchive),
       keywords: "eagle package",
       onClick: () => {
-        void window.pond
+        void window.apostrophi
           .query("saves.exportEaglePackage", { ids })
           .then((result) => {
             if (!result.ok && result.reason !== "cancelled")
@@ -258,11 +258,11 @@ export function buildExportItems(context: SaveMenuContext): MenuItemSpec[] {
       },
     },
     {
-      label: "Export Pond Package",
+      label: "Export Apostrophi Package",
       icon: glyph(IconArchiveExport),
       keywords: "package",
       onClick: () => {
-        void window.pond
+        void window.apostrophi
           .query("saves.exportPackage", { ids })
           .then((result) => {
             if (!result.ok && result.reason !== "cancelled")
@@ -271,7 +271,10 @@ export function buildExportItems(context: SaveMenuContext): MenuItemSpec[] {
                 title: result.error || "Couldn't export package.",
               });
             else if (result.ok)
-              notify({ id: "package-export", title: "Pond package exported" });
+              notify({
+                id: "package-export",
+                title: "Apostrophi package exported",
+              });
           });
       },
     },

@@ -10,8 +10,8 @@ import {
   IconRefresh,
   IconRotateImageClockwise,
   IconSizeLg,
-} from "@pond/icons";
-import { Button, stepPlaybackRate } from "@pond/ui";
+} from "@apostrophi/icons";
+import { Button, stepPlaybackRate } from "@apostrophi/ui";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import type { ReactNode } from "react";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";

@@ -1,6 +1,6 @@
-import type { Prefs } from "@pond/schema";
-import type { Query } from "@pond/schema/filters/types";
-import type { Transaction } from "@pond/schema/tx";
+import type { Prefs } from "@apostrophi/schema";
+import type { Query } from "@apostrophi/schema/filters/types";
+import type { Transaction } from "@apostrophi/schema/tx";
 import {
   contextBridge,
   type IpcRendererEvent,
@@ -63,14 +63,14 @@ export interface RelocatePreviewWire {
     hasItemsDir: boolean;
     hasMetadataFile: boolean;
     itemCount: number;
-    looksLikePondLibrary: boolean;
+    looksLikeApostrophiLibrary: boolean;
   };
   suggestedMode: "copy" | "adopt";
 }
 
 export interface StorageGuardStatusWire {
   state: "ok" | "warn" | "exceeded";
-  pondBytes: number;
+  apostrophiBytes: number;
   capBytes: number | null;
   warnBytes: number | null;
   action: "warn" | "pauseSync" | "pauseVideo";
@@ -461,10 +461,10 @@ function readShellHint(): ShellHint {
 }
 
 try {
-  contextBridge.exposeInMainWorld("pond", api);
-  contextBridge.exposeInMainWorld("__pondShell", readShellHint());
+  contextBridge.exposeInMainWorld("apostrophi", api);
+  contextBridge.exposeInMainWorld("__apostrophiShell", readShellHint());
 } catch (err) {
-  console.error("[pond preload] contextBridge failed", err);
+  console.error("[apostrophi preload] contextBridge failed", err);
 }
 
-export type PondApi = typeof api;
+export type ApostrophiApi = typeof api;

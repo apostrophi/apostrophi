@@ -1,5 +1,5 @@
-import { Button, Popover, Reveal } from "@pond/ui";
-import type { ReferenceItem } from "@pond/ui/reference-list";
+import { Button, Popover, Reveal } from "@apostrophi/ui";
+import type { ReferenceItem } from "@apostrophi/ui/reference-list";
 import type { AssistantSource } from "@shared/assistant";
 import { sourceExcerpt } from "@shared/assistant-text";
 import type { ReactNode, RefObject } from "react";

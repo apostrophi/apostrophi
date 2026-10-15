@@ -1,4 +1,4 @@
-import { LOGO_PATH, LOGO_VIEW_BOX } from "@pond/ui";
+import { LOGO_PATH, LOGO_VIEW_BOX } from "@apostrophi/ui";
 
 export interface Point {
   x: number;

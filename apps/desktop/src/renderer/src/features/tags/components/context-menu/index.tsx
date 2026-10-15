@@ -10,8 +10,8 @@ import {
   IconStarPlus as StarPlus,
   IconTags as Tags,
   IconTrash as Trash,
-} from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import type { ReactElement } from "react";
 import { SpecContextMenu } from "@/shared/components/spec-context-menu";
 import { shortcutGlyphs } from "@/shared/lib/shortcuts";

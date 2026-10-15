@@ -175,7 +175,7 @@ export const savesImportSourceQueries = {
             ? { ok: true, id: result.id }
             : { ok: false, error: "unsupported_url" };
         }
-        log.error("[pond ipc] quickAdd failed", error);
+        log.error("[apostrophi ipc] quickAdd failed", error);
         return {
           ok: false,
           error: error instanceof Error ? error.message : String(error),

@@ -1,4 +1,7 @@
-import { parseCaptureTags, regionFromElement } from "@pond/schema/capture";
+import {
+  parseCaptureTags,
+  regionFromElement,
+} from "@apostrophi/schema/capture";
 import { describe, expect, it } from "vitest";
 
 describe("parseCaptureTags", () => {

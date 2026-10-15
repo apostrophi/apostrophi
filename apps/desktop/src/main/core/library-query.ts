@@ -1,6 +1,6 @@
-import { saves } from "@pond/schema/db";
-import { buildWhere } from "@pond/schema/filters";
-import { durationProjection } from "@pond/schema/filters/fields";
+import { saves } from "@apostrophi/schema/db";
+import { buildWhere } from "@apostrophi/schema/filters";
+import { durationProjection } from "@apostrophi/schema/filters/fields";
 import {
   and,
   asc,
@@ -26,9 +26,9 @@ export function librarySortColumn(
 ): SQLWrapper {
   switch (key) {
     case "random":
-      return sql`pond_order_key(${saves.id}, ${options.randomSeed ?? "pond"})`;
+      return sql`apostrophi_order_key(${saves.id}, ${options.randomSeed ?? "apostrophi"})`;
     case "manual":
-      return sql`pond_manual_rank(${options.orderKey ?? ""}, ${saves.id})`;
+      return sql`apostrophi_manual_rank(${options.orderKey ?? ""}, ${saves.id})`;
     case "createdAt":
       return saves.createdAt;
     case "publishedAt":
@@ -117,7 +117,7 @@ function queryOrder(
       orderKey,
     }),
     pinRank: sql`coalesce((select cast(key as integer) from json_each(${pinKey}) where value = ${saves.id} limit 1), 1000000000)`,
-    signature: `${request.sortKey}:${request.sortDir}:${request.randomSeed ?? "pond"}:${orderKey}:${pinKey}`,
+    signature: `${request.sortKey}:${request.sortDir}:${request.randomSeed ?? "apostrophi"}:${orderKey}:${pinKey}`,
   };
 }
 

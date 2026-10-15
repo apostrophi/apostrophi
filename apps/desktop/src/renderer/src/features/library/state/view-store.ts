@@ -1,7 +1,11 @@
-import type { SavedView } from "@pond/schema/db";
-import { FIELD_IDS } from "@pond/schema/filters/meta";
-import type { FieldId, Predicate, Query } from "@pond/schema/filters/types";
-import { EMPTY_QUERY } from "@pond/schema/filters/types";
+import type { SavedView } from "@apostrophi/schema/db";
+import { FIELD_IDS } from "@apostrophi/schema/filters/meta";
+import type {
+  FieldId,
+  Predicate,
+  Query,
+} from "@apostrophi/schema/filters/types";
+import { EMPTY_QUERY } from "@apostrophi/schema/filters/types";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
 import { useMemo } from "react";
@@ -102,7 +106,7 @@ const store = new Store<ViewStoreState>({
   query: EMPTY_QUERY,
   inheritedQuery: EMPTY_QUERY,
   presentationFolderId: null,
-  randomSeed: readViewPref("seed") ?? "pond",
+  randomSeed: readViewPref("seed") ?? "apostrophi",
   layout: readInitialLayout(),
   sortKey: readViewPref("sort") ?? "savedAt",
   sortDir: readViewPref("dir") === "asc" ? "asc" : "desc",
@@ -438,7 +442,8 @@ export function activateFolderPresentation(
     zoom,
     includeSubfolders:
       presentation?.includeSubfolders ?? readViewPref("subfolders") !== "0",
-    randomSeed: presentation?.randomSeed ?? readViewPref("seed") ?? "pond",
+    randomSeed:
+      presentation?.randomSeed ?? readViewPref("seed") ?? "apostrophi",
   }));
 }
 export function useRandomSeed(): string {

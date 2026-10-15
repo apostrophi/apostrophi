@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
@@ -16,7 +16,7 @@ it.each([true, false])(
   async (ok) => {
     const operations: string[] = [];
     let refreshed = false;
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string) => {
         operations.push(name);
         if (name === "agent.listModels") return { ok: true, models: [] };
@@ -120,7 +120,7 @@ it("hides a saved credential until Edit reopens the form", async () => {
 
 it("opens the provider API keys page from the card", async () => {
   const opened: string[] = [];
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     openExternal: async (url: string) => {
       opened.push(url);
       return { ok: true };

@@ -1,5 +1,5 @@
-import type { savedViews } from "@pond/schema/db";
-import type { Query } from "@pond/schema/filters/types";
+import type { savedViews } from "@apostrophi/schema/db";
+import type { Query } from "@apostrophi/schema/filters/types";
 import { describe, expect, it } from "vitest";
 import { selectionViews } from "./export-saves";
 

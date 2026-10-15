@@ -9,7 +9,9 @@ const BOOT_FAILSAFE_MS = 4000;
 function readStoredShell(): ShellHint {
   try {
     const stored = ShellHintSchema.safeParse(
-      JSON.parse(localStorage.getItem(libraryScopedKey("pondShell")) ?? "{}"),
+      JSON.parse(
+        localStorage.getItem(libraryScopedKey("apostrophiShell")) ?? "{}",
+      ),
     );
     return stored.success ? stored.data : {};
   } catch {
@@ -20,7 +22,7 @@ function readStoredShell(): ShellHint {
 function paintShell(): void {
   const shell: ShellHint = {
     ...readStoredShell(),
-    ...window.__pondShell,
+    ...window.__apostrophiShell,
   };
   const doc = document.documentElement;
 
@@ -42,7 +44,7 @@ function paintShell(): void {
     /Mac|iPhone|iPad/i.test(navigator.userAgent) ? "mac" : "other",
   );
 
-  performance.mark("pondAppStart");
+  performance.mark("apostrophiAppStart");
 }
 
 function armBootFailsafe(): void {

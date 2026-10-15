@@ -1,5 +1,5 @@
-import { IconTrash, IconTrashXmark, IconUndo } from "@pond/icons";
-import type { MenuItemSpec } from "@pond/ui";
+import { IconTrash, IconTrashXmark, IconUndo } from "@apostrophi/icons";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { purgeSave, trashSave, untrashSave } from "@/features/saves/lib/mutate";
 import {
   deleteSelectionForever,

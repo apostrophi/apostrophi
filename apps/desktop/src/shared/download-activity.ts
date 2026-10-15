@@ -1,4 +1,4 @@
-import type { Op } from "@pond/schema/db";
+import type { Op } from "@apostrophi/schema/db";
 
 export type DownloadPhase =
   | "starting"

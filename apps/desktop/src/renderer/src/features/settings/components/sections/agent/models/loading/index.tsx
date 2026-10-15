@@ -1,4 +1,4 @@
-import { Loader, Settings } from "@pond/ui";
+import { Loader, Settings } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 export function ModelsLoading() {

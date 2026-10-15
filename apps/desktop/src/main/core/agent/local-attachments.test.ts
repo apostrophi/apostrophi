@@ -13,7 +13,7 @@ afterEach(async () => {
 });
 
 it("registers selected files without importing them into the library", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-agent-files-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-agent-files-"));
   roots.push(root);
   const path = join(root, "reference.txt");
   await writeFile(path, "Local reference");

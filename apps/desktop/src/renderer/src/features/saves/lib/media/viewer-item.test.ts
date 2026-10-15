@@ -54,9 +54,11 @@ describe("buildViewerItems", () => {
       "specialist",
       "temporal",
     ]);
-    expect(items[0]?.url).toBe("pond://viewer-items/first.jpg?v=111111111111");
+    expect(items[0]?.url).toBe(
+      "apostrophi://viewer-items/first.jpg?v=111111111111",
+    );
     expect(items[2]?.posterUrl).toBe(
-      "pond://viewer-items/poster.jpg?v=222222222222",
+      "apostrophi://viewer-items/poster.jpg?v=222222222222",
     );
   });
 

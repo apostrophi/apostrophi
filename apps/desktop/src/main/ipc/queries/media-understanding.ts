@@ -1,5 +1,5 @@
 import { extname } from "node:path";
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import { MediaUnderstandInputSchema } from "../../../shared/query-contracts-system";
 import { keyFor, listProviderModels } from "../../core/agent/keys";
@@ -135,10 +135,13 @@ export function createMediaUnderstandingQueries(
             return { ok: false as const, reason: "too_large" as const };
           bytes = await resolved.readLibraryMedia(target.path);
         } catch (error) {
-          log.warn("[pond ipc] saves.understandMedia could not read media", {
-            saveId,
-            error,
-          });
+          log.warn(
+            "[apostrophi ipc] saves.understandMedia could not read media",
+            {
+              saveId,
+              error,
+            },
+          );
           return { ok: false as const, reason: "read_failed" as const };
         }
         if (bytes.byteLength > MAX_IMAGE_BYTES)
@@ -148,10 +151,13 @@ export function createMediaUnderstandingQueries(
         try {
           connection = await resolveConnection(resolved);
         } catch (error) {
-          log.warn("[pond ipc] saves.understandMedia model discovery failed", {
-            saveId,
-            error,
-          });
+          log.warn(
+            "[apostrophi ipc] saves.understandMedia model discovery failed",
+            {
+              saveId,
+              error,
+            },
+          );
           return { ok: false as const, reason: "model_unavailable" as const };
         }
         if (!connection.ok) return connection;
@@ -174,7 +180,7 @@ export function createMediaUnderstandingQueries(
               ? { ...failed, operation: error.operationalMetric }
               : failed;
           }
-          log.warn("[pond ipc] saves.understandMedia failed", {
+          log.warn("[apostrophi ipc] saves.understandMedia failed", {
             saveId,
             task,
             outcome: "unexpected_error",

@@ -1,5 +1,5 @@
-import { IconDotsFill as Ellipsis } from "@pond/icons";
-import { Menu } from "@pond/ui";
+import { IconDotsFill as Ellipsis } from "@apostrophi/icons";
+import { Menu } from "@apostrophi/ui";
 import { useState } from "react";
 import {
   buildSaveDetailMenu,

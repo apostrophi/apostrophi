@@ -1,4 +1,4 @@
-import { SOURCES, type Source } from "@pond/schema/db";
+import { SOURCES, type Source } from "@apostrophi/schema/db";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
 import { useEffect } from "react";
@@ -69,7 +69,7 @@ interface AccountsResult {
 export async function refetchAccounts(): Promise<AccountRow[]> {
   try {
     const rows = AccountsReplySchema.parse(
-      await window.pond.query("accounts.list", {}),
+      await window.apostrophi.query("accounts.list", {}),
     ).accounts;
     store.setState(() => ({ accounts: rows, loaded: true }));
     for (const account of rows) {

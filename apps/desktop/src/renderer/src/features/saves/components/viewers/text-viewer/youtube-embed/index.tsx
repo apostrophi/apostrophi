@@ -1,3 +1,4 @@
+import { Menu } from "@apostrophi/ui";
 import {
   AutoEmbedOption,
   type EmbedConfig,
@@ -5,7 +6,6 @@ import {
   LexicalAutoEmbedPlugin,
 } from "@lexical/react/LexicalAutoEmbedPlugin";
 import { $insertNodeToNearestRoot } from "@lexical/utils";
-import { Menu } from "@pond/ui";
 import type { LexicalEditor } from "lexical";
 import { type MouseEvent as ReactMouseEvent, useMemo } from "react";
 import { createPortal } from "react-dom";

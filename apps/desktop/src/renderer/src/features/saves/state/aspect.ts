@@ -19,7 +19,7 @@ const BURST_WINDOW_MS = 50;
 const SOFT_MIN_DELTA = 0.03;
 const HARD_MIN_DELTA = 0.001;
 
-const MASONRY_ASPECT_CACHE_KEY = libraryScopedKey("pond:aspects:v4");
+const MASONRY_ASPECT_CACHE_KEY = libraryScopedKey("apostrophi:aspects:v4");
 const PERSIST_DEBOUNCE_MS = 800;
 
 const measuredAspects = new Map<string, number>();

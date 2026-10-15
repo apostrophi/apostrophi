@@ -7,7 +7,7 @@ export const LAYOUT_CYCLE_SHORTCUT = {
 export const GLOBAL_SHORTCUTS = {
   "app.summon": {
     keys: "Mod+Shift+L",
-    label: "Show Pond",
+    label: "Show Apostrophi",
     group: "Global",
   },
 } as const;

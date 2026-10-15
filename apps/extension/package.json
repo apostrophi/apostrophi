@@ -1,21 +1,21 @@
 {
-  "name": "@pond/extension",
+  "name": "@apostrophi/extension",
   "version": "1.0.1",
   "private": true,
   "type": "module",
-  "description": "Pond browser extension: capture saves from Twitter/X, Instagram, Pinterest, Are.na, Cosmos, TikTok, YouTube and any article into the local Pond library.",
+  "description": "Apostrophi browser extension: capture saves from Twitter/X, Instagram, Pinterest, Are.na, Cosmos, TikTok, YouTube and any article into the local Apostrophi library.",
   "license": "MIT",
   "author": {
-    "name": "Raphael Salaja",
-    "url": "https://github.com/raphaelsalaja"
+    "name": "Apostrophi",
+    "url": "https://github.com/apostrophi"
   },
-  "homepage": "https://github.com/raphaelsalaja/pond#readme",
+  "homepage": "https://github.com/apostrophi/apostrophi#readme",
   "bugs": {
-    "url": "https://github.com/raphaelsalaja/pond/issues"
+    "url": "https://github.com/apostrophi/apostrophi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raphaelsalaja/pond.git",
+    "url": "git+https://github.com/apostrophi/apostrophi.git",
     "directory": "apps/extension"
   },
   "scripts": {
@@ -27,9 +27,9 @@
     "zip": "wxt zip"
   },
   "dependencies": {
-    "@pond/schema": "workspace:*",
-    "@pond/theme": "workspace:*",
-    "@pond/ui": "workspace:*",
+    "@apostrophi/schema": "workspace:*",
+    "@apostrophi/theme": "workspace:*",
+    "@apostrophi/ui": "workspace:*",
     "@webext-core/messaging": "^4.0.0",
     "react": "catalog:",
     "react-dom": "catalog:",

@@ -18,9 +18,9 @@ import {
   IconLink2,
   IconRename,
   IconTableDownload,
-} from "@pond/icons";
-import { EMPTY_QUERY } from "@pond/schema/filters/types";
-import { Dialog, type MenuItemSpec } from "@pond/ui";
+} from "@apostrophi/icons";
+import { EMPTY_QUERY } from "@apostrophi/schema/filters/types";
+import { Dialog, type MenuItemSpec } from "@apostrophi/ui";
 import type { ReactElement } from "react";
 import { descendantFolderIds } from "@/features/library/components/folder-sidebar/tree";
 import { exportSelectionCsv, exportSelectionFiles } from "@/features/saves";
@@ -142,7 +142,7 @@ export function buildFolderMenuItems(a: FolderMenuActions): MenuItemSpec[] {
           onClick: a.onExportEaglePackage,
         },
         {
-          label: "Export Pond Package",
+          label: "Export Apostrophi Package",
           icon: <IconArchiveExport />,
           keywords: "package",
           onClick: a.onExportPackage,
@@ -191,14 +191,14 @@ export async function duplicateFolder(folder: {
   parentId: string | null;
   color: string | null;
 }): Promise<string> {
-  const copy = await window.pond.query("folders.create", {
+  const copy = await window.apostrophi.query("folders.create", {
     name: `${folder.name} Copy`,
     parentId: folder.parentId,
     color: folder.color,
   });
   const ids = await folderSaveIds([folder.id]);
   if (ids.length) {
-    await window.pond.query("folders.addSaves", {
+    await window.apostrophi.query("folders.addSaves", {
       folderId: copy.id,
       saveIds: ids,
     });
@@ -217,7 +217,7 @@ export function folderIdsForExport(
 }
 
 async function folderSaveIds(folderIds: string[]): Promise<string[]> {
-  const result = await window.pond.query("saves.queryIds", {
+  const result = await window.apostrophi.query("saves.queryIds", {
     query: EMPTY_QUERY,
     scope: { folderIds },
   });
@@ -255,14 +255,16 @@ export async function exportFolderCsv(folderIds: string[]): Promise<void> {
 
 export async function exportFolderPackage(folderIds: string[]): Promise<void> {
   await withFolderSaves(folderIds, async (ids) => {
-    const result = await window.pond.query("saves.exportPackage", { ids });
+    const result = await window.apostrophi.query("saves.exportPackage", {
+      ids,
+    });
     if (!result.ok && result.reason !== "cancelled")
       notify({
         id: "folder-export",
         title: result.error || "Couldn't export package.",
       });
     else if (result.ok)
-      notify({ id: "folder-export", title: "Pond package exported" });
+      notify({ id: "folder-export", title: "Apostrophi package exported" });
   });
 }
 
@@ -270,7 +272,9 @@ export async function exportFolderEaglePackage(
   folderIds: string[],
 ): Promise<void> {
   await withFolderSaves(folderIds, async (ids) => {
-    const result = await window.pond.query("saves.exportEaglePackage", { ids });
+    const result = await window.apostrophi.query("saves.exportEaglePackage", {
+      ids,
+    });
     if (!result.ok && result.reason !== "cancelled")
       notify({
         id: "folder-export",
@@ -284,7 +288,9 @@ export async function exportFolderEaglePackage(
 export async function copyFolderToLibrary(folderIds: string[]): Promise<void> {
   await withFolderSaves(folderIds, async (ids) => {
     try {
-      const result = await window.pond.query("saves.copyToLibrary", { ids });
+      const result = await window.apostrophi.query("saves.copyToLibrary", {
+        ids,
+      });
       if (result.ok)
         notify({
           id: "folder-copy",
@@ -317,7 +323,7 @@ export function confirmRemoveFolder(input: {
       label: "Move Saves in this folder and its subfolders to Trash",
     },
     onConfirm: async ({ checked }) => {
-      await window.pond.query("folders.delete", {
+      await window.apostrophi.query("folders.delete", {
         id: input.id,
         trashContainedSaves: checked,
       });

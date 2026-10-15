@@ -1,5 +1,5 @@
+import { IconXmark } from "@apostrophi/icons";
 import { Toast as Base } from "@base-ui/react/toast";
-import { IconXmark } from "@pond/icons";
 import { clsx as cn } from "clsx";
 import type { ComponentPropsWithoutRef } from "react";
 import { Button } from "../button";

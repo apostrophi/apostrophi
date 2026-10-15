@@ -31,11 +31,11 @@ describe("list-path", () => {
   });
 
   it("remembers list search with the path", () => {
-    rememberListPath("/", "?q=pond");
+    rememberListPath("/", "?q=apostrophi");
     expect(getLastListPath()).toBe("/");
-    expect(getLastListSearch()).toBe("?q=pond");
+    expect(getLastListSearch()).toBe("?q=apostrophi");
 
     rememberListPath("/save/abc", "");
-    expect(getLastListSearch()).toBe("?q=pond");
+    expect(getLastListSearch()).toBe("?q=apostrophi");
   });
 });

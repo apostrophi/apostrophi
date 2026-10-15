@@ -1,4 +1,4 @@
-import type { MenuItemSpec } from "@pond/ui";
+import type { MenuItemSpec } from "@apostrophi/ui";
 import { buildNewMenuItems } from "@/features/library/components/new-menu/spec";
 import { blankDocuments } from "@/features/library/state/blank-documents";
 

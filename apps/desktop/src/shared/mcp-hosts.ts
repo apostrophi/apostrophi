@@ -29,7 +29,7 @@ export const MCP_HOST_CATALOG: readonly McpHostDefinition[] = [
     name: "Claude Code",
     featured: true,
     configPath: "~/.claude.json",
-    hint: "Claude Code lists Pond after this command succeeds.",
+    hint: "Claude Code lists Apostrophi after this command succeeds.",
     addLabel: "Add to Claude Code",
   },
   {
@@ -37,7 +37,7 @@ export const MCP_HOST_CATALOG: readonly McpHostDefinition[] = [
     name: "Cursor",
     featured: true,
     configPath: "~/.cursor/mcp.json",
-    hint: "Cursor Settings, MCP shows a green dot when Pond is connected.",
+    hint: "Cursor Settings, MCP shows a green dot when Apostrophi is connected.",
     addLabel: "Add to Cursor",
   },
   {
@@ -45,7 +45,7 @@ export const MCP_HOST_CATALOG: readonly McpHostDefinition[] = [
     name: "OpenAI Codex",
     featured: true,
     configPath: "~/.codex/config.toml",
-    hint: "Codex lists Pond after this command succeeds.",
+    hint: "Codex lists Apostrophi after this command succeeds.",
     addLabel: "Add to Codex",
   },
   {
@@ -53,7 +53,7 @@ export const MCP_HOST_CATALOG: readonly McpHostDefinition[] = [
     name: "Gemini CLI",
     featured: true,
     configPath: "~/.gemini/settings.json",
-    hint: "Gemini CLI lists Pond after this command succeeds.",
+    hint: "Gemini CLI lists Apostrophi after this command succeeds.",
     addLabel: "Add to Gemini CLI",
   },
   {
@@ -62,7 +62,7 @@ export const MCP_HOST_CATALOG: readonly McpHostDefinition[] = [
     featured: false,
     configPath:
       "~/Library/Application Support/Claude/claude_desktop_config.json",
-    hint: "Claude Desktop MCP shows Pond when connected.",
+    hint: "Claude Desktop MCP shows Apostrophi when connected.",
     addLabel: "Add to Claude Desktop",
   },
   {
@@ -70,7 +70,7 @@ export const MCP_HOST_CATALOG: readonly McpHostDefinition[] = [
     name: "VS Code",
     featured: false,
     configPath: "~/Library/Application Support/Code/User/mcp.json",
-    hint: "VS Code MCP shows Pond when connected.",
+    hint: "VS Code MCP shows Apostrophi when connected.",
     addLabel: "Add to VS Code",
   },
   {
@@ -92,7 +92,7 @@ function shellToken(value: string): string {
   return /[\s"']/.test(value) ? `"${value.replaceAll('"', '\\"')}"` : value;
 }
 
-export function pondLaunchLine(command: string, args: string[]): string {
+export function apostrophiLaunchLine(command: string, args: string[]): string {
   return [command, ...args].map(shellToken).join(" ");
 }
 
@@ -101,31 +101,31 @@ export function hostSetupCommands(
   command: string,
   args: string[],
 ): McpSetupCommand[] {
-  const launch = pondLaunchLine(command, args);
+  const launch = apostrophiLaunchLine(command, args);
   if (id === "claude-code") {
     return [
       {
         label:
           "Run in any terminal. --scope user makes it available in every project:",
-        value: `claude mcp add --scope user pond -- ${launch}`,
+        value: `claude mcp add --scope user apostrophi -- ${launch}`,
       },
-      { label: "Verify:", value: "claude mcp get pond" },
+      { label: "Verify:", value: "claude mcp get apostrophi" },
     ];
   }
   if (id === "codex") {
     return [
       {
         label: "Run in any terminal:",
-        value: `codex mcp add pond -- ${launch}`,
+        value: `codex mcp add apostrophi -- ${launch}`,
       },
-      { label: "Verify:", value: "codex mcp get pond" },
+      { label: "Verify:", value: "codex mcp get apostrophi" },
     ];
   }
   if (id === "gemini-cli") {
     return [
       {
         label: "Run in any terminal. -s user applies in every project:",
-        value: `gemini mcp add -s user pond ${launch}`,
+        value: `gemini mcp add -s user apostrophi ${launch}`,
       },
       { label: "Verify:", value: "gemini mcp list" },
     ];

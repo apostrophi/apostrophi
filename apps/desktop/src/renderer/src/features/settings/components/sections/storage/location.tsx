@@ -1,4 +1,4 @@
-import { Button, Dialog, Settings } from "@pond/ui";
+import { Button, Dialog, Settings } from "@apostrophi/ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { REVEAL_LABEL } from "@/shared/lib/platform";
@@ -37,12 +37,14 @@ export function StorageLocationSettings() {
   const { data: info } = useQuery({
     queryKey: ["library-info"],
     queryFn: async () =>
-      LibraryInfoSchema.parse(await window.pond.query("library.info", {})),
+      LibraryInfoSchema.parse(
+        await window.apostrophi.query("library.info", {}),
+      ),
   });
   const move = useMutation({
     mutationFn: async () => {
       const result = MoveResultSchema.parse(
-        await window.pond.query("library.move", {}),
+        await window.apostrophi.query("library.move", {}),
       );
       if (!result.ok) {
         const message = moveError(result);
@@ -66,7 +68,9 @@ export function StorageLocationSettings() {
           <Button
             size="sm"
             variant="secondary"
-            onClick={() => void window.pond.query("library.openInFinder", {})}
+            onClick={() =>
+              void window.apostrophi.query("library.openInFinder", {})
+            }
           >
             {REVEAL_LABEL}
           </Button>
@@ -94,7 +98,7 @@ export function StorageLocationSettings() {
               Dialog.confirm({
                 title: "Move Library",
                 description:
-                  "Pond will verify the new copy before removing the library from its current location.",
+                  "Apostrophi will verify the new copy before removing the library from its current location.",
                 confirmLabel: "Move",
                 busyLabel: "Moving",
                 onConfirm: () => move.mutateAsync(),

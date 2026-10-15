@@ -1,13 +1,13 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterAll, afterEach, beforeEach, expect, it, vi } from "vitest";
+import { toUIMessage } from "@/features/agent/state/apostrophi-messages";
 import type { AssistantState } from "@/features/agent/state/assistant";
-import { toUIMessage } from "@/features/agent/state/pond-messages";
 import { AgentMessage } from "./index";
 import { ResponseContent } from "./response-content";
 
 beforeEach(() => {
-  vi.stubGlobal("pond", { query: async () => [] });
+  vi.stubGlobal("apostrophi", { query: async () => [] });
 });
 afterAll(() => vi.unstubAllGlobals());
 

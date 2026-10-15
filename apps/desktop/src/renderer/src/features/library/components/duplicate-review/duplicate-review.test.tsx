@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it, vi } from "vitest";
@@ -40,7 +40,7 @@ function setup(groups: { kind: string; ids: string[] }[]) {
     if (name === "settings.getPrefs") return PrefsSchema.parse({});
     return { ok: true, trashed: 1 };
   });
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   return query;
 }
 
@@ -167,7 +167,7 @@ it("limits groups to the requested ids", async () => {
     const save = normalise(row(id));
     if (save) pool.upsert(save);
   }
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: vi.fn(async (name: string, input: { ids?: string[] }) => {
       if (name === "saves.findDuplicates")
         return {
@@ -215,7 +215,7 @@ it("separates related content from mergeable duplicate evidence", async () => {
     const save = normalise(row(id));
     if (save) pool.upsert(save);
   }
-  vi.stubGlobal("pond", {
+  vi.stubGlobal("apostrophi", {
     query: vi.fn(async (name: string, input: { ids?: string[] }) => {
       if (name === "saves.findDuplicates")
         return {

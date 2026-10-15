@@ -42,7 +42,7 @@ type ShortcutSequenceId = {
 }[ShortcutId];
 
 const shortcutPreferences = new Store<ShortcutPreferences>({
-  profile: "pond",
+  profile: "apostrophi",
   overrides: {},
 });
 

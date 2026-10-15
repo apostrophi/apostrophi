@@ -26,7 +26,7 @@ afterEach(async () => {
   );
 });
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), "pond-transfer-jobs-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-transfer-jobs-"));
   roots.push(root);
   const destination = join(root, "output");
   await mkdir(destination);

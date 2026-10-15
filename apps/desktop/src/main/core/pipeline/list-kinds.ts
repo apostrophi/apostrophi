@@ -1,9 +1,9 @@
-import { type ListKind, type Source, saves } from "@pond/schema/db";
+import { type ListKind, type Source, saves } from "@apostrophi/schema/db";
 import {
   listKindsEqual,
   mergeListKinds,
   normalizeListKinds,
-} from "@pond/schema/list-kinds";
+} from "@apostrophi/schema/list-kinds";
 import { and, eq, inArray } from "drizzle-orm";
 import { getDb } from "../../db";
 import { persistSave } from "../persist-save";

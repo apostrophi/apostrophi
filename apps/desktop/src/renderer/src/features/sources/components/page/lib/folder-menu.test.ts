@@ -28,7 +28,7 @@ describe("buildFolderMenu", () => {
 
   it("pauses the folder and refreshes", async () => {
     const query = vi.fn(async () => ({ ok: true }));
-    vi.stubGlobal("pond", { query });
+    vi.stubGlobal("apostrophi", { query });
     const onChanged = vi.fn();
     const pause = buildFolderMenu(
       { name: "PNG", imported: 200, watching: true },
@@ -54,7 +54,7 @@ describe("pickWatchedFolder", () => {
   });
 
   it("ignores a cancelled picker", async () => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: vi.fn(async () => ({ ok: false, path: null })),
     });
     await pickWatchedFolder();
@@ -62,7 +62,7 @@ describe("pickWatchedFolder", () => {
   });
 
   it("refreshes after choosing a folder", async () => {
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: vi.fn(async () => ({ ok: true, path: "/Users/raphael/Inbox" })),
     });
     await pickWatchedFolder();

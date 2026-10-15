@@ -28,7 +28,7 @@ interface ModeFilterOptions {
 function isRenderable(save: Save): boolean {
   if (pickCardUnit(save)) return true;
   if (save.mediaType === "link" || save.mediaType === "text") return true;
-  if (save.url && !save.url.startsWith("pond:")) return true;
+  if (save.url && !save.url.startsWith("apostrophi:")) return true;
   return false;
 }
 

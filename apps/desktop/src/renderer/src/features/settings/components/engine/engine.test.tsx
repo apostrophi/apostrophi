@@ -1,4 +1,4 @@
-import { Settings } from "@pond/ui";
+import { Settings } from "@apostrophi/ui";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { expect, it } from "vitest";

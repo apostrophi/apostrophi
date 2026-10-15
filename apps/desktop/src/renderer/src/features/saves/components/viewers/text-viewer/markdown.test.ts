@@ -117,7 +117,7 @@ describe("note markdown", () => {
     const editor = createNoteEditor();
     editor.update(
       () => {
-        const text = $createTextNode("https://pond.app ");
+        const text = $createTextNode("https://apostrophi.app ");
         const paragraph = $createParagraphNode();
         paragraph.append(text);
         $getRoot().clear();

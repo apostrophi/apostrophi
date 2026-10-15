@@ -6,7 +6,7 @@ import { readLibraryIdentity, updateLibraryIdentity } from "./library-identity";
 const INVALID_NAME = /[/:\\]/;
 
 export function libraryPathForName(source: string, name: string): string {
-  const trimmed = name.trim().replace(/\.pond$/i, "");
+  const trimmed = name.trim().replace(/\.apostrophi$/i, "");
   if (
     !trimmed ||
     trimmed === "." ||
@@ -14,7 +14,7 @@ export function libraryPathForName(source: string, name: string): string {
     INVALID_NAME.test(trimmed)
   )
     throw new Error("Choose a name without slashes or colons.");
-  return join(dirname(source), `${trimmed}.pond`);
+  return join(dirname(source), `${trimmed}.apostrophi`);
 }
 
 export async function renameLibraryBundle(
@@ -25,7 +25,7 @@ export async function renameLibraryBundle(
   const previousName = readLibraryIdentity(source).name;
   if (destination === source) {
     updateLibraryIdentity(source, {
-      name: name.trim().replace(/\.pond$/i, ""),
+      name: name.trim().replace(/\.apostrophi$/i, ""),
     });
     return { path: source, previousName };
   }
@@ -47,7 +47,7 @@ export async function renameLibraryBundle(
   }
   try {
     updateLibraryIdentity(destination, {
-      name: name.trim().replace(/\.pond$/i, ""),
+      name: name.trim().replace(/\.apostrophi$/i, ""),
     });
     return { path: destination, previousName };
   } catch (error) {

@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 
 export interface SyncStatusUpdate {
@@ -39,7 +39,7 @@ export function emit(update: SyncStatusUpdate): void {
     try {
       cb(update);
     } catch (err) {
-      log.warn("[pond sync] status listener threw", err);
+      log.warn("[apostrophi sync] status listener threw", err);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Shell } from "@pond/ui";
+import { Shell } from "@apostrophi/ui";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { useLayoutEffect } from "react";
 import { LibraryChrome } from "@/features/library/components/chrome";

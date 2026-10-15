@@ -1,11 +1,11 @@
-import type { Prefs } from "@pond/schema";
+import type { Prefs } from "@apostrophi/schema";
 import { getPrefs } from "../prefs";
 
 export type McpAccessGroup = "search" | "open" | "export";
 
 export const MCP_ACCESS_OFF = {
   search: "Search Saves is off in Settings, Model Context Protocol.",
-  open: "Open in Pond is off in Settings, Model Context Protocol.",
+  open: "Open in Apostrophi is off in Settings, Model Context Protocol.",
   export: "Export Files is off in Settings, Model Context Protocol.",
 } satisfies Record<McpAccessGroup, string>;
 

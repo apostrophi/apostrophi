@@ -1,6 +1,6 @@
-import { IconChevronDown } from "@pond/icons";
-import { Reveal } from "@pond/ui";
-import { Accordion } from "@pond/ui/accordion";
+import { IconChevronDown } from "@apostrophi/icons";
+import { Reveal } from "@apostrophi/ui";
+import { Accordion } from "@apostrophi/ui/accordion";
 import type { AssistantMetadata } from "@shared/assistant";
 import { useReducedMotionConfig } from "motion/react";
 import styles from "./styles.module.css";

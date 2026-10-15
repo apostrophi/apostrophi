@@ -2,7 +2,7 @@ import {
   type ConnectedAccount,
   type SourceSyncPrefs,
   saves,
-} from "@pond/schema/db";
+} from "@apostrophi/schema/db";
 import { and, count, desc, eq, isNull, or } from "drizzle-orm";
 import { getDb } from "../../db";
 import { getAccountSync, patchAccountSync } from "./accounts";

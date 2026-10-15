@@ -7,8 +7,8 @@ import {
   IconFolderPlus,
   IconFolders,
   IconLayers,
-} from "@pond/icons";
-import { cssVars, Menu } from "@pond/ui";
+} from "@apostrophi/icons";
+import { cssVars, Menu } from "@apostrophi/ui";
 import type { QueryResult } from "@shared/query-contracts";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -155,18 +155,18 @@ export function WorkspaceMenu() {
   const sidebarWidth = useSidebarWidth();
   const { data: info } = useQuery({
     queryKey: ["library-info"],
-    queryFn: () => window.pond.query("library.info", {}),
+    queryFn: () => window.apostrophi.query("library.info", {}),
   });
   const { data: recent = [], refetch } = useQuery({
     queryKey: ["recent-libraries"],
-    queryFn: () => window.pond.query("library.recent", {}),
+    queryFn: () => window.apostrophi.query("library.recent", {}),
   });
   const [extensionOpen, setExtensionOpen] = useState(false);
   const [customizeOpen, setCustomizeOpen] = useState(false);
   const items = buildWorkspaceMenuItems({
     onBrowserExtension: () => setExtensionOpen(true),
   });
-  const name = info?.name || "Pond";
+  const name = info?.name || "Apostrophi";
 
   return (
     <>

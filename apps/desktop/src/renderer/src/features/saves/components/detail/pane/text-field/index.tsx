@@ -1,4 +1,4 @@
-import { Button, Input } from "@pond/ui";
+import { Button, Input } from "@apostrophi/ui";
 import { useRef, useState } from "react";
 import { errorCopy } from "@/shared/lib/error-copy";
 import styles from "./styles.module.css";

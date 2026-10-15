@@ -1,5 +1,5 @@
-import { SETTINGS_SECTIONS } from "@pond/schema";
-import type { Folder } from "@pond/schema/db";
+import { SETTINGS_SECTIONS } from "@apostrophi/schema";
+import type { Folder } from "@apostrophi/schema/db";
 import type { LibraryNav } from "@/features/library/state/library-chrome";
 import { saveIdFromPath } from "@/features/saves/lib/save-nav";
 import { getSourceLabel } from "@/features/saves/lib/source-labels";

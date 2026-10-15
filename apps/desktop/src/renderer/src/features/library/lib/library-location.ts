@@ -21,9 +21,9 @@ function reportError(id: string, title: string, error: Error): void {
 
 export async function createLibrary(): Promise<void> {
   try {
-    const picked = await window.pond.query("library.pickFolder", {});
+    const picked = await window.apostrophi.query("library.pickFolder", {});
     if (!picked.ok || !picked.path) return;
-    const result = await window.pond.query("library.createAt", {
+    const result = await window.apostrophi.query("library.createAt", {
       path: picked.path,
       name: DEFAULT_LIBRARY_NAME,
     });
@@ -44,7 +44,7 @@ export async function createLibrary(): Promise<void> {
 
 export async function openLibrary(): Promise<void> {
   try {
-    const picked = await window.pond.query("library.pickExisting", {});
+    const picked = await window.apostrophi.query("library.pickExisting", {});
     if (!picked.ok || !picked.path) return;
     await switchLibrary(picked.path);
   } catch (error) {
@@ -58,12 +58,12 @@ export async function openLibrary(): Promise<void> {
 
 export async function switchLibrary(path: string): Promise<void> {
   try {
-    const result = await window.pond.query("library.switchTo", { path });
+    const result = await window.apostrophi.query("library.switchTo", { path });
     reportFailure(
       result,
       "open-library",
       "Couldn't open library",
-      "Pick a .pond library.",
+      "Pick a .apostrophi library.",
     );
   } catch (error) {
     reportError(
@@ -76,7 +76,7 @@ export async function switchLibrary(path: string): Promise<void> {
 
 export async function moveLibrary(): Promise<void> {
   try {
-    const result = await window.pond.query("library.move", {});
+    const result = await window.apostrophi.query("library.move", {});
     reportFailure(
       result,
       "move-library",
@@ -101,7 +101,7 @@ export async function moveLibrary(): Promise<void> {
 
 export async function mergeLibrary(): Promise<void> {
   try {
-    const result = await window.pond.query("library.mergeFrom", {});
+    const result = await window.apostrophi.query("library.mergeFrom", {});
     if (!result.ok) {
       if (result.reason === "cancelled") return;
       throw new Error(result.error || "Choose a different library.");
@@ -122,7 +122,7 @@ export async function mergeLibrary(): Promise<void> {
 
 export async function backupLibrary(): Promise<void> {
   try {
-    const result = await window.pond.query("library.backupTo", {});
+    const result = await window.apostrophi.query("library.backupTo", {});
     reportFailure(
       result,
       "backup-library",
@@ -147,12 +147,12 @@ export async function backupLibrary(): Promise<void> {
 
 export async function restoreLibrary(): Promise<void> {
   try {
-    const result = await window.pond.query("library.restoreBackup", {});
+    const result = await window.apostrophi.query("library.restoreBackup", {});
     reportFailure(
       result,
       "restore-library",
       "Couldn't restore the library",
-      "Choose a valid Pond backup.",
+      "Choose a valid Apostrophi backup.",
     );
   } catch (error) {
     reportError(

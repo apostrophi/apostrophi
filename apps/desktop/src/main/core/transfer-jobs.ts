@@ -73,7 +73,7 @@ export function createTransferJobStore(directory: string) {
       for (const job of z.array(TransferJobSchema).parse(JSON.parse(text))) {
         if (job.status === "running" || job.status === "cancelling") {
           job.status = "interrupted";
-          job.error = "Pond closed before this transfer finished.";
+          job.error = "Apostrophi closed before this transfer finished.";
         }
         entries.set(job.id, job);
       }

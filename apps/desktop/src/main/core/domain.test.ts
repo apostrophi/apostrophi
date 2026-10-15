@@ -2,7 +2,7 @@ import {
   canonicalHost,
   domainFromUrl,
   sourceIdentity,
-} from "@pond/schema/domain";
+} from "@apostrophi/schema/domain";
 import { describe, expect, it } from "vitest";
 
 describe("canonicalHost", () => {
@@ -46,7 +46,11 @@ describe("sourceIdentity", () => {
 
   it("uses local for local imports", () => {
     expect(
-      sourceIdentity({ siteName: null, source: "local", url: "pond:local/1" }),
+      sourceIdentity({
+        siteName: null,
+        source: "local",
+        url: "apostrophi:local/1",
+      }),
     ).toBe("local");
   });
 

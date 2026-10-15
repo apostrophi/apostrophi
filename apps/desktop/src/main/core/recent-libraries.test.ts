@@ -17,12 +17,12 @@ afterEach(async () => {
   );
 });
 it("keeps recent libraries in open order and marks unavailable libraries without forgetting them", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-recent-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-recent-"));
   roots.push(root);
-  const active = join(root, "Active.pond");
+  const active = join(root, "Active.apostrophi");
   await mkdir(active);
   await writeFile(join(active, "metadata.json"), "{}");
-  const absent = join(root, "Offline.pond");
+  const absent = join(root, "Offline.apostrophi");
   const file = join(root, "recent.json");
   recordRecentLibrary(file, active, 1);
   recordRecentLibrary(file, absent, 2);
@@ -50,9 +50,9 @@ it("keeps recent libraries in open order and marks unavailable libraries without
 });
 
 it("stores library icons and hides removed libraries until reopened", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-recent-actions-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-recent-actions-"));
   roots.push(root);
-  const active = join(root, "Active.pond");
+  const active = join(root, "Active.apostrophi");
   await mkdir(active);
   await writeFile(join(active, "metadata.json"), "{}");
   const file = join(root, "recent.json");
@@ -81,10 +81,10 @@ it("stores library icons and hides removed libraries until reopened", async () =
 });
 
 it("reads portable identity and preserves history when a library is renamed", async () => {
-  const root = await mkdtemp(join(tmpdir(), "pond-recent-identity-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-recent-identity-"));
   roots.push(root);
-  const previous = join(root, "Previous.pond");
-  const next = join(root, "Renamed.pond");
+  const previous = join(root, "Previous.apostrophi");
+  const next = join(root, "Renamed.apostrophi");
   await mkdir(next);
   await writeFile(
     join(next, "metadata.json"),

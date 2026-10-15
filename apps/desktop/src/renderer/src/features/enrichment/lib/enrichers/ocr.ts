@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS } from "@pond/schema";
+import { DEFAULT_PREFS } from "@apostrophi/schema";
 import type { Save } from "@/features/saves/types";
 import { representativeImageUrl } from "../image";
 import {

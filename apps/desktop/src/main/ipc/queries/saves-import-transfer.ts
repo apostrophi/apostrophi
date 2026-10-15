@@ -2,10 +2,10 @@ import { dialog } from "electron";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import type { QueryResult } from "../../../shared/query-contracts";
+import { importApostrophiPackage } from "../../core/apostrophi-package";
 import { reviewImportDuplicates } from "../../core/duplicate-import";
 import { importEaglePackage } from "../../core/eagle-package";
 import { importFiles } from "../../core/import-files";
-import { importPondPackage } from "../../core/pond-package";
 import { rememberSaveDrag } from "../../core/save-drag-session";
 import { runTransferJob } from "../../core/transfer-jobs";
 import { copySaveSelectionToLibrary } from "../../core/transfer-operations";
@@ -100,7 +100,7 @@ export const savesImportTransferQueries = {
     z.object({}),
     async (): Promise<QueryResult<"saves.importPackage">> => {
       const picked = await dialog.showOpenDialog({
-        title: "Import Pond Package",
+        title: "Import Apostrophi Package",
         buttonLabel: "Import",
         properties: ["openDirectory", "openFile"],
       });
@@ -118,7 +118,7 @@ export const savesImportTransferQueries = {
               source,
               destination: libraryRoot(),
             },
-            () => importPondPackage(source),
+            () => importApostrophiPackage(source),
           )),
         };
       } catch (error) {
@@ -235,7 +235,7 @@ export const savesImportTransferQueries = {
         }
         return { ok: true };
       } catch (error) {
-        log.warn("[pond ipc] startDrag failed", error);
+        log.warn("[apostrophi ipc] startDrag failed", error);
         return {
           ok: false,
           error: error instanceof Error ? error.message : String(error),

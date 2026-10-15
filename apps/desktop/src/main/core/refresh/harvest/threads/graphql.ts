@@ -1,4 +1,4 @@
-import type { JsonObject, JsonValue } from "@pond/schema/json";
+import type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 import log from "electron-log/main.js";
 import { z } from "zod";
 import { isThreadsLandingMedia } from "./normalize";
@@ -198,18 +198,22 @@ export function parseSavedResponses(
     try {
       json = parseGraphqlBody(cap.body);
     } catch (err) {
-      log.warn("[pond threads-saved] capture body not JSON", cap.url, err);
+      log.warn(
+        "[apostrophi threads-saved] capture body not JSON",
+        cap.url,
+        err,
+      );
       continue;
     }
     if (json == null) {
-      log.warn("[pond threads-saved] capture body not JSON", cap.url);
+      log.warn("[apostrophi threads-saved] capture body not JSON", cap.url);
       continue;
     }
     const env = savedEnvelope.safeParse(json);
     if (!env.success && !envelopeFailureLogged) {
       envelopeFailureLogged = true;
       log.warn(
-        "[pond threads-saved] envelope schema drift",
+        "[apostrophi threads-saved] envelope schema drift",
         cap.url,
         env.error.issues.map((i) => i.path.join(".")).join(", "),
       );

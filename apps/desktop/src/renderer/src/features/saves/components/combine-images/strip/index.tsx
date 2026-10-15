@@ -1,7 +1,10 @@
-import { IconXmark } from "@pond/icons";
-import { Button } from "@pond/ui";
+import { IconXmark } from "@apostrophi/icons";
+import { Button } from "@apostrophi/ui";
 import { useState } from "react";
-import { buildPondUrl, thumbUrlFor } from "@/features/saves/lib/media/url";
+import {
+  buildApostrophiUrl,
+  thumbUrlFor,
+} from "@/features/saves/lib/media/url";
 import type { CombineImage } from "../preview";
 import styles from "./styles.module.css";
 
@@ -56,7 +59,7 @@ export function Strip({
               className={styles.thumb}
               alt=""
               draggable={false}
-              src={thumbUrlFor(buildPondUrl(save.id, file), THUMB_SIZE)}
+              src={thumbUrlFor(buildApostrophiUrl(save.id, file), THUMB_SIZE)}
             />
             <Button
               className={styles.remove}

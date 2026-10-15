@@ -20,7 +20,7 @@ export async function setMediaEmbedding(
   vec: Float32Array,
   model: string,
 ): Promise<void> {
-  await window.pond.query("saves.patchDerived", {
+  await window.apostrophi.query("saves.patchDerived", {
     id,
     patch: { clipEmbedding: Array.from(vec), clipModel: model },
   });

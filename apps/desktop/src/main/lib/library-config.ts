@@ -45,15 +45,15 @@ export function readBundleJson<T>(
   const direct = parseEnvelope<T>(file);
   if (direct) return direct;
 
-  log.error("[pond bundle] corrupt root JSON, trying backups", file);
+  log.error("[apostrophi bundle] corrupt root JSON, trying backups", file);
   if (backupDir) {
     const recovered = recoverFromBackups<T>(file, backupDir);
     if (recovered) {
-      log.warn("[pond bundle] recovered from backup", file);
+      log.warn("[apostrophi bundle] recovered from backup", file);
       return recovered;
     }
   }
-  log.error("[pond bundle] no parseable backup found", file);
+  log.error("[apostrophi bundle] no parseable backup found", file);
   return null;
 }
 
@@ -116,7 +116,7 @@ export function rotateBundleBackups(backupDir: string, files: string[]): void {
       cpSync(file, join(target, basename(file)));
     }
   } catch (err) {
-    log.warn("[pond bundle] backup snapshot failed", err);
+    log.warn("[apostrophi bundle] backup snapshot failed", err);
     return;
   }
 
@@ -125,7 +125,7 @@ export function rotateBundleBackups(backupDir: string, files: string[]): void {
     try {
       rmSync(join(backupDir, dir), { recursive: true, force: true });
     } catch (err) {
-      log.warn("[pond bundle] backup prune failed", dir, err);
+      log.warn("[apostrophi bundle] backup prune failed", dir, err);
     }
   }
 }
@@ -145,7 +145,7 @@ export function createDebouncedTask(
     try {
       await fn();
     } catch (err) {
-      log.warn("[pond bundle] debounced task failed", err);
+      log.warn("[apostrophi bundle] debounced task failed", err);
     }
   };
 

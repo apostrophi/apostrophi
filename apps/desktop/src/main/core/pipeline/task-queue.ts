@@ -1,4 +1,10 @@
-import { type NewTask, OPS, SOURCES, saves, tasks } from "@pond/schema/db";
+import {
+  type NewTask,
+  OPS,
+  SOURCES,
+  saves,
+  tasks,
+} from "@apostrophi/schema/db";
 import type Database from "better-sqlite3";
 import { and, eq, inArray, ne, notExists } from "drizzle-orm";
 import log from "electron-log/main.js";
@@ -322,7 +328,7 @@ export async function recoverExpiredLeases(): Promise<number> {
     .transaction(() => recoverExpiredLeasesSync(db.$raw, Date.now()))
     .immediate();
   if (recovered > 0) {
-    log.info("[pond pipeline:reconciler] recovered expired leases", {
+    log.info("[apostrophi pipeline:reconciler] recovered expired leases", {
       count: recovered,
     });
   }
@@ -448,7 +454,7 @@ export async function sweepOrphanTasks(): Promise<void> {
       ),
     )
     .run();
-  log.info("[pond pipeline:reconciler] swept orphan tasks", {
+  log.info("[apostrophi pipeline:reconciler] swept orphan tasks", {
     count: orphans.length,
   });
 }
@@ -497,7 +503,10 @@ export async function sweepTasklessIngestingSaves(): Promise<void> {
     }));
     db.insert(tasks).values(taskRows).run();
   }
-  log.info("[pond pipeline:reconciler] re-seeded taskless ingesting saves", {
-    count: stuck.length,
-  });
+  log.info(
+    "[apostrophi pipeline:reconciler] re-seeded taskless ingesting saves",
+    {
+      count: stuck.length,
+    },
+  );
 }

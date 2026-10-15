@@ -15,8 +15,8 @@ export function NotificationStatusBridge() {
       if (detail.success)
         statusFeed.note(detail.data.title, detail.data.description);
     };
-    window.addEventListener("pond:notification", record);
-    return () => window.removeEventListener("pond:notification", record);
+    window.addEventListener("apostrophi:notification", record);
+    return () => window.removeEventListener("apostrophi:notification", record);
   }, []);
   return null;
 }

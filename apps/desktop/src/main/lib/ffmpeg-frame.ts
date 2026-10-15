@@ -72,7 +72,10 @@ export async function extractSampledFrames(
 ): Promise<ExtractedFrames | null> {
   const { ffmpeg } = binariesAvailable();
   if (!ffmpeg) {
-    log.debug("[pond ffmpeg-frame] binary unavailable, skipping", videoPath);
+    log.debug(
+      "[apostrophi ffmpeg-frame] binary unavailable, skipping",
+      videoPath,
+    );
     return null;
   }
   const durationSec = await probeDuration(ffmpeg, videoPath);
@@ -94,13 +97,17 @@ export async function extractSampledFrames(
       try {
         await rm(outputDir, { recursive: true, force: true });
       } catch (err) {
-        log.warn("[pond ffmpeg-frame] tmpdir cleanup failed", outputDir, err);
+        log.warn(
+          "[apostrophi ffmpeg-frame] tmpdir cleanup failed",
+          outputDir,
+          err,
+        );
       }
     }
   };
 
   try {
-    outputDir = await mkdtemp(join(tmpdir(), "pond-frames-"));
+    outputDir = await mkdtemp(join(tmpdir(), "apostrophi-frames-"));
     const paths = timestamps.map((_, index) =>
       join(outputDir ?? "", `frame-${index}.jpg`),
     );
@@ -132,7 +139,7 @@ export async function extractSampledFrames(
     );
     if (code !== 0) {
       log.warn(
-        "[pond ffmpeg-frame] sample extraction failed",
+        "[apostrophi ffmpeg-frame] sample extraction failed",
         code,
         videoPath,
         stderr.slice(-400),
@@ -157,7 +164,11 @@ export async function extractSampledFrames(
       cleanup,
     };
   } catch (err) {
-    log.warn("[pond ffmpeg-frame] sample extraction error", videoPath, err);
+    log.warn(
+      "[apostrophi ffmpeg-frame] sample extraction error",
+      videoPath,
+      err,
+    );
     await cleanup();
     return null;
   }
@@ -194,7 +205,10 @@ async function extractJpeg(
 ): Promise<ExtractedFrame | null> {
   const { ffmpeg } = binariesAvailable();
   if (!ffmpeg) {
-    log.debug("[pond ffmpeg-frame] binary unavailable, skipping", videoPath);
+    log.debug(
+      "[apostrophi ffmpeg-frame] binary unavailable, skipping",
+      videoPath,
+    );
     return null;
   }
 
@@ -207,13 +221,17 @@ async function extractJpeg(
       try {
         await rm(outputDir, { recursive: true, force: true });
       } catch (err) {
-        log.warn("[pond ffmpeg-frame] tmpdir cleanup failed", outputDir, err);
+        log.warn(
+          "[apostrophi ffmpeg-frame] tmpdir cleanup failed",
+          outputDir,
+          err,
+        );
       }
     }
   };
 
   try {
-    outputDir = await mkdtemp(join(tmpdir(), "pond-frame-"));
+    outputDir = await mkdtemp(join(tmpdir(), "apostrophi-frame-"));
     const outPath = join(outputDir, "frame.jpg");
     const { code, stderr } = await runWithTimeout(
       ffmpeg,
@@ -222,7 +240,7 @@ async function extractJpeg(
     );
     if (code !== 0) {
       log.warn(
-        "[pond ffmpeg-frame] non-zero exit",
+        "[apostrophi ffmpeg-frame] non-zero exit",
         code,
         videoPath,
         stderr.slice(-400),
@@ -240,7 +258,7 @@ async function extractJpeg(
       return null;
     }
     if (size === 0) {
-      log.warn("[pond ffmpeg-frame] produced empty file", videoPath);
+      log.warn("[apostrophi ffmpeg-frame] produced empty file", videoPath);
       await cleanup();
       return null;
     }
@@ -252,7 +270,7 @@ async function extractJpeg(
       cleanup,
     };
   } catch (err) {
-    log.warn("[pond ffmpeg-frame] unexpected error", videoPath, err);
+    log.warn("[apostrophi ffmpeg-frame] unexpected error", videoPath, err);
     await cleanup();
     return null;
   }
@@ -297,7 +315,10 @@ function runWithTimeout(
       try {
         child.kill("SIGKILL");
       } catch {}
-      resolve({ code: 124, stderr: `${stderr}\n[pond ffmpeg-frame] timeout` });
+      resolve({
+        code: 124,
+        stderr: `${stderr}\n[apostrophi ffmpeg-frame] timeout`,
+      });
     }, timeoutMs);
 
     child.stderr?.on("data", (chunk: Buffer) => {

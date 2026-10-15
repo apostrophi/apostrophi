@@ -1,4 +1,4 @@
-import { type ButtonProps, PickerPanel } from "@pond/ui";
+import { type ButtonProps, PickerPanel } from "@apostrophi/ui";
 import { createContext, use, useCallback, useMemo, useState } from "react";
 import type { Save } from "@/features/saves/types";
 import { TagMenu } from "@/features/tags/components/menu";
@@ -125,7 +125,7 @@ function Content({
         const next = appliedSet.has(lower)
           ? save.tags.filter((t) => t.toLowerCase() !== lower)
           : [...save.tags, cleaned];
-        await window.pond.query("tags.setForSave", {
+        await window.apostrophi.query("tags.setForSave", {
           saveId: save.id,
           tags: next,
         });

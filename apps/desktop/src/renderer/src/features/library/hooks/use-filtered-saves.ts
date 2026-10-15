@@ -93,7 +93,9 @@ export function sortSaves(
 function cmp(a: Save, b: Save, key: SortKey): number {
   switch (key) {
     case "random":
-      return seededOrderKey(a.id, "pond") - seededOrderKey(b.id, "pond");
+      return (
+        seededOrderKey(a.id, "apostrophi") - seededOrderKey(b.id, "apostrophi")
+      );
     case "manual":
       return 0;
     case "savedAt":

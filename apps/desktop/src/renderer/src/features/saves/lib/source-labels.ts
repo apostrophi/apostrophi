@@ -1,4 +1,4 @@
-import { resolveSourceId, sourceLabel } from "@pond/schema/sources";
+import { resolveSourceId, sourceLabel } from "@apostrophi/schema/sources";
 
 export function getSourceLabel(source: string): string {
   const normalized = resolveSourceId(source);

@@ -52,7 +52,9 @@ async function load(): Promise<ReadonlyArray<TagRow>> {
   if (tagsStore.state.loaded) return tagsStore.state.rows;
   if (inflight) return inflight;
   inflight = (async () => {
-    const rows = TagRowsSchema.parse(await window.pond.query("tags.list", {}));
+    const rows = TagRowsSchema.parse(
+      await window.apostrophi.query("tags.list", {}),
+    );
     const normalised = rows.filter((r): r is TagRow => r !== null).sort(byName);
     setRows(normalised);
     inflight = null;
@@ -64,7 +66,7 @@ async function load(): Promise<ReadonlyArray<TagRow>> {
 function ensureSubscribed(): void {
   if (subscribed) return;
   subscribed = true;
-  window.pond.onSyncAction((event) => {
+  window.apostrophi.onSyncAction((event) => {
     if (event.modelName !== "tag") return;
     if (!tagsStore.state.loaded) return;
 

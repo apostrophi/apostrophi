@@ -1,5 +1,5 @@
-import { matches } from "@pond/schema/filters/match";
-import { EMPTY_QUERY, type Query } from "@pond/schema/filters/types";
+import { matches } from "@apostrophi/schema/filters/match";
+import { EMPTY_QUERY, type Query } from "@apostrophi/schema/filters/types";
 import { beforeEach, describe, expect, it } from "vitest";
 import { combineQueries } from "../lib/smart-folders";
 import {

@@ -23,7 +23,7 @@ export function useModelsCatalog(agent: AgentPrefs) {
   const connections = useQuery({
     queryKey: ["agent-provider-connections"],
     queryFn: async () =>
-      keyRowsSchema.parse(await window.pond.query("agent.keys", {})),
+      keyRowsSchema.parse(await window.apostrophi.query("agent.keys", {})),
     staleTime: 15 * 60_000,
     gcTime: Infinity,
     refetchOnWindowFocus: false,
@@ -40,7 +40,7 @@ export function useModelsCatalog(agent: AgentPrefs) {
     queries: connected.map((entry) => ({
       queryKey: ["all-provider-models", entry.id],
       queryFn: async () =>
-        window.pond.query("agent.listModels", { provider: entry.id }),
+        window.apostrophi.query("agent.listModels", { provider: entry.id }),
       staleTime: 15 * 60_000,
       gcTime: Infinity,
       refetchOnWindowFocus: false,

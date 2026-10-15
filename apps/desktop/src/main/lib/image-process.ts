@@ -1,5 +1,5 @@
 import { extname } from "node:path";
-import type { ImageDownloadSettings, ImageFormat } from "@pond/schema/db";
+import type { ImageDownloadSettings, ImageFormat } from "@apostrophi/schema/db";
 import log from "electron-log/main.js";
 import sharp, { type Sharp } from "sharp";
 
@@ -79,7 +79,11 @@ export async function processImage(
       ...dims,
     };
   } catch (err) {
-    log.warn("[pond image-process] failed, keeping original", filename, err);
+    log.warn(
+      "[apostrophi image-process] failed, keeping original",
+      filename,
+      err,
+    );
     return null;
   }
 }

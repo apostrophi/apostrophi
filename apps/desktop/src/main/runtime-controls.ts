@@ -1,4 +1,4 @@
-import type { Prefs } from "@pond/schema/db";
+import type { Prefs } from "@apostrophi/schema/db";
 import { DEFAULT_INGEST_PORT } from "../shared/constants";
 
 interface RuntimeServer {
@@ -40,7 +40,7 @@ export function createRuntimeControls(deps: RuntimeDependencies) {
         await httpServer.close();
       } catch (err) {
         deps.warn(
-          "[pond] http close failed",
+          "[apostrophi] http close failed",
           err instanceof Error ? err : new Error(String(err)),
         );
       }

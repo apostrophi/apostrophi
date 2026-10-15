@@ -1,5 +1,5 @@
-import { IconPaperclip } from "@pond/icons";
-import { Chip } from "@pond/ui";
+import { IconPaperclip } from "@apostrophi/icons";
+import { Chip } from "@apostrophi/ui";
 import {
   $applyNodeReplacement,
   DecoratorNode,
@@ -78,7 +78,7 @@ export class FileNode extends DecoratorNode<JSX.Element> {
         href={this.__href}
         onClick={(event) => {
           event.preventDefault();
-          void window.pond.openExternal(this.__href);
+          void window.apostrophi.openExternal(this.__href);
         }}
       >
         <Chip.Icon>

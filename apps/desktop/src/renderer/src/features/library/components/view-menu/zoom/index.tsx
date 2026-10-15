@@ -1,4 +1,4 @@
-import { Select } from "@pond/ui";
+import { Select } from "@apostrophi/ui";
 import { useView } from "@/features/library/hooks/use-view";
 import { nearestZoomIndex, ZOOM_STEPS } from "@/features/library/lib/zoom";
 import { ViewMenuRow } from "../row";

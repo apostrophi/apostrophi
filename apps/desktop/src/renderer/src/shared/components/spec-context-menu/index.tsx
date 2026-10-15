@@ -1,4 +1,4 @@
-import { ContextMenu, Menu, type MenuItemSpec } from "@pond/ui";
+import { ContextMenu, Menu, type MenuItemSpec } from "@apostrophi/ui";
 import {
   type ComponentProps,
   type CSSProperties,

@@ -1,5 +1,5 @@
-import { IconVolume, IconVolumeOff } from "@pond/icons";
-import { useVideo } from "@pond/ui";
+import { IconVolume, IconVolumeOff } from "@apostrophi/icons";
+import { useVideo } from "@apostrophi/ui";
 import { ViewerHud } from "@/features/saves/components/viewers/hud";
 
 export function VolumeControl() {

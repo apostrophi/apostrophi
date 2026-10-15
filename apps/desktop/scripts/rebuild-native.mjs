@@ -20,7 +20,7 @@ async function electronVersion() {
 
 async function main() {
   const version = await electronVersion();
-  console.log(`[pond] rebuilding native modules for electron ${version}`);
+  console.log(`[apostrophi] rebuilding native modules for electron ${version}`);
 
   await rebuild({
     buildPath: appRoot,
@@ -29,10 +29,10 @@ async function main() {
     force: true,
   });
 
-  console.log("[pond] native rebuild ok");
+  console.log("[apostrophi] native rebuild ok");
 }
 
 main().catch((err) => {
-  console.error("[pond] native rebuild failed:", err);
+  console.error("[apostrophi] native rebuild failed:", err);
   process.exit(1);
 });

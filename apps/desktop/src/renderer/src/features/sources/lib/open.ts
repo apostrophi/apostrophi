@@ -1,4 +1,4 @@
-import type { Source } from "@pond/schema/db";
+import type { Source } from "@apostrophi/schema/db";
 import { startConnect, startWatch } from "@/features/sources/lib/create";
 import { sourceDetail } from "@/features/sources/state/source-detail";
 import { sourceNewMenu } from "@/features/sources/state/source-new-menu";

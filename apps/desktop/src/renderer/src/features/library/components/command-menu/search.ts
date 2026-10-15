@@ -1,4 +1,4 @@
-import { sourceLabel } from "@pond/schema";
+import { sourceLabel } from "@apostrophi/schema";
 import type { Save } from "@/features/saves/types";
 import { COMMANDS } from "./commands";
 import type { CommandSpec } from "./types";

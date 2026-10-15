@@ -2,12 +2,12 @@ import { randomUUID } from "node:crypto";
 import {
   LocalApiOperationRequestSchema,
   LocalApiOperationRunSchema,
-} from "@pond/schema/local-api";
+} from "@apostrophi/schema/local-api";
 import { Hono } from "hono";
 import { z } from "zod";
 import {
-  applyPondOperation,
-  pondOperationCatalog,
+  apostrophiOperationCatalog,
+  applyApostrophiOperation,
 } from "../core/agent/operations";
 
 interface Preview {
@@ -21,7 +21,9 @@ const previews = new Map<string, Preview>();
 const PREVIEW_TTL_MS = 5 * 60_000;
 
 function operation(name: string) {
-  return pondOperationCatalog().operations.find((entry) => entry.name === name);
+  return apostrophiOperationCatalog().operations.find(
+    (entry) => entry.name === name,
+  );
 }
 
 function prunePreviews(now = Date.now()): void {
@@ -36,7 +38,7 @@ export function operationRoutes(): Hono {
   routes.get("/", (c) =>
     c.json({
       status: "success",
-      data: pondOperationCatalog().operations.map((entry) => ({
+      data: apostrophiOperationCatalog().operations.map((entry) => ({
         name: entry.name,
         description: entry.description,
         access: entry.access,
@@ -56,7 +58,7 @@ export function operationRoutes(): Hono {
     if (!selected)
       return c.json({ status: "error", error: "operation_not_found" }, 404);
     selected.inputSchema.parse(parsed.data.arguments);
-    const libraryId = pondOperationCatalog().libraryId();
+    const libraryId = apostrophiOperationCatalog().libraryId();
     const token = randomUUID();
     const expiresAt = Date.now() + PREVIEW_TTL_MS;
     prunePreviews();
@@ -80,7 +82,7 @@ export function operationRoutes(): Hono {
     if (!selected)
       return c.json({ status: "error", error: "operation_not_found" }, 404);
     selected.inputSchema.parse(parsed.data.arguments);
-    const libraryId = pondOperationCatalog().libraryId();
+    const libraryId = apostrophiOperationCatalog().libraryId();
     if (selected.access === "review") {
       const preview = parsed.data.token
         ? previews.get(parsed.data.token)
@@ -95,7 +97,7 @@ export function operationRoutes(): Hono {
       )
         return c.json({ status: "error", error: "stale_preview" }, 409);
     }
-    const result = await applyPondOperation({
+    const result = await applyApostrophiOperation({
       operation: selected.name,
       arguments: parsed.data.arguments,
       libraryId,

@@ -14,7 +14,7 @@ it("reads docProps/thumbnail.jpeg from a docx zip", async () => {
     '<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"></Types>',
   );
   zip.file("docProps/thumbnail.jpeg", jpeg);
-  const root = await mkdtemp(join(tmpdir(), "pond-office-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-office-"));
   const path = join(root, "deck.docx");
   await writeFile(path, await zip.generateAsync({ type: "nodebuffer" }));
   const preview = await extractOfficePreview(path);
@@ -24,7 +24,7 @@ it("reads docProps/thumbnail.jpeg from a docx zip", async () => {
 it("returns null for a zip without a thumbnail", async () => {
   const zip = new JSZip();
   zip.file("word/document.xml", "<w:document/>");
-  const root = await mkdtemp(join(tmpdir(), "pond-office-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-office-"));
   const path = join(root, "plain.docx");
   await writeFile(path, await zip.generateAsync({ type: "nodebuffer" }));
   expect(await extractOfficePreview(path)).toBeNull();

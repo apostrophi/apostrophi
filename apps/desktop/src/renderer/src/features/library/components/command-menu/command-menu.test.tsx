@@ -1,4 +1,4 @@
-import { PrefsSchema } from "@pond/schema";
+import { PrefsSchema } from "@apostrophi/schema";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -19,8 +19,8 @@ function useResults(query: string) {
     id: "save-1",
     source: "local",
     title: "Design systems field notes",
-    url: "pond://save-1",
-    author: "Pond",
+    url: "apostrophi://save-1",
+    author: "Apostrophi",
     mediaType: "text",
   });
   if (!save) throw new Error("Invalid search fixture");
@@ -32,7 +32,7 @@ describe("command menu", () => {
   let root: Root;
 
   beforeEach(() => {
-    vi.stubGlobal("pond", { query: async () => PrefsSchema.parse({}) });
+    vi.stubGlobal("apostrophi", { query: async () => PrefsSchema.parse({}) });
     vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
       callback(0);
       return 1;
@@ -75,7 +75,7 @@ describe("command menu", () => {
     );
     await act(async () => commandMenu.open());
     return document.querySelector<HTMLInputElement>(
-      'input[aria-label="Search Pond"]',
+      'input[aria-label="Search Apostrophi"]',
     );
   }
 
@@ -97,8 +97,8 @@ describe("command menu", () => {
       id: "recent-save",
       source: "local",
       title: "Recently viewed poster",
-      url: "pond://recent-save",
-      author: "Pond",
+      url: "apostrophi://recent-save",
+      author: "Apostrophi",
       mediaType: "image",
     });
     if (!save) throw new Error("Invalid recent save fixture");
@@ -200,7 +200,7 @@ describe("command menu", () => {
     await act(async () => commandMenu.open());
 
     const reopenedInput = document.querySelector<HTMLInputElement>(
-      'input[aria-label="Search Pond"]',
+      'input[aria-label="Search Apostrophi"]',
     );
     expect(reopenedInput?.value).toBe("");
     expect(reopenedInput?.getAttribute("aria-activedescendant")).toBe(
@@ -216,7 +216,7 @@ describe("command menu", () => {
       },
     });
     await open();
-    const results = document.getElementById("pond-command-menu-results");
+    const results = document.getElementById("apostrophi-command-menu-results");
     expect(results?.style.getPropertyValue("--results-height")).toBe("240px");
     expect(results?.getAttribute("data-sized")).toBe("true");
   });

@@ -7,8 +7,8 @@ import {
   IconRefreshFill,
   IconTrashXmark,
   IconWindowShare,
-} from "@pond/icons";
-import { type MenuItemSpec, useDataTable } from "@pond/ui";
+} from "@apostrophi/icons";
+import { type MenuItemSpec, useDataTable } from "@apostrophi/ui";
 import type { ReactElement } from "react";
 import {
   canCancelDownload,
@@ -30,7 +30,7 @@ export function openDownloadSave(row: DownloadRow): void {
 }
 
 function copyText(text: string): void {
-  void window.pond.query("clipboard.writeText", { text });
+  void window.apostrophi.query("clipboard.writeText", { text });
 }
 
 function menuTargets(row: DownloadRow): readonly DownloadRow[] {

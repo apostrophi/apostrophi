@@ -1,5 +1,5 @@
-import type { Source, WatchKind } from "@pond/schema/db";
-import { isSource, sourceLabel } from "@pond/schema/sources";
+import type { Source, WatchKind } from "@apostrophi/schema/db";
+import { isSource, sourceLabel } from "@apostrophi/schema/sources";
 import { getPrefsSnapshot } from "@/shared/state/prefs";
 
 export interface AccountRef {

@@ -1,5 +1,5 @@
-import { SOURCES } from "@pond/schema/db";
-import { syncConfigFor } from "@pond/schema/sources";
+import { SOURCES } from "@apostrophi/schema/db";
+import { syncConfigFor } from "@apostrophi/schema/sources";
 import { z } from "zod";
 import type { OkFailure } from "../../../shared/query-contracts-shared";
 import { QueueAttemptSchema } from "../../../shared/queue-contracts";

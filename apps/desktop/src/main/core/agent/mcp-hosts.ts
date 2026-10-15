@@ -1,13 +1,17 @@
 import type { McpDeeplinkHost, McpHostId } from "../../../shared/mcp-hosts";
 
-export function pondMcpSnippet(
+export function apostrophiMcpSnippet(
   command = process.execPath,
   args: string[] = ["--mcp"],
 ) {
   return {
     command,
     args,
-    json: JSON.stringify({ mcpServers: { pond: { command, args } } }, null, 2),
+    json: JSON.stringify(
+      { mcpServers: { apostrophi: { command, args } } },
+      null,
+      2,
+    ),
   };
 }
 
@@ -20,10 +24,10 @@ export function mcpInstallUrl(
     const config = Buffer.from(JSON.stringify({ command, args })).toString(
       "base64",
     );
-    return `cursor://anysphere.cursor-deeplink/mcp/install?name=pond&config=${encodeURIComponent(config)}`;
+    return `cursor://anysphere.cursor-deeplink/mcp/install?name=apostrophi&config=${encodeURIComponent(config)}`;
   }
   if (id === "vscode") {
-    return `vscode:mcp/install?${encodeURIComponent(JSON.stringify({ name: "pond", command, args }))}`;
+    return `vscode:mcp/install?${encodeURIComponent(JSON.stringify({ name: "apostrophi", command, args }))}`;
   }
   return null;
 }

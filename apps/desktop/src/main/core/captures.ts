@@ -1,9 +1,9 @@
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { saves } from "@pond/schema/db";
-import type { ExtensionCookie } from "@pond/schema/session";
-import type { Transaction } from "@pond/schema/tx";
+import { saves } from "@apostrophi/schema/db";
+import type { ExtensionCookie } from "@apostrophi/schema/session";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { eq } from "drizzle-orm";
 import { getDb } from "../db";
 import { libraryRoot } from "../paths";
@@ -68,7 +68,7 @@ export const captures = createCaptureQueue({
     } else {
       const temp =
         item.kind === "image"
-          ? await mkdtemp(join(tmpdir(), "pond-capture-"))
+          ? await mkdtemp(join(tmpdir(), "apostrophi-capture-"))
           : undefined;
       try {
         let filePath = item.kind === "file" ? item.path : undefined;

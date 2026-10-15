@@ -9,7 +9,7 @@ import { getOrCreateThumbnail } from "./thumbnail";
 const paths = { root: "" };
 
 beforeEach(async () => {
-  paths.root = await mkdtemp(join(tmpdir(), "pond-raw-preview-"));
+  paths.root = await mkdtemp(join(tmpdir(), "apostrophi-raw-preview-"));
   resolvePaths(paths.root);
 });
 

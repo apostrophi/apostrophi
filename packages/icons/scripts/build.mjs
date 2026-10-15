@@ -12,7 +12,7 @@ import {
 } from "./lib.mjs";
 
 const check = process.argv.includes("--check");
-const command = "pnpm --filter @pond/icons generate";
+const command = "pnpm --filter @apostrophi/icons generate";
 
 const ROOT = /^<svg\b[^>]*\bviewBox="0 0 18 18"[^>]*>([\s\S]*)<\/svg>\s*$/;
 const ELEMENT = /<(path|circle|rect)\s([^>]*?)\/>/g;
@@ -60,7 +60,8 @@ function glyphs() {
   return new Map([...found].sort(([a], [b]) => (a < b ? -1 : 1)));
 }
 
-const IMPORT = /import\s*(?:type\s*)?\{([^}]*)\}\s*from\s*"@pond\/icons"/g;
+const IMPORT =
+  /import\s*(?:type\s*)?\{([^}]*)\}\s*from\s*"@apostrophi\/icons"/g;
 
 function imported() {
   const files = execFileSync(
@@ -128,5 +129,5 @@ console.log(
   `${check ? "Verified" : "Wrote"} index.ts (${exports.length} icons, ${all.size} glyphs)`,
 );
 if (unused.length > 0) {
-  console.log(`Not imported outside @pond/icons: ${unused.join(", ")}`);
+  console.log(`Not imported outside @apostrophi/icons: ${unused.join(", ")}`);
 }

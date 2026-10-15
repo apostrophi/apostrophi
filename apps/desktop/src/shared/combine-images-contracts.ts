@@ -26,12 +26,12 @@ export const CombineImagesOptionsSchema = RasterCompositionOptionsSchema.extend(
 export type CombineImagesOptions = z.infer<typeof CombineImagesOptionsSchema>;
 
 export const COMBINE_IMAGES_WINDOW_IPC = {
-  open: "pond:combine-images-window-open",
-  load: "pond:combine-images-window-load",
-  ready: "pond:combine-images-window-ready",
-  close: "pond:combine-images-window-close",
-  resolveDrop: "pond:combine-images-window-resolve-drop",
-  zoom: "pond:combine-images-window-zoom",
+  open: "apostrophi:combine-images-window-open",
+  load: "apostrophi:combine-images-window-load",
+  ready: "apostrophi:combine-images-window-ready",
+  close: "apostrophi:combine-images-window-close",
+  resolveDrop: "apostrophi:combine-images-window-resolve-drop",
+  zoom: "apostrophi:combine-images-window-zoom",
 } as const;
 
 export const COMBINE_IMAGES_ZOOM_ACTIONS = [

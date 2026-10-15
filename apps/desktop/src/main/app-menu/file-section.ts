@@ -1,4 +1,4 @@
-import { EXTERNAL_SOURCE_IDS, sourceLabel } from "@pond/schema/sources";
+import { EXTERNAL_SOURCE_IDS, sourceLabel } from "@apostrophi/schema/sources";
 import { isWatchableSource } from "../core/watch/types";
 import {
   FILE_MENU_DUPLICATES_LABELS,
@@ -176,7 +176,7 @@ export function buildFileSection(context: AppMenuContext): AppMenuItem {
           },
           {
             label: FILE_MENU_EXPORT_LABELS[3],
-            click: sendMenuAction("save.export-pond-package"),
+            click: sendMenuAction("save.export-apostrophi-package"),
           },
           {
             label: FILE_MENU_EXPORT_LABELS[4],

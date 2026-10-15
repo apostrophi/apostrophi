@@ -10,7 +10,7 @@ const ALPHABET =
 
 declare global {
   interface Window {
-    __pondInstagramInjected?: boolean;
+    __apostrophiInstagramInjected?: boolean;
   }
 }
 
@@ -194,8 +194,8 @@ function isGraphqlUrl(url: string): boolean {
 }
 
 export function inject(): void {
-  if (window.__pondInstagramInjected) return;
-  window.__pondInstagramInjected = true;
+  if (window.__apostrophiInstagramInjected) return;
+  window.__apostrophiInstagramInjected = true;
 
   document.addEventListener(
     "click",

@@ -2,7 +2,7 @@ import log from "electron-log/main.js";
 import { z } from "zod";
 import { COMBINE_IMAGES_QUERY_NAMES } from "../../../shared/combine-images-contracts";
 import { IPC } from "../../../shared/constants";
-import { registerPondOperations } from "../../core/agent/operations";
+import { registerApostrophiOperations } from "../../core/agent/operations";
 import { combineImagesWindowOwnsSender } from "../../core/combine-images-window";
 import { currentLibraryId } from "../../core/prefs-scope";
 import { agentControlOperations } from "../agent-controls";
@@ -64,7 +64,7 @@ const QueryNameSchema = z.custom<keyof typeof queryRegistry>(
 
 const SLOW_QUERY_MS = 100;
 
-export function pondOperations() {
+export function apostrophiOperations() {
   return [
     ...agentOperationsForQueries(queryRegistry),
     ...agentControlOperations,
@@ -72,8 +72,8 @@ export function pondOperations() {
 }
 
 export function registerQueryHandler(): void {
-  registerPondOperations({
-    operations: pondOperations(),
+  registerApostrophiOperations({
+    operations: apostrophiOperations(),
     libraryId: currentLibraryId,
   });
   safeHandle(IPC.query, async (event, name: string, raw?: QueryParams) => {
@@ -91,11 +91,12 @@ export function registerQueryHandler(): void {
     try {
       return await handler(raw, event);
     } catch (err) {
-      log.error("[pond ipc] query failed", name, err);
+      log.error("[apostrophi ipc] query failed", name, err);
       throw err;
     } finally {
       const ms = Math.round(performance.now() - startedAt);
-      if (ms >= SLOW_QUERY_MS) log.warn("[pond perf] slow query", { name, ms });
+      if (ms >= SLOW_QUERY_MS)
+        log.warn("[apostrophi perf] slow query", { name, ms });
     }
   });
 }

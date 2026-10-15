@@ -1,4 +1,4 @@
-import type { ImageCrop } from "@pond/schema/db";
+import type { ImageCrop } from "@apostrophi/schema/db";
 import type { CSSProperties } from "react";
 import type { Save } from "@/features/saves/types";
 

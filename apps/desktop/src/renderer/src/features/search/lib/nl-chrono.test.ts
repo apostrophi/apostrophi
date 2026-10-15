@@ -1,4 +1,4 @@
-import type { Predicate } from "@pond/schema/filters/types";
+import type { Predicate } from "@apostrophi/schema/filters/types";
 import { describe, expect, it } from "vitest";
 import { extractDates } from "@/features/search/lib/nl-chrono";
 

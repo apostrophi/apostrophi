@@ -1,11 +1,11 @@
-import type { JsonObject } from "@pond/schema/json";
+import type { JsonObject } from "@apostrophi/schema/json";
 import { expect, it, vi } from "vitest";
 import { z } from "zod";
 import type { AgentOperationRequest } from "../../../shared/agent-operations";
 import {
-  applyPondOperation,
+  apostrophiOperationTools,
+  applyApostrophiOperation,
   type OperationCatalog,
-  pondOperationTools,
 } from "./operations";
 
 function fixture() {
@@ -35,7 +35,7 @@ function fixture() {
       },
     ],
   };
-  const tools = pondOperationTools(
+  const tools = apostrophiOperationTools(
     { signal: controller.signal, propose },
     catalog,
   );
@@ -59,14 +59,17 @@ function fixture() {
 it("discovers paginated capabilities and their original input schemas", async () => {
   const { tool } = fixture();
   expect(
-    await tool("discoverPondOperations").execute({ query: "folder", limit: 1 }),
+    await tool("discoverApostrophiOperations").execute({
+      query: "folder",
+      limit: 1,
+    }),
   ).toMatchObject({
     total: 2,
     nextOffset: 1,
     operations: [{ name: "folders.list" }],
   });
   expect(
-    await tool("discoverPondOperations").execute({
+    await tool("discoverApostrophiOperations").execute({
       query: "folder",
       offset: 1,
       limit: 1,
@@ -76,7 +79,7 @@ it("discovers paginated capabilities and their original input schemas", async ()
     operations: [{ name: "folders.create" }],
   });
   expect(
-    await tool("describePondOperation").execute({
+    await tool("describeApostrophiOperation").execute({
       operation: "folders.create",
     }),
   ).toMatchObject({
@@ -91,14 +94,14 @@ it("discovers paginated capabilities and their original input schemas", async ()
 it("runs reads and proposes changes without executing them", async () => {
   const { tool, execute, propose } = fixture();
   expect(
-    await tool("runPondOperation").execute({
+    await tool("runApostrophiOperation").execute({
       operation: "folders.list",
       reason: "Find the target Folder",
     }),
   ).toMatchObject({ status: "complete" });
   expect(execute).toHaveBeenCalledOnce();
   expect(
-    await tool("runPondOperation").execute({
+    await tool("runApostrophiOperation").execute({
       operation: "folders.create",
       arguments: { name: "Film" },
       reason: "Organize references",
@@ -119,14 +122,14 @@ it("runs reads and proposes changes without executing them", async () => {
 it("rejects invalid and unavailable operations before proposing or executing", async () => {
   const { tool, execute, propose } = fixture();
   await expect(
-    tool("runPondOperation").execute({
+    tool("runApostrophiOperation").execute({
       operation: "folders.create",
       arguments: { name: "" },
       reason: "Create",
     }),
   ).rejects.toThrow();
   await expect(
-    tool("runPondOperation").execute({
+    tool("runApostrophiOperation").execute({
       operation: "settings.ingestToken",
       reason: "Get token",
     }),
@@ -142,16 +145,16 @@ it("revalidates reviewed arguments and the active Library", async () => {
     arguments: { name: "Film" },
     libraryId: "library-one",
   };
-  expect(await applyPondOperation(request, catalog)).toMatchObject({
+  expect(await applyApostrophiOperation(request, catalog)).toMatchObject({
     name: "Film",
   });
   switchLibrary();
-  await expect(applyPondOperation(request, catalog)).rejects.toThrow(
+  await expect(applyApostrophiOperation(request, catalog)).rejects.toThrow(
     /Library changed/,
   );
   expect(execute).toHaveBeenCalledOnce();
   await expect(
-    applyPondOperation(
+    applyApostrophiOperation(
       { ...request, libraryId: "library-two", arguments: {} },
       catalog,
     ),
@@ -164,7 +167,7 @@ it("stops tool execution after cancellation or a Library switch", async () => {
   state.controller.abort();
   await expect(
     state
-      .tool("runPondOperation")
+      .tool("runApostrophiOperation")
       .execute({ operation: "folders.list", reason: "Read" }),
   ).rejects.toThrow();
   expect(state.execute).not.toHaveBeenCalled();
@@ -172,7 +175,7 @@ it("stops tool execution after cancellation or a Library switch", async () => {
   moved.switchLibrary();
   await expect(
     moved
-      .tool("runPondOperation")
+      .tool("runApostrophiOperation")
       .execute({ operation: "folders.list", reason: "Read" }),
   ).rejects.toThrow(/Library changed/);
   expect(moved.execute).not.toHaveBeenCalled();
@@ -189,7 +192,7 @@ it("preserves operation failures rather than reporting completion", async () => 
     ],
   };
   await expect(
-    applyPondOperation(
+    applyApostrophiOperation(
       { operation: "folders.list", arguments: {}, libraryId: "library-one" },
       catalog,
     ),
@@ -210,12 +213,14 @@ it("pages a large result without executing its operation twice", async () => {
       },
     ],
   };
-  const tools = pondOperationTools(
+  const tools = apostrophiOperationTools(
     { signal: new AbortController().signal, propose: () => "unused" },
     catalog,
   );
-  const run = tools.find((entry) => entry.name === "runPondOperation");
-  const read = tools.find((entry) => entry.name === "readPondOperationResult");
+  const run = tools.find((entry) => entry.name === "runApostrophiOperation");
+  const read = tools.find(
+    (entry) => entry.name === "readApostrophiOperationResult",
+  );
   if (!run || !read) throw new Error("Missing operation tools");
   const first = z
     .object({

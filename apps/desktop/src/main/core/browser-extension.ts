@@ -5,7 +5,7 @@ import { app, shell } from "electron";
 import log from "electron-log/main.js";
 import type { QueryResult } from "../../shared/query-contracts";
 
-const FOLDER_NAME = "Pond Extension";
+const FOLDER_NAME = "Apostrophi Extension";
 
 function bundledExtensionDir(): string | null {
   const candidates = app.isPackaged
@@ -25,7 +25,7 @@ export async function installBrowserExtension(): Promise<
     return {
       ok: false,
       error: app.isPackaged
-        ? "This copy of Pond is missing the extension. Reinstall Pond and try again."
+        ? "This copy of Apostrophi is missing the extension. Reinstall Apostrophi and try again."
         : "Build the extension first, then try again.",
     };
   }
@@ -34,10 +34,10 @@ export async function installBrowserExtension(): Promise<
     await rm(target, { recursive: true, force: true });
     await cp(source, target, { recursive: true });
   } catch (err) {
-    log.warn("[pond extension] copy failed", err);
+    log.warn("[apostrophi extension] copy failed", err);
     return {
       ok: false,
-      error: "Pond couldn't save the extension to Downloads. Try again.",
+      error: "Apostrophi couldn't save the extension to Downloads. Try again.",
     };
   }
   shell.showItemInFolder(target);

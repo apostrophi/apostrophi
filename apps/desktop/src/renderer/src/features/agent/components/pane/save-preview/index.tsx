@@ -1,5 +1,5 @@
-import { IconBookmark, IconFile } from "@pond/icons";
-import { Button } from "@pond/ui";
+import { IconBookmark, IconFile } from "@apostrophi/icons";
+import { Button } from "@apostrophi/ui";
 import type { AssistantSource } from "@shared/assistant";
 import { sourceExcerpt } from "@shared/assistant-text";
 import { useSelector } from "@tanstack/react-store";
@@ -45,7 +45,7 @@ export function SourceThumbnail({
   const candidate = unit?.isVideo ? unit.posterUrl : unit?.url;
   const src =
     previewUrl ??
-    (candidate?.startsWith("pond://")
+    (candidate?.startsWith("apostrophi://")
       ? thumbUrlFor(candidate, 360)
       : undefined);
   const [broken, setBroken] = useState<string | null>(null);

@@ -1,5 +1,5 @@
-import { IconXmark } from "@pond/icons";
-import { Button } from "@pond/ui";
+import { IconXmark } from "@apostrophi/icons";
+import { Button } from "@apostrophi/ui";
 import { clsx as cn } from "clsx";
 import type { ComponentPropsWithoutRef } from "react";
 import styles from "./styles.module.css";

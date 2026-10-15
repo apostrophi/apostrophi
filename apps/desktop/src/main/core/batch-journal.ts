@@ -11,7 +11,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import type { Transaction } from "@pond/schema/tx";
+import type { Transaction } from "@apostrophi/schema/tx";
 import { z } from "zod";
 import { saveDirIn, trashSaveDirIn } from "../paths";
 
@@ -135,7 +135,7 @@ async function restoreJournal(
       });
     } else {
       await mkdir(dirname(destination), { recursive: true });
-      const temporary = `${destination}.pond-restore`;
+      const temporary = `${destination}.apostrophi-restore`;
       await copyFile(backup, temporary);
       await rename(temporary, destination);
     }

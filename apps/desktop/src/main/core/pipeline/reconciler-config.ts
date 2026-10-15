@@ -1,5 +1,5 @@
-import type { Op, Source, Task } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
+import type { Op, Source, Task } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
 import type { ReportDownloadActivity } from "@shared/download-activity";
 import { z } from "zod";
 

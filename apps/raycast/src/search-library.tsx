@@ -1,5 +1,5 @@
 import { pathToFileURL } from "node:url";
-import { SOURCES, sourceLabel } from "@pond/schema/source-ids";
+import { SOURCES, sourceLabel } from "@apostrophi/schema/source-ids";
 import {
   Action,
   ActionPanel,
@@ -12,12 +12,12 @@ import {
 } from "@raycast/api";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  type ApostrophiCursor,
+  type ApostrophiSave,
   copySaveFile,
   itemLink,
-  type PondCursor,
-  type PondSave,
   searchLibrary,
-} from "./pond-api";
+} from "./apostrophi-api";
 import {
   hostname,
   saveCaption,
@@ -33,9 +33,9 @@ const ALL_SOURCES = "all";
 export default function SearchLibrary() {
   const [query, setQuery] = useState("");
   const [source, setSource] = useState(ALL_SOURCES);
-  const [saves, setSaves] = useState<PondSave[]>([]);
+  const [saves, setSaves] = useState<ApostrophiSave[]>([]);
   const [libraryId, setLibraryId] = useState("");
-  const [cursor, setCursor] = useState<PondCursor | null>(null);
+  const [cursor, setCursor] = useState<ApostrophiCursor | null>(null);
   const [loading, setLoading] = useState(true);
   const [failure, setFailure] = useState<string | null>(null);
   const requestId = useRef(0);
@@ -63,7 +63,7 @@ export default function SearchLibrary() {
           setFailure(
             error instanceof Error
               ? error.message
-              : "Try again with Pond open.",
+              : "Try again with Apostrophi open.",
           );
         })
         .finally(() => {
@@ -85,7 +85,9 @@ export default function SearchLibrary() {
       setLibraryId(page.libraryId);
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Try again with Pond open.";
+        error instanceof Error
+          ? error.message
+          : "Try again with Apostrophi open.";
       setFailure(message);
       await showToast({
         style: Toast.Style.Failure,
@@ -124,7 +126,7 @@ export default function SearchLibrary() {
       {saves.length === 0 ? (
         <List.EmptyView
           icon={failure ? Icon.ExclamationMark : Icon.MagnifyingGlass}
-          title={failure ? "Could Not Reach Pond" : "No Saves Found"}
+          title={failure ? "Could Not Reach Apostrophi" : "No Saves Found"}
           description={
             failure ??
             (query || scope
@@ -151,7 +153,7 @@ export default function SearchLibrary() {
 }
 
 interface SaveItemProps {
-  save: PondSave;
+  save: ApostrophiSave;
   libraryId: string;
   thumbnail: string | null | undefined;
 }
@@ -211,7 +213,7 @@ function SaveItem({ save, libraryId, thumbnail }: SaveItemProps) {
       actions={
         <ActionPanel>
           <Action.Open
-            title="Open in Pond"
+            title="Open in Apostrophi"
             icon={Icon.AppWindow}
             target={itemLink(libraryId, save.id)}
           />
@@ -229,7 +231,7 @@ function SaveItem({ save, libraryId, thumbnail }: SaveItemProps) {
   );
 }
 
-async function copyFile(save: PondSave) {
+async function copyFile(save: ApostrophiSave) {
   const toast = await showToast({
     style: Toast.Style.Animated,
     title: "Copying File",
@@ -242,12 +244,14 @@ async function copyFile(save: PondSave) {
     toast.style = Toast.Style.Failure;
     toast.title = "Could Not Copy File";
     toast.message =
-      error instanceof Error ? error.message : "Try again with Pond open.";
+      error instanceof Error
+        ? error.message
+        : "Try again with Apostrophi open.";
   }
 }
 
-function groupBySavedDay(saves: PondSave[], now: Date) {
-  const sections: { title: string; saves: PondSave[] }[] = [];
+function groupBySavedDay(saves: ApostrophiSave[], now: Date) {
+  const sections: { title: string; saves: ApostrophiSave[] }[] = [];
   for (const save of saves) {
     const title = savedSection(savedDate(save), now);
     const last = sections.at(-1);

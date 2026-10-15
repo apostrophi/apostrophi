@@ -1,4 +1,4 @@
-import { Button, Settings } from "@pond/ui";
+import { Button, Settings } from "@apostrophi/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
@@ -16,7 +16,7 @@ const BackupResultSchema = z.discriminatedUnion("ok", [
   }),
 ]);
 
-const FIRST_BACKUP_KEY = "pond.first-library-backup";
+const FIRST_BACKUP_KEY = "apostrophi.first-library-backup";
 
 function backupError(failure: { reason?: string; error?: string }): string {
   switch (failure.reason) {
@@ -45,7 +45,7 @@ export function BackupSettings() {
       setNote(null);
       setCelebrate(false);
       const result = BackupResultSchema.parse(
-        await window.pond.query("library.backupTo", {}),
+        await window.apostrophi.query("library.backupTo", {}),
       );
       if (!result.ok) {
         const message = backupError(result);
@@ -74,7 +74,7 @@ export function BackupSettings() {
       setNote(null);
       setCelebrate(false);
       const result = BackupResultSchema.parse(
-        await window.pond.query("library.restoreBackup", {}),
+        await window.apostrophi.query("library.restoreBackup", {}),
       );
       if (!result.ok && result.reason !== "cancelled")
         throw new Error(
@@ -90,7 +90,7 @@ export function BackupSettings() {
           <Settings.ItemDetails>
             <Settings.ItemTitle>Back Up Library</Settings.ItemTitle>
             <Settings.ItemDescription>
-              Copy the pond elsewhere. This library stays open.
+              Copy the apostrophi elsewhere. This library stays open.
               <StatusNote
                 error={backup.error?.message}
                 status={note}

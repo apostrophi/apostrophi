@@ -1,4 +1,4 @@
-import { EXTERNAL_SOURCE_IDS, sourceLabel } from "@pond/schema/sources";
+import { EXTERNAL_SOURCE_IDS, sourceLabel } from "@apostrophi/schema/sources";
 import type { BlankDocumentKind } from "../shared/blank-documents";
 import type { MenuActionId } from "../shared/constants";
 import { isWatchableSource } from "./core/watch/types";
@@ -81,7 +81,7 @@ export function trayBadge(input: Pick<TrayStatusInput, "inflight">): string {
 }
 
 export function trayVersionLabel(version: string): string {
-  return `Pond v${version}`;
+  return `Apostrophi v${version}`;
 }
 
 export function buildTrayTemplate(

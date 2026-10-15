@@ -18,7 +18,10 @@ import {
 let root: string;
 
 beforeEach(() => {
-  root = join(tmpdir(), `pond-bundle-test-${Date.now()}-${Math.random()}`);
+  root = join(
+    tmpdir(),
+    `apostrophi-bundle-test-${Date.now()}-${Math.random()}`,
+  );
   mkdirSync(root, { recursive: true });
 });
 

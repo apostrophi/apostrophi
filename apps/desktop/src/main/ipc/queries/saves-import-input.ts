@@ -1,6 +1,6 @@
 import { isAbsolute } from "node:path";
 import { fileURLToPath } from "node:url";
-import { MEDIA_TYPES } from "@pond/schema/db";
+import { MEDIA_TYPES } from "@apostrophi/schema/db";
 import { z } from "zod";
 import type { ManualSaveInput } from "../../core/manual-import";
 import {

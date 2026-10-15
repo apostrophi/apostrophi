@@ -1,7 +1,7 @@
-import type { Source } from "@pond/schema/db";
-import type { Capture } from "@pond/schema/raw";
+import type { Source } from "@apostrophi/schema/db";
+import type { Capture } from "@apostrophi/schema/raw";
 
-export type { Capture, RawJson } from "@pond/schema/raw";
+export type { Capture, RawJson } from "@apostrophi/schema/raw";
 
 export interface ExtractInput {
   url: URL;

@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { CaptureDraft } from "@pond/schema/capture";
+import type { CaptureDraft } from "@apostrophi/schema/capture";
 import { afterEach, describe, expect, it } from "vitest";
 import { type CaptureQueuePorts, createCaptureQueue } from "./capture-queue";
 
@@ -20,7 +20,7 @@ const draft = (id = "capture-1"): CaptureDraft => ({
   ],
 });
 async function fixture(process: CaptureQueuePorts["process"]) {
-  const root = await mkdtemp(join(tmpdir(), "pond-capture-test-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-capture-test-"));
   roots.push(root);
   const ports: CaptureQueuePorts = {
     root: () => root,

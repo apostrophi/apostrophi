@@ -1,8 +1,14 @@
-import { CANCEL_REASON, OPS, SKIP_REASON, saves, tasks } from "@pond/schema/db";
+import {
+  CANCEL_REASON,
+  OPS,
+  SKIP_REASON,
+  saves,
+  tasks,
+} from "@apostrophi/schema/db";
 import type {
   PipelineTaskAttemptEvent,
   PipelineTaskEvent,
-} from "@pond/schema/events";
+} from "@apostrophi/schema/events";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { z } from "zod";
@@ -130,13 +136,13 @@ export function pipelineSnapshot(): PipelineSnapshot {
 export function pauseReconciler(): void {
   if (paused) return;
   paused = true;
-  log.info("[pond pipeline:reconciler] paused");
+  log.info("[apostrophi pipeline:reconciler] paused");
 }
 
 export function resumeReconciler(): void {
   if (!paused) return;
   paused = false;
-  log.info("[pond pipeline:reconciler] resumed");
+  log.info("[apostrophi pipeline:reconciler] resumed");
   kickReconciler();
 }
 
@@ -207,7 +213,9 @@ export async function cancelSaveIngest(saveId: string): Promise<boolean> {
     { status: "failed" },
     { actorReason: "user:cancel-ingest" },
   );
-  log.info("[pond pipeline:reconciler] cancelled save ingest", { saveId });
+  log.info("[apostrophi pipeline:reconciler] cancelled save ingest", {
+    saveId,
+  });
   return true;
 }
 
@@ -225,7 +233,9 @@ export async function cancelAllIngest(): Promise<number> {
     if (await cancelSaveIngest(id)) cancelled += 1;
   }
   if (!wasPaused) resumeReconciler();
-  log.info("[pond pipeline:reconciler] cancelled all ingest", { cancelled });
+  log.info("[apostrophi pipeline:reconciler] cancelled all ingest", {
+    cancelled,
+  });
   return cancelled;
 }
 
@@ -234,7 +244,7 @@ export async function cancelGeneration(generationId: string): Promise<number> {
   for (const id of runningIds) {
     runningTasks.get(id)?.abort();
   }
-  log.info("[pond pipeline:reconciler] cancelled generation", {
+  log.info("[apostrophi pipeline:reconciler] cancelled generation", {
     generationId,
     running: runningIds.length,
   });
@@ -293,16 +303,16 @@ export async function skipSaves(ids: readonly string[]): Promise<number> {
       .run();
     skipped += 1;
   }
-  log.info("[pond pipeline:reconciler] skipped saves", { skipped });
+  log.info("[apostrophi pipeline:reconciler] skipped saves", { skipped });
   return skipped;
 }
 
 export function startReconciler(): void {
   if (started) return;
   started = true;
-  log.info("[pond pipeline:reconciler] starting");
+  log.info("[apostrophi pipeline:reconciler] starting");
   void track(initializeReconciler()).catch((err) =>
-    log.error("[pond pipeline:reconciler] initialization failed", err),
+    log.error("[apostrophi pipeline:reconciler] initialization failed", err),
   );
 }
 
@@ -338,17 +348,20 @@ async function tick(): Promise<void> {
   if (Date.now() >= nextOrphanSweepAt) {
     nextOrphanSweepAt = Date.now() + ORPHAN_SWEEP_INTERVAL_MS;
     void track(sweepOrphanTasks()).catch((err) =>
-      log.warn("[pond pipeline:reconciler] periodic orphan sweep failed", err),
+      log.warn(
+        "[apostrophi pipeline:reconciler] periodic orphan sweep failed",
+        err,
+      ),
     );
     void track(recoverExpiredLeases()).catch((err) =>
       log.warn(
-        "[pond pipeline:reconciler] periodic lease recovery failed",
+        "[apostrophi pipeline:reconciler] periodic lease recovery failed",
         err,
       ),
     );
     void track(sweepTasklessIngestingSaves()).catch((err) =>
       log.warn(
-        "[pond pipeline:reconciler] periodic taskless sweep failed",
+        "[apostrophi pipeline:reconciler] periodic taskless sweep failed",
         err,
       ),
     );

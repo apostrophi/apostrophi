@@ -1,4 +1,4 @@
-import { Menu, type MenuItemSpec } from "@pond/ui";
+import { Menu, type MenuItemSpec } from "@apostrophi/ui";
 import { Children, isValidElement, type ReactNode } from "react";
 
 const { contains } = Menu.getFilter();

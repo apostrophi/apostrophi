@@ -1,4 +1,4 @@
-import type { Folder } from "@pond/schema/db";
+import type { Folder } from "@apostrophi/schema/db";
 import type { Save } from "@/features/saves/types";
 import type { LibraryNav } from "@/shared/lib/library-nav";
 

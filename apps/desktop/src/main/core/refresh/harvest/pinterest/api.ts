@@ -1,16 +1,16 @@
-import type { JsonObject, JsonValue } from "@pond/schema/json";
+import type { JsonObject, JsonValue } from "@apostrophi/schema/json";
 import type {
   Capture,
   CaptureExtras,
   CaptureMedia,
   CaptureMetrics,
-} from "@pond/schema/raw";
+} from "@apostrophi/schema/raw";
 import log from "electron-log/main.js";
 import { z } from "zod";
 
 const USER_AGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 " +
-  "(KHTML, like Gecko) Version/17.0 Safari/605.1.15 PondBot/0.1";
+  "(KHTML, like Gecko) Version/17.0 Safari/605.1.15 ApostrophiBot/0.1";
 const FETCH_TIMEOUT_MS = 15_000;
 
 const OptionalText = z.string().optional().catch(undefined);
@@ -120,7 +120,7 @@ export async function fetchPinterestCapture({
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
   } catch (err) {
-    log.warn("[pond refresh:pinterest-api] fetch failed", url, err);
+    log.warn("[apostrophi refresh:pinterest-api] fetch failed", url, err);
     return { ok: false, reason: "fetch_failed" };
   }
   if (!res.ok) {

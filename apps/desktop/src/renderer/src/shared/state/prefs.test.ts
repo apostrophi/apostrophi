@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS, type Prefs } from "@pond/schema";
+import { DEFAULT_PREFS, type Prefs } from "@apostrophi/schema";
 import { expect, it, vi } from "vitest";
 import {
   getPrefsSnapshot,
@@ -11,7 +11,7 @@ it("receives another window's preferences and keeps the main process's committed
   const listeners = new Set<(prefs: Prefs) => void>();
   let saved = structuredClone(DEFAULT_PREFS);
   vi.stubGlobal("window", {
-    pond: {
+    apostrophi: {
       onPrefsChanged(listener: (prefs: Prefs) => void) {
         listeners.add(listener);
         return () => listeners.delete(listener);

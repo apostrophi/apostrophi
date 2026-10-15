@@ -1,9 +1,9 @@
 import { DatabaseSync } from "node:sqlite";
-import { sourceIdentity } from "@pond/schema/domain";
-import { buildWhere } from "@pond/schema/filters";
-import { readColorMatch } from "@pond/schema/filters/color";
-import { matches } from "@pond/schema/filters/match";
-import type { Predicate, Query } from "@pond/schema/filters/types";
+import { sourceIdentity } from "@apostrophi/schema/domain";
+import { buildWhere } from "@apostrophi/schema/filters";
+import { readColorMatch } from "@apostrophi/schema/filters/color";
+import { matches } from "@apostrophi/schema/filters/match";
+import type { Predicate, Query } from "@apostrophi/schema/filters/types";
 import { SQLiteSyncDialect } from "drizzle-orm/sqlite-core";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
@@ -115,7 +115,7 @@ describe("filter dropdown matching", () => {
 
   it("matches canonical source identity in memory and SQLite", () => {
     const db = new DatabaseSync(":memory:");
-    db.function("pond_source_identity", (siteName, source, url) => {
+    db.function("apostrophi_source_identity", (siteName, source, url) => {
       const text = z.string().nullable();
       return sourceIdentity({
         siteName: text.safeParse(siteName).data ?? null,

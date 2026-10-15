@@ -1,5 +1,5 @@
-import type { Query } from "@pond/schema/filters/types";
-import { Button, Dialog, Field, Input } from "@pond/ui";
+import type { Query } from "@apostrophi/schema/filters/types";
+import { Button, Dialog, Field, Input } from "@apostrophi/ui";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { combineQueries } from "@/features/library/lib/smart-folders";
 import { errorCopy } from "@/shared/lib/error-copy";

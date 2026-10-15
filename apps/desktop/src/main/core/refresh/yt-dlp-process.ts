@@ -18,7 +18,7 @@ export function runWithTimeout(
     return Promise.resolve({
       code: 125,
       stdout: "",
-      stderr: "[pond yt-dlp] aborted",
+      stderr: "[apostrophi yt-dlp] aborted",
     });
   }
   return new Promise((resolve) => {
@@ -56,7 +56,7 @@ export function runWithTimeout(
       if (!stallEnabled) return;
       clearTimeout(stallTimer);
       stallTimer = setTimeout(
-        () => killWith(124, "\n[pond yt-dlp] timeout"),
+        () => killWith(124, "\n[apostrophi yt-dlp] timeout"),
         timeoutMs,
       );
     }
@@ -74,18 +74,18 @@ export function runWithTimeout(
     if (stallEnabled) {
       armStall();
       maxTimer = setTimeout(
-        () => killWith(124, "\n[pond yt-dlp] timeout"),
+        () => killWith(124, "\n[apostrophi yt-dlp] timeout"),
         maxMs,
       );
     } else {
       stallTimer = setTimeout(
-        () => killWith(124, "\n[pond yt-dlp] timeout"),
+        () => killWith(124, "\n[apostrophi yt-dlp] timeout"),
         timeoutMs,
       );
     }
 
     const onAbort = () => {
-      killWith(125, "\n[pond yt-dlp] aborted");
+      killWith(125, "\n[apostrophi yt-dlp] aborted");
     };
     const cleanupAbort = () => signal?.removeEventListener("abort", onAbort);
     if (signal) {

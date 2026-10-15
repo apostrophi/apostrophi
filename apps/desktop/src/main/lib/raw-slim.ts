@@ -1,4 +1,4 @@
-import type { RawJson } from "@pond/schema/raw";
+import type { RawJson } from "@apostrophi/schema/raw";
 
 export function slimRawJson(raw: RawJson | null | undefined): RawJson | null {
   if (!raw) return null;

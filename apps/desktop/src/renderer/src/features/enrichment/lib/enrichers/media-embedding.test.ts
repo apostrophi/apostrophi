@@ -118,7 +118,7 @@ describe("media embedding enricher", () => {
       optimistic: { clipModel: mediaEmbeddingVersion() },
     });
     expect(decodeAudio).toHaveBeenCalledWith(
-      expect.stringMatching(/^pond:\/\//),
+      expect.stringMatching(/^apostrophi:\/\//),
       MEDIA_EMBEDDING_AUDIO_OPTIONS,
     );
     expect(persist).toHaveBeenCalledWith(
@@ -158,7 +158,7 @@ describe("media embedding enricher", () => {
     await enricher.run(save("video", "video.mp4", "video/mp4"));
 
     expect(sampleVideo).toHaveBeenCalledWith(
-      expect.stringMatching(/^pond:\/\//),
+      expect.stringMatching(/^apostrophi:\/\//),
       MEDIA_EMBEDDING_VIDEO_OPTIONS,
     );
     expect(events).toEqual(["video", "audio"]);

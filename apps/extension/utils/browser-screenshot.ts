@@ -169,16 +169,18 @@ function pageCaptureState(
   x = 0,
   y = 0,
 ) {
-  const key = "data-pond-capture-scroll";
+  const key = "data-apostrophi-capture-scroll";
   if (operation === "restore") {
     const previous = document.documentElement
       .getAttribute(key)
       ?.split(",")
       .map(Number);
     document.documentElement.removeAttribute(key);
-    document.getElementById("pond-capture-style")?.remove();
-    for (const node of document.querySelectorAll("[data-pond-capture-fixed]"))
-      node.removeAttribute("data-pond-capture-fixed");
+    document.getElementById("apostrophi-capture-style")?.remove();
+    for (const node of document.querySelectorAll(
+      "[data-apostrophi-capture-fixed]",
+    ))
+      node.removeAttribute("data-apostrophi-capture-fixed");
     if (previous?.length === 2)
       window.scrollTo({
         left: previous[0] ?? 0,
@@ -194,18 +196,18 @@ function pageCaptureState(
     for (const node of document.querySelectorAll("body *")) {
       const position = getComputedStyle(node).position;
       if (position === "fixed" || position === "sticky")
-        node.setAttribute("data-pond-capture-fixed", "");
+        node.setAttribute("data-apostrophi-capture-fixed", "");
     }
     const style = document.createElement("style");
-    style.id = "pond-capture-style";
+    style.id = "apostrophi-capture-style";
     style.textContent =
       "html{scroll-behavior:auto!important;scroll-snap-type:none!important}*{scroll-behavior:auto!important;animation-play-state:paused!important}";
     document.documentElement.append(style);
   } else {
-    const style = document.getElementById("pond-capture-style");
+    const style = document.getElementById("apostrophi-capture-style");
     if (style && (x > 0 || y > 0))
       style.textContent +=
-        "[data-pond-capture-fixed]{visibility:hidden!important}";
+        "[data-apostrophi-capture-fixed]{visibility:hidden!important}";
   }
   window.scrollTo({ left: x, top: y, behavior: "instant" });
   return {

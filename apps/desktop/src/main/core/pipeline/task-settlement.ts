@@ -1,5 +1,5 @@
-import { type Source, saves, type Task, tasks } from "@pond/schema/db";
-import type { PipelineTaskEvent } from "@pond/schema/events";
+import { type Source, saves, type Task, tasks } from "@apostrophi/schema/db";
+import type { PipelineTaskEvent } from "@apostrophi/schema/events";
 import { and, eq, inArray } from "drizzle-orm";
 import log from "electron-log/main.js";
 import { getDb } from "../../db";
@@ -39,7 +39,11 @@ export async function enrichTaskEventWithSave(
       ev.url = row.url ?? null;
     }
   } catch (error) {
-    log.warn("[pond pipeline] task event enrichment failed", ev.saveId, error);
+    log.warn(
+      "[apostrophi pipeline] task event enrichment failed",
+      ev.saveId,
+      error,
+    );
   }
 }
 

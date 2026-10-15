@@ -3,8 +3,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { createConnection } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { JsonValue } from "@pond/schema/json";
-import type { NativeMessage } from "@pond/schema/native";
+import type { JsonValue } from "@apostrophi/schema/json";
+import type { NativeMessage } from "@apostrophi/schema/native";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { encodeFrame, tryDecodeFrame } from "./frame";
 import { startNativeServer, stopNativeServer } from "./server";
@@ -41,17 +41,17 @@ describe("native unix server", () => {
   });
 
   it("dispatches a framed request over a temp socket", async () => {
-    dir = await mkdtemp(join(tmpdir(), "pond-native-"));
+    dir = await mkdtemp(join(tmpdir(), "apostrophi-native-"));
     const path = join(dir, "native.sock");
     const dispatch = vi.fn(async () => ({
       ok: true as const,
-      data: { app: "pond" },
+      data: { app: "apostrophi" },
     }));
     const server = await startNativeServer({ path, dispatch });
     try {
       await expect(readFrame(path, { type: "hello" })).resolves.toEqual({
         ok: true,
-        data: { app: "pond" },
+        data: { app: "apostrophi" },
       });
       expect(dispatch).toHaveBeenCalledWith({ type: "hello" });
     } finally {
@@ -60,7 +60,7 @@ describe("native unix server", () => {
   });
 
   it("rejects an oversized frame without calling dispatch", async () => {
-    dir = await mkdtemp(join(tmpdir(), "pond-native-"));
+    dir = await mkdtemp(join(tmpdir(), "apostrophi-native-"));
     const path = join(dir, "native.sock");
     const dispatch = vi.fn();
     const server = await startNativeServer({ path, dispatch });
@@ -78,7 +78,7 @@ describe("native unix server", () => {
   });
 
   it("keeps the replacement socket reachable after the previous listener stops", async () => {
-    dir = await mkdtemp(join(tmpdir(), "pond-native-"));
+    dir = await mkdtemp(join(tmpdir(), "apostrophi-native-"));
     const path = join(dir, "native.sock");
     const first = await startNativeServer({
       path,
@@ -102,11 +102,14 @@ describe("native unix server", () => {
   });
 
   it("restores the socket file if it disappears while listening", async () => {
-    dir = await mkdtemp(join(tmpdir(), "pond-native-"));
+    dir = await mkdtemp(join(tmpdir(), "apostrophi-native-"));
     const path = join(dir, "native.sock");
     const server = await startNativeServer({
       path,
-      dispatch: async () => ({ ok: true as const, data: { app: "pond" } }),
+      dispatch: async () => ({
+        ok: true as const,
+        data: { app: "apostrophi" },
+      }),
     });
     try {
       unlinkSync(path);
@@ -114,7 +117,7 @@ describe("native unix server", () => {
         async () => {
           await expect(readFrame(path, { type: "hello" })).resolves.toEqual({
             ok: true,
-            data: { app: "pond" },
+            data: { app: "apostrophi" },
           });
         },
         { timeout: 3000, interval: 100 },

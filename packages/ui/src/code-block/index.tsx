@@ -1,4 +1,4 @@
-import { IconCheck, IconCopy } from "@pond/icons";
+import { IconCheck, IconCopy } from "@apostrophi/icons";
 import { clsx as cn } from "clsx";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { Button } from "../button";

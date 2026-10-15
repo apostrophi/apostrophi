@@ -41,7 +41,7 @@ async function main() {
     entries = await readdir(tintsRoot, { withFileTypes: true });
   } catch {
     console.warn(
-      "[pond] skip icon previews: packages/icons/brand/tints missing",
+      "[apostrophi] skip icon previews: packages/icons/brand/tints missing",
     );
     return;
   }
@@ -64,7 +64,7 @@ async function main() {
   }
 
   console.log(
-    `[pond] icon previews ready (${written} written, ${PREVIEW_SIZE}px)`,
+    `[apostrophi] icon previews ready (${written} written, ${PREVIEW_SIZE}px)`,
   );
 }
 

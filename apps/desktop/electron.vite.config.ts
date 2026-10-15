@@ -37,7 +37,7 @@ const CJS_SHIM_RE =
 
 function cjsShimPlugin(): Plugin {
   return {
-    name: "pond:cjs-shim",
+    name: "apostrophi:cjs-shim",
     apply: "build",
     enforce: "post",
     renderChunk(code: string, _chunk: ChunkInfo, options: { format: string }) {
@@ -59,7 +59,7 @@ const FONT_PRELOAD_CROSSORIGIN_RE =
 /** Chromium fetches fonts on file:// pages without CORS, so a `crossorigin` preload never matches and the font downloads twice. */
 function fileFontPreloadPlugin(): Plugin {
   return {
-    name: "pond:file-font-preload",
+    name: "apostrophi:file-font-preload",
     apply: "build",
     transformIndexHtml: (html) =>
       html.replace(FONT_PRELOAD_CROSSORIGIN_RE, "$1"),
@@ -76,7 +76,7 @@ export default defineConfig({
       },
     },
     build: {
-      externalizeDeps: { exclude: ["@pond/schema"] },
+      externalizeDeps: { exclude: ["@apostrophi/schema"] },
       rollupOptions: {
         input: {
           index: resolve(__dirname, "src/main/index.ts"),
@@ -100,7 +100,7 @@ export default defineConfig({
   },
   preload: {
     build: {
-      externalizeDeps: { exclude: ["@pond/schema"] },
+      externalizeDeps: { exclude: ["@apostrophi/schema"] },
       rollupOptions: {
         input: {
           index: resolve(__dirname, "src/preload/index.ts"),
@@ -157,8 +157,8 @@ export default defineConfig({
         "react-dom": reactDomDir,
         "@": resolve(__dirname, "src/renderer/src"),
         "@shared": resolve(__dirname, "src/shared"),
-        "@pond/icons": resolve(__dirname, "../../packages/icons"),
-        "@pond/ui": resolve(__dirname, "../../packages/ui/src"),
+        "@apostrophi/icons": resolve(__dirname, "../../packages/icons"),
+        "@apostrophi/ui": resolve(__dirname, "../../packages/ui/src"),
       },
     },
     /**
@@ -171,7 +171,7 @@ export default defineConfig({
         "react-dom",
         "react/jsx-runtime",
         "react/jsx-dev-runtime",
-        "@pond/ui > @base-ui/react",
+        "@apostrophi/ui > @base-ui/react",
         "@huggingface/transformers",
         "@ai-sdk/react",
         "ai",

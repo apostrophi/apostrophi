@@ -1,4 +1,4 @@
-import { Dialog } from "@pond/ui";
+import { Dialog } from "@apostrophi/ui";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
@@ -9,7 +9,7 @@ let root: Root;
 const query = vi.fn(async () => ({ ok: true }));
 const onRename = vi.fn();
 beforeEach(() => {
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   query.mockClear();
   host = document.createElement("div");
   document.body.append(host);

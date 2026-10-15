@@ -108,7 +108,7 @@ async function convertWithFfmpeg(
 ): Promise<string> {
   const ffmpeg = input.ffmpegPath;
   if (!ffmpeg) throw new Error("FFmpeg is required for this conversion.");
-  const temporary = await mkdtemp(join(tmpdir(), "pond-convert-"));
+  const temporary = await mkdtemp(join(tmpdir(), "apostrophi-convert-"));
   try {
     const output = join(temporary, `converted.${input.extension}`);
     const args = buildFfmpegConversionArguments(

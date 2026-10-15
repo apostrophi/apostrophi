@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { SETTINGS_GROUP_LABELS, SETTINGS_SECTIONS } from "@pond/schema";
+import { SETTINGS_GROUP_LABELS, SETTINGS_SECTIONS } from "@apostrophi/schema";
 import { describe, expect, it } from "vitest";
 import { SETTINGS_SEARCH_INDEX } from "./search-index";
 

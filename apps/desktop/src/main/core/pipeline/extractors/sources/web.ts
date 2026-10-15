@@ -1,4 +1,4 @@
-import type { CaptureMedia } from "@pond/schema/raw";
+import type { CaptureMedia } from "@apostrophi/schema/raw";
 import metascraper from "metascraper";
 import metascraperAuthor from "metascraper-author";
 import metascraperDate from "metascraper-date";

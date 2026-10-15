@@ -19,13 +19,13 @@ async function clipboardFilePaths(): Promise<string[]> {
       if (payload instanceof Blob) uriLists.push(await payload.text());
     }
   } catch (error) {
-    log.warn("[pond ipc] clipboard file read failed", error);
+    log.warn("[apostrophi ipc] clipboard file read failed", error);
   }
 
   try {
     plainText = await clipboard.readText();
   } catch (error) {
-    log.warn("[pond ipc] clipboard text read failed", error);
+    log.warn("[apostrophi ipc] clipboard text read failed", error);
   }
 
   return normalizeClipboardFilePaths(uriLists.join("\n"), plainText);
@@ -59,12 +59,12 @@ export const savesImportClipboardQueries = {
     }
 
     try {
-      const directory = await mkdtemp(join(tmpdir(), "pond-clip-"));
+      const directory = await mkdtemp(join(tmpdir(), "apostrophi-clip-"));
       const path = join(directory, "clipboard.png");
       await writeFile(path, image.toPNG());
       return importFiles({ paths: [path], tags: [], folderIds: [] });
     } catch (error) {
-      log.warn("[pond ipc] importClipboard failed", error);
+      log.warn("[apostrophi ipc] importClipboard failed", error);
       return { ok: false, error: "clipboard_write_failed", ids: [] };
     }
   },

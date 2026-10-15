@@ -7,6 +7,6 @@ it("encodes library identity separately and refuses an identically named item in
   expect(linkMatchesLibrary(link, "original library")).toBe(true);
   expect(linkMatchesLibrary(link, "another library")).toBe(false);
   expect(
-    linkMatchesLibrary(new URL("pond://item/legacy"), "current library"),
+    linkMatchesLibrary(new URL("apostrophi://item/legacy"), "current library"),
   ).toBe(true);
 });

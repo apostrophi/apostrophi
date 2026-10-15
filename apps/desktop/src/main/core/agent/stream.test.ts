@@ -80,7 +80,7 @@ it.each(["stopped", "failed"] as const)(
     );
     const body = await response.text();
     expect(body).toContain('"elapsedMs":2500');
-    expect(body).toContain('"data-pond-steps"');
+    expect(body).toContain('"data-apostrophi-steps"');
     expect(body).toContain(
       outcome === "stopped" ? '"status":"stopped"' : '"status":"error"',
     );
@@ -91,7 +91,7 @@ it.each(["stopped", "failed"] as const)(
   },
 );
 
-it("writes a UIMessage SSE round-trip for validated text and Pond data parts", async () => {
+it("writes a UIMessage SSE round-trip for validated text and Apostrophi data parts", async () => {
   const send = vi.fn<StreamTurnDependencies["sendMessage"]>(
     async (_input, _deps, onEvent) => {
       onEvent?.({ type: "activity", activity: "searching" });
@@ -137,7 +137,7 @@ it("writes a UIMessage SSE round-trip for validated text and Pond data parts", a
   expect(body.match(/"type":"text-start"/g)).toHaveLength(1);
   expect(body.match(/"type":"text-delta"/g)).toHaveLength(2);
   expect(body.match(/"type":"text-end"/g)).toHaveLength(1);
-  expect(body).toContain("data-pond-question");
+  expect(body).toContain("data-apostrophi-question");
   expect(body).toContain('"type":"message-metadata"');
   expect(body).toContain('"elapsedMs":90000');
   expect(body).toContain('"id":"current-activity"');

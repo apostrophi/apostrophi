@@ -1,5 +1,5 @@
+import { PrefsSchema } from "@apostrophi/schema";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { PrefsSchema } from "@pond/schema";
 import type { LexicalEditor } from "lexical";
 import { act, useEffect } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -54,7 +54,7 @@ describe("search editor synchronization", () => {
         disconnect() {}
       },
     );
-    vi.stubGlobal("pond", {
+    vi.stubGlobal("apostrophi", {
       query: async (name: string) =>
         name === "settings.getPrefs" ? PrefsSchema.parse({}) : [],
       onSyncAction: () => () => {},

@@ -1,5 +1,5 @@
-import type { Task } from "@pond/schema/db";
-import type { JsonValue } from "@pond/schema/json";
+import type { Task } from "@apostrophi/schema/db";
+import type { JsonValue } from "@apostrophi/schema/json";
 import { z } from "zod";
 
 const INTERACTIVE_PRIORITY = "interactive";

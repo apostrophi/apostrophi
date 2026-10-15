@@ -1,5 +1,5 @@
-import type { Folder } from "@pond/schema/db";
-import { Dialog, type MenuItemSpec } from "@pond/ui";
+import type { Folder } from "@apostrophi/schema/db";
+import { Dialog, type MenuItemSpec } from "@apostrophi/ui";
 import { useState } from "react";
 import { buildMoveFolderItems } from "@/features/library/lib/move-folders-menu";
 import { errorCopy } from "@/shared/lib/error-copy";
@@ -36,7 +36,7 @@ export function useFolderTreeActions({
     setCreatingFolder(true);
     onCreateStart();
     try {
-      const folder = await window.pond.query("folders.create", {
+      const folder = await window.apostrophi.query("folders.create", {
         name: "Untitled",
         parentId,
       });
@@ -105,7 +105,7 @@ export function useFolderTreeActions({
                   ),
               );
               for (const id of roots)
-                await window.pond.query("folders.delete", {
+                await window.apostrophi.query("folders.delete", {
                   id,
                   trashContainedSaves: false,
                 });

@@ -9,7 +9,7 @@ export async function ensureSaves(ids: readonly string[]): Promise<void> {
   }
   if (missing.length === 0) return;
   const rows = SavePatchesSchema.parse(
-    await window.pond.query("saves.getMany", { ids: missing }),
+    await window.apostrophi.query("saves.getMany", { ids: missing }),
   );
   const normalised = rows
     .map((row) => normalise(row))
@@ -20,7 +20,7 @@ export async function ensureSaves(ids: readonly string[]): Promise<void> {
 export async function reloadSaves(ids: readonly string[]): Promise<void> {
   if (ids.length === 0) return;
   const rows = SavePatchesSchema.parse(
-    await window.pond.query("saves.getMany", { ids: [...ids] }),
+    await window.apostrophi.query("saves.getMany", { ids: [...ids] }),
   );
   const normalised = rows
     .map((row) => normalise(row))

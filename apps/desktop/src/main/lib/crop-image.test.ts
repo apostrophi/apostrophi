@@ -6,7 +6,7 @@ import { expect, it } from "vitest";
 import { cropImage } from "./crop-image";
 
 it("produces a cropped derivative without changing the original bytes", async () => {
-  const dir = await mkdtemp(join(tmpdir(), "pond-crop-test-"));
+  const dir = await mkdtemp(join(tmpdir(), "apostrophi-crop-test-"));
   try {
     const original = await sharp({
       create: { width: 100, height: 80, channels: 4, background: "red" },

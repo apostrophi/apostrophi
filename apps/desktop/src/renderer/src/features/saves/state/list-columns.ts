@@ -48,14 +48,14 @@ export const LIST_COLUMN_DEFAULTS: ListColumns = {
 };
 
 const STORAGE_KEYS = {
-  name: "pond.list.name",
-  dateAdded: "pond.list.dateAdded",
-  tags: "pond.list.tags",
-  dimensions: "pond.list.dimensions",
-  rating: "pond.list.rating",
-  extension: "pond.list.extension",
-  fileSize: "pond.list.fileSize",
-  annotation: "pond.list.annotation",
+  name: "apostrophi.list.name",
+  dateAdded: "apostrophi.list.dateAdded",
+  tags: "apostrophi.list.tags",
+  dimensions: "apostrophi.list.dimensions",
+  rating: "apostrophi.list.rating",
+  extension: "apostrophi.list.extension",
+  fileSize: "apostrophi.list.fileSize",
+  annotation: "apostrophi.list.annotation",
 } satisfies Record<ListColumnKey, string>;
 
 function readKey(key: ListColumnKey): boolean {

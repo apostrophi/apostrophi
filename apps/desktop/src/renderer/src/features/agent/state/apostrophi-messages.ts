@@ -11,20 +11,23 @@ import type {
 import type { UIMessage } from "ai";
 import { z } from "zod";
 
-export type PondDataParts = {
-  "pond-activity": { activity: AssistantActivity };
-  "pond-sources": AssistantSource[];
-  "pond-results": AssistantResultSet[];
-  "pond-steps": AssistantToolStep[];
-  "pond-question": AssistantQuestion;
-  "pond-review": { changes: AssistantChange[] };
+export type ApostrophiDataParts = {
+  "apostrophi-activity": { activity: AssistantActivity };
+  "apostrophi-sources": AssistantSource[];
+  "apostrophi-results": AssistantResultSet[];
+  "apostrophi-steps": AssistantToolStep[];
+  "apostrophi-question": AssistantQuestion;
+  "apostrophi-review": { changes: AssistantChange[] };
 };
 
-export type PondUIMessage = UIMessage<AssistantMetadata | null, PondDataParts>;
+export type ApostrophiUIMessage = UIMessage<
+  AssistantMetadata | null,
+  ApostrophiDataParts
+>;
 
 const textPart = z.object({ type: z.literal("text"), text: z.string() });
 
-export function messageText(message: PondUIMessage) {
+export function messageText(message: ApostrophiUIMessage) {
   return message.parts
     .flatMap((part) => {
       const parsed = textPart.safeParse(part);
@@ -33,23 +36,32 @@ export function messageText(message: PondUIMessage) {
     .join("");
 }
 
-export function toUIMessage(message: AssistantMessage): PondUIMessage {
-  const parts: PondUIMessage["parts"] = message.content
+export function toUIMessage(message: AssistantMessage): ApostrophiUIMessage {
+  const parts: ApostrophiUIMessage["parts"] = message.content
     ? [{ type: "text", text: message.content }]
     : [];
   if (message.metadata?.question)
-    parts.push({ type: "data-pond-question", data: message.metadata.question });
+    parts.push({
+      type: "data-apostrophi-question",
+      data: message.metadata.question,
+    });
   if (message.metadata?.changes?.length)
     parts.push({
-      type: "data-pond-review",
+      type: "data-apostrophi-review",
       data: { changes: message.metadata.changes },
     });
   if (message.metadata?.sources?.length)
-    parts.push({ type: "data-pond-sources", data: message.metadata.sources });
+    parts.push({
+      type: "data-apostrophi-sources",
+      data: message.metadata.sources,
+    });
   if (message.metadata?.results?.length)
-    parts.push({ type: "data-pond-results", data: message.metadata.results });
+    parts.push({
+      type: "data-apostrophi-results",
+      data: message.metadata.results,
+    });
   if (message.metadata?.steps?.length)
-    parts.push({ type: "data-pond-steps", data: message.metadata.steps });
+    parts.push({ type: "data-apostrophi-steps", data: message.metadata.steps });
   return {
     id: message.id,
     role: message.role === "user" ? "user" : "assistant",
@@ -58,28 +70,28 @@ export function toUIMessage(message: AssistantMessage): PondUIMessage {
   };
 }
 
-export function partData<Name extends keyof PondDataParts>(
-  message: PondUIMessage,
+export function partData<Name extends keyof ApostrophiDataParts>(
+  message: ApostrophiUIMessage,
   name: Name,
-): PondDataParts[Name] | undefined {
+): ApostrophiDataParts[Name] | undefined {
   const type = `data-${name}`;
   const part = message.parts.findLast((part) => part.type === type);
   if (!part) return;
   const parsed = z.object({ data: z.unknown() }).safeParse(part);
   if (!parsed.success) return;
-  /** SAFETY: UIMessage data parts are typed by PondDataParts. */
-  return parsed.data.data as PondDataParts[Name];
+  /** SAFETY: UIMessage data parts are typed by ApostrophiDataParts. */
+  return parsed.data.data as ApostrophiDataParts[Name];
 }
 
 export function fromUIMessage(
-  message: PondUIMessage,
+  message: ApostrophiUIMessage,
   chatId: string,
 ): AssistantMessage {
-  const question = partData(message, "pond-question");
-  const review = partData(message, "pond-review");
-  const sources = partData(message, "pond-sources");
-  const results = partData(message, "pond-results");
-  const steps = partData(message, "pond-steps");
+  const question = partData(message, "apostrophi-question");
+  const review = partData(message, "apostrophi-review");
+  const sources = partData(message, "apostrophi-sources");
+  const results = partData(message, "apostrophi-results");
+  const steps = partData(message, "apostrophi-steps");
   const metadata = {
     ...message.metadata,
     question: question ?? message.metadata?.question,

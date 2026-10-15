@@ -1,5 +1,5 @@
-import { IconCircleQuestion as Help } from "@pond/icons";
-import { Button, Popover } from "@pond/ui";
+import { IconCircleQuestion as Help } from "@apostrophi/icons";
+import { Button, Popover } from "@apostrophi/ui";
 import {
   hostSetupCommands,
   isMcpDeeplinkHost,
@@ -10,7 +10,7 @@ import { CopyLine } from "../copy-line";
 import { JsonBlock } from "../json-block";
 import styles from "./styles.module.css";
 
-type PondSnippet = {
+type ApostrophiSnippet = {
   command: string;
   args: string[];
   json: string;
@@ -21,7 +21,7 @@ export function HostPopover({
   snippet,
 }: {
   host: McpHostDefinition;
-  snippet?: PondSnippet;
+  snippet?: ApostrophiSnippet;
 }) {
   const [error, setError] = useState("");
   const commands = snippet
@@ -33,13 +33,13 @@ export function HostPopover({
   async function addToClient() {
     if (!deeplink) return;
     setError("");
-    const result = await window.pond.query("agent.openMcpInstall", {
+    const result = await window.apostrophi.query("agent.openMcpInstall", {
       id: deeplink,
     });
     if (!result.ok) {
       setError(
         result.error ??
-          "Pond could not open that install link. Copy the config instead.",
+          "Apostrophi could not open that install link. Copy the config instead.",
       );
     }
   }

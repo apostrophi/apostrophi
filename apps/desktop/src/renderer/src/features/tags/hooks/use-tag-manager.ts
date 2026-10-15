@@ -152,7 +152,7 @@ export function useTagsData() {
       const g = groups.find((x) => x.id === id);
       if (!g) return;
       setToggles((prev) => new Map(prev).set(id, next));
-      void window.pond.query("tagGroups.update", {
+      void window.apostrophi.query("tagGroups.update", {
         name: g.name,
         patch: { collapsed: !next },
       });

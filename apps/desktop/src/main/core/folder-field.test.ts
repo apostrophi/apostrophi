@@ -1,4 +1,4 @@
-import { FIELD_DESCRIPTORS } from "@pond/schema/filters/fields";
+import { FIELD_DESCRIPTORS } from "@apostrophi/schema/filters/fields";
 import { describe, expect, it } from "vitest";
 
 describe("folder field", () => {

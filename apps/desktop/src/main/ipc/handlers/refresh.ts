@@ -1,4 +1,4 @@
-import { isSource } from "@pond/schema/sources";
+import { isSource } from "@apostrophi/schema/sources";
 import log from "electron-log/main.js";
 import { IPC } from "../../../shared/constants";
 import {
@@ -25,7 +25,7 @@ export function registerRefreshHandlers(): void {
     try {
       return await refreshSave(String(id));
     } catch (err) {
-      log.error("[pond ipc] refreshSave failed", err);
+      log.error("[apostrophi ipc] refreshSave failed", err);
       return { ok: false as const, reason: "internal_error" as const };
     }
   });
@@ -48,7 +48,7 @@ export function registerRefreshHandlers(): void {
           overwrite: Boolean(opts?.overwrite),
         });
       } catch (err) {
-        log.error("[pond ipc] refreshBackfillStart failed", err);
+        log.error("[apostrophi ipc] refreshBackfillStart failed", err);
         return { ok: false as const, reason: "already_running" as const };
       }
     },
@@ -63,7 +63,7 @@ export function registerRefreshHandlers(): void {
     try {
       return await startArchiveBackfill();
     } catch (err) {
-      log.error("[pond ipc] archiveBackfillStart failed", err);
+      log.error("[apostrophi ipc] archiveBackfillStart failed", err);
       return { ok: true as const, queued: 0 };
     }
   });
@@ -72,7 +72,7 @@ export function registerRefreshHandlers(): void {
     try {
       return await archiveSiteForSave(String(id));
     } catch (err) {
-      log.error("[pond ipc] archiveSite failed", err);
+      log.error("[apostrophi ipc] archiveSite failed", err);
       return { ok: false as const };
     }
   });
@@ -83,7 +83,7 @@ export function registerRefreshHandlers(): void {
       setPendingSessionSource(source);
       return await signInToSource(source);
     } catch (err) {
-      log.warn("[pond ipc] sourceConnect failed", err);
+      log.warn("[apostrophi ipc] sourceConnect failed", err);
       return { ok: false as const, mode: "external" };
     }
   });
@@ -95,7 +95,7 @@ export function registerRefreshHandlers(): void {
         : false;
       return { ok: true as const, connected };
     } catch (err) {
-      log.warn("[pond ipc] sourceStatus failed", err);
+      log.warn("[apostrophi ipc] sourceStatus failed", err);
       return { ok: false as const, connected: false };
     }
   });

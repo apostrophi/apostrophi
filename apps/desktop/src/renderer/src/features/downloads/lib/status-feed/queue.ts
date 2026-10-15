@@ -1,4 +1,4 @@
-import type { Op } from "@pond/schema/db";
+import type { Op } from "@apostrophi/schema/db";
 import type { Save } from "@/features/saves/types";
 
 type RowStatus = "saving" | "failed";

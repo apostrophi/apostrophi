@@ -1,11 +1,11 @@
 import { existsSync } from "node:fs";
 import { sep as pathSep, resolve as resolvePath } from "node:path";
-import { saves } from "@pond/schema/db";
+import { saves } from "@apostrophi/schema/db";
 import { eq } from "drizzle-orm";
 import type { IpcMain, IpcMainInvokeEvent } from "electron";
 import { ipcMain } from "electron";
 import log from "electron-log/main.js";
-import { POND_PROTOCOL } from "../../shared/constants";
+import { APOSTROPHI_PROTOCOL } from "../../shared/constants";
 import type { ReasonResult } from "../../shared/query-contracts-shared";
 import { isAuxiliaryKind } from "../../shared/save-file-names";
 import type { SaveFileFailure } from "../../shared/saves-contracts-shared";
@@ -21,7 +21,7 @@ export function isTrustedSender(event: {
   const devUrl = process.env.ELECTRON_RENDERER_URL;
   if (devUrl && url.startsWith(devUrl)) return true;
   if (url.startsWith("file://")) return true;
-  if (url.startsWith("pond://")) return true;
+  if (url.startsWith("apostrophi://")) return true;
   return false;
 }
 
@@ -38,7 +38,7 @@ export function safeHandle<Args extends unknown[], R>(
   bus.handle(channel, (event: IpcMainInvokeEvent, ...args: Args) => {
     if (!isTrustedSender(event)) {
       log.warn(
-        "[pond ipc] rejected untrusted sender",
+        "[apostrophi ipc] rejected untrusted sender",
         channel,
         event.senderFrame?.url ?? "<no url>",
       );
@@ -69,18 +69,21 @@ export async function resolveSaveFilePath(
 
     const absolute = resolvePath(saveFile(id, file.path));
     if (!isInsideLibrary(absolute)) {
-      log.warn("[pond ipc] refused path outside library", { id, absolute });
+      log.warn("[apostrophi ipc] refused path outside library", {
+        id,
+        absolute,
+      });
       return { ok: false, reason: "unsafe_path" };
     }
     if (!existsSync(absolute)) return { ok: false, reason: "missing" };
     return { ok: true, path: absolute };
   } catch (err) {
-    log.warn("[pond ipc] resolveSaveFilePath failed", err);
+    log.warn("[apostrophi ipc] resolveSaveFilePath failed", err);
     return { ok: false, reason: "not_found" };
   }
 }
 
-export function resolvePondSavePath(
+export function resolveApostrophiSavePath(
   src: string,
 ): { saveId: string; path: string } | null {
   let url: URL;
@@ -89,13 +92,16 @@ export function resolvePondSavePath(
   } catch {
     return null;
   }
-  if (url.protocol !== `${POND_PROTOCOL}:`) return null;
+  if (url.protocol !== `${APOSTROPHI_PROTOCOL}:`) return null;
   const saveId = url.hostname;
   const file = decodeURIComponent(url.pathname.replace(/^\//, ""));
   if (!saveId || !file) return null;
   const absolute = resolvePath(saveFile(saveId, file));
   if (!isInsideLibrary(absolute)) {
-    log.warn("[pond ipc] refused pond URL outside library", { src, absolute });
+    log.warn("[apostrophi ipc] refused apostrophi URL outside library", {
+      src,
+      absolute,
+    });
     return null;
   }
   if (!existsSync(absolute)) return null;

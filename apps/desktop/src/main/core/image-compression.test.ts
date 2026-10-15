@@ -1,4 +1,4 @@
-import type { Transaction } from "@pond/schema/tx";
+import type { Transaction } from "@apostrophi/schema/tx";
 import sharp from "sharp";
 import { expect, it } from "vitest";
 import {

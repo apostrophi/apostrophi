@@ -1,4 +1,4 @@
-import { SOUND_PATCH, type UiSoundName } from "@pond/ui/sounds";
+import { SOUND_PATCH, type UiSoundName } from "@apostrophi/ui/sounds";
 import type { FeedbackEvent } from "@shared/feedback";
 import { ensureReady, type PlayOptions } from "@web-kits/audio";
 import { getPrefsSnapshot } from "@/shared/state/prefs";
@@ -67,5 +67,5 @@ export function emitFeedback(
 ): void {
   const prefs = getPrefsSnapshot();
   if (prefs?.feedback.sounds[event] !== false) playTrashThunk();
-  void window.pond.query("feedback.emit", { event }).catch(() => {});
+  void window.apostrophi.query("feedback.emit", { event }).catch(() => {});
 }

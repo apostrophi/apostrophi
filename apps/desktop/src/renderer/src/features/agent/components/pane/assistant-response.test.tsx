@@ -95,16 +95,16 @@ it("preserves escaped citation text as literal Markdown", () => {
   expect(html).toContain("[1]");
 });
 it("renders Save mentions as chips instead of links", () => {
-  const html = render("[A film](pond-save:verified)");
+  const html = render("[A film](apostrophi-save:verified)");
   expect(html).toContain("A film");
-  expect(html).not.toMatch(/href="pond-save:/);
+  expect(html).not.toMatch(/href="apostrophi-save:/);
 });
 it("does not execute HTML, load remote images, or link unsafe schemes", () => {
   const html = render(
-    '<script>alert(1)</script>\n\n<img src="https://tracker.test">\n\n![tracking](https://tracker.test/pixel) [bad](javascript:alert) [file](file:///etc/passwd) [app](pond://save/private) [safe](https://example.com)',
+    '<script>alert(1)</script>\n\n<img src="https://tracker.test">\n\n![tracking](https://tracker.test/pixel) [bad](javascript:alert) [file](file:///etc/passwd) [app](apostrophi://save/private) [safe](https://example.com)',
   );
   expect(html).not.toMatch(
-    /<script|<img|tracker.test|href="(?:javascript|file|pond):/,
+    /<script|<img|tracker.test|href="(?:javascript|file|apostrophi):/,
   );
   expect(html).toContain('href="https://example.com/"');
   expect(html).toContain('rel="noopener noreferrer"');
@@ -121,5 +121,7 @@ it.each([
   expect(safeResponseUrl(url)).toBe(""),
 );
 it("keeps Save mention hrefs so chips can render", () => {
-  expect(safeResponseUrl("pond-save:verified")).toBe("pond-save:verified");
+  expect(safeResponseUrl("apostrophi-save:verified")).toBe(
+    "apostrophi-save:verified",
+  );
 });

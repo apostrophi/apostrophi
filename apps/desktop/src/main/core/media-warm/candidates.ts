@@ -1,4 +1,4 @@
-import type { Save } from "@pond/schema/db";
+import type { Save } from "@apostrophi/schema/db";
 import { pickBlurhashStill } from "../../lib/blurhash";
 import { needsPosterRepair } from "../../lib/poster-policy";
 

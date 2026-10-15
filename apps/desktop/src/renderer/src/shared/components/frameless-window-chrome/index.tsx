@@ -1,5 +1,5 @@
-import { IconXmark } from "@pond/icons";
-import { Button } from "@pond/ui";
+import { IconXmark } from "@apostrophi/icons";
+import { Button } from "@apostrophi/ui";
 import styles from "./styles.module.css";
 
 export function FramelessWindowChrome({

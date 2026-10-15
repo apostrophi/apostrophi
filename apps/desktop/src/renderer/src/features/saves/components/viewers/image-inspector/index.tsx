@@ -1,4 +1,4 @@
-import type { ImageCrop } from "@pond/schema/db";
+import type { ImageCrop } from "@apostrophi/schema/db";
 import {
   type CSSProperties,
   type ReactNode,
@@ -162,7 +162,7 @@ export function ImageInspector({
     );
   };
   const setGifThumbnail = () => {
-    void window.pond
+    void window.apostrophi
       .query("saves.setGifThumbnail", {
         id: save.id,
         src,
@@ -198,7 +198,7 @@ export function ImageInspector({
   const saveCrop = () => {
     if (!draft) return;
     void run(async () => {
-      const result = await window.pond.query("saves.cropAsCopy", {
+      const result = await window.apostrophi.query("saves.cropAsCopy", {
         id: save.id,
         fileIndex,
         crop: draft,

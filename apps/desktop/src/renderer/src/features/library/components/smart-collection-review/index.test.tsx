@@ -31,7 +31,7 @@ it("rejects and closes a cluster preview without writing to the Library", async 
     }
     throw new Error(`Unexpected query: ${name}`);
   });
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   const onClose = vi.fn();
   const host = document.createElement("div");
   document.body.append(host);
@@ -93,7 +93,7 @@ it("applies accepted labels as add-only tag edits", async () => {
       throw new Error(`Unexpected query: ${name}`);
     },
   );
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   const host = document.createElement("div");
   document.body.append(host);
   const root = createRoot(host);
@@ -172,7 +172,7 @@ it("creates a folder only after the cluster is accepted", async () => {
     if (name === "folders.list" || name === "folders.memberships") return [];
     throw new Error(`Unexpected query: ${name}`);
   });
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   const host = document.createElement("div");
   document.body.append(host);
   const root = createRoot(host);
@@ -200,7 +200,7 @@ it("shows product copy instead of an internal error when the preview fails", asy
   const query = vi.fn(async () => {
     throw new TypeError("Cannot read properties of null (reading 'clusters')");
   });
-  vi.stubGlobal("pond", { query });
+  vi.stubGlobal("apostrophi", { query });
   const host = document.createElement("div");
   document.body.append(host);
   const root = createRoot(host);

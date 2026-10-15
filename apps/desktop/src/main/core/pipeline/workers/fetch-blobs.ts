@@ -1,6 +1,6 @@
 import { extname } from "node:path";
-import type { SaveFile } from "@pond/schema/db";
-import { type RawJson, walkCaptureMedia } from "@pond/schema/raw";
+import type { SaveFile } from "@apostrophi/schema/db";
+import { type RawJson, walkCaptureMedia } from "@apostrophi/schema/raw";
 import {
   IMAGE_KIND,
   inferKindFromFilename,
@@ -39,13 +39,20 @@ export async function runFetchBlobs(
     try {
       await fetchSourceIcon(saveId, save);
     } catch (err) {
-      log.warn("[pond pipeline:fetch-blobs] source icon failed", saveId, err);
+      log.warn(
+        "[apostrophi pipeline:fetch-blobs] source icon failed",
+        saveId,
+        err,
+      );
     }
   }
 
   const urls = collectMediaUrls(save.rawJson);
   if (urls.length === 0) {
-    log.debug("[pond pipeline:fetch-blobs] no media urls, skipping", saveId);
+    log.debug(
+      "[apostrophi pipeline:fetch-blobs] no media urls, skipping",
+      saveId,
+    );
     return;
   }
 
@@ -53,7 +60,7 @@ export async function runFetchBlobs(
   const missing = missingMediaUrls(urls, existingFiles);
   if (missing.length === 0) {
     log.debug(
-      "[pond pipeline:fetch-blobs] all media already on disk, skipping",
+      "[apostrophi pipeline:fetch-blobs] all media already on disk, skipping",
       saveId,
     );
     return;
@@ -77,7 +84,7 @@ export async function runFetchBlobs(
       );
     }
     log.warn(
-      "[pond pipeline:fetch-blobs] all media permanently unavailable",
+      "[apostrophi pipeline:fetch-blobs] all media permanently unavailable",
       saveId,
       missing,
     );
@@ -169,7 +176,7 @@ export async function runFetchBlobs(
   );
   const saved = await readSave(saveId);
   await ensureSaveThumbnail(saveId, saved);
-  log.info("[pond pipeline:fetch-blobs] wrote", {
+  log.info("[apostrophi pipeline:fetch-blobs] wrote", {
     saveId,
     count: newFiles.length,
   });

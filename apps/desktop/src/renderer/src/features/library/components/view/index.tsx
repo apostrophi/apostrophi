@@ -1,4 +1,4 @@
-import { Button } from "@pond/ui";
+import { Button } from "@apostrophi/ui";
 import { useCallback, useEffect } from "react";
 import {
   FolderEmpty,

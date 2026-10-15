@@ -1,4 +1,4 @@
-import { SOURCES, type Source } from "@pond/schema/db";
+import { SOURCES, type Source } from "@apostrophi/schema/db";
 import { WATCHABLE } from "@/features/sources/hooks/use-watches";
 import { connectFlow } from "@/features/sources/state/connect-flow";
 import { sourceFlow } from "@/features/sources/state/source-flow";
@@ -15,7 +15,7 @@ export const WATCH_MENU_SOURCES: readonly Source[] = CONNECTABLE.filter(
 export async function startConnect(source: Source): Promise<void> {
   let connected: string[] = [];
   try {
-    const result = await window.pond.query("accounts.list", {});
+    const result = await window.apostrophi.query("accounts.list", {});
     connected = (result.accounts ?? [])
       .filter((account) => account.connected)
       .map((account) => account.id);

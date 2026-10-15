@@ -1,4 +1,4 @@
-import { Settings, Switch } from "@pond/ui";
+import { Settings, Switch } from "@apostrophi/ui";
 import { MCP_HOST_CATALOG, type McpHostDefinition } from "@shared/mcp-hosts";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
@@ -12,7 +12,7 @@ const McpSnippetSchema = z.object({
   json: z.string().min(1),
 });
 
-type PondSnippet = z.infer<typeof McpSnippetSchema>;
+type ApostrophiSnippet = z.infer<typeof McpSnippetSchema>;
 
 const ACCESS = [
   {
@@ -22,8 +22,8 @@ const ACCESS = [
   },
   {
     key: "mcpOpen",
-    title: "Open in Pond",
-    description: "Reveal a save in the Pond window",
+    title: "Open in Apostrophi",
+    description: "Reveal a save in the Apostrophi window",
   },
   {
     key: "mcpExport",
@@ -36,7 +36,9 @@ export function McpSection() {
   const snippet = useQuery({
     queryKey: ["mcp-snippet"],
     queryFn: async () =>
-      McpSnippetSchema.parse(await window.pond.query("agent.mcpSnippet", {})),
+      McpSnippetSchema.parse(
+        await window.apostrophi.query("agent.mcpSnippet", {}),
+      ),
     retry: false,
   });
   return (
@@ -85,7 +87,7 @@ function AccessSection() {
   );
 }
 
-function AgentsSection({ snippet }: { snippet?: PondSnippet }) {
+function AgentsSection({ snippet }: { snippet?: ApostrophiSnippet }) {
   return (
     <Settings.Section>
       <Settings.SectionTitle>Agents</Settings.SectionTitle>
@@ -103,7 +105,7 @@ function HostRow({
   snippet,
 }: {
   host: McpHostDefinition;
-  snippet?: PondSnippet;
+  snippet?: ApostrophiSnippet;
 }) {
   return (
     <Settings.Item>

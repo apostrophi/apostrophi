@@ -16,7 +16,7 @@ import {
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { z } from "zod";
 
-const MANIFEST = "pond-backup-manifest.json";
+const MANIFEST = "apostrophi-backup-manifest.json";
 const BackupEntrySchema = z.object({
   path: z.string(),
   size: z.number(),
@@ -88,7 +88,7 @@ async function validateReferences(root: string, files: readonly BackupEntry[]) {
   const indexed = new Map(files.map((file) => [file.path, file]));
   if (!indexed.has("metadata.json"))
     throw new Error(
-      "This is not a complete Pond library: metadata.json is missing.",
+      "This is not a complete Apostrophi library: metadata.json is missing.",
     );
   for (const name of ["metadata.json", "settings.json", "tags.json"]) {
     if (indexed.has(name)) {
@@ -163,7 +163,7 @@ export async function createLibraryBackup(input: {
     (!existing.isDirectory() || (await readdir(destination)).length > 0)
   )
     throw new Error("The backup destination already contains files.");
-  const staging = await mkdtemp(join(parent, ".pond-backup-"));
+  const staging = await mkdtemp(join(parent, ".apostrophi-backup-"));
   try {
     const before = await inventory(source);
     await validateReferences(source, before);

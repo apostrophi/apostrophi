@@ -1,5 +1,5 @@
-import { IconChevronRight as ChevronRight } from "@pond/icons";
-import { Accordion } from "@pond/ui";
+import { IconChevronRight as ChevronRight } from "@apostrophi/icons";
+import { Accordion } from "@apostrophi/ui";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { InlineNameEditor } from "@/shared/components/inline-name-editor";
 import { SpecContextMenu } from "@/shared/components/spec-context-menu";

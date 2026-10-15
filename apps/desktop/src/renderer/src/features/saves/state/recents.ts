@@ -1,4 +1,4 @@
-import type { RecentSaveVisit } from "@pond/schema/db";
+import type { RecentSaveVisit } from "@apostrophi/schema/db";
 import { useSelector } from "@tanstack/react-store";
 import { Store } from "@tanstack/store";
 import { useEffect } from "react";

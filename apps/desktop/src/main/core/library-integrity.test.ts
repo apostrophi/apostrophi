@@ -21,7 +21,7 @@ afterEach(async () => {
 });
 
 async function fixtureRoot(): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "pond-library-repair-"));
+  const root = await mkdtemp(join(tmpdir(), "apostrophi-library-repair-"));
   roots.push(root);
   await mkdir(join(root, "items", "save-1.info"), { recursive: true });
   return root;

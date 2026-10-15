@@ -1,6 +1,6 @@
+import { FIELD_META } from "@apostrophi/schema/filters/meta";
+import type { FieldId } from "@apostrophi/schema/filters/types";
 import type { MenuTextMatch } from "@lexical/react/LexicalTypeaheadMenuPlugin";
-import { FIELD_META } from "@pond/schema/filters/meta";
-import type { FieldId } from "@pond/schema/filters/types";
 import {
   canonicalKey,
   DATE_PRESETS,

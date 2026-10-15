@@ -1,4 +1,4 @@
-import { EMPTY_QUERY } from "@pond/schema/filters";
+import { EMPTY_QUERY } from "@apostrophi/schema/filters";
 import type { LibraryQueryPage } from "@shared/library-query";
 import { describe, expect, it } from "vitest";
 import { createQuerySession } from "./query-session";
